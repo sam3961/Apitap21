@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginEnd="@dimen/ten"
+    android:layout_marginStart="@dimen/ten"
+    android:layout_marginTop="?actionBarSize"
+    android:layout_marginBottom="?actionBarSize"
+    >
+<androidx.cardview.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    card_view:cardElevation="@dimen/dp_four"
+
+    android:layout_gravity="center"
+
+    card_view:cardCornerRadius="@dimen/dp_four"
+    card_view:contentPaddingRight="@dimen/dp_four">
+
+    <LinearLayout
+        android:background="@drawable/back_round_blue_thick"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_margin="@dimen/dp_eight"
+
+            android:layout_height="wrap_content">
+
+
+
+
+        <ImageView
+            android:layout_width="84dp"
+            android:layout_height="84dp"
+            android:layout_gravity="center"
+            android:src="@drawable/confirmed" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/dp_eight"
+            android:text="Thank you for your order!"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@android:color/black"
+            android:textStyle="bold" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/dp_six"
+            android:gravity="center"
+            android:layout_margin="@dimen/dp_eight"
+            android:text="The order confirmed email with details of your order has been sent to your email address."
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+
+            />
+
+
+        </LinearLayout>
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ok"
+            android:id="@+id/btn_ok"
+            android:layout_marginTop="@dimen/forty_eight"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:background="@drawable/rounded_bg_dblue"
+            />
+
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
+
+</LinearLayout>
+
+

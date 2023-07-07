@@ -1,0 +1,41 @@
+<component name="libraryTable">
+  <library name="Gradle: com.lsjwzh:materialloadingprogressbar:0.5.8-RELEASE@aar">
+    <ANNOTATIONS>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/3062266e02cf467000550455cfde3595/jetified-materialloadingprogressbar-0.5.8-RELEASE/annotations.zip!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/c4594da21528a0312ed0adcdb944364c/jetified-materialloadingprogressbar-0.5.8-RELEASE/annotations.zip!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/4fdf357902da4229c6dfa98ae12f668b/jetified-materialloadingprogressbar-0.5.8-RELEASE/annotations.zip!/" />
+      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/816ff2c5cc72c809170939df88bed344/jetified-materialloadingprogressbar-0.5.8-RELEASE/annotations.zip!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/0722ee0e0b795448498786cc4bebd53a/jetified-materialloadingprogressbar-0.5.8-RELEASE/annotations.zip!/" />
+      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/8b424e7710d4e6c576ce7033284f2dea/jetified-materialloadingprogressbar-0.5.8-RELEASE/annotations.zip!/" />
+      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/78bc4f0037bceb278339bdaea2939c5f/jetified-materialloadingprogressbar-0.5.8-RELEASE/annotations.zip!/" />
+    </ANNOTATIONS>
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/3062266e02cf467000550455cfde3595/jetified-materialloadingprogressbar-0.5.8-RELEASE/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/3062266e02cf467000550455cfde3595/jetified-materialloadingprogressbar-0.5.8-RELEASE/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/3062266e02cf467000550455cfde3595/jetified-materialloadingprogressbar-0.5.8-RELEASE/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/c4594da21528a0312ed0adcdb944364c/jetified-materialloadingprogressbar-0.5.8-RELEASE/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/c4594da21528a0312ed0adcdb944364c/jetified-materialloadingprogressbar-0.5.8-RELEASE/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/c4594da21528a0312ed0adcdb944364c/jetified-materialloadingprogressbar-0.5.8-RELEASE/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/4fdf357902da4229c6dfa98ae12f668b/jetified-materialloadingprogressbar-0.5.8-RELEASE/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/4fdf357902da4229c6dfa98ae12f668b/jetified-materialloadingprogressbar-0.5.8-RELEASE/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/4fdf357902da4229c6dfa98ae12f668b/jetified-materialloadingprogressbar-0.5.8-RELEASE/res" />
+      <root url="file://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/816ff2c5cc72c809170939df88bed344/jetified-materialloadingprogressbar-0.5.8-RELEASE/AndroidManifest.xml" />
+      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/816ff2c5cc72c809170939df88bed344/jetified-materialloadingprogressbar-0.5.8-RELEASE/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/816ff2c5cc72c809170939df88bed344/jetified-materialloadingprogressbar-0.5.8-RELEASE/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/0722ee0e0b795448498786cc4bebd53a/jetified-materialloadingprogressbar-0.5.8-RELEASE/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/0722ee0e0b795448498786cc4bebd53a/jetified-materialloadingprogressbar-0.5.8-RELEASE/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/0722ee0e0b795448498786cc4bebd53a/jetified-materialloadingprogressbar-0.5.8-RELEASE/AndroidManifest.xml" />
+      <root url="file://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/8b424e7710d4e6c576ce7033284f2dea/jetified-materialloadingprogressbar-0.5.8-RELEASE/res" />
+      <root url="file://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/8b424e7710d4e6c576ce7033284f2dea/jetified-materialloadingprogressbar-0.5.8-RELEASE/AndroidManifest.xml" />
+      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/8b424e7710d4e6c576ce7033284f2dea/jetified-materialloadingprogressbar-0.5.8-RELEASE/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/78bc4f0037bceb278339bdaea2939c5f/jetified-materialloadingprogressbar-0.5.8-RELEASE/AndroidManifest.xml" />
+      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/78bc4f0037bceb278339bdaea2939c5f/jetified-materialloadingprogressbar-0.5.8-RELEASE/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/78bc4f0037bceb278339bdaea2939c5f/jetified-materialloadingprogressbar-0.5.8-RELEASE/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.lsjwzh/materialloadingprogressbar/0.5.8-RELEASE/6dd5f9b7bd809fb5f715bb43572f5c8083628c7d/materialloadingprogressbar-0.5.8-RELEASE-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/modules-2/files-2.1/com.lsjwzh/materialloadingprogressbar/0.5.8-RELEASE/6dd5f9b7bd809fb5f715bb43572f5c8083628c7d/materialloadingprogressbar-0.5.8-RELEASE-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

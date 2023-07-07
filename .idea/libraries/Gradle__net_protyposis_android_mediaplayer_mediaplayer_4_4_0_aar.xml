@@ -1,0 +1,21 @@
+<component name="libraryTable">
+  <library name="Gradle: net.protyposis.android.mediaplayer:mediaplayer:4.4.0@aar">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/4dec89e66fef85f2d00eea0cd094af0e/jetified-mediaplayer-4.4.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/58e242ed95c53fc74a895dc2b50c38f6/jetified-mediaplayer-4.4.0/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/4dec89e66fef85f2d00eea0cd094af0e/jetified-mediaplayer-4.4.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/4dec89e66fef85f2d00eea0cd094af0e/jetified-mediaplayer-4.4.0/AndroidManifest.xml" />
+      <root url="file://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/4dec89e66fef85f2d00eea0cd094af0e/jetified-mediaplayer-4.4.0/res" />
+      <root url="file://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/4dec89e66fef85f2d00eea0cd094af0e/jetified-mediaplayer-4.4.0/AndroidManifest.xml" />
+      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/4dec89e66fef85f2d00eea0cd094af0e/jetified-mediaplayer-4.4.0/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.protyposis.android.mediaplayer/mediaplayer/4.4.0/980e8ab3dac8688e29d082b7511780d5a41b1743/mediaplayer-4.4.0-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/modules-2/files-2.1/net.protyposis.android.mediaplayer/mediaplayer/4.4.0/980e8ab3dac8688e29d082b7511780d5a41b1743/mediaplayer-4.4.0-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.protyposis.android.mediaplayer/mediaplayer/4.4.0/f830c4d6de4fa5dd8cb9b54eb9bb888c5f814256/mediaplayer-4.4.0-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/modules-2/files-2.1/net.protyposis.android.mediaplayer/mediaplayer/4.4.0/f830c4d6de4fa5dd8cb9b54eb9bb888c5f814256/mediaplayer-4.4.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

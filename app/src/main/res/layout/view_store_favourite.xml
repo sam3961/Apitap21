@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:id="@+id/view_store_favourite"
+    android:layout_marginStart="2dp"
+    android:layout_marginTop="2dp"
+    android:layout_marginEnd="2dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray"/>
+    <RelativeLayout
+        android:id="@+id/header_category"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+
+        android:background="@color/colorWhite"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:id="@+id/linearLayoutStore"
+            android:layout_marginStart="4dp"
+            android:layout_toStartOf="@+id/message_store"
+            android:padding="4dp">
+
+
+            <TextView
+                android:id="@+id/storeName"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_margin="2dp"
+                android:background="@drawable/back_round_blue_border"
+                android:drawableLeft="@drawable/ic_icon_fav_gray"
+                android:drawableTint="@color/colorGreenLogo"
+                android:drawablePadding="@dimen/_4sdp"
+                android:gravity="center"
+                android:maxLines="2"
+                android:paddingStart="@dimen/_8sdp"
+                android:paddingTop="4dp"
+                android:paddingEnd="@dimen/_8sdp"
+                android:paddingBottom="4dp"
+                android:text="                          "
+                android:textColor="@color/colorBlue"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/message_store"
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="8dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/back_round_blue_border"
+            android:gravity="center"
+            android:padding="4dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_chat_icon"
+                app:tint="@color/colorGreenLogo" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="7.5dp"
+            android:layout_weight=".38"
+            android:visibility="gone"
+            android:background="@drawable/rounded_blue_transparent_"
+            android:gravity="center">
+
+            <Spinner
+                android:id="@+id/category_dropdown"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="2.5dp"
+                android:textAlignment="center"></Spinner>
+
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray"/>
+
+
+</LinearLayout>

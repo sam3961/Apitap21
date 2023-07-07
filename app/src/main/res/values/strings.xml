@@ -1,0 +1,252 @@
+<resources>
+    <string name="app_name">Apitap</string>
+    <string name="logo">LOGO</string>
+
+    <string name="enter_email">Enter your Email</string>
+    <string name="enter_dob">Select your DOB</string>
+    <string name="password">Enter your Password</string>
+    <string name="enter_password">Enter Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="forgot_pass">Forgot Password?\u0020</string>
+    <string name="forgot_password">Forgot Password</string>
+    <string name="create_pass">Create a new password</string>
+    <string name="secure_login">Secure Login</string>
+    <string name="privacy">By Logging in you agree to our T&amp;C and Privacy Policy</string>
+
+
+    <!--sign up-->
+    <string name="first_name">First Name</string>
+    <string name="second_name">Last Name</string>
+    <string name="shopping_assistant">Shopping Assistant</string>
+    <string name="create_acc">Create Your Apitap Account</string>
+    <string name="Submit">Submit</string>
+
+
+    <string name="home">Home</string>
+    <string name="store">Stores</string>
+    <string name="ads">Ads</string>
+    <string name="special">Promotions</string>
+    <string name="items">Products</string>
+    <string name="product_services">Product &amp; Services</string>
+    <string name="scancode">Scan Code</string>
+    <string name="shoppingcarts">Shopping Cart</string>
+    <string name="messages">Messages</string>
+    <string name="send_messages">Send Message</string>
+    <string name="shoppingassistance">Shopping Assistant</string>
+    <string name="favourite">Favorites</string>
+    <!--<string name="saved_orders">Saved Orders</string>-->
+    <string name="history">Orders,Return &amp; Exchange</string>
+    <string name="setting">Settings</string>
+    <string name="logout">Logout</string>
+
+
+    <string name="nav_item">Home</string>
+    <string name="login">Login</string>
+
+    <string-array name="nav_drawer_labels">
+        <item>@string/notification_history</item>
+        <item>@string/got_questions</item>
+        <item>@string/take_tour</item>
+        <item>@string/home</item>
+        <item>@string/businesses</item>
+        <item>@string/ads</item>
+        <item>@string/special</item>
+        <item>@string/product_services</item>
+        <item>@string/scancode</item>
+        <item>@string/shoppingcarts</item>
+        <item>@string/messages</item>
+        <item>@string/shoppingassistance</item>
+        <item>@string/favourite</item>
+        <item>@string/history</item>
+        <item>@string/setting</item>
+        <item>@string/all_about_apitap</item>
+        <item>@string/logout</item>
+    </string-array>
+
+    <string-array name="return_reasons">
+        <item>@string/reasonOne</item>
+        <item>@string/reasonTwo</item>
+        <item>@string/reasonThree</item>
+        <item>@string/reasonFour</item>
+        <item>@string/reasonFive</item>
+        <item>@string/reasonSix</item>
+        <item>@string/reasonSeven</item>
+        <item>@string/reasonEight</item>
+        <item>@string/reasonNine</item>
+        <item>@string/reasonTen</item>
+        <item>@string/reasonEleven</item>
+
+    </string-array>
+    <string-array name="dining_method">
+        <item>Select Dining Method</item>
+        <item>Dine-in</item>
+        <item>Delivery</item>
+        <item>Pickup</item>
+
+    </string-array>
+    <string-array name="dining_method_id">
+        <item>0</item>
+        <item>94001</item>
+        <item>94002</item>
+        <item>94003</item>
+
+    </string-array>
+    <string-array name="dining_method_bundle">
+        <item>0</item>
+        <item>4076</item>
+        <item>4077</item>
+        <item>3874</item>
+
+    </string-array>
+    <string-array name="type_of_area">
+        <item>Select Area</item>
+    </string-array>
+    <string-array name="type_of_table">
+        <item>Select Table</item>
+    </string-array>
+    <string-array name="type_of_assign">
+        <item>Assign someone to this</item>
+    </string-array>
+    <string-array name="type_of_promo">
+        <item>Related Promo</item>
+    </string-array>
+
+    <string-array name="type_of_smokin_area">
+        <item>Select Smoking Area Preferred</item>
+        <item>Yes</item>
+        <item>No</item>
+
+<!--        <item>Smoking Area</item>-->
+<!--        <item>Non Smoking Area</item>-->
+    </string-array>
+
+
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+
+    <string name="title_messages">Electronic</string>
+    <string name="title_friends">Cloths</string>
+    <string name="title_kit">Kitchen</string>
+    <string name="title_home">Home</string>
+    <string name="title_cart">Cart</string>
+    <string name="title_login">Login</string>
+
+    <string name="addnewadress">Add New Address</string>
+    <string name="title_activity_address_detail">AddressDetail</string>
+    <string name="addresstype">Address Type</string>
+    <string name="addressline1">Address Line 1(Copany Name, House No.,....)</string>
+    <string name="addressline2">Address Line2(Colony, Street, Locality/Area)</string>
+    <string name="pincode">PIN Code</string>
+    <string name="country">Country</string>
+    <string name="state">State</string>
+    <string name="city">City/Town</string>
+    <string name="mobilenumber">Mobile Number</string>
+    <string name="edit">Edit</string>
+    <string name="save">Save</string>
+
+    <string name="remove">Remove</string>
+    <string name="addotcart">Add to Cart</string>
+    <string name="title_activity_maps">Map</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="writeareview">Write a Review</string>
+    <string name="entermsg">Enter message</string>
+    <string name="intro">Tap the Button below \n to remove the list completely \n Note: All Products in list removed also .</string>
+    <string name="shoppingAsst">Enter a new list by typing a name below \n add tapping the Plus button. \n \n
+        View or enter items on a list by tapping on \n the arrow next to the lists name. \n \n To edit a lists name, tap and hold
+    on the \n name and select edit from popup. \n \n To remove a list, tap and hold on the name \n and select delete from the popup and
+    \n confirm to delete.</string>
+    <string name="shoppingAsst2">Enter a new item by typing a name below \n add tapping the Plus button. \n \n
+        To edit a items name and select edit from popup. \n \n To remove an item, tap and hold
+    on the \n name and select delete from the popup and \n confirm to delete.</string>
+    <string name="more_details">More Details</string>
+    <string name="more_info">More Info.</string>
+    <string name="got_questions">Got Questions ?</string>
+    <string name="take_tour">Take the Tour</string>
+    <string name="all_about_apitap">All About Apitap</string>
+    <string name="knowledge">Search Our Knowledge Base</string>
+    <string name="how_to_guide">You can enter below what you are looking for to search our Help and How-To-Guides</string>
+    <string name="popular_ques">Popular Questions</string>
+    <string name="about_apitap">About The App</string>
+    <string name="info_app">Click the button below to see information about your installed app and the latest changes</string>
+    <string name="contact_us">Contact Us</string>
+    <string name="other_info">Other Info</string>
+    <string name="loading">Loading</string>
+    <string name="shopping_cart">Shopping Cart</string>
+    <string name="checkout">Checkout</string>
+    <string name="empty_cart">Shopping Cart is Empty</string>
+    <string name="reasonOne">Bought by mistake</string>
+    <string name="reasonTwo">Better price available</string>
+    <string name="reasonThree">Product damaged, but shipping box OK</string>
+    <string name="reasonFour">Product arrived too late</string>
+    <string name="reasonFive">Missing parts or accessories</string>
+    <string name="reasonSix">Product and shipping box both damaged</string>
+    <string name="reasonSeven">Wrong item was sent</string>
+    <string name="reasonEight">Product defective or doesn\'t work</string>
+    <string name="reasonNine">Received extra item I didn\'t buy(no refund needed)</string>
+    <string name="reasonTen">No longer needed</string>
+    <string name="reasonEleven">Didn\'t approve purchase</string>
+    <string name="shoppingcart_note">Please note, your shopping carts are organized based on item\'s available delivery method.</string>
+    <string name="select_business"> Please choose from the drop down above a type of business you would like to see our participating business for.</string>
+    <string name="select_items"> Please choose from the drop down above a type of items you would like to see.</string>
+    <string name="select_specials"> Please choose from the drop down above a type of specials and offers you would like to see.</string>
+    <string name="choose_category">Choose Category</string>
+    <string name="your_selecte_image">Your selected image :</string>
+    <string name="notification_history">Notification History</string>
+    <string name="close">Close</string>
+    <string name="done">Done</string>
+    <string name="please_choose_a_type_of_business">Please choose a type of business</string>
+    <string name="please_choose_the_type_of_business_you_are_looking_for_from_the_choices_below">Please choose the type of businesses you are looking for from the choices below</string>
+    <string name="please_choose_the_type_of_ads_you_are_looking_for_from_the_choices_below">Please choose the type of ads you are looking for from the choices below</string>
+    <string name="please_choose_the_type_of_items_you_are_looking_for_from_the_choices_below">Please choose the type of items you are looking for from the choices below</string>
+    <string name="please_choose_the_type_of_promotions_you_are_looking_for_from_the_choices_below">Please choose the type of promotions you are looking for from the choices below</string>
+    <string name="filter">Filter</string>
+    <string name="search">Search</string>
+    <string name="enter_a_word_or_phrase_to_look_for">Enter a word to look for</string>
+    <string name="sort_by">Sort By</string>
+    <string name="delivery_method">Delivery Method</string>
+    <string name="categories">Categories</string>
+    <string name="click_a_selection_a_seond_time_to_remove_it_and_go_back">Click a selection a seond time to remove it and go back</string>
+    <string name="condition">Condition</string>
+    <string name="select_by_categories">Select by Category</string>
+    <string name="location">Location</string>
+    <string name="location_colon">Location :</string>
+    <string name="brand">Brand</string>
+    <string name="rating">Rating</string>
+    <string name="terms_policies">Terms &amp; Conditions</string>
+    <string name="businesses">Businesses</string>
+    <string name="expand_all">Expand all</string>
+    <string name="collapse_all">Collapse all</string>
+    <string name="business">Business</string>
+    <string name="promotions">Promotions</string>
+    <string name="check_in_from_home">Check In From Home</string>
+    <string name="listen_in_live">Listen In Live</string>
+    <string name="you_re_now_checked_in">You\'re Now Checked In</string>
+    <string name="reset">Reset</string>
+
+    <string name="nickSharedPrefsKey">nickSyncPlayerUser</string>
+    <string name="mediaSelectPathExtra">MEDIA_SELECT_EXTRA_PATH</string>
+    <string name="mediaSelectFileExtra">MEDIA_SELECT_EXTRA_FILE</string>
+    <string name="reservations">Reservations</string>
+    <string name="schedule">Schedule</string>
+    <string name="events">Events</string>
+    <string name="add_txt">Add</string>
+    <string name="view">View</string>
+    <string name="select_date">Select Date</string>
+    <string name="start_time">Select Start Time</string>
+    <string name="end_time">Select End Time</string>
+    <string name="number_of_people_mandatory">Enter number of people*</string>
+    <string name="number_of_children_mandatory">Enter number of children*</string>
+    <string name="name_mandatory">Enter Name*</string>
+    <string name="email_mandatory">Enter Email*</string>
+    <string name="phone_mandatory">Enter Phone*</string>
+    <string name="secondary_email">Enter Second Email</string>
+    <string name="enter_special_request">Enter Special Request</string>
+    <string name="enter_notes">Enter Notes</string>
+    <string name="enter_customer_history">Enter Customer History</string>
+    <string name="wheelchair_access">Wheelchair Access</string>
+    <string name="need_child_seating">Need Child Seating</string>
+    <string name="no_data_found">No Data Found</string>
+
+</resources>

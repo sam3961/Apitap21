@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/view_store_tabs"
+    android:background="@android:color/white">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorBlack"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Store Info"
+                android:gravity="center"
+                android:textSize="12sp"
+                android:fontFamily="@font/rubik_regular"
+                android:paddingEnd="@dimen/_10sdp"
+                android:paddingStart="@dimen/_10sdp"
+                android:textColor="@android:color/white"
+                android:background="@color/colorGreenLogo"/>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/black"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:weightSum="4"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:id="@+id/linearLayoutAbout"
+                    android:paddingStart="@dimen/_6sdp"
+                    android:paddingEnd="@dimen/_6sdp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="About"
+                        android:textColor="@color/colorGreenLogo"
+                        android:textSize="12sp"
+                        />
+
+                    <View
+                        android:visibility="visible"
+                        android:id="@+id/view_about"
+                        android:layout_width="@dimen/_38sdp"
+                        android:layout_height="@dimen/_4sdp"
+                        android:background="@color/colorGreenLogo"/>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:id="@+id/linearLayoutLocations"
+                    android:layout_weight="1"
+                    android:paddingStart="@dimen/_6sdp"
+                    android:paddingEnd="@dimen/_6sdp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginStart="@dimen/_1sdp"
+                        android:text="Locations"
+                        android:textColor="@color/colorGreenLogo"
+                        android:textSize="12sp"
+                        />
+
+                    <View
+                        android:id="@+id/view_location"
+                        android:layout_width="@dimen/_54sdp"
+                        android:layout_height="@dimen/_4sdp"
+                        android:visibility="gone"
+                        android:background="@color/colorGreenLogo"/>
+
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:id="@+id/linearLayoutReviews"
+                    android:paddingStart="@dimen/_6sdp"
+                    android:paddingEnd="@dimen/_6sdp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Reviews"
+                        android:textColor="@color/colorGreenLogo"
+                        android:textSize="12sp"
+                        />
+
+                    <View
+                        android:visibility="gone"
+                        android:id="@+id/view_reviews"
+                        android:layout_width="@dimen/_45sdp"
+                        android:layout_height="@dimen/_4sdp"
+                        android:background="@color/colorGreenLogo"/>
+
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:id="@+id/linearLayoutPolicies"
+                    android:paddingStart="@dimen/_6sdp"
+                    android:paddingEnd="@dimen/_6sdp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Policies"
+                        android:textColor="@color/colorGreenLogo"
+                        android:textSize="12sp"
+                        />
+
+                    <View
+                        android:visibility="gone"
+                        android:id="@+id/view_policies"
+                        android:layout_width="@dimen/_46sdp"
+                        android:layout_height="@dimen/_4sdp"
+                        android:background="@color/colorGreenLogo"/>
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorBlack"/>
+
+
+</LinearLayout>

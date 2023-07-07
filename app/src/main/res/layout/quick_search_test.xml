@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorWhite"
+    android:orientation="vertical">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:orientation="vertical"
+        android:weightSum="1">
+
+        <LinearLayout
+            android:id="@+id/select_language_title"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="0.1dp"
+            android:background="@color/colorBlue">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="Quick Search"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                android:textColor="@color/colorWhite"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/btn_select_language"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/language_spinner_recycler"
+            android:layout_margin="5dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginStart="2dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/lbl_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Search Criteria"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                android:textColor="@color/colorBlue"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/select_language"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.26"
+                android:paddingStart="2dp"
+                android:text="Looking for?"
+                android:textColor="@color/colorBlue"
+                android:textSize="12sp" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="0.74"
+                android:background="@drawable/border">
+
+                <Spinner
+                    android:id="@+id/looking_for"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:dropDownVerticalOffset="5dp"
+                    android:paddingStart="6dp"></Spinner>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="2dp"
+                android:layout_weight="0.38"
+                android:gravity="end"
+                android:paddingLeft="2dp"
+                android:text="Product or services"
+                android:textColor="@color/colorBlue"
+                android:textSize="12sp"
+                android:visibility="gone" />
+
+            <CheckBox
+                android:id="@+id/imageView_message"
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:layout_weight="0.06"
+                android:background="@drawable/custom_checkbox"
+                android:button="@android:color/transparent"
+                android:paddingRight="5dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="2dp"
+                android:layout_weight="0.20"
+                android:gravity="end"
+                android:paddingRight="2dp"
+                android:text="Business"
+                android:textColor="@color/colorBlue"
+                android:textSize="12sp"
+                android:visibility="gone" />
+
+            <CheckBox
+                android:id="@+id/imageView"
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:layout_weight="0.06"
+                android:background="@drawable/custom_checkbox"
+                android:button="@android:color/transparent"
+                android:visibility="gone" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btn_select"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_below="@+id/language_spinner_recycler"
+            android:layout_margin="5dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginStart="2dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/lbl_search_loc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="Please choose a location to search near"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                android:textColor="@color/colorBlue"
+                android:textSize="13sp" />
+
+            <LinearLayout
+                android:id="@+id/l"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/lbl_search_loc"
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/border"
+                android:orientation="horizontal"
+                android:padding="2dp">
+
+                <Spinner
+                    android:id="@+id/spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:dropDownVerticalOffset="20dp"
+                    android:gravity="center_vertical"
+                    android:spinnerMode="dropdown"
+                    android:text="Select Address"
+                    android:textColor="#617291" />
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="0.20"
+                    android:src="@drawable/down_arrow"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/lbl_se_loc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/l"
+                android:padding="5dp"
+                android:text="Or enter an address to look nearby"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                android:textColor="@color/colorBlue"
+                android:textSize="13sp" />
+
+            <EditText
+                android:id="@+id/nearby_ed"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_below="@+id/lbl_se_loc"
+                android:layout_marginLeft="15dp"
+                android:textSize="14sp"
+                android:background="@drawable/border"
+                android:padding="3dp" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="170dp"
+                android:layout_below="@+id/nearby_ed"
+                android:layout_marginLeft="15dp"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:visibility="gone"></androidx.recyclerview.widget.RecyclerView>
+
+
+            <TextView
+                android:id="@+id/lbl_se"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/nearby_ed"
+                android:padding="5dp"
+                android:text="Please type in what you're looking for."
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                android:textColor="@color/colorBlue"
+                android:textSize="13sp" />
+
+            <EditText
+                android:id="@+id/search"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:textSize="15dp"
+                android:layout_below="@+id/lbl_se"
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/border"
+                android:padding="3dp" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/btn_select_lang"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:background="@drawable/rounded_bg_dblue"
+                android:gravity="center"
+                android:text="Cancel"
+                android:textColor="@color/colorWhite" />
+
+
+            <Button
+                android:id="@+id/submit"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:background="@drawable/rounded_bg_dblue"
+                android:gravity="center"
+                android:text="Done"
+                android:textColor="@color/colorWhite" />
+
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_two"
+            android:background="@color/colorGrey"/>
+    </LinearLayout>
+</LinearLayout>
+

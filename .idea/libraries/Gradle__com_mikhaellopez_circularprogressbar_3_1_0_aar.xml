@@ -1,0 +1,17 @@
+<component name="libraryTable">
+  <library name="Gradle: com.mikhaellopez:circularprogressbar:3.1.0@aar">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/cd8a387ed4338d94c192f56a2b304d8e/jetified-circularprogressbar-3.1.0/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/cd8a387ed4338d94c192f56a2b304d8e/jetified-circularprogressbar-3.1.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/cd8a387ed4338d94c192f56a2b304d8e/jetified-circularprogressbar-3.1.0/AndroidManifest.xml" />
+      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/cd8a387ed4338d94c192f56a2b304d8e/jetified-circularprogressbar-3.1.0/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/cd8a387ed4338d94c192f56a2b304d8e/jetified-circularprogressbar-3.1.0/AndroidManifest.xml" />
+      <root url="file://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/cd8a387ed4338d94c192f56a2b304d8e/jetified-circularprogressbar-3.1.0/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.mikhaellopez/circularprogressbar/3.1.0/c896523561b3e86db2f7b79e2048c853b435e01e/circularprogressbar-3.1.0-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/modules-2/files-2.1/com.mikhaellopez/circularprogressbar/3.1.0/c896523561b3e86db2f7b79e2048c853b435e01e/circularprogressbar-3.1.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

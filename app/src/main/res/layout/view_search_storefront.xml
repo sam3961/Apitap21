@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
+    android:id="@+id/search_storefront">
+
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent">
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite"
+            android:gravity="center">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginTop="@dimen/_6sdp"
+                android:layout_marginBottom="@dimen/_6sdp"
+                android:gravity="center_vertical"
+                android:padding="@dimen/dp_4"
+                android:visibility="visible">
+
+                <ImageView
+                    android:id="@+id/message"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:visibility="gone"
+                    app:srcCompat="@drawable/ic_baseline_chat_24"
+                    app:tint="@android:color/white" />
+
+                <ImageView
+                    android:id="@+id/search_bar_two"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/_6sdp"
+                    android:layout_toEndOf="@+id/message"
+                    android:padding="@dimen/_1sdp"
+                    android:src="@drawable/ic_icon_search"
+                    app:tint="@color/colorBlack" />
+
+
+                <TextView
+                    android:id="@+id/textViewSearchStoreFront"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:paddingVertical="@dimen/_6sdp"
+                    android:paddingHorizontal="@dimen/_6sdp"
+                    android:layout_marginHorizontal="@dimen/_6sdp"
+                    android:layout_toStartOf="@+id/textViewFilterStoreFront"
+                    android:background="@drawable/back_round"
+                    android:fontFamily="@font/rubik_regular"
+                    android:gravity="center"
+                    android:text="@string/search"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/_9ssp" />
+
+                <AutoCompleteTextView
+                    android:id="@+id/editTextSearchStoreFront"
+                    android:layout_width="@dimen/_150sdp"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/_6sdp"
+                    android:layout_toStartOf="@+id/textViewSearchStoreFront"
+                    android:layout_toEndOf="@+id/search_bar_two"
+                    android:background="@drawable/rectangular_black_transparent_"
+                    android:fontFamily="@font/rubik_italic"
+                    android:hint="@string/enter_a_word_or_phrase_to_look_for"
+                    android:imeOptions="actionSearch"
+                    android:maxLines="1"
+                    android:paddingStart="@dimen/dp_4"
+                    android:paddingEnd="@dimen/dp_4"
+                    android:singleLine="true"
+                    android:textSize="@dimen/_9ssp" />
+
+                <TextView
+                    android:id="@+id/textViewFilterStoreFront"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/dp_4"
+                    android:layout_toStartOf="@+id/imageViewFilterStoreFront"
+                    android:fontFamily="@font/rubik_medium"
+                    android:gravity="center_vertical"
+                    android:text="@string/filter"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/_11ssp" />
+
+                <ImageView
+                    android:id="@+id/imageViewFilterStoreFront"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginEnd="@dimen/_2sdp"
+                    android:padding="@dimen/_4sdp"
+                    app:srcCompat="@drawable/ic_filter"
+                    app:tint="@color/colorBlack" />
+
+
+            </RelativeLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

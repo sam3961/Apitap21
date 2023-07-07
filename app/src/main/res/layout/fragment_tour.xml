@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/tools"
+    android:id="@+id/ScrollView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:orientation="vertical"
+    app:ignore="NamespaceTypo">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/ll_shopping"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="2dp"
+            android:visibility="gone"
+            android:background="@drawable/bottom_line"
+            android:gravity="center">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/toolBar_cardview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:foreground="?android:attr/selectableItemBackground"
+                card_view:cardBackgroundColor="@color/colorWhite"
+                card_view:cardCornerRadius="2dp"
+                card_view:cardElevation="7dp"
+                card_view:contentPadding="5dp">
+
+                <LinearLayout
+                    android:id="@+id/back_ll"
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="5dp"
+                        android:src="@drawable/back_arrow_text" />
+
+                </LinearLayout>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/take_tour"
+                    android:textColor="@color/colorBlue"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </androidx.cardview.widget.CardView>
+        </com.google.android.material.appbar.AppBarLayout>
+
+
+        <FrameLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"></FrameLayout>
+
+        <include
+            layout="@layout/tutoral_dialog"
+            android:visibility="gone"
+            />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:id="@+id/parent_rl"
+            android:visibility="visible"
+            android:layout_height="match_parent">
+
+
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@color/colorBlack">
+
+
+                <com.apitap.model.ViewPagerCustomDuration
+                    android:id="@+id/viewpager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                 />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_gravity="bottom"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/skipbtn"
+                        android:layout_width="0dp"
+                        android:layout_height="46dp"
+                        android:layout_weight=".2"
+                        android:src="@drawable/skip_btn" />
+
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:id="@+id/back_btn"
+                        android:padding="5dp"
+                        android:visibility="gone"
+                        android:layout_weight=".2"
+                        android:src="@drawable/back_tour" />
+
+                    <me.relex.circleindicator.CircleIndicator
+                        android:id="@+id/indicator_default"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginStart="5dp"
+                        android:visibility="gone"
+                        android:layout_weight=".6"
+                        android:gravity="bottom" />
+
+                    <LinearLayout
+                        android:id="@+id/SliderDots"
+                        android:layout_width="0dp"
+                        android:layout_gravity="center"
+                        android:layout_weight=".6"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal" />
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:padding="5dp"
+                        android:id="@+id/nxt_btn"
+                        android:visibility="gone"
+
+                        android:layout_weight=".2"
+                        android:src="@drawable/next_btn" />
+
+                    <ImageView
+                        android:id="@+id/startbtn"
+                        android:layout_width="0dp"
+                        android:layout_height="46dp"
+                        android:layout_weight=".2"
+                        android:src="@drawable/start_btn" />
+
+
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="46dp"
+                        android:layout_gravity="center"
+                        android:id="@+id/done_btn"
+                        android:layout_weight=".2"
+                        android:visibility="gone"
+                        android:src="@drawable/done_btn" />
+
+                </LinearLayout>
+            </FrameLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

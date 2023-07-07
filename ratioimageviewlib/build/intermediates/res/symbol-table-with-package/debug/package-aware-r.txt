@@ -1,0 +1,7 @@
+com.alimuzaffar.ratioimageview
+attr adjustWidth
+attr groupId
+dimen activity_horizontal_margin
+string app_name
+style AppBaseTheme
+styleable RatioImageView adjustWidth groupId

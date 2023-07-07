@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/nestedScrollView"
+    android:layout_marginTop="@dimen/_2sdp"
+    android:keepScreenOn="true"
+    android:background="@color/colorGrey"
+    android:fillViewport="true">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingVertical="@dimen/_2sdp">
+
+
+            <ImageView
+                android:id="@+id/imageViewBack"
+                android:layout_width="@dimen/_34sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:src="@drawable/back_green" />
+
+            <TextView
+                android:id="@+id/textViewTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/poppins_semibold"
+                android:text="@string/you_re_now_checked_in"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/_14ssp" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/textViewMerchantName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorOrangeNew"
+            android:fontFamily="@font/rubik_medium"
+            android:gravity="center"
+            android:paddingVertical="@dimen/_2sdp"
+            android:text="Welcome to\nLA Store"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/_12ssp" />
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_6sdp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/rubik_medium"
+                android:includeFontPadding="false"
+                android:text="Game Day Deals Showcase"
+                android:textColor="@color/colorBlue"
+                android:textSize="@dimen/_11ssp" />
+
+
+            <TextView
+                android:id="@+id/textViewShowAllAds"
+                style="@style/Base.TextAppearance.AppCompat.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="@dimen/_2sdp"
+                android:fontFamily="@font/rubik_medium"
+                android:gravity="center|end"
+                android:includeFontPadding="false"
+                android:text="Show All"
+                android:textColor="@color/dark_blue"
+                android:textSize="@dimen/_11ssp" />
+        </RelativeLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewGameDeals"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_4sdp"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/adapter_game_deals" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:background="@color/colorPurple"
+            android:fontFamily="@font/rubik_medium"
+            android:gravity="center"
+            android:id="@+id/textViewNowPlaying"
+            android:paddingVertical="@dimen/_4sdp"
+            android:text="Now Playing"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/_12ssp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_4sdp"
+                android:layout_marginVertical="@dimen/_6sdp"
+                android:elevation="0dp"
+                app:cardBackgroundColor="@color/colorWhite"
+                app:cardCornerRadius="@dimen/_8sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textViewTvName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorGreenLogo"
+                        android:fontFamily="@font/rubik_medium"
+                        android:gravity="center"
+                        android:includeFontPadding="false"
+                        android:paddingVertical="@dimen/_4sdp"
+                        android:text="TV 1"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/_13ssp" />
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/_4sdp">
+
+                        <TextView
+                            android:id="@+id/textViewChannelName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/rubik_regular"
+                            android:gravity="center"
+                            android:includeFontPadding="false"
+                            android:paddingVertical="@dimen/_4sdp"
+                            android:text="Show Title"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/_11ssp" />
+
+                        <TextView
+                            android:id="@+id/textViewShowTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_16sdp"
+                            android:layout_toStartOf="@+id/textViewShowDuration"
+                            android:layout_toEndOf="@+id/textViewChannelName"
+                            android:fontFamily="@font/poppins_semibold"
+                            android:gravity="center_vertical"
+                            android:includeFontPadding="false"
+                            android:paddingVertical="@dimen/_4sdp"
+                            android:text="Show Title"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/_11ssp" />
+
+
+                        <TextView
+                            android:id="@+id/textViewShowDuration"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:fontFamily="@font/rubik_regular"
+                            android:gravity="center"
+                            android:includeFontPadding="false"
+                            android:paddingVertical="@dimen/_4sdp"
+                            android:text="00:00 - 00:00"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/_11ssp" />
+
+                    </RelativeLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:padding="@dimen/_8sdp"
+                        android:layout_height="@dimen/_80sdp">
+
+                        <pl.droidsonroids.gif.GifImageView
+                            android:id="@+id/imageViewGif"
+                            android:layout_width="@dimen/_30sdp"
+                            android:layout_height="@dimen/_30sdp"
+                            android:layout_gravity="center"
+                            />
+
+                        <com.mikhaellopez.circularprogressbar.CircularProgressBar
+                            android:id="@+id/circularProgressBar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:cpb_background_progressbar_color="#b6bbd8"
+                            app:cpb_background_progressbar_width="5dp"
+                            app:cpb_progress_direction="to_right"
+                            app:cpb_progressbar_color="@color/colorGreen"
+                            android:layout_gravity="center"
+                            app:cpb_progressbar_width="@dimen/_6sdp"
+                            app:cpb_round_border="false" />
+                        <SeekBar
+                            android:id="@+id/seek_bar"
+                            android:layout_width="fill_parent"
+                            android:layout_height="12dp"
+                            android:progress="0"
+                            android:background="@null"
+                            android:shape="oval"
+                            android:visibility="gone"
+                            android:layout_marginHorizontal="@dimen/_4sdp"
+                            android:layout_gravity="center"
+                            android:splitTrack="false"
+                            android:progressDrawable="@drawable/progress_background"
+                            android:secondaryProgress="0"
+                            android:thumb="@drawable/oval_seekbar_thumb" />
+
+
+                    </FrameLayout>
+
+
+                    <TextView
+                        android:id="@+id/textViewDescription"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/rubik_italic"
+                        android:gravity="center"
+                        android:includeFontPadding="false"
+                        android:paddingHorizontal="@dimen/_4sdp"
+                        android:paddingVertical="@dimen/_4sdp"
+                        android:text="(Information from tv guide about program being shown)"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/_11ssp" />
+
+
+                </LinearLayout>
+
+
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:padding="@dimen/_8sdp"
+            android:background="@color/colorBlack">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imageViewMute"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/volume_mute_white"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imageViewLowVolume"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_toEndOf="@+id/imageViewMute"
+                android:src="@drawable/ic_baseline_volume_down_24"/>
+
+
+            <SeekBar
+                android:id="@+id/seekBar"
+                android:layout_toEndOf="@+id/imageViewLowVolume"
+                android:layout_toStartOf="@+id/imageViewViewVolumeUp"
+                android:layout_width="match_parent"
+                android:progressTint="@color/colorWhite"
+                android:indeterminateTint="@color/colorWhite"
+                android:progressBackgroundTint="@color/colorWhite"
+                android:thumbTint="@color/colorRed"
+                android:progress="100"
+                android:layout_centerVertical="true"
+                android:layout_height="@dimen/_20sdp"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imageViewViewVolumeUp"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:layout_toStartOf="@+id/imageViewHeadset"
+                android:src="@drawable/ic_baseline_volume_up_24"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imageViewHeadset"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_baseline_headset_off_24"/>
+
+
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_4sdp"
+                android:layout_marginVertical="@dimen/_6sdp"
+                android:elevation="0dp"
+                app:cardBackgroundColor="@color/colorWhite"
+                app:cardCornerRadius="@dimen/_8sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textViewTvName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorGreenLogo"
+                        android:fontFamily="@font/rubik_medium"
+                        android:gravity="center"
+                        android:includeFontPadding="false"
+                        android:paddingVertical="@dimen/_4sdp"
+                        android:text="Notices"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/_13ssp" />
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/receiverViewNotices"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:nestedScrollingEnabled="false"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/adapter_notices" />
+
+                </LinearLayout>
+
+
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

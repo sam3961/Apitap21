@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/colorGrey"
+    android:padding="10dp"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:id="@+id/linear_1_lbl"
+           >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="false"
+            android:padding="15dp"
+            android:gravity="center"
+            android:text="Edit the name of the list in space below
+and tap the checkmark when done"
+            android:textColor="@android:color/black" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_below="@+id/linear_1_lbl"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:textColor="@color/colorWhite">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_gravity="center"
+            android:layout_weight="0.2"
+            android:gravity="right"
+            android:layout_height="wrap_content"
+            android:text="Edit Name"
+            android:textColor="@color/colorBlue"
+            android:id="@+id/radio_img"
+            />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_weight="0.65"
+                android:textSize="13sp"
+                android:layout_marginLeft="10dp"
+                android:layout_height="match_parent"
+                android:padding="1dp"
+                android:background="@android:color/white"
+                android:id="@+id/txt_edit_name"
+                />
+
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.15"
+            android:layout_gravity="start|center"
+            android:src="@drawable/ic_icon_check"
+            android:id="@+id/img_edit_name"
+            />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:layout_below="@+id/name"
+            android:id="@+id/linear_1_lbl2"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="false"
+                android:padding="15dp"
+                android:gravity="center"
+                android:text="@string/intro"
+                android:textColor="@android:color/black" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingTop="12dp"
+            android:layout_below="@+id/linear_1_lbl2"
+            android:orientation="vertical"
+          >
+
+
+            <TextView
+                style="@style/TextAppearance.AppCompat.Medium"
+                android:layout_width="200dp"
+                android:id="@+id/delet_btn"
+                android:layout_height="40dp"
+                android:background="@drawable/rounded_bg_dblue"
+                android:gravity="center"
+                android:text="Delete the list"
+                android:textColor="@android:color/white" />
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+</RelativeLayout>

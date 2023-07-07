@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:padding="5dp"
+        android:layout_height="wrap_content"
+        android:weightSum="4">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/colorBlue"
+            android:text="Customer Name"
+            android:layout_weight="1"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="dd/mm/yyyy"
+            android:textColor="@color/colorBlue"
+            android:gravity="center"
+            android:layout_weight="1"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="hh/MM"
+            android:gravity="center"
+            android:textColor="@color/colorBlue"
+            android:layout_weight="1"/>
+        <RatingBar
+            android:id="@+id/ratingBar"
+
+            style="?android:attr/ratingBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:isIndicator="true"
+
+            android:gravity="center"
+            android:numStars="5"
+            android:progressTint="@color/pocket_color_4"
+            android:rating="5.0"
+            android:secondaryProgressTint="@android:color/transparent"
+            android:stepSize="0.01" />
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,2 @@
+include ':code-scanner-master'
+include ':app', ':MediaPlayer'

@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginStart="10dp"
+    android:layout_marginEnd="10dp"
+    android:background="@drawable/back_round_blue_thick"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/txtcart"
+            style="@style/Base.TextAppearance.AppCompat.Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Product to Cart"
+            android:textColor="@color/colorBlue"
+            android:textStyle="bold" />
+
+        <RelativeLayout
+            android:id="@+id/realative"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtcart"
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:id="@+id/option"
+                style="@style/Base.TextAppearance.AppCompat.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="Select Type "
+                android:textColor="#0080ff" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/option"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:background="@drawable/back_round"
+
+                >
+
+                <Spinner
+                    android:id="@+id/editoption"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:dropDownVerticalOffset="40dp"
+                    android:spinnerMode="dropdown" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/realativesecond"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/realative"
+            android:layout_marginTop="20dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/option1"
+                style="@style/Base.TextAppearance.AppCompat.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="Choose Option"
+                android:textColor="#0080ff" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/option1"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:background="@drawable/back_round"
+
+                >
+
+                <Spinner
+                    android:id="@+id/editoption2"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:dropDownVerticalOffset="40dp"
+                    android:spinnerMode="dropdown" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/realativethird"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/realativesecond"
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:id="@+id/option3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="Quantity"
+                android:textColor="#0080ff" />
+
+            <LinearLayout
+                android:id="@+id/ll_quantity"
+                android:layout_width="180dp"
+                android:layout_height="40dp"
+                android:visibility="gone"
+                android:layout_below="@+id/option3"
+                android:layout_centerInParent="true"
+                android:background="@android:color/darker_gray"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_minus"
+                    android:layout_width="60dp"
+                    android:layout_height="32dp"
+                    android:gravity="start|center"
+                    android:text="-"
+                    android:textColor="@android:color/white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="QTY " />
+
+                <TextView
+                    android:id="@+id/tv_quantity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="1" />
+
+                <TextView
+                    android:id="@+id/tv_plus"
+                    android:layout_width="60dp"
+                    android:layout_height="32dp"
+                    android:gravity="end|center"
+                    android:text="+"
+
+                    android:textColor="@android:color/white" />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/option3"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="40dp"
+                android:id="@+id/rlSpinnerQty"
+                android:visibility="visible"
+                android:layout_marginRight="40dp"
+                android:background="@drawable/back_round"
+
+                >
+
+                <Spinner
+                    android:id="@+id/spinnerQty"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:dropDownVerticalOffset="40dp"
+                    android:spinnerMode="dropdown" />
+
+            </RelativeLayout>
+
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/realativeforth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/realativethird"
+            android:layout_marginTop="20dp">
+
+            <EditText
+                android:id="@+id/editTextSpecialInstructions"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:background="@drawable/back_round_blue_border"
+                android:gravity="start"
+                android:hint="Special Instructions"
+                android:maxLines="3"
+                android:paddingStart="5dp"
+                android:paddingTop="2dp"
+                android:paddingEnd="5dp"
+                android:paddingBottom="2dp"
+                android:textColor="@color/colorBlack"
+                android:textSize="17dp" />
+
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_below="@+id/realativeforth"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="10dp"
+            android:layout_toLeftOf="@+id/submitdailog"
+            android:background="@drawable/rounded_bg_dblue"
+            android:text="CANCEL"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/submitdailog"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:layout_below="@+id/realativeforth"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/rounded_bg_dblue"
+            android:text="Add To Cart"
+            android:textColor="@android:color/white" />
+
+    </RelativeLayout>
+</RelativeLayout>

@@ -1,0 +1,18 @@
+
+<TextView android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:id="@+id/text"
+    android:gravity="center"
+    android:textAppearance="?android:attr/textAppearanceListItemSmall"
+    android:textAlignment="center"
+    android:ellipsize="marquee"
+    android:text="nbbhjbjhb"
+    android:textColor="#000000"
+    android:background="@color/colorWhite"
+    android:textSize="14dp"
+    android:singleLine="true"
+    android:maxLines="1"
+    android:paddingStart="2dp"
+    android:paddingEnd="2dp"
+    style="?android:listDivider"
+    xmlns:android="http://schemas.android.com/apk/res/android" />

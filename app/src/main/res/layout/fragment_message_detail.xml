@@ -1,0 +1,497 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/rootLayout"
+    android:background="@color/colorGrey">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/toolbar_rl"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include
+                android:id="@+id/toolbar"
+                layout="@layout/toolbar" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/tab_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/toolbar_rl"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="2dp"
+            android:background="@android:color/white"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:id="@+id/homeTab2"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:background="@drawable/rounded_right_blue"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/dp_eight"
+                android:paddingEnd="@dimen/_12sdp">
+
+                <ImageView
+                    android:id="@+id/tab_one_image"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:tint="@android:color/white"
+                    app:srcCompat="@drawable/ic_baseline_home_24" />
+
+                <ImageView
+                    android:id="@+id/sear"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:padding="@dimen/_1sdp"
+                    android:src="@drawable/ic_icon_search"
+                    android:tint="@android:color/white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/dp_one"
+                    android:gravity="center"
+                    android:paddingStart="@dimen/dp_eight"
+                    android:paddingEnd="@dimen/dp_eight"
+                    android:text="@string/home"
+                    android:textColor="@color/colorGrey1"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="38dp"
+                android:layout_gravity="bottom"
+                android:background="@color/colorWhite"
+                app:tabGravity="center"
+                app:tabIndicatorColor="@android:color/transparent"
+                app:tabIndicatorHeight="5dp"
+                app:tabMode="scrollable"
+                app:tabSelectedTextColor="@color/colorBlue"
+                app:tabTextColor="@color/colorWhite" />
+
+
+        </LinearLayout>
+
+
+        <FrameLayout
+            android:id="@+id/container_body"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/tab_container"
+            android:layout_marginTop="2dp"
+            android:visibility="gone">
+
+        </FrameLayout>
+
+        <RelativeLayout
+            android:id="@+id/linear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tab_container"
+            android:layout_marginTop="3dp"
+            android:background="@color/colorWhite">
+
+            <!--<ScrollView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_above="@+id/bottombar">-->
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/bottombar">
+
+                <com.google.android.material.appbar.AppBarLayout
+                    android:id="@+id/ll_shopping"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/bottom_line"
+                    android:gravity="center">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/toolBar_cardview"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="2dp"
+                        card_view:cardCornerRadius="2dp"
+                        card_view:contentPadding="5dp">
+
+                        <LinearLayout
+                            android:id="@+id/back_ll"
+                            android:layout_width="80dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="5dp"
+                            android:gravity="center|start"
+                            android:visibility="visible">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="5dp"
+                                android:src="@drawable/back_arrow_text" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="@string/messages"
+                            android:textColor="@color/colorBlue"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+                    </androidx.cardview.widget.CardView>
+                </com.google.android.material.appbar.AppBarLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/top_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ll_shopping"
+                    android:background="@color/colorGreenDark"
+                    android:padding="5dp">
+
+                    <!--<TextView-->
+                    <!--android:id="@+id/header"-->
+                    <!--style="@style/Base.TextAppearance.AppCompat.Large"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="Messages"-->
+                    <!--android:textColor="@color/colorBlue"-->
+                    <!--android:textStyle="bold" />-->
+
+
+                    <LinearLayout
+                        android:id="@+id/subject_ll"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp">
+
+
+                        <TextView
+                            android:id="@+id/subjectname"
+                            style="@style/Base.TextAppearance.AppCompat.Medium"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="end"
+                            android:textColor="@color/colorWhite" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/reply_invoice"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/subject_ll"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal">
+
+
+                        <TextView
+                            android:id="@+id/title_reply"
+                            style="@style/Base.TextAppearance.AppCompat.Medium"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Re. Invoice: "
+                            android:textColor="@color/colorWhite" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".70"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/invoice"
+                                style="@style/Base.TextAppearance.AppCompat.Medium"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorWhite" />
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/datemm"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/reply_invoice"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+
+                        <TextView
+                            android:id="@+id/datetxt"
+                            style="@style/Base.TextAppearance.AppCompat.Small"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".50"
+                            android:text="Date: MM/DD/YYYY"
+                            android:textColor="@color/colorWhite" />
+
+                        <TextView
+                            android:id="@+id/timetxt"
+                            style="@style/Base.TextAppearance.AppCompat.Small"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".50"
+                            android:text="Time: HH:mm"
+                            android:textColor="@color/colorWhite" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/datemm"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+
+                        <TextView
+                            style="@style/Base.TextAppearance.AppCompat.Small"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Store: "
+                            android:textColor="@color/colorBlue"
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:id="@+id/status"
+                            style="@style/Base.TextAppearance.AppCompat.Small"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".50"
+                            android:text="Status: "
+                            android:textColor="@color/colorWhite" />
+
+
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/top_header"
+                    android:layout_marginTop="10dp"
+                    android:padding="5dp">
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility="visible" />
+
+
+                    <TextView
+                        android:id="@+id/no_msgTxt"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="No Replies! \n \n Send Message to start chat"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                        android:visibility="gone" />
+
+                    <!--
+                                            <com.github.rahatarmanahmed.cpv.CircularProgressView xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                android:id="@+id/pocket"
+                                                android:layout_width="40dp"
+                                                android:layout_height="40dp"
+                                                android:layout_centerInParent="true"
+                                                android:visibility="visible"
+                                                app:cpv_animAutostart="true"
+                                                app:cpv_indeterminate="true" />
+                    -->
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+            <!--</ScrollView>-->
+
+            <RelativeLayout
+                android:id="@+id/bottombar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:padding="5dp">
+
+                <RelativeLayout
+                    android:id="@+id/chat_rl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="100dp">
+
+
+                    <EditText
+                        android:id="@+id/edit_msg"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_toLeftOf="@+id/imageViewAttachment"
+                        android:background="@drawable/back_round_blue_border"
+                        android:gravity="start|top"
+                        android:padding="5dp" />
+
+
+                    <ImageView
+                        android:id="@+id/imageViewAttachment"
+                        android:layout_width="?actionBarSize"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentEnd="true"
+                        android:padding="@dimen/dp_sixteen"
+                        android:src="@drawable/icon_attach" />
+
+                </RelativeLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/linearLayoutSelected"
+                    android:layout_width="match_parent"
+                    android:layout_height="72dp"
+                    android:layout_below="@+id/chat_rl"
+                    android:background="@android:color/transparent"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight=".5"
+                        android:gravity="center"
+                        android:text="@string/your_selecte_image"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/sp_sixteen"
+                        android:visibility="gone" />
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight=".3">
+
+                        <ImageView
+                            android:id="@+id/imageViewSelectedImage1"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:layout_centerInParent="true"
+                            android:layout_gravity="center"
+                            app:srcCompat="@drawable/ic_add_box_black_24dp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight=".3">
+
+                        <ImageView
+                            android:id="@+id/imageViewSelectedImage2"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:layout_centerInParent="true"
+                            android:layout_gravity="center"
+                            app:srcCompat="@drawable/ic_add_box_black_24dp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight=".3">
+
+                        <ImageView
+                            android:id="@+id/imageViewSelectedImage3"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:layout_centerInParent="true"
+                            android:layout_gravity="center"
+                            app:srcCompat="@drawable/ic_add_box_black_24dp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/relativeLayoutClose"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight=".2"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:layout_centerInParent="true"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_cancel"
+                            android:tint="@color/colorBlack" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/linearLayoutSelected"
+                    android:background="@drawable/bg_blue_radius_low">
+
+                    <Button
+                        android:id="@+id/btn_send"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_margin="5dp"
+                        android:background="@drawable/back_round_blue_border"
+                        android:padding="5dp"
+                        android:text="Send"
+                        android:textColor="@color/colorBlack" />
+
+                    <Button
+                        android:id="@+id/btn_report"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_margin="5dp"
+                        android:background="@drawable/back_round_blue_border"
+                        android:padding="5dp"
+                        android:text="Report Abuse"
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorRed" />
+
+                </RelativeLayout>
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+
+
+        <!--
+                </ScrollView>
+        -->
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

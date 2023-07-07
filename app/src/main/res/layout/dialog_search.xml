@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent">
+
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_15sdp"
+        android:layout_marginEnd="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_45sdp"
+        android:background="@android:color/transparent">
+
+
+        <RelativeLayout
+            android:layout_marginTop="@dimen/_14sdp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/card_bg_blue"
+            android:gravity="center">
+
+
+            <RelativeLayout
+                android:id="@+id/relativeLayoutFilter"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginTop="@dimen/_6sdp"
+                android:layout_marginBottom="@dimen/_6sdp"
+                android:gravity="center_vertical"
+                android:padding="@dimen/dp_4"
+                android:visibility="visible">
+
+
+                <TextView
+                    android:id="@+id/textViewFilter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/dp_4"
+                    android:fontFamily="@font/rubik_medium"
+                    android:gravity="center_vertical"
+                    android:text="@string/filter"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="15sp" />
+
+                <ImageView
+                    android:id="@+id/imageViewFilter"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/_4sdp"
+                    android:layout_marginTop="1dp"
+                    android:layout_toEndOf="@+id/textViewFilter"
+                    android:tint="@color/colorWhite"
+                    app:srcCompat="@drawable/ic_filter" />
+
+
+                <TextView
+                    android:id="@+id/textViewSearch"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_24sdp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/dp_4"
+                    android:layout_marginEnd="4dp"
+                    android:layout_toEndOf="@+id/editTextSearch"
+                    android:background="@drawable/back_round"
+                    android:fontFamily="@font/rubik_regular"
+                    android:gravity="center"
+                    android:padding="@dimen/dp_4"
+                    android:text="@string/search"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="13sp" />
+
+                <AutoCompleteTextView
+                    android:id="@+id/editTextSearch"
+                    android:layout_width="@dimen/_150sdp"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="12dp"
+                    android:layout_toEndOf="@+id/imageViewFilter"
+                    android:background="@drawable/rectangular_black_transparent_"
+                    android:fontFamily="@font/rubik_italic"
+                    android:hint="@string/enter_a_word_or_phrase_to_look_for"
+                    android:imeOptions="actionSearch"
+                    android:maxLines="1"
+                    android:paddingStart="@dimen/dp_4"
+                    android:paddingEnd="@dimen/dp_4"
+                    android:textSize="@dimen/sp_12" />
+
+            </RelativeLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+    <ImageView
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_20sdp"
+        app:srcCompat="@drawable/ic_close"
+        android:id="@+id/imageViewClose"
+        android:layout_marginTop="@dimen/_48sdp"
+        android:layout_marginEnd="@dimen/_8sdp"
+        android:layout_alignParentEnd="true"
+        />
+
+</RelativeLayout>

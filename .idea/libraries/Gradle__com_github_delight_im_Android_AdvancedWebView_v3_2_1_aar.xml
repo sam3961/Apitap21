@@ -1,0 +1,21 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.delight-im:Android-AdvancedWebView:v3.2.1@aar">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/de94b5e693553791462ed8d57c651f4b/jetified-Android-AdvancedWebView-v3.2.1/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/e91b19a3426d070b5821007414f0b0e0/jetified-Android-AdvancedWebView-v3.2.1/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/de94b5e693553791462ed8d57c651f4b/jetified-Android-AdvancedWebView-v3.2.1/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/de94b5e693553791462ed8d57c651f4b/jetified-Android-AdvancedWebView-v3.2.1/AndroidManifest.xml" />
+      <root url="file://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/de94b5e693553791462ed8d57c651f4b/jetified-Android-AdvancedWebView-v3.2.1/res" />
+      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/de94b5e693553791462ed8d57c651f4b/jetified-Android-AdvancedWebView-v3.2.1/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/de94b5e693553791462ed8d57c651f4b/jetified-Android-AdvancedWebView-v3.2.1/AndroidManifest.xml" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.delight-im/Android-AdvancedWebView/v3.2.1/3f98c7418d3f202f27942c57d4a5ca3d1d8803e3/Android-AdvancedWebView-v3.2.1-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/modules-2/files-2.1/com.github.delight-im/Android-AdvancedWebView/v3.2.1/3f98c7418d3f202f27942c57d4a5ca3d1d8803e3/Android-AdvancedWebView-v3.2.1-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.delight-im/Android-AdvancedWebView/v3.2.1/94c587c4ddff06ca496ca3824b7c3017b4de1703/Android-AdvancedWebView-v3.2.1-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/modules-2/files-2.1/com.github.delight-im/Android-AdvancedWebView/v3.2.1/94c587c4ddff06ca496ca3824b7c3017b4de1703/Android-AdvancedWebView-v3.2.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

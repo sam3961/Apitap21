@@ -1,0 +1,32 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.sharish:ShimmerRecyclerView:v1.3@aar">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/62676deeb8008955bc5a81628d3bb455/jetified-ShimmerRecyclerView-v1.3/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/62676deeb8008955bc5a81628d3bb455/jetified-ShimmerRecyclerView-v1.3/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/62676deeb8008955bc5a81628d3bb455/jetified-ShimmerRecyclerView-v1.3/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/39e8fa8271764d0f9381b7235bdbc54c/jetified-ShimmerRecyclerView-v1.3/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/39e8fa8271764d0f9381b7235bdbc54c/jetified-ShimmerRecyclerView-v1.3/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/39e8fa8271764d0f9381b7235bdbc54c/jetified-ShimmerRecyclerView-v1.3/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/02b3577163abb8bdda36159119f34be2/jetified-ShimmerRecyclerView-v1.3/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/02b3577163abb8bdda36159119f34be2/jetified-ShimmerRecyclerView-v1.3/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/02b3577163abb8bdda36159119f34be2/jetified-ShimmerRecyclerView-v1.3/AndroidManifest.xml" />
+      <root url="file://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/e31a2e72934ee5e9e8e533fe64d06408/jetified-ShimmerRecyclerView-v1.3/AndroidManifest.xml" />
+      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/e31a2e72934ee5e9e8e533fe64d06408/jetified-ShimmerRecyclerView-v1.3/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/e31a2e72934ee5e9e8e533fe64d06408/jetified-ShimmerRecyclerView-v1.3/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/2ccddbd8fc87eeb7c8450966141344c9/jetified-ShimmerRecyclerView-v1.3/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/2ccddbd8fc87eeb7c8450966141344c9/jetified-ShimmerRecyclerView-v1.3/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/2ccddbd8fc87eeb7c8450966141344c9/jetified-ShimmerRecyclerView-v1.3/AndroidManifest.xml" />
+      <root url="file://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/272e56bb88df232b21195a107d52202d/jetified-ShimmerRecyclerView-v1.3/AndroidManifest.xml" />
+      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/272e56bb88df232b21195a107d52202d/jetified-ShimmerRecyclerView-v1.3/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/272e56bb88df232b21195a107d52202d/jetified-ShimmerRecyclerView-v1.3/res" />
+      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/536011c16cb162c20618eddaa2d17cff/jetified-ShimmerRecyclerView-v1.3/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/536011c16cb162c20618eddaa2d17cff/jetified-ShimmerRecyclerView-v1.3/res" />
+      <root url="file://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/536011c16cb162c20618eddaa2d17cff/jetified-ShimmerRecyclerView-v1.3/AndroidManifest.xml" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.sharish/ShimmerRecyclerView/v1.3/136bfc429d4389879f6a40bc2ec374ea3c0223e0/ShimmerRecyclerView-v1.3-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/modules-2/files-2.1/com.github.sharish/ShimmerRecyclerView/v1.3/136bfc429d4389879f6a40bc2ec374ea3c0223e0/ShimmerRecyclerView-v1.3-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:padding="10dp"
+        android:background="@drawable/back_white_border_grey"
+        android:layout_height="wrap_content">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorBlue"
+        android:id="@+id/text"
+        style="@style/Base.TextAppearance.AppCompat.Medium"
+        android:text="You need to Register First"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            android:layout_below="@+id/text">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_weight="0.7">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text"
+                android:padding="5dp"
+                android:id="@+id/continueshoping"
+                style="@style/Base.TextAppearance.AppCompat.Small"
+                android:textColor="@android:color/white"
+                android:text="Login"
+                android:background="@drawable/rounded_bg_dblue"
+                />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:layout_weight="0.3">
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text"
+                android:id="@+id/cancel"
+                style="@style/Base.TextAppearance.AppCompat.Small"
+                android:textColor="@android:color/white"
+                android:text="Cancel"
+                android:background="@drawable/rounded_bg_dblue"
+                />
+            </LinearLayout>
+        </LinearLayout>
+
+
+
+</RelativeLayout></RelativeLayout>

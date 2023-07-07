@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+
+    <HorizontalScrollView
+        android:id="@+id/horizontal_scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:scrollbars="none">
+
+        <com.linearlistview.LinearListView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/my_gallery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:dividerPadding="2dp"
+            android:orientation="horizontal"
+            android:showDividers="none|middle|beginning|end"
+            app:dividerThickness="2dp" />
+
+
+    </HorizontalScrollView>
+
+</LinearLayout>

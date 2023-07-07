@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+       >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="7dp"
+            android:layout_marginTop="10dp"
+        >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorBlue"
+                android:textStyle="bold"
+                android:id="@+id/title"
+                style="@style/Base.TextAppearance.AppCompat.Medium"
+                android:text="Create a new Event"/>
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="10dp"
+            android:padding="10dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:background="@drawable/back_round_blue_border"
+           >
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:paddingStart="10dp"
+                android:id="@+id/name"
+                android:paddingEnd="10dp"
+                android:hint="Name an Event..."
+                android:textColor="@color/colorBlue"
+                android:background="@color/colorWhite"
+                android:singleLine="true"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:gravity="end|center"
+            android:layout_height="50dp">
+
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:id="@+id/cancel"
+                android:background="@drawable/rounded_bg_dblue"
+                android:textColor="@color/colorWhite"
+                android:text="Cancel"/>
+
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_margin="10dp"
+                android:id="@+id/add"
+                android:background="@drawable/rounded_bg_dblue"
+                android:textColor="@color/colorWhite"
+                android:text="Create"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

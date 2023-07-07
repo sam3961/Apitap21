@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/colorGrey"
+    android:fillViewport="true"
+    android:keepScreenOn="true"
+    android:layout_marginTop="@dimen/_2sdp">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingVertical="@dimen/_2sdp">
+
+
+            <ImageView
+                android:layout_width="@dimen/_34sdp"
+                android:id="@+id/imageViewBack"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:src="@drawable/back_green" />
+
+            <TextView
+                android:id="@+id/textViewTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/poppins_semibold"
+                android:text="@string/you_re_now_checked_in"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/_14ssp" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorOrangeNew"
+            android:fontFamily="@font/rubik_medium"
+            android:gravity="center"
+            android:id="@+id/textViewMerchantName"
+            android:paddingVertical="@dimen/_2sdp"
+            android:text="Welcome to\nLA Store"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/_12ssp" />
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_6sdp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/rubik_medium"
+                android:text="Game Day Deals Showcase"
+                android:textColor="@color/colorBlue"
+                android:includeFontPadding="false"
+                android:textSize="@dimen/_11ssp" />
+
+
+            <TextView
+                android:id="@+id/textViewShowAllAds"
+                style="@style/Base.TextAppearance.AppCompat.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:fontFamily="@font/rubik_medium"
+                android:gravity="center|end"
+                android:includeFontPadding="false"
+                android:text="Show All"
+                android:layout_marginEnd="@dimen/_2sdp"
+                android:textColor="@color/dark_blue"
+                android:textSize="@dimen/_11ssp" />
+        </RelativeLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/recyclerViewGameDeals"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:layout_marginHorizontal="@dimen/_4sdp"
+            tools:listitem="@layout/adapter_game_deals"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPurple"
+            android:fontFamily="@font/rubik_medium"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:paddingVertical="@dimen/_4sdp"
+            android:text="Now Playing"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/_12ssp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_6sdp"
+            android:id="@+id/receiverViewTVList"
+            android:nestedScrollingEnabled="false"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/adapter_tv_list"/>
+
+        <TextView
+            android:id="@+id/textViewNoData"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorWhite"
+            android:gravity="center"
+            android:visibility="gone"
+            android:text="No Active TV's Found"
+            android:textColor="@color/colorBlue"
+            android:textSize="22dp" />
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

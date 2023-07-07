@@ -1,0 +1,158 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/activitylayout"
+    tools:context="com.apitap.views.fragments.FragmentSettings">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/ll_shopping"
+        android:layout_width="match_parent"
+        android:layout_marginTop="2dp"
+        android:layout_height="?attr/actionBarSize"
+        android:gravity="center">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/toolBar_cardview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            card_view:cardElevation="7dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            card_view:cardCornerRadius="2dp"
+            card_view:cardBackgroundColor="@color/colorWhite"
+            card_view:contentPadding="5dp">
+
+            <LinearLayout
+                android:layout_width="100dp"
+                android:id="@+id/back_ll"
+                android:visibility="gone"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="5dp"
+                    android:src="@drawable/back_arrow_text" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/checkout"
+                android:id="@+id/titleName"
+                android:textColor="@color/colorBlue"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </androidx.cardview.widget.CardView>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_below="@+id/ll_shopping"
+        android:layout_marginEnd="2dp"
+        android:layout_marginStart="2dp"
+        android:background="@color/colorGrey"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".3"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/storeName"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_margin="2dp"
+                android:background="@drawable/back_round_blue_border"
+                android:drawableLeft="@drawable/ic_icon_fav_gray"
+                android:drawableTint="@color/colorGreenLogo"
+                android:drawablePadding="-0.5dp"
+                android:gravity="center"
+                android:maxLines="2"
+                android:padding="2.5dp"
+                android:text="Store Name"
+                android:textColor="@color/colorBlue"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight=".3"
+            android:gravity="center"
+            android:padding="5dp">
+
+
+            <com.apitap.model.customclasses.ScaleImageView
+                android:id="@+id/adstoreImg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:src="@drawable/loading" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".3"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/details_store"
+                style="@style/Base.TextAppearance.AppCompat.Small"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_margin="2dp"
+                android:background="@drawable/rounded_bg_dblue"
+                android:gravity="center"
+                android:padding="3dp"
+                android:text="View This Store's Info"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textColor="@color/colorWhite"
+                android:textSize="10sp" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_below="@+id/header"
+        >
+
+        <WebView
+            android:id="@+id/webView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+
+        <LinearLayout
+            android:id="@+id/keyboard"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:visibility="gone"
+            android:layout_weight=".05"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal" />
+
+    </LinearLayout>
+
+</RelativeLayout>

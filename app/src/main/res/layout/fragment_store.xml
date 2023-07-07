@@ -1,0 +1,324 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".views.fragments.Fragment_Store">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite">
+
+        <LinearLayout
+            android:id="@+id/linear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2.2"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="7dp"
+                    android:layout_marginRight="7dp"
+                    android:layout_marginTop="6dp"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tab_ads"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:layout_gravity="center"
+                            android:background="@color/colorWhite"
+                            android:drawableLeft="@drawable/ic_icon_ads"
+                            android:drawablePadding="10dp"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="10dp"
+                            android:text="Ads"
+                            android:textColor="#696969"
+                            android:textSize="12sp" />
+
+                        <ImageView
+                            android:id="@+id/ic_ads"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:background="@drawable/menu_arrow"
+                            android:visibility="gone" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tab_special"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:layout_gravity="center"
+                            android:background="@color/colorWhite"
+                            android:drawableLeft="@drawable/ic_icon_specials"
+                            android:drawablePadding="10dp"
+                            android:gravity="center_vertical"
+                            android:text="Promotions"
+                            android:textColor="#696969"
+                            android:textSize="12sp" />
+
+                        <ImageView
+                            android:id="@+id/ic_special"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:background="@drawable/menu_arrow"
+                            android:visibility="gone" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tab_items"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:layout_gravity="center"
+                            android:background="@color/colorWhite"
+                            android:drawableLeft="@drawable/ic_icon_items"
+                            android:drawablePadding="10dp"
+                            android:gravity="center_vertical"
+                            android:text="Products"
+                            android:textColor="#696969"
+                            android:textSize="12sp" />
+
+                        <ImageView
+                            android:id="@+id/ic_items"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:background="@drawable/menu_arrow"
+                            android:visibility="gone" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tab_saved"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:layout_gravity="center"
+                            android:background="@color/colorBlue"
+                            android:drawableLeft="@drawable/ic_icon_saved_white"
+                            android:drawablePadding="10dp"
+                            android:gravity="center_vertical"
+                            android:paddingStart="2dp"
+                            android:text="Favorites"
+                            android:textColor="#ffffff"
+                            android:textSize="12sp" />
+
+                        <ImageView
+                            android:id="@+id/ic_saved"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:background="@drawable/menu_arrow"
+                            android:visibility="visible" />
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/linfav"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/linear"
+            android:layout_marginTop="5dp"
+            android:background="@color/colorWhite"
+            android:orientation="vertical">
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/descriptions"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_margin="5dp"
+                android:layout_marginTop="3dp"
+                android:elevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="7dp"
+                    android:layout_marginRight="1dp"
+                    android:orientation="horizontal"
+                    android:padding="5dp">
+
+                    <TextView
+                        style="@android:style/TextAppearance.Medium"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight=".28"
+                        android:gravity="center_vertical"
+                        android:text="Businesses"
+                        android:textColor="@color/colorBlue"
+                        android:textSize="15dp" />
+
+                    <TextView
+                        android:id="@+id/tv_search_item"
+                        style="@android:style/TextAppearance.Small"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight=".30"
+                        android:gravity="center_vertical"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorBlack"
+                        android:visibility="gone" />
+
+                    <LinearLayout
+                        android:id="@+id/sortby"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight=".72">
+
+                        <Spinner
+                            android:id="@+id/spinner_sort"
+                            android:visibility="visible"
+                            android:prompt="@string/choose_category"
+                            android:layout_width="match_parent"
+                            android:dropDownVerticalOffset="@dimen/dp_six"
+                            android:overlapAnchor="false"
+                            android:layout_height="match_parent"
+                            android:textAlignment="center"></Spinner>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:id="@+id/title_ll"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/rounded_bg_blue"
+                android:focusable="false"
+                android:visibility="visible"
+                android:focusableInTouchMode="false">
+
+                <TextView
+                    android:id="@+id/title"
+                    style="@style/Base.TextAppearance.AppCompat.Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:maxLines="1"
+                    android:textSize="14dp"
+                    android:singleLine="true"
+                    android:text="Choose Category"
+                    android:textColor="@color/colorWhite" />
+
+
+                <Spinner
+                    android:id="@+id/spinner_sort_category"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="2dp"
+                    android:backgroundTint="@color/colorWhite"
+                    android:gravity="center"
+                    android:dropDownVerticalOffset="@dimen/dp_four"
+                    android:overlapAnchor="false"
+                    android:textAlignment="center"></Spinner>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="6dp"
+                android:background="@color/colorGrey"></LinearLayout>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:id="@+id/linearLayoutNoData"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/sp_sixteen"
+                    android:background="@drawable/back_round_green_border"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:lineSpacingExtra="@dimen/dp_four"
+                        android:padding="@dimen/dp_eight"
+                        android:text="@string/select_business"
+                        android:textColor="@color/colorBlue"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <ExpandableListView
+                    android:id="@+id/list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="7dp"
+                    android:layout_marginRight="7dp"
+                    android:layout_marginTop="6dp"
+                    android:groupIndicator="@null"
+                    android:childIndicator="@null"
+
+                    android:background="@color/colorWhite"
+                    android:visibility="gone"></ExpandableListView>
+
+                <com.github.rahatarmanahmed.cpv.CircularProgressView xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/pocket"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:visibility="visible"
+                    app:cpv_animAutostart="true"
+                    app:cpv_indeterminate="true" />
+            </FrameLayout>
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

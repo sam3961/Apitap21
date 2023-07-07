@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:gravity="center"
+    android:id="@+id/linearLayout"
+    android:background="@drawable/linearlayout_white_selector"
+    android:focusable="true">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Automotive"
+        android:layout_marginStart="6dp"
+        android:layout_marginEnd="6dp"
+        android:textSize="13sp"
+        android:id="@+id/textViewCategoryName"
+        android:fontFamily="@font/rubik_medium"
+        android:textColor="@color/colorBlack"
+        />
+
+</LinearLayout>

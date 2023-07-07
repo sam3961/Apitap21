@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/colorWhite"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:background="@color/colorWhite"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Base.TextAppearance.AppCompat.Medium"
+                android:textColor="@color/colorBlue"
+                android:textStyle="bold"
+                android:text="Remove an item from a shopping cart."/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="10dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Would you like to..."
+                android:textColor="@color/colorBlack"
+                style="@style/Base.TextAppearance.AppCompat.Medium"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingEnd="10dp"
+                android:id="@+id/remove"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".8"
+                    android:textColor="@color/colorBlue"
+                    android:gravity="end"
+                    android:textStyle="bold"
+                    android:id="@+id/txt_remove"
+                    style="@style/Base.TextAppearance.AppCompat.Medium"
+                    android:text="Remove Completely  "/>
+
+                <CheckBox
+                    android:layout_width="15dp"
+                    android:id="@+id/completely"
+                    android:button="@android:color/transparent"
+                    android:background="@drawable/custom_checkbox"
+                    android:layout_height="15dp" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingEnd="10dp"
+            android:id="@+id/save"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight=".8"
+                android:gravity="end"
+                android:textStyle="bold"
+                android:textColor="@color/colorBlue"
+                android:id="@+id/txt_save"
+                android:layout_height="wrap_content"
+                style="@style/Base.TextAppearance.AppCompat.Medium"
+                android:text="Save for Later  "/>
+
+            <CheckBox
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:id="@+id/savelater"
+                android:button="@android:color/transparent"
+                android:background="@drawable/custom_checkbox"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:gravity="end"
+            android:layout_marginTop="15dp"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_bg_dblue"
+                android:id="@+id/submit"
+                android:textColor="@color/colorWhite"
+                android:text="@string/Submit"/>
+        </LinearLayout>
+
+
+</LinearLayout>
+</LinearLayout>

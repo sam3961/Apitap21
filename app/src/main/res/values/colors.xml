@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorBlack">#000000</color>
+    <color name="colorGrey">#DBDBDB</color>
+    <color name="colorGreylight">#f4f4f4</color>
+    <color name="colorOrange">#E06000</color>
+    <color name="colorOrangeNew">#FAA500</color>
+    <color name="colorNavBackground">#1C1C1C</color>
+    <color name="colordivider">#2A2A2A</color>
+    <color name="colorRed">#ff0000</color>
+    <color name="colorBlue">#0D66CA</color>
+    <color name="cyan">#b3d8e5</color>
+    <color name="colorGreen">#1cb108</color>
+    <color name="colorGreenLight">#991CB108</color>
+    <color name="colorDarkGrey">#1a1a1a</color>
+    <color name="colorPurple">#A701C7</color>
+    <integer-array name="pocket_background_colors">
+        <item>@color/pocket_color_1</item>
+        <item>@color/pocket_color_2</item>
+        <item>@color/pocket_color_3</item>
+        <item>@color/pocket_color_4</item>
+    </integer-array>
+    <color name="pocket_color_1">#85edb9</color>
+    <color name="pocket_color_2">#34bdb7</color>
+    <color name="pocket_color_3">#ee4458</color>
+    <color name="pocket_color_4">#fcb74d</color>
+    <color name="colorDarkBackground">#303030</color>
+    <color name="gray">#EBEBEB</color>
+
+    <color name="dark_blue">#026DBB</color>
+    <color name="header_blue">#013c66</color>
+    <color name="simple_grey">#707070</color>
+    <color name="colorGrey1">#bababa</color>
+    <color name="tabgrey">#696969</color>
+    <color name="colorWhitelittle">#f9f9f9</color>
+    <color name="darkBlue">#014473</color>
+    <color name="colorGreenDark">#2e943e</color>
+    <color name="colorGreenVeryDark">#23652E</color>
+    <color name="transparent">#00000000</color>
+    <color name="colorGreenLogo">#99b945</color>
+    <color name="colorGreenDarkLogo">#80A423</color>
+
+
+</resources>

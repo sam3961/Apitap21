@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorWhite"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/ll_shopping"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@drawable/bottom_line"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"
+            android:text="@string/shopping_assistant"
+            android:textColor="@color/colorBlue"
+
+            android:textSize="18sp" />
+
+
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_below="@id/ll_shopping"
+        android:id="@+id/list_cont"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="5dp"
+            android:background="@drawable/shopping_asst_bg"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:text="Saved List"
+                android:textColor="@color/colorBlue"
+                android:textStyle="bold"
+                android:textSize="17sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/colorGrey"></LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:visibility="gone"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <ListView
+                    android:id="@+id/list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:divider="@android:color/transparent"
+                    android:dividerHeight="6dp"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"></ListView>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:visibility="gone"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/shopping_asst_bg"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_height="40dp"
+                android:layout_gravity="center_horizontal"
+                android:text="Products"
+                android:id="@+id/tvitemName"
+                android:textStyle="bold"
+                android:textColor="#FF6347"
+                android:textSize="17sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/colorGrey"></LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <ListView
+                    android:id="@+id/list_subcategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:divider="@android:color/transparent"
+                    android:dividerHeight="6dp"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"></ListView>
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_below="@+id/list_cont"
+        android:id="@+id/addminus"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+        <LinearLayout
+            android:layout_width="0dp"
+            android:gravity="end|center"
+            android:id="@+id/add_category"
+            android:layout_marginStart="2dp"
+            android:background="@drawable/shopping_asst_bggrey"
+            android:layout_weight=".5"
+            android:layout_marginEnd="10dp"
+            android:layout_height="50dp">
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_marginEnd="5dp"
+                android:src="@drawable/plus"
+                android:layout_height="40dp" />
+
+        </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/sub_category"
+        android:layout_width="0dp"
+        android:gravity="end|center"
+        android:background="@drawable/shopping_asst_bggrey"
+        android:layout_weight=".5"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="10dp"
+        android:layout_height="50dp">
+
+
+        <ImageView
+            android:layout_width="40dp"
+            android:src="@drawable/plus"
+            android:layout_marginEnd="5dp"
+            android:layout_height="40dp" />
+
+    </LinearLayout>
+    </LinearLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_marginStart="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_below="@+id/addminus"
+        android:padding="1dp"
+        android:layout_height="wrap_content">
+
+
+        <Button
+            android:id="@+id/search_favorites"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="2dp"
+            android:background="@drawable/rounded_bg_dblue"
+            android:padding="6dp"
+            android:text="Search Favourite"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+            android:textColor="@color/colorWhite" />
+
+        <Button
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_bg_dblue"
+            android:id="@+id/search_nearby"
+            android:padding="5dp"
+            android:text="Search NearBy"
+            android:layout_centerHorizontal="true"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+            android:textColor="@color/colorWhite"
+            android:layout_alignParentBottom="true"/>
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Search All Stores"
+            android:padding="5dp"
+            android:id="@+id/search_all_stores"
+            android:background="@drawable/rounded_bg_dblue"
+            android:layout_alignParentEnd="true"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+            android:textColor="@color/colorWhite"
+            android:layout_alignParentBottom="true"/>
+
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:visibility="gone"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorWhite"
+        android:id="@+id/hbv"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/rounded_bg_blue"
+            android:layout_weight="1">
+        <TextView
+            android:id="@+id/search_favoritess"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="Search Favorites"
+            android:textColor="@color/colorBlue"
+            android:textSize="12sp" />
+        </LinearLayout>
+        <!--<LinearLayout-->
+            <!--android:layout_width="1dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:background="@color/colorGrey"-->
+            <!--/>-->
+
+        <TextView
+            android:id="@+id/search_nearbys"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="bottom|center_horizontal"
+            android:paddingBottom="7dp"
+            android:text="Search NearBy"
+            android:drawableTop="@drawable/ic_search"
+            android:textColor="@color/colorBlue"
+            android:textSize="12sp" />
+
+        <LinearLayout
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/colorGrey"
+            />
+        <TextView
+            android:id="@+id/search_all_storess"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/ic_search"
+            android:gravity="bottom|center_horizontal"
+            android:paddingBottom="7dp"
+            android:text="Search All Stores"
+            android:textColor="@color/colorBlue"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+
+    <com.github.rahatarmanahmed.cpv.CircularProgressView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/pocket"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        app:cpv_animAutostart="true"
+        app:cpv_indeterminate="true" />
+
+</RelativeLayout>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/rootLayout"
+    android:background="@color/colorBlue"
+    android:descendantFocusability="blocksDescendants"
+    >
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:layout_marginStart="26dp"
+        android:id="@+id/inside_ll"
+        android:visibility="visible"
+        android:clickable="false"
+        android:focusable="false"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Dogs"
+            android:id="@+id/type"
+            android:clickable="false"
+            android:layout_gravity="center|start"
+            android:focusable="false"
+            android:visibility="visible"
+            android:gravity="center|start"
+            android:textColor="@color/colorWhite"
+            android:textSize="16dp"/>
+
+    </LinearLayout>
+
+</LinearLayout>

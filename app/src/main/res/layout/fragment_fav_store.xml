@@ -1,0 +1,150 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".views.fragments.Fragment_Store">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorGrey">
+
+
+
+        <LinearLayout
+            android:id="@+id/linfav"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/linear"
+            android:layout_marginTop="5dp"
+            android:background="@color/colorGrey"
+            android:orientation="vertical">
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/descriptions"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_margin="5dp"
+                android:layout_marginTop="3dp"
+                android:elevation="4dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="1dp"
+                    android:orientation="horizontal"
+                    android:padding="5dp">
+
+                    <TextView
+                        style="@android:style/TextAppearance.Small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textStyle="bold"
+                        android:id="@+id/back"
+                        android:layout_alignParentStart="true"
+                        android:gravity="center_vertical"
+                        android:text="Back"
+                        android:textColor="@color/colorBlue" />
+                    <TextView
+                        android:id="@+id/tv_search_item"
+                        style="@android:style/TextAppearance.Small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textAlignment="center"
+                        android:layout_centerInParent="true"
+                        android:visibility="visible"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorBlue"
+                        android:text="Search Results:"
+                        android:gravity="center_vertical"
+                        />
+                    <LinearLayout
+                        android:id="@+id/sortby"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:visibility="invisible"
+                        android:layout_alignParentEnd="true"
+                        android:layout_toEndOf="@+id/tv_search_item"
+                        android:layout_weight=".40">
+
+                        <Spinner
+                            android:id="@+id/spinner_sort"
+                            android:visibility="visible"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"></Spinner>
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginEnd="5dp"
+                android:id="@+id/title_ll"
+                android:visibility="gone"
+                android:focusableInTouchMode="false"
+                android:layout_marginTop="5dp"
+                android:focusable="false"
+                android:background="@drawable/rounded_bg_blue">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight=".8"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorWhite"
+                    android:text="Title"
+                    android:id="@+id/title"
+                    android:layout_marginStart="10dp"
+                    android:layout_gravity="center"
+                    style="@style/Base.TextAppearance.AppCompat.Medium"/>
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ListView
+                    android:id="@+id/recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorWhite"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"/>
+
+                <com.github.rahatarmanahmed.cpv.CircularProgressView xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/pocket"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:visibility="visible"
+                    android:layout_marginTop="200dp"
+                    app:cpv_animAutostart="true"
+                    app:cpv_indeterminate="true" />
+            </FrameLayout>
+                <ListView
+                    android:id="@+id/recycler_special"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:background="@color/colorWhite"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"/>
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

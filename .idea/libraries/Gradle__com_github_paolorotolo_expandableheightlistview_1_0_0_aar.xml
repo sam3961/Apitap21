@@ -1,0 +1,18 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.paolorotolo:expandableheightlistview:1.0.0@aar">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/f41e3a417dfcaf00210ceee79d2c0637/jetified-expandableheightlistview-1.0.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/871c7ec1ed5197b7726713ea321971eb/jetified-expandableheightlistview-1.0.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/f41e3a417dfcaf00210ceee79d2c0637/jetified-expandableheightlistview-1.0.0/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/f41e3a417dfcaf00210ceee79d2c0637/jetified-expandableheightlistview-1.0.0/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/f41e3a417dfcaf00210ceee79d2c0637/jetified-expandableheightlistview-1.0.0/res" />
+      <root url="file://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/f41e3a417dfcaf00210ceee79d2c0637/jetified-expandableheightlistview-1.0.0/AndroidManifest.xml" />
+      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/f41e3a417dfcaf00210ceee79d2c0637/jetified-expandableheightlistview-1.0.0/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.paolorotolo/expandableheightlistview/1.0.0/d1c243f8c4b741842b7b07c76af5ff856a989013/expandableheightlistview-1.0.0-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/modules-2/files-2.1/com.github.paolorotolo/expandableheightlistview/1.0.0/d1c243f8c4b741842b7b07c76af5ff856a989013/expandableheightlistview-1.0.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
