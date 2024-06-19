@@ -1,17 +1,11 @@
 <component name="libraryTable">
-  <library name="Gradle: com.google.firebase:firebase-core:20.0.2@aar">
+  <library name="Gradle: com.google.firebase:firebase-core:20.0.2@aar" external-system-id="GRADLE">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/f9a8f8724632489b8db23f51b3634ea0/jetified-firebase-core-20.0.2/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/0894c6f4bc079b5bdb85af94f2d37b72/jetified-firebase-core-20.0.2/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/f9a8f8724632489b8db23f51b3634ea0/jetified-firebase-core-20.0.2/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/f9a8f8724632489b8db23f51b3634ea0/jetified-firebase-core-20.0.2/AndroidManifest.xml" />
-      <root url="file://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/f9a8f8724632489b8db23f51b3634ea0/jetified-firebase-core-20.0.2/res" />
-      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/f9a8f8724632489b8db23f51b3634ea0/jetified-firebase-core-20.0.2/jars/classes.jar!/" />
-      <root url="file://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/f9a8f8724632489b8db23f51b3634ea0/jetified-firebase-core-20.0.2/AndroidManifest.xml" />
+      <root url="file://$PROJECT_DIR$/../../../Ubuntu/Android/Sdk/caches/transforms-2/files-2.1/02e080e9ae616693b7c03e6e3c9a59e1/jetified-firebase-core-20.0.2/AndroidManifest.xml" />
+      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/Android/Sdk/caches/transforms-2/files-2.1/02e080e9ae616693b7c03e6e3c9a59e1/jetified-firebase-core-20.0.2/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.firebase/firebase-core/20.0.2/ace98f39b262c59be4be4d52b871d1ba5dfff723/firebase-core-20.0.2-javadoc.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/modules-2/files-2.1/com.google.firebase/firebase-core/20.0.2/ace98f39b262c59be4be4d52b871d1ba5dfff723/firebase-core-20.0.2-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/Android/Sdk/caches/modules-2/files-2.1/com.google.firebase/firebase-core/20.0.2/ace98f39b262c59be4be4d52b871d1ba5dfff723/firebase-core-20.0.2-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES />
   </library>

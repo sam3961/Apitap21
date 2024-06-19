@@ -1,17 +1,11 @@
 <component name="libraryTable">
-  <library name="Gradle: com.google.firebase:firebase-installations-interop:17.0.0@aar">
+  <library name="Gradle: com.google.firebase:firebase-installations-interop:17.0.0@aar" external-system-id="GRADLE">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/dca77cea0d2aebf2aa3bff33f2a858e0/jetified-firebase-installations-interop-17.0.0/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/29d1a0b0f03b670e1ca069bbde5d0f5f/jetified-firebase-installations-interop-17.0.0/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/dca77cea0d2aebf2aa3bff33f2a858e0/jetified-firebase-installations-interop-17.0.0/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/dca77cea0d2aebf2aa3bff33f2a858e0/jetified-firebase-installations-interop-17.0.0/AndroidManifest.xml" />
-      <root url="file://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/dca77cea0d2aebf2aa3bff33f2a858e0/jetified-firebase-installations-interop-17.0.0/res" />
-      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/dca77cea0d2aebf2aa3bff33f2a858e0/jetified-firebase-installations-interop-17.0.0/jars/classes.jar!/" />
-      <root url="file://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/dca77cea0d2aebf2aa3bff33f2a858e0/jetified-firebase-installations-interop-17.0.0/AndroidManifest.xml" />
+      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/Android/Sdk/caches/transforms-2/files-2.1/4c4075f7eb81d6a52bc03987f6241192/jetified-firebase-installations-interop-17.0.0/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../../../Ubuntu/Android/Sdk/caches/transforms-2/files-2.1/4c4075f7eb81d6a52bc03987f6241192/jetified-firebase-installations-interop-17.0.0/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.firebase/firebase-installations-interop/17.0.0/ac6ab4866e0eefc2f4aa88b449b5c615939c3545/firebase-installations-interop-17.0.0-javadoc.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/modules-2/files-2.1/com.google.firebase/firebase-installations-interop/17.0.0/ac6ab4866e0eefc2f4aa88b449b5c615939c3545/firebase-installations-interop-17.0.0-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/Android/Sdk/caches/modules-2/files-2.1/com.google.firebase/firebase-installations-interop/17.0.0/ac6ab4866e0eefc2f4aa88b449b5c615939c3545/firebase-installations-interop-17.0.0-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES />
   </library>

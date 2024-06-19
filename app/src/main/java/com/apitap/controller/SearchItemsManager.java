@@ -51,6 +51,9 @@ public class SearchItemsManager {
     }
 
 
+    public void imageSearch(Context context, String params, int key) {
+        new ExecuteSearchImageApi(context, key).execute(params);
+    }
 
     private class ExecuteApiProducts extends AsyncTask<String, String, String> {
         private int key;
@@ -224,5 +227,73 @@ public class SearchItemsManager {
     }
 
 
+
+    private class ExecuteSearchImageApi extends AsyncTask<String, String, String> {
+
+        Context context;
+        int key;
+
+        public ExecuteSearchImageApi(Context context, int key) {
+            this.context = context;
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            return Client.Caller(params[0]);
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            Log.e("Search Results: ", "" + s);
+
+            JSONObject jsonObjectMain = null;
+            boolean isResult = false;
+            try {
+                jsonObjectMain = new JSONObject(s);
+                JSONArray mainArray = jsonObjectMain.getJSONArray("RESULT");
+                JSONObject jobj = mainArray.getJSONObject(0);
+                JSONArray imgeArray = jobj.getJSONArray("RESULT");
+                itemsData = new HashMap<>();
+                JSONObject imgObj1 = imgeArray.getJSONObject(0);
+                if (imgObj1.has("_114_53")) {
+                    for (int j = 0; j < imgeArray.length(); j++) {
+                        JSONObject imgObj = imgeArray.getJSONObject(j);
+                        String categoryName = imgObj.getString("_114_53");
+                        JSONArray pcArr = imgObj.getJSONArray("PC");
+                        if (pcArr.length() > 0) {
+                            ArrayList<SearchBean> urlArr = new ArrayList<>();
+                            isResult = true;
+                            for (int k = 0; k < pcArr.length(); k++) {
+                                JSONObject object = pcArr.getJSONObject(k);
+                                SearchBean bean = new SearchBean();
+                                bean.setImageUrls(ATPreferences.readString(context, Constants.KEY_IMAGE_URL) + "_t_" + object.getString("_121_170"));
+                                bean.setProductId(object.getString("_114_144"));
+                                bean.setProdcutType(object.getString("_114_112"));
+                                bean.setProductName(object.getString("_120_83"));
+                                bean.setCategoryName(categoryName);
+                                bean.setIsFavorite(object.getString("_121_80"));
+                                bean.setSellerName(Utils.hexToASCII(object.getString("_120_83")));
+                                bean.setIsSeen(object.getString("_114_9"));
+                                Log.d("setIsSeens", object.getString("_114_9"));
+                                bean.setActualPrice(object.getString("_114_98"));
+                                bean.setPriceAfterDiscount(object.getString("_122_158"));
+                                bean.setDescription("");
+                                urlArr.add(bean);
+                            }
+                            itemsData.put(j, urlArr);
+                        }
+                    }
+                    if (isResult)
+                        EventBus.getDefault().post(new Event(Constants.SEARCH_ITEM_SUCCESS, ""));
+                } else
+                    EventBus.getDefault().post(new Event(Constants.SEARCH_ITEM_SUCCESS_Empty, ""));
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 }

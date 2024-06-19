@@ -1,43 +1,17 @@
 <component name="libraryTable">
-  <library name="Gradle: com.google.android.exoplayer:exoplayer-hls:2.7.0@aar">
+  <library name="Gradle: com.google.android.exoplayer:exoplayer-hls:2.7.0@aar" external-system-id="GRADLE">
     <ANNOTATIONS>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/7172f9a2755289515314dbc258c61d43/jetified-exoplayer-hls-2.7.0/annotations.zip!/" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/9692d0c77f5686c43049285dac207d8c/jetified-exoplayer-hls-2.7.0/annotations.zip!/" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/faaee02adac0b92d12506f988269fedb/jetified-exoplayer-hls-2.7.0/annotations.zip!/" />
-      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/16fdcfe1ae102f787db6d4ad1fa85a04/jetified-exoplayer-hls-2.7.0/annotations.zip!/" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/2de0bceb885420703f700972c4a10bd6/jetified-exoplayer-hls-2.7.0/annotations.zip!/" />
-      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/de5d21aace779ed15ec345057d836970/jetified-exoplayer-hls-2.7.0/annotations.zip!/" />
-      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/10a3424cb8bb7b97ece4941b4a1e37a7/jetified-exoplayer-hls-2.7.0/annotations.zip!/" />
+      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/Android/Sdk/caches/transforms-2/files-2.1/ffb0903522ce2d83d66e74d78e791e6b/jetified-exoplayer-hls-2.7.0/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/7172f9a2755289515314dbc258c61d43/jetified-exoplayer-hls-2.7.0/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/0ae52a09568f0f5f6cd0ae6d002c5165/jetified-exoplayer-hls-2.7.0/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/7172f9a2755289515314dbc258c61d43/jetified-exoplayer-hls-2.7.0/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/7172f9a2755289515314dbc258c61d43/jetified-exoplayer-hls-2.7.0/AndroidManifest.xml" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/9692d0c77f5686c43049285dac207d8c/jetified-exoplayer-hls-2.7.0/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/9692d0c77f5686c43049285dac207d8c/jetified-exoplayer-hls-2.7.0/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/9692d0c77f5686c43049285dac207d8c/jetified-exoplayer-hls-2.7.0/AndroidManifest.xml" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/faaee02adac0b92d12506f988269fedb/jetified-exoplayer-hls-2.7.0/AndroidManifest.xml" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/faaee02adac0b92d12506f988269fedb/jetified-exoplayer-hls-2.7.0/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/faaee02adac0b92d12506f988269fedb/jetified-exoplayer-hls-2.7.0/res" />
-      <root url="file://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/16fdcfe1ae102f787db6d4ad1fa85a04/jetified-exoplayer-hls-2.7.0/res" />
-      <root url="file://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/16fdcfe1ae102f787db6d4ad1fa85a04/jetified-exoplayer-hls-2.7.0/AndroidManifest.xml" />
-      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/16fdcfe1ae102f787db6d4ad1fa85a04/jetified-exoplayer-hls-2.7.0/jars/classes.jar!/" />
-      <root url="file://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/8ecd060d4191f4ab20b862df99a6d222/jetified-exoplayer-hls-2.7.0/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/2de0bceb885420703f700972c4a10bd6/jetified-exoplayer-hls-2.7.0/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/2de0bceb885420703f700972c4a10bd6/jetified-exoplayer-hls-2.7.0/AndroidManifest.xml" />
-      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/de5d21aace779ed15ec345057d836970/jetified-exoplayer-hls-2.7.0/jars/classes.jar!/" />
-      <root url="file://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/de5d21aace779ed15ec345057d836970/jetified-exoplayer-hls-2.7.0/AndroidManifest.xml" />
-      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/10a3424cb8bb7b97ece4941b4a1e37a7/jetified-exoplayer-hls-2.7.0/jars/classes.jar!/" />
-      <root url="file://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/10a3424cb8bb7b97ece4941b4a1e37a7/jetified-exoplayer-hls-2.7.0/AndroidManifest.xml" />
+      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/Android/Sdk/caches/transforms-2/files-2.1/ffb0903522ce2d83d66e74d78e791e6b/jetified-exoplayer-hls-2.7.0/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../../../Ubuntu/Android/Sdk/caches/transforms-2/files-2.1/ffb0903522ce2d83d66e74d78e791e6b/jetified-exoplayer-hls-2.7.0/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.android.exoplayer/exoplayer-hls/2.7.0/343c970c3d722f65ce7152861b4f6d2a1d93b32d/exoplayer-hls-2.7.0-javadoc.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/modules-2/files-2.1/com.google.android.exoplayer/exoplayer-hls/2.7.0/343c970c3d722f65ce7152861b4f6d2a1d93b32d/exoplayer-hls-2.7.0-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/Android/Sdk/caches/modules-2/files-2.1/com.google.android.exoplayer/exoplayer-hls/2.7.0/343c970c3d722f65ce7152861b4f6d2a1d93b32d/exoplayer-hls-2.7.0-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.android.exoplayer/exoplayer-hls/2.7.0/f44e516815e4d9dd58a3de7955ef83f8d683533b/exoplayer-hls-2.7.0-sources.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/modules-2/files-2.1/com.google.android.exoplayer/exoplayer-hls/2.7.0/f44e516815e4d9dd58a3de7955ef83f8d683533b/exoplayer-hls-2.7.0-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/Android/Sdk/caches/modules-2/files-2.1/com.google.android.exoplayer/exoplayer-hls/2.7.0/f44e516815e4d9dd58a3de7955ef83f8d683533b/exoplayer-hls-2.7.0-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

@@ -12,7 +12,9 @@ import androidx.fragment.app.Fragment;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
+import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.LinkMovementMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,6 +23,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -55,6 +58,9 @@ import org.greenrobot.eventbus.Subscribe;
 
 public class FragmentLogin extends BaseFragment implements View.OnClickListener {
     EditText editEmail, editPassword;
+    ImageView imageViewHideShowPass;
+
+    private boolean isPasswordVisible = false;
     Activity mActivity;
     TextView forgot_password, policy;
     private CheckBox checkBox;
@@ -91,10 +97,12 @@ public class FragmentLogin extends BaseFragment implements View.OnClickListener 
         v.findViewById(R.id.login).setOnClickListener(this);
         v.findViewById(R.id.txtForgotPassword).setOnClickListener(this);
         v.findViewById(R.id.create_password).setOnClickListener(this);
+        v.findViewById(R.id.imageViewHideShowPass).setOnClickListener(this);
     }
 
     private void initViews(View v) {
         editEmail = (EditText) v.findViewById(R.id.editEmail);
+        imageViewHideShowPass =  v.findViewById(R.id.imageViewHideShowPass);
         editPassword = (EditText) v.findViewById(R.id.editPassword);
         forgot_password = (TextView) v.findViewById(R.id.create_password);
         policy = (TextView) v.findViewById(R.id.policy);
@@ -223,6 +231,9 @@ public class FragmentLogin extends BaseFragment implements View.OnClickListener 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.imageViewHideShowPass:
+                togglePasswordVisibility();
+                break;
             case R.id.login:
                 String email = editEmail.getText().toString();
                 String password = editPassword.getText().toString();
@@ -241,5 +252,20 @@ public class FragmentLogin extends BaseFragment implements View.OnClickListener 
                 startActivity(new Intent(getContext(), ForgotPasswordActivity.class).putExtra("title", "Create Password"));
                 break;
         }
+    }
+
+    private void togglePasswordVisibility() {
+        if (isPasswordVisible) {
+            // Hide the password
+            editPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+            imageViewHideShowPass.setImageResource(R.drawable.ic_hide_pass);
+        } else {
+            // Show the password
+            editPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+            imageViewHideShowPass.setImageResource(R.drawable.ic_show_pass);
+        }
+        // Move the cursor to the end of the text
+        editPassword.setSelection(editPassword.getText().length());
+        isPasswordVisible = !isPasswordVisible;
     }
 }

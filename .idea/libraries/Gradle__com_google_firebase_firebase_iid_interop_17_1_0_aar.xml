@@ -1,16 +1,11 @@
 <component name="libraryTable">
-  <library name="Gradle: com.google.firebase:firebase-iid-interop:17.1.0@aar">
+  <library name="Gradle: com.google.firebase:firebase-iid-interop:17.1.0@aar" external-system-id="GRADLE">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/76c216896978ce9c2aa1831ad3c2545d/jetified-firebase-iid-interop-17.1.0/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/a9584cc1a3f225f4015642f0cded1f06/jetified-firebase-iid-interop-17.1.0/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/76c216896978ce9c2aa1831ad3c2545d/jetified-firebase-iid-interop-17.1.0/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/76c216896978ce9c2aa1831ad3c2545d/jetified-firebase-iid-interop-17.1.0/AndroidManifest.xml" />
-      <root url="file://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/76c216896978ce9c2aa1831ad3c2545d/jetified-firebase-iid-interop-17.1.0/res" />
-      <root url="file://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/76c216896978ce9c2aa1831ad3c2545d/jetified-firebase-iid-interop-17.1.0/AndroidManifest.xml" />
-      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/76c216896978ce9c2aa1831ad3c2545d/jetified-firebase-iid-interop-17.1.0/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../../../Ubuntu/Android/Sdk/caches/transforms-2/files-2.1/a270ccbe66f3e9ad17f2bafc0f078215/jetified-firebase-iid-interop-17.1.0/AndroidManifest.xml" />
+      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/Android/Sdk/caches/transforms-2/files-2.1/a270ccbe66f3e9ad17f2bafc0f078215/jetified-firebase-iid-interop-17.1.0/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/modules-2/files-2.1/com.google.firebase/firebase-iid-interop/17.1.0/7fad4ae6f5c2016d5c7babbbf020b6ac08a9cb08/firebase-iid-interop-17.1.0-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/Android/Sdk/caches/modules-2/files-2.1/com.google.firebase/firebase-iid-interop/17.1.0/7fad4ae6f5c2016d5c7babbbf020b6ac08a9cb08/firebase-iid-interop-17.1.0-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES />
   </library>

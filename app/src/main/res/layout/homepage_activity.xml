@@ -52,7 +52,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:paddingEnd="12dp"
+                    android:paddingEnd="@dimen/_6sdp"
                     app:srcCompat="@drawable/ic_baseline_home_24"
                     app:tint="@android:color/black" />
 
@@ -61,19 +61,29 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_gravity="center"
-                    android:layout_marginStart="@dimen/_6sdp"
+                    android:layout_marginStart="@dimen/_4sdp"
                     android:padding="@dimen/_1sdp"
                     android:src="@drawable/ic_icon_search"
                     app:tint="@android:color/black" />
 
                 <ImageView
-                    android:layout_width="@dimen/_20sdp"
-                    android:layout_height="@dimen/_20sdp"
-                    android:layout_gravity="center_vertical"
+                    android:id="@+id/imageViewScan"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/ic_icon_menu"
+                    android:visibility="gone"
+                    android:layout_gravity="center"
+                    app:tint="@color/colorBlack"/>
+
+                <ImageView
                     android:id="@+id/imageViewCollapseSearch"
+                    android:layout_width="@dimen/_22sdp"
+                    android:layout_height="@dimen/_22sdp"
+                    android:layout_gravity="center_vertical"
                     android:paddingStart="@dimen/_8sdp"
                     android:visibility="gone"
-                    app:srcCompat="@drawable/ic_arrow_back_ios"/>
+                    app:srcCompat="@drawable/ic_arrow_back_ios" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -108,35 +118,35 @@
 
             <include
                 android:id="@+id/view_search"
-                layout="@layout/view_search"
-                />
+                layout="@layout/view_search" />
+
             <LinearLayout
+                android:id="@+id/llTabs"
                 android:layout_width="match_parent"
                 android:layout_height="38dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:visibility="visible"
-                android:id="@+id/llTabs"
                 android:weightSum="3">
 
                 <LinearLayout
+                    android:id="@+id/linearLayoutBusiness"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:layout_marginHorizontal="@dimen/_2sdp"
                     android:layout_weight="1.1"
                     android:gravity="center"
-                    android:layout_marginHorizontal="@dimen/_2sdp"
-                    android:paddingHorizontal="@dimen/_6sdp"
-                    android:id="@+id/linearLayoutBusiness"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="@dimen/_6sdp">
 
                     <ImageView
                         android:id="@+id/imageViewBusiness"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:focusable="false"
-                        android:clickable="false"
                         android:layout_marginEnd="@dimen/_4sdp"
+                        android:clickable="false"
+                        android:focusable="false"
                         android:focusableInTouchMode="false"
                         android:src="@drawable/ic_icon_store" />
 
@@ -144,66 +154,66 @@
                         android:id="@+id/textViewBusiness1"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
+                        android:clickable="false"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
                         android:gravity="center"
                         android:text="@string/business"
-                        android:focusableInTouchMode="false"
-                        android:focusable="false"
-                        android:clickable="false"
                         android:textSize="@dimen/_9ssp" />
 
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/linearLayoutAds"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.80"
                     android:gravity="center"
-                    android:paddingHorizontal="@dimen/_6sdp"
-                    android:id="@+id/linearLayoutAds"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="@dimen/_6sdp">
 
                     <ImageView
+                        android:id="@+id/imageViewAds"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:layout_marginEnd="@dimen/_4sdp"
+                        android:clickable="false"
                         android:focusable="false"
                         android:focusableInTouchMode="false"
-                        android:clickable="false"
-                        android:layout_marginEnd="@dimen/_4sdp"
-                        android:id="@+id/imageViewAds"
                         android:src="@drawable/ic_icon_ads" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/textViewAds1"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:focusableInTouchMode="false"
-                        android:focusable="false"
                         android:clickable="false"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:gravity="center"
                         android:text="@string/ads"
                         android:textSize="@dimen/_9ssp" />
 
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/linearLayoutPromotions"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1.1"
                     android:gravity="center"
-                    android:paddingHorizontal="@dimen/_4sdp"
-                    android:id="@+id/linearLayoutPromotions"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="@dimen/_4sdp">
 
                     <ImageView
+                        android:id="@+id/imageViewPromotions"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:focusable="false"
-                        android:clickable="false"
                         android:layout_marginEnd="@dimen/_4sdp"
+                        android:clickable="false"
+                        android:focusable="false"
                         android:focusableInTouchMode="false"
-                        android:id="@+id/imageViewPromotions"
                         android:src="@drawable/ic_icon_specials" />
 
 
@@ -211,10 +221,10 @@
                         android:id="@+id/textViewPromotions1"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:focusableInTouchMode="false"
-                        android:focusable="false"
                         android:clickable="false"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:gravity="center"
                         android:text="@string/promotions"
                         android:textSize="@dimen/_9ssp" />
 
@@ -339,7 +349,6 @@
         </LinearLayout>
 
 
-
         <include
             android:id="@+id/header"
             layout="@layout/view_storefront_header"
@@ -372,13 +381,13 @@
 
         <include
             android:id="@+id/view_checkin"
-            android:visibility="gone"
-            layout="@layout/view_store_checkin_header"/>
+            layout="@layout/view_store_checkin_header"
+            android:visibility="gone" />
 
         <include
             android:id="@+id/view_store_reservation"
-            android:visibility="gone"
-            layout="@layout/view_store_reservation"/>
+            layout="@layout/view_store_reservation"
+            android:visibility="gone" />
 
         <!--  <ScrollView
               android:layout_width="match_parent"

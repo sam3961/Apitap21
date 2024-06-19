@@ -636,8 +636,10 @@ public class MerchantStoresManager {
                                         favouriteResponseTemp.getRESULT().get(0).getJsonMember11470() != null) {
                                     storeFavouriteModel = new Gson().fromJson(jsonObject1.toString(), StoreFavouriteResponse.class);
                                     EventBus.getDefault().post(new Event(Constants.STORE_FRONT_FAVOURITE, true));
-                                } else
+                                } else {
+                                    storeFavouriteModel = null;
                                     EventBus.getDefault().post(new Event(Constants.STORE_FRONT_FAVOURITE, false));
+                                }
 
                                 break;
 

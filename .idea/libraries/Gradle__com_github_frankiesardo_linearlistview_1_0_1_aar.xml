@@ -1,20 +1,15 @@
 <component name="libraryTable">
-  <library name="Gradle: com.github.frankiesardo:linearlistview:1.0.1@aar">
+  <library name="Gradle: com.github.frankiesardo:linearlistview:1.0.1@aar" external-system-id="GRADLE">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/80134ec8f05cd9e6604fdc65b132d263/jetified-linearlistview-1.0.1/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/80134ec8f05cd9e6604fdc65b132d263/jetified-linearlistview-1.0.1/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/80134ec8f05cd9e6604fdc65b132d263/jetified-linearlistview-1.0.1/AndroidManifest.xml" />
-      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/80134ec8f05cd9e6604fdc65b132d263/jetified-linearlistview-1.0.1/jars/classes.jar!/" />
-      <root url="file://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/80134ec8f05cd9e6604fdc65b132d263/jetified-linearlistview-1.0.1/res" />
-      <root url="file://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/80134ec8f05cd9e6604fdc65b132d263/jetified-linearlistview-1.0.1/AndroidManifest.xml" />
+      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/Android/Sdk/caches/transforms-2/files-2.1/70a648667f20b0973ab04ff01554e2da/jetified-linearlistview-1.0.1/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../../../Ubuntu/Android/Sdk/caches/transforms-2/files-2.1/70a648667f20b0973ab04ff01554e2da/jetified-linearlistview-1.0.1/res" />
+      <root url="file://$PROJECT_DIR$/../../../Ubuntu/Android/Sdk/caches/transforms-2/files-2.1/70a648667f20b0973ab04ff01554e2da/jetified-linearlistview-1.0.1/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.frankiesardo/linearlistview/1.0.1/43766b389c646c495feb5fb3fe6182f89b89408f/linearlistview-1.0.1-javadoc.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/modules-2/files-2.1/com.github.frankiesardo/linearlistview/1.0.1/43766b389c646c495feb5fb3fe6182f89b89408f/linearlistview-1.0.1-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/Android/Sdk/caches/modules-2/files-2.1/com.github.frankiesardo/linearlistview/1.0.1/43766b389c646c495feb5fb3fe6182f89b89408f/linearlistview-1.0.1-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.frankiesardo/linearlistview/1.0.1/5be15384564fd40afb61f9fb63a25a1472b7a56a/linearlistview-1.0.1-sources.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/modules-2/files-2.1/com.github.frankiesardo/linearlistview/1.0.1/5be15384564fd40afb61f9fb63a25a1472b7a56a/linearlistview-1.0.1-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/Android/Sdk/caches/modules-2/files-2.1/com.github.frankiesardo/linearlistview/1.0.1/5be15384564fd40afb61f9fb63a25a1472b7a56a/linearlistview-1.0.1-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

@@ -12,6 +12,8 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +22,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
@@ -50,6 +53,10 @@ public class FragmentSignup extends BaseFragment implements View.OnClickListener
     Activity mActivity;
     Spinner mSpinner;
     EditText mFirstName, mLastName, mEmail, mPassword, mConfirm_Password;
+    ImageView imageViewHideShowPass, imageViewHideShowConfirmPass;
+    private boolean isPasswordVisible = false;
+    private boolean isConfirmPasswordVisible = false;
+
     String gender = "51";
     LinearLayout rootLayout;
     EditText editTextDOB;
@@ -68,6 +75,8 @@ public class FragmentSignup extends BaseFragment implements View.OnClickListener
 
     private void initViews(View v) {
         mFirstName = v.findViewById(R.id.first_name);
+        imageViewHideShowPass = v.findViewById(R.id.imageViewHideShowPass);
+        imageViewHideShowConfirmPass = v.findViewById(R.id.imageViewHideShowConfirmPass);
         mLastName = v.findViewById(R.id.second_name);
         mEmail = v.findViewById(R.id.email);
         mPassword = v.findViewById(R.id.password);
@@ -79,6 +88,8 @@ public class FragmentSignup extends BaseFragment implements View.OnClickListener
 
     private void setListeners(View v) {
         v.findViewById(R.id.create_account).setOnClickListener(this);
+        v.findViewById(R.id.imageViewHideShowPass).setOnClickListener(this);
+        v.findViewById(R.id.imageViewHideShowConfirmPass).setOnClickListener(this);
         v.findViewById(R.id.editTextDOB).setOnClickListener(this);
         mSpinner.setOnItemSelectedListener(this);
     }
@@ -180,6 +191,12 @@ public class FragmentSignup extends BaseFragment implements View.OnClickListener
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.imageViewHideShowConfirmPass:
+                toggleConfirmPasswordVisibility();
+                break;
+            case R.id.imageViewHideShowPass:
+                togglePasswordVisibility();
+                break;
             case R.id.editTextDOB:
                 showDatePicker();
                 break;
@@ -234,8 +251,8 @@ public class FragmentSignup extends BaseFragment implements View.OnClickListener
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
         month = month + 1;
-        String monthValue = "";
-        String dayValue = "";
+        String monthValue = String.valueOf(month);
+        String dayValue = String.valueOf(day);
 
         if (String.valueOf(month).length() == 1)
             monthValue = "0" + month;
@@ -244,7 +261,37 @@ public class FragmentSignup extends BaseFragment implements View.OnClickListener
             dayValue = "0" + day;
 
         Log.d("onDateSet", month + "/" + day + "/" + year);
-        editTextDOB.setText(year+"/"+monthValue+"/"+dayValue);
+        editTextDOB.setText(year + "/" + monthValue + "/" + dayValue);
 
+    }
+
+    private void togglePasswordVisibility() {
+        if (isPasswordVisible) {
+            // Hide the password
+            mPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+            imageViewHideShowPass.setImageResource(R.drawable.ic_hide_pass);
+        } else {
+            // Show the password
+            mPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+            imageViewHideShowPass.setImageResource(R.drawable.ic_show_pass);
+        }
+        // Move the cursor to the end of the text
+        mPassword.setSelection(mPassword.getText().length());
+        isPasswordVisible = !isPasswordVisible;
+    }
+
+    private void toggleConfirmPasswordVisibility() {
+        if (isConfirmPasswordVisible) {
+            // Hide the password
+            mConfirm_Password.setTransformationMethod(PasswordTransformationMethod.getInstance());
+            imageViewHideShowConfirmPass.setImageResource(R.drawable.ic_hide_pass);
+        } else {
+            // Show the password
+            mConfirm_Password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+            imageViewHideShowConfirmPass.setImageResource(R.drawable.ic_show_pass);
+        }
+        // Move the cursor to the end of the text
+        mConfirm_Password.setSelection(mConfirm_Password.getText().length());
+        isConfirmPasswordVisible = !isConfirmPasswordVisible;
     }
 }

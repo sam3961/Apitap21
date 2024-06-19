@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
@@ -30,16 +31,37 @@
         android:text="Aa1#aaaa"
 
   <>-->
-    <EditText
-        android:id="@+id/editPassword"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:importantForAutofill="yes"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="20dp"
-        android:hint="@string/password"
-        android:inputType="textPassword" />
+        android:orientation="horizontal">
+
+
+        <EditText
+            android:id="@+id/editPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:importantForAutofill="yes"
+            android:hint="@string/password"
+            android:inputType="textPassword" />
+
+        <ImageView
+            android:id="@+id/imageViewHideShowPass"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:elevation="2dp"
+            android:src="@drawable/ic_hide_pass"
+            android:translationZ="2dp"
+            app:tint="@android:color/darker_gray" />
+
+    </RelativeLayout>
+
 
     <RelativeLayout
         android:layout_width="match_parent"

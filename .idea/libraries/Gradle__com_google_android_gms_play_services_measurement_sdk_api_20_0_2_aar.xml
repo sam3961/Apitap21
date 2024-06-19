@@ -1,17 +1,11 @@
 <component name="libraryTable">
-  <library name="Gradle: com.google.android.gms:play-services-measurement-sdk-api:20.0.2@aar">
+  <library name="Gradle: com.google.android.gms:play-services-measurement-sdk-api:20.0.2@aar" external-system-id="GRADLE">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/ffa07ee8b2a71e049eefd8c2285a5b83/jetified-play-services-measurement-sdk-api-20.0.2/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/64907f7d058cf5a0e29c26241da6a813/jetified-play-services-measurement-sdk-api-20.0.2/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/ffa07ee8b2a71e049eefd8c2285a5b83/jetified-play-services-measurement-sdk-api-20.0.2/AndroidManifest.xml" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/ffa07ee8b2a71e049eefd8c2285a5b83/jetified-play-services-measurement-sdk-api-20.0.2/jars/classes.jar!/" />
-      <root url="file://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/ffa07ee8b2a71e049eefd8c2285a5b83/jetified-play-services-measurement-sdk-api-20.0.2/res" />
-      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/ffa07ee8b2a71e049eefd8c2285a5b83/jetified-play-services-measurement-sdk-api-20.0.2/jars/classes.jar!/" />
-      <root url="file://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/ffa07ee8b2a71e049eefd8c2285a5b83/jetified-play-services-measurement-sdk-api-20.0.2/AndroidManifest.xml" />
+      <root url="file://$PROJECT_DIR$/../../../Ubuntu/Android/Sdk/caches/transforms-2/files-2.1/03aa8b5aabd1f4c25174a18bae4f0749/jetified-play-services-measurement-sdk-api-20.0.2/AndroidManifest.xml" />
+      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/Android/Sdk/caches/transforms-2/files-2.1/03aa8b5aabd1f4c25174a18bae4f0749/jetified-play-services-measurement-sdk-api-20.0.2/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.android.gms/play-services-measurement-sdk-api/20.0.2/ace98f39b262c59be4be4d52b871d1ba5dfff723/play-services-measurement-sdk-api-20.0.2-javadoc.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/modules-2/files-2.1/com.google.android.gms/play-services-measurement-sdk-api/20.0.2/ace98f39b262c59be4be4d52b871d1ba5dfff723/play-services-measurement-sdk-api-20.0.2-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/Android/Sdk/caches/modules-2/files-2.1/com.google.android.gms/play-services-measurement-sdk-api/20.0.2/ace98f39b262c59be4be4d52b871d1ba5dfff723/play-services-measurement-sdk-api-20.0.2-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES />
   </library>

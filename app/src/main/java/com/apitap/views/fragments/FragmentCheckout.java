@@ -109,7 +109,7 @@ public class FragmentCheckout extends BaseFragment implements View.OnClickListen
         webSettings.setJavaScriptEnabled(true);
         webSettings.setDomStorageEnabled(true);
         //webSettings.setLoadWithOverviewMode(true);
-        webSettings.setUseWideViewPort(true);
+//        webSettings.setUseWideViewPort(true);
         webSettings.setBuiltInZoomControls(true);
         webSettings.setDisplayZoomControls(false);
         webSettings.setSupportZoom(true);

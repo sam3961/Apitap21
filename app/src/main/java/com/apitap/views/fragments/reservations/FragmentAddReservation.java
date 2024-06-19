@@ -245,6 +245,7 @@ public class FragmentAddReservation extends BaseFragment implements View.OnClick
                 }
                 break;
             case R.id.imageViewBack:
+                linearLayoutStoreDetailHeader.setVisibility(View.GONE);
                 onBackPress();
                 break;
         }

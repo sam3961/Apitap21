@@ -1,12 +1,9 @@
 <component name="libraryTable">
-  <library name="Gradle: com.intuit.sdp:sdp-android:1.0.6@aar">
+  <library name="Gradle: com.intuit.sdp:sdp-android:1.0.6@aar" external-system-id="GRADLE">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/45de15d9fc1124b1db5dfcf463cbc646/jetified-sdp-android-1.0.6/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/45de15d9fc1124b1db5dfcf463cbc646/jetified-sdp-android-1.0.6/AndroidManifest.xml" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/45de15d9fc1124b1db5dfcf463cbc646/jetified-sdp-android-1.0.6/jars/classes.jar!/" />
-      <root url="file://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/45de15d9fc1124b1db5dfcf463cbc646/jetified-sdp-android-1.0.6/AndroidManifest.xml" />
-      <root url="file://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/45de15d9fc1124b1db5dfcf463cbc646/jetified-sdp-android-1.0.6/res" />
-      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/45de15d9fc1124b1db5dfcf463cbc646/jetified-sdp-android-1.0.6/jars/classes.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/Android/Sdk/caches/transforms-2/files-2.1/a07fa9f7a0a0dec96a46db96458fc7a8/jetified-sdp-android-1.0.6/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../../../Ubuntu/Android/Sdk/caches/transforms-2/files-2.1/a07fa9f7a0a0dec96a46db96458fc7a8/jetified-sdp-android-1.0.6/AndroidManifest.xml" />
+      <root url="file://$PROJECT_DIR$/../../../Ubuntu/Android/Sdk/caches/transforms-2/files-2.1/a07fa9f7a0a0dec96a46db96458fc7a8/jetified-sdp-android-1.0.6/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

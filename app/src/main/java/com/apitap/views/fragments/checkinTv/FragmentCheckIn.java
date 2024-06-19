@@ -79,7 +79,7 @@ public class FragmentCheckIn extends ConnectionsFragment implements View.OnClick
     private ArrayList<String> endpointArrayListName = new ArrayList<>();
     private final Handler mUiHandler = new Handler(Looper.getMainLooper());
     private State mState = State.UNKNOWN;
-    private boolean isBroadCasting;
+    private boolean isBroadcasting;
     private final Set<AudioPlayer> mAudioPlayers = new HashSet<>();
     @Nullable
     private AudioRecorder mRecorder;
@@ -209,7 +209,7 @@ public class FragmentCheckIn extends ConnectionsFragment implements View.OnClick
             case Constants.ACTIVE_TV_INFO:
                 hideProgress();
                 ActiveTvInfoResponse activeTvInfoResponse = ModelManager.getInstance().getMerchantStoresManager().activeTvInfoResponse;
-                if (activeTvInfoResponse.getRESULT().get(0).getRESULT().size()>0) {
+                if (activeTvInfoResponse.getRESULT().get(0).getRESULT().size() > 0) {
                     ArrayList<String> activeTvListName = new ArrayList<>();
                     HashMap<String, String> tvMap = new HashMap<>();
                     HashMap<String, String> tvMapMediaName = new HashMap<>();
@@ -247,8 +247,7 @@ public class FragmentCheckIn extends ConnectionsFragment implements View.OnClick
                     adapterTvList.setAPITvList(tvMap, tvMapMediaName, tvMapMediaDuration);
                     isApiResponse = true;
 
-                }
-                else {
+                } else {
                     adapterTvList.updateList(new ArrayList<>());
                     checkIfListEmpty();
                 }
@@ -281,8 +280,8 @@ public class FragmentCheckIn extends ConnectionsFragment implements View.OnClick
         bundle.putString(Constants.TV_HOST_NAME, endpointArrayList.get(position).getName());
         bundle.putInt(Constants.TV_HOST_POSITION, position);
         bundle.putString(Constants.TV_MEDIA_NAME, mediaName);
-        if (mediaDuration==null)
-            mediaDuration=1000L;
+        if (mediaDuration == null)
+            mediaDuration = 1000L;
         bundle.putLong(Constants.TV_MEDIA_DURATION, mediaDuration);
         ((HomeActivity) requireContext()).displayView(new FragmentStreamDetail(), Constants.TAG_STREAM_DIRECTORY_DETAIL, bundle);
 
@@ -327,7 +326,7 @@ public class FragmentCheckIn extends ConnectionsFragment implements View.OnClick
                             try {
                                 endpointArrayList.remove(i);
                                 endpointArrayListName.remove(i);
-                            }catch (Exception e){
+                            } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         }

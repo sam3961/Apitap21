@@ -18,7 +18,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="file:$PROJECT_DIR$/../../../Ubuntu/Android/Sdk/icons/material/materialicons/headset/baseline_headset_24.xml" />
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio1/plugins/android/lib/android.jar!/images/material/icons/materialicons/camera_alt/baseline_camera_alt_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -28,10 +28,8 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="assetSourceType" value="FILE" />
-                            <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="volume_mute" />
-                            <entry key="sourceFile" value="$USER_HOME$/Downloads/volume-mute_14.svg" />
+                            <entry key="outputName" value="ic_camera_icon" />
+                            <entry key="sourceFile" value="C:\Users\cools\Downloads\volume-mute_14.svg" />
                           </map>
                         </option>
                       </PersistentState>

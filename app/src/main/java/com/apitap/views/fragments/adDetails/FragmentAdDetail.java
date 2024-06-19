@@ -774,7 +774,7 @@ public class FragmentAdDetail extends BaseFragment implements PlaybackPreparer, 
             String DiscountPrice;
 
             isSeen = array2.get(position).get1149();
-            description.setText(array2.get(position).get12083());
+            description.setText(Utils.hexToASCII(array2.get(position).get12083()));
             //Glide.with(AdDetailActivity.this).load(ATPreferences.readString(mActivity, Constants.KEY_IMAGE_URL) + array2.get(position).get121170()).diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.drawable.splash_screen_new).into(imageView);
             // Picasso.get().load(ATPreferences.readString(mActivity, Constants.KEY_IMAGE_URL) + "_t_" + array2.get(position).get121170()).into(imageView);
 

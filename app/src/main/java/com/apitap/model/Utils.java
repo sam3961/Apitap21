@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
@@ -20,6 +21,7 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Base64;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.Gravity;
@@ -64,6 +66,7 @@ import com.apitap.views.adapters.SearchNearByAdapter;
 import com.apitap.views.fragments.stores.FragmentStore;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.io.ByteArrayOutputStream;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -93,7 +96,7 @@ public class Utils {
     public final static String TAG_NAME_FRAGMENT = "ACTIVITY_FRAGMENT";
     public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 456;
-    public static final String APK_VERSION = "23.0315.053"; // yy - mm-dd-version
+    public static final String APK_VERSION = "24.0620.518"; // yy - mm-dd-version
     public static String seacrh_key = "";
     public static String locationSearch = "";
     public static ArrayList<String> placeIdList;
@@ -1248,4 +1251,17 @@ public class Utils {
         view.setClickable(value);
     }
 
+    public static String bitmapToBase64(Bitmap bitmap) {
+       /* ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        byte[] byteArray = byteArrayOutputStream.toByteArray();
+        return Base64.encodeToString(byteArray, Base64.DEFAULT);*/
+            int previewWidth=150;
+            int previewHeight=bitmap.getHeight()*previewWidth/ bitmap.getWidth();
+            Bitmap previewBitmap = Bitmap.createScaledBitmap(bitmap,previewWidth,previewHeight,false);
+            ByteArrayOutputStream byteArrayOutputStream=new ByteArrayOutputStream();
+            previewBitmap.compress(Bitmap.CompressFormat.JPEG,50,byteArrayOutputStream);
+            byte[] bytes=byteArrayOutputStream.toByteArray();
+            return Base64.encodeToString(bytes,Base64.DEFAULT);
+    }
 }

@@ -9,17 +9,20 @@ import static com.apitap.model.MyFirebaseMessagingService.productId;
 import static com.apitap.model.MyFirebaseMessagingService.productName;
 import static com.apitap.model.MyFirebaseMessagingService.storeName;
 import static com.apitap.model.Utils.MY_PERMISSIONS_REQUEST_LOCATION;
+import static com.apitap.model.Utils.showToast;
 
 import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -39,6 +42,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -173,10 +177,12 @@ public class HomeActivity extends BaseActivity implements FragmentDrawer.Fragmen
     private ImageView imageViewSearchBarHome;
     private ImageView imageViewSearch2;
 
-    private LinearLayout llScan, llMessage, llSearch;
+    private LinearLayout llScan, llMessage, llFavourites, ll_cart;
     private static final int ZXING_CAMERA_PERMISSION = 1;
     private Class<?> mClss;
-    private static final int MY_CAMERA_REQUEST_CODE = 100;
+    private static final int MY_SCAN_CAMERA_REQUEST_CODE = 100;
+    private static final int CAMERA_PERMISSION_REQUEST_CODE = 101;
+    private static final int CAMERA_REQUEST_CODE = 102;
     private Activity context;
     String searchkey = "";
     String selectedUpdatedCategoryId = "";
@@ -195,7 +201,7 @@ public class HomeActivity extends BaseActivity implements FragmentDrawer.Fragmen
     private TextView tabOne, tabTwo, tabThree, tabFour, tabFive, tabSix;
     String locationSearch = "";
     private boolean isDrawerItemSelected = false;
-    public ImageView homeTab1, homeTab2, imageViewCollapseSearch;
+    public ImageView homeTab1, homeTab2, imageViewCollapseSearch, imageViewScan, imageViewCamera;
 
     FragmentManager manager;
     private Dialog dialogReload;
@@ -373,7 +379,8 @@ public class HomeActivity extends BaseActivity implements FragmentDrawer.Fragmen
 
         llScan = mToolbar.findViewById(R.id.ll_scan);
         llMessage = mToolbar.findViewById(R.id.ll_message);
-        llSearch = mToolbar.findViewById(R.id.ll_search);
+        llFavourites = mToolbar.findViewById(R.id.ll_search);
+        ll_cart = mToolbar.findViewById(R.id.ll_cart);
         mTxtHeading = mToolbar.findViewById(R.id.txt_heading);
         mlogo = mToolbar.findViewById(R.id.img_logo);
         rootLayout = findViewById(R.id.drawer_layout);
@@ -387,6 +394,8 @@ public class HomeActivity extends BaseActivity implements FragmentDrawer.Fragmen
         homeTab1 = findViewById(R.id.tab_one_image);
         homeTab2 = findViewById(R.id.tab_two_image);
         imageViewCollapseSearch = findViewById(R.id.imageViewCollapseSearch);
+        imageViewScan = findViewById(R.id.imageViewScan);
+        imageViewCamera = findViewById(R.id.imageViewCamera);
         ll_msgCount = findViewById(R.id.new_msgsll);
         tv_msgCount = findViewById(R.id.new_msgstv);
         textViewBusiness1 = findViewById(R.id.textViewBusiness1);
@@ -479,6 +488,7 @@ public class HomeActivity extends BaseActivity implements FragmentDrawer.Fragmen
         buttonViewStore.setOnClickListener(this);
         imageViewSearchBarHome.setOnClickListener(this);
         imageViewMessageStore.setOnClickListener(this);
+        imageViewCamera.setOnClickListener(this);
         textViewSearchStoreFront.setOnClickListener(this);
         leftPanel.setOnClickListener(this);
         textViewFilter.setOnClickListener(this);
@@ -486,9 +496,10 @@ public class HomeActivity extends BaseActivity implements FragmentDrawer.Fragmen
         imageViewFilter.setOnClickListener(this);
         imageViewFilterStoreFront.setOnClickListener(this);
         textViewSearch.setOnClickListener(this);
+        imageViewScan.setOnClickListener(this);
         llScan.setOnClickListener(this);
         llMessage.setOnClickListener(this);
-        llSearch.setOnClickListener(this);
+        llFavourites.setOnClickListener(this);
         imageViewSearch.setOnClickListener(this);
         findViewById(R.id.imageViewCollapseSearch).setOnClickListener(this);
         findViewById(R.id.search_bar_two).setOnClickListener(this);
@@ -498,6 +509,7 @@ public class HomeActivity extends BaseActivity implements FragmentDrawer.Fragmen
         textViewCategorySelect.setOnClickListener(this);
         linearLayoutStoreMessage.setOnClickListener(this);
         imageViewBackHeaderCat.setOnClickListener(this);
+        ll_cart.setOnClickListener(this);
 
         editTextSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -1013,7 +1025,7 @@ public class HomeActivity extends BaseActivity implements FragmentDrawer.Fragmen
                     if (checkSelfPermission(Manifest.permission.CAMERA)
                             != PackageManager.PERMISSION_GRANTED) {
                         requestPermissions(new String[]{Manifest.permission.CAMERA},
-                                MY_CAMERA_REQUEST_CODE);
+                                MY_SCAN_CAMERA_REQUEST_CODE);
                     } else {
                         mlogo.setVisibility(View.VISIBLE);
                         mTxtHeading.setVisibility(View.GONE);
@@ -1104,6 +1116,29 @@ public class HomeActivity extends BaseActivity implements FragmentDrawer.Fragmen
                 break;
         }
 
+    }
+
+    private boolean checkAndRequestPermissions() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
+//                || ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+        ) {
+
+
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.CAMERA
+                    //        , Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    },
+                    CAMERA_PERMISSION_REQUEST_CODE);
+            return false;
+        }
+        return true;
+    }
+
+    private void openCamera() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(intent, CAMERA_REQUEST_CODE);
+        }
     }
 
     public void displayAddView(Fragment fragment, String Tag, String replaceWithTag, Bundle
@@ -1254,8 +1289,8 @@ public class HomeActivity extends BaseActivity implements FragmentDrawer.Fragmen
                     tag.equals(Constants.TAG_ADS)) {
                 //relativeLayoutSearchBarStoreFront.setVisibility(View.VISIBLE);
                 linearLayoutHeaderStoreFront.setVisibility(View.VISIBLE);
-              //  linearLayoutCheckin.setVisibility(View.VISIBLE); //uncomment later
-              //  linearLayoutStoreReservation.setVisibility(View.VISIBLE); //uncomment later
+                //  linearLayoutCheckin.setVisibility(View.VISIBLE); //uncomment later
+                //  linearLayoutStoreReservation.setVisibility(View.VISIBLE); //uncomment later
                 linearLayoutHeaderCategory.setVisibility(View.VISIBLE);
                 linearLayoutStoreFavourite.setVisibility(View.GONE);
                 relativeLayoutSearchBar.setVisibility(View.GONE);
@@ -1276,14 +1311,14 @@ public class HomeActivity extends BaseActivity implements FragmentDrawer.Fragmen
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.buttonAddReservation  :
+            case R.id.buttonAddReservation:
                 displayView(new FragmentAddReservation(),
-                        Constants.TAG_ADD_RESERVATION,new Bundle());
+                        Constants.TAG_ADD_RESERVATION, new Bundle());
 
                 break;
             case R.id.buttonViewReservation:
                 displayView(new FragmentViewReservation(),
-                        Constants.TAG_VIEW_RESERVATION,new Bundle());
+                        Constants.TAG_VIEW_RESERVATION, new Bundle());
 
                 break;
             case R.id.buttonCheckinHome:
@@ -1458,19 +1493,31 @@ public class HomeActivity extends BaseActivity implements FragmentDrawer.Fragmen
                     displayView(new FragmentMessages(), Constants.TAG_MESSAGEPAGE, null);
                 }
                 break;
+            case R.id.imageViewScan:
             case R.id.ll_scan:
                 toolint = 1;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     if (checkSelfPermission(Manifest.permission.CAMERA)
                             != PackageManager.PERMISSION_GRANTED) {
                         requestPermissions(new String[]{Manifest.permission.CAMERA},
-                                MY_CAMERA_REQUEST_CODE);
+                                MY_SCAN_CAMERA_REQUEST_CODE);
                     } else {
                         //tabLayout.setVisibility(View.GONE);
                         displayView(new FragmentScanner(), Constants.TAG_SCANNER, null);
                     }
                 }
 
+                break;
+            case R.id.ll_cart:
+                if (isGuest) {
+                    showGuestDialog();
+                } else {
+                    mTxtHeading.setText("Carts");
+                    mlogo.setVisibility(View.VISIBLE);
+                    mTxtHeading.setVisibility(View.GONE);
+                    inActiveTabs();
+                    displayView(new ShoppingCartFragment(), Constants.TAG_SHOPPING, new Bundle());
+                }
                 break;
             case R.id.ll_search:
                 if (isGuest)
@@ -1497,6 +1544,11 @@ public class HomeActivity extends BaseActivity implements FragmentDrawer.Fragmen
                 startActivity(new Intent(this, HomeActivity.class));
                 finish();
                 break;
+            case R.id.imageViewCamera:
+                if (checkAndRequestPermissions()) {
+                    openCamera();
+                }
+                break;
             case R.id.search:
                 editTextSearch.requestFocus();
             case R.id.imageViewCollapseSearch:
@@ -1507,12 +1559,16 @@ public class HomeActivity extends BaseActivity implements FragmentDrawer.Fragmen
                 resetSearch();
                 if (imageViewCollapseSearch.getVisibility() == View.GONE) {
                     imageViewCollapseSearch.setVisibility(View.VISIBLE);
+                    imageViewSearch.setVisibility(View.GONE);
+                    imageViewScan.setVisibility(View.VISIBLE);
                     relativeLayoutSearchBar.setVisibility(View.VISIBLE);
                     linearLayoutTabs.setVisibility(View.GONE);
                 } else {
                     imageViewCollapseSearch.setVisibility(View.GONE);
+                    imageViewScan.setVisibility(View.GONE);
                     relativeLayoutSearchBar.setVisibility(View.GONE);
                     linearLayoutTabs.setVisibility(View.VISIBLE);
+                    imageViewSearch.setVisibility(View.VISIBLE);
                 }
 
 /*                if (ATPreferences.readBoolean(this, Constants.HEADER_STORE)) {
@@ -1791,6 +1847,10 @@ public class HomeActivity extends BaseActivity implements FragmentDrawer.Fragmen
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(final Event event) {
         switch (event.getKey()) {
+            case Constants.FETCH_IMAGE_SEARCH_RESULT:
+                hideProgress();
+                imageViewCollapseSearch.performClick();
+                break;
             case Constants.MERCHANT_CATEGORY_LIST_HOME_ONLY:
                 hideProgressAsync();
                 merchantCategoryListResponse = ModelManager.getInstance().getMerchantStoresManager().merchantCategoryListModel;
@@ -1815,6 +1875,7 @@ public class HomeActivity extends BaseActivity implements FragmentDrawer.Fragmen
                         adapterMerchantCategory.customNotify(categorySelectedPosition);
                     //Utils.baseshowFeedbackMessage(getActivity(), parentLayout, "No children categories found related");
                 }
+
 
                 break;
             case Constants.REMOVE_MERCHANT_FAVORITES:
@@ -2145,7 +2206,7 @@ public class HomeActivity extends BaseActivity implements FragmentDrawer.Fragmen
 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        if (requestCode == MY_CAMERA_REQUEST_CODE) {
+        if (requestCode == MY_SCAN_CAMERA_REQUEST_CODE) {
 
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 if (toolint == 0) {
@@ -2183,15 +2244,13 @@ public class HomeActivity extends BaseActivity implements FragmentDrawer.Fragmen
                     }
                 }
 
-            } else {
-
-                // permission denied, boo! Disable the
-                // functionality that depends on this permission.
-
             }
-            return;
-
-
+        } else if (requestCode == CAMERA_PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                openCamera();
+            }
+        } else {
+            showToast(getApplicationContext(), "Permissions Denied.");
         }
     }
 
@@ -2505,8 +2564,18 @@ public class HomeActivity extends BaseActivity implements FragmentDrawer.Fragmen
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.container_body);
-        fragment.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK && data != null && data.getExtras() != null) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            String base64String = Utils.bitmapToBase64(imageBitmap);
+            Log.d("TAG", "onActivityResult: " + base64String);
+
+            fetchImageSearchResult(base64String);
+            // You can display or save the bitmap image
+        } else {
+            Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.container_body);
+            fragment.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     @Override
@@ -2596,6 +2665,13 @@ public class HomeActivity extends BaseActivity implements FragmentDrawer.Fragmen
                         selectedUpdatedCategoryId, searchkey, deliveryId, selectedParentId, ""));
     }
 
+
+    private void fetchImageSearchResult(String imageBase64) {
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.IMAGE_BASE_64, imageBase64);
+        displayView(new FragmentSearch(),
+                Constants.TAG_SEARCH, bundle);
+    }
 
     @Override
     public void onMerchantCategoryClick(int position) {

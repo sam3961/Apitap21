@@ -356,6 +356,7 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
             case Constants.PRODUCT_AVAILBLE_MERCHANT:
                 hideProgress();
                 if (event.getResponse().equals("true")) {
+                    state = 0;
                     showdialog();
                 } else {
                     dialogProductNotAvailable();
@@ -375,6 +376,9 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
 
                 imageUrl = ATPreferences.readString(getActivity(), Constants.KEY_IMAGE_URL)
                         + "banner_" + arrayDetails.get(0).getImage();
+
+                Log.d("TAG", "detailsUrl: "+imageUrl);
+
                 Picasso.get().load(imageUrl).fit()
                         .centerInside()
                         .into(icImage);
@@ -604,6 +608,7 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
                 break;
 
             case Constants.GET_OPTIONS2_SUCCESS:
+                boolean isOptionAvailable = false;
                 state++;
                 productOptionsArrayList2 = ModelManager.getInstance().getProductOptions().arrayOptions2;
                 productOptionsArrayList2Str = ModelManager.getInstance().getProductOptions().arrayOptionsStr;
@@ -623,6 +628,9 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
                     option1.setAdapter(adp2);
                     option1.setDropDownWidth(option1.getWidth());
                 }
+
+                if (state == 1 && adp2.getCount() <= 0)
+                    option1.setVisibility(View.GONE);
                 break;
             case Constants.REMOVE_FAVOURITE_SUCCESS:
                 ivFav.setBackgroundResource(R.drawable.ic_icon_fav_gray);
@@ -1267,7 +1275,7 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
             }
         });
 
-      //  moreDetailDialog.show();
+        //  moreDetailDialog.show();
         //dialog.getWindow().setAttributes(lp);
         moreDetailDialog.getWindow().setDimAmount(0.5f);
         moreDetailDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
@@ -1328,6 +1336,7 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
         related_pos = i;
         // ModelManager.getInstance().getProductOptions().getOption1(getActivity(), Operations.makeJsonGetOptions(getActivity(), id));
 
+        Log.d("TAG", "onItemClick: "+imageUrl);
         Picasso.get().load(imageUrl).into(icImage);
 
     }
@@ -1657,7 +1666,7 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
 //                    .placeholder(R.drawable.splash_screen_new)
 //                    .into(imageView);
             Picasso.get().load(ATPreferences.readString(mActivity, Constants.KEY_IMAGE_URL)
-                    + "_t_" + relatedArray.get(position).get121170()).
+                            + "_t_" + relatedArray.get(position).get121170()).
                     into(imageView);
 
 
@@ -1754,8 +1763,8 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
 //                    .into(imageView);
 
             Picasso.get().load(ATPreferences.readString(mActivity, Constants.KEY_IMAGE_URL) + "_t_" +
-                    specialArrayRelated.get(0).getRESULT().get(0).getIA().
-                            get(position).getIM().get(0).get4742())
+                            specialArrayRelated.get(0).getRESULT().get(0).getIA().
+                                    get(position).getIM().get(0).get4742())
                     .into(imageView);
 
 

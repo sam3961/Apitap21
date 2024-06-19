@@ -1,17 +1,11 @@
 <component name="libraryTable">
-  <library name="Gradle: com.google.android.datatransport:transport-runtime:3.0.0@aar">
+  <library name="Gradle: com.google.android.datatransport:transport-runtime:3.0.0@aar" external-system-id="GRADLE">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/047a9cc0ac0fb5508de40695b28536d8/jetified-transport-runtime-3.0.0/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/532620af3a297acd03fc2a3f4eda1124/jetified-transport-runtime-3.0.0/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/047a9cc0ac0fb5508de40695b28536d8/jetified-transport-runtime-3.0.0/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/047a9cc0ac0fb5508de40695b28536d8/jetified-transport-runtime-3.0.0/AndroidManifest.xml" />
-      <root url="file://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/047a9cc0ac0fb5508de40695b28536d8/jetified-transport-runtime-3.0.0/res" />
-      <root url="file://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/047a9cc0ac0fb5508de40695b28536d8/jetified-transport-runtime-3.0.0/AndroidManifest.xml" />
-      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/047a9cc0ac0fb5508de40695b28536d8/jetified-transport-runtime-3.0.0/jars/classes.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/Android/Sdk/caches/transforms-2/files-2.1/39a088590f0ed2f6d1028b26a2ef0167/jetified-transport-runtime-3.0.0/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../../../Ubuntu/Android/Sdk/caches/transforms-2/files-2.1/39a088590f0ed2f6d1028b26a2ef0167/jetified-transport-runtime-3.0.0/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.android.datatransport/transport-runtime/3.0.0/7f506fe3498cda976d1b350c218464a0f1974982/transport-runtime-3.0.0-javadoc.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/modules-2/files-2.1/com.google.android.datatransport/transport-runtime/3.0.0/7f506fe3498cda976d1b350c218464a0f1974982/transport-runtime-3.0.0-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/Android/Sdk/caches/modules-2/files-2.1/com.google.android.datatransport/transport-runtime/3.0.0/7f506fe3498cda976d1b350c218464a0f1974982/transport-runtime-3.0.0-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES />
   </library>

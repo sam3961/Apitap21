@@ -21,6 +21,8 @@ public class Constants {
     public static final String KEY = "key";
     public static final String TAB_SELECTED = "tab_selected";
 
+    public static final String IMAGE_BASE_64 = "image_base_64";
+
     public static final String TAG_HOMEPAGE = "HomePage";
     public static final String TAG_SHOPPING = "Shopping";
     public static final String TAG_DETAILSPAGE = "Details";
@@ -276,6 +278,8 @@ public class Constants {
     public static final int GET_PROMO_BY_LOCATION_FAILURE = 1074;
     public static final int EDIT_RESERVATION_SUCCESS = 1075;
     public static final int EDIT_RESERVATION_FAILURE = 1076;
+
+    public static final int FETCH_IMAGE_SEARCH_RESULT = 1077;
 
 
     public static final String SHOPPING_SUCCESS_URL = "https://www.apitap.com/success";

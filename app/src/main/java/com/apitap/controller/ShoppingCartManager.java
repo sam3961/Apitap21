@@ -55,37 +55,37 @@ public class ShoppingCartManager {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             try {
-                String deliveryId="";
+                String deliveryId = "";
                 JSONObject jsonObject = new JSONObject(s);
                 JSONArray resultArray = jsonObject.getJSONArray("RESULT");
                 for (int i = 0; i < resultArray.length(); i++) {
                     JSONObject resultObj = resultArray.getJSONObject(i);
                     String trans = resultObj.getString("_44");
-                        JSONArray resultInner = resultObj.getJSONArray("RESULT");
-                        if (resultInner.length() > 0) {
-                            shoopingArray = new ArrayList<>();
-                            for (int j = 0; j < resultInner.length(); j++) {
-                                JSONObject objInner = resultInner.getJSONObject(j);
-                                ShoppingCompBean shoppingCompBean = new ShoppingCompBean();
-                                JSONObject objectDelivery = objInner.getJSONObject("DE");
-                                if (objectDelivery.has("_122_109")){
-                                    shoppingCompBean.setDeliveryId(objectDelivery.getString("_122_109"));
-                                }else
-                                    shoppingCompBean.setDeliveryId("");
+                    JSONArray resultInner = resultObj.getJSONArray("RESULT");
+                    if (resultInner.length() > 0) {
+                        shoopingArray = new ArrayList<>();
+                        for (int j = 0; j < resultInner.length(); j++) {
+                            JSONObject objInner = resultInner.getJSONObject(j);
+                            ShoppingCompBean shoppingCompBean = new ShoppingCompBean();
+                            JSONObject objectDelivery = objInner.getJSONObject("DE");
+                            if (objectDelivery.has("_122_109")) {
+                                shoppingCompBean.setDeliveryId(objectDelivery.getString("_122_109"));
+                            } else
+                                shoppingCompBean.setDeliveryId("");
 
 
-                                shoppingCompBean.setShoppingCartId(objInner.getString("_122_31"));   // ShoppingCart id
-                                shoppingCompBean.setMerchantId(objInner.getString("_114_179"));   // Merchant id
-                                shoppingCompBean.setCompanyName(Utils.hexToASCII(objInner.getString("_114_70")));   // Company name
-                                shoppingCompBean.setCompanyImage(objInner.getString("_121_170"));  // image
-                                shoppingCompBean.setItemCounter(objInner.getString("_114_121"));  //  Item counter
-                                shoppingCompBean.setTotalAmount(objInner.getString("_55_3"));     //  Total amount
-                                shoppingCompBean.setShoppingCartStatus(objInner.getString("_114_143"));  //  Shopping Cart Status
-                                shoppingCompBean.setLastDate(objInner.getString("_114_138"));  //  Shopping Cart Time
-                                shoppingCompBean.setExpiring(objInner.getString("_114_132"));  //  Shopping Cart Status
-                                shoopingArray.add(shoppingCompBean);
-                            }
-                            EventBus.getDefault().post(new Event(Constants.SHOPPING_SUCCESS, ""));
+                            shoppingCompBean.setShoppingCartId(objInner.getString("_122_31"));   // ShoppingCart id
+                            shoppingCompBean.setMerchantId(objInner.getString("_114_179"));   // Merchant id
+                            shoppingCompBean.setCompanyName(Utils.hexToASCII(objInner.getString("_114_70")));   // Company name
+                            shoppingCompBean.setCompanyImage(objInner.getString("_121_170"));  // image
+                            shoppingCompBean.setItemCounter(objInner.getString("_114_121"));  //  Item counter
+                            shoppingCompBean.setTotalAmount(objInner.getString("_55_3"));     //  Total amount
+                            shoppingCompBean.setShoppingCartStatus(objInner.getString("_114_143"));  //  Shopping Cart Status
+                            shoppingCompBean.setLastDate(objInner.getString("_114_138"));  //  Shopping Cart Time
+                            shoppingCompBean.setExpiring(objInner.getString("_114_132"));  //  Shopping Cart Status
+                            shoopingArray.add(shoppingCompBean);
+                        }
+                        EventBus.getDefault().post(new Event(Constants.SHOPPING_SUCCESS, ""));
 
                     } else {
                         EventBus.getDefault().post(new Event(-1, ""));
@@ -119,6 +119,7 @@ public class ShoppingCartManager {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             Log.d("helloCart", s + "");
+            String shoppingId = "";
             try {
                 if (s != null) {
                     JSONObject jsonObject = new JSONObject(s);
@@ -128,7 +129,7 @@ public class ShoppingCartManager {
                     String trans = resultObj.getString("_44");
                     JSONArray jsonArray = resultObj.getJSONArray("RESULT");
                     JSONObject jsonObject1 = jsonArray.getJSONObject(0);
-                    String shoppingId = jsonObject1.getString("_122_31");
+                    if (jsonObject1.has("_122_31")) shoppingId = jsonObject1.getString("_122_31");
                     if (trans.equals("Transaction Approved")) {
 
                         EventBus.getDefault().post(new Event(Constants.SHOPPING_SUCCESS, shoppingId));

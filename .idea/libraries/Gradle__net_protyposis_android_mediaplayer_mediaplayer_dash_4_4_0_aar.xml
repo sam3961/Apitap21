@@ -1,21 +1,14 @@
 <component name="libraryTable">
-  <library name="Gradle: net.protyposis.android.mediaplayer:mediaplayer-dash:4.4.0@aar">
+  <library name="Gradle: net.protyposis.android.mediaplayer:mediaplayer-dash:4.4.0@aar" external-system-id="GRADLE">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/a7c6c1a826bd1199e9db9b7ac001a991/jetified-mediaplayer-dash-4.4.0/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/d327bef1c17284c4fbebfed0cb64d358/jetified-mediaplayer-dash-4.4.0/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/a7c6c1a826bd1199e9db9b7ac001a991/jetified-mediaplayer-dash-4.4.0/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/a7c6c1a826bd1199e9db9b7ac001a991/jetified-mediaplayer-dash-4.4.0/AndroidManifest.xml" />
-      <root url="file://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/a7c6c1a826bd1199e9db9b7ac001a991/jetified-mediaplayer-dash-4.4.0/res" />
-      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/a7c6c1a826bd1199e9db9b7ac001a991/jetified-mediaplayer-dash-4.4.0/jars/classes.jar!/" />
-      <root url="file://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/a7c6c1a826bd1199e9db9b7ac001a991/jetified-mediaplayer-dash-4.4.0/AndroidManifest.xml" />
+      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/Android/Sdk/caches/transforms-2/files-2.1/0f406e295df487f337053128791bffde/jetified-mediaplayer-dash-4.4.0/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../../../Ubuntu/Android/Sdk/caches/transforms-2/files-2.1/0f406e295df487f337053128791bffde/jetified-mediaplayer-dash-4.4.0/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.protyposis.android.mediaplayer/mediaplayer-dash/4.4.0/b81e8b7d597570005da36c3c8fa65ddbdc3a30d0/mediaplayer-dash-4.4.0-javadoc.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/modules-2/files-2.1/net.protyposis.android.mediaplayer/mediaplayer-dash/4.4.0/b81e8b7d597570005da36c3c8fa65ddbdc3a30d0/mediaplayer-dash-4.4.0-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/Android/Sdk/caches/modules-2/files-2.1/net.protyposis.android.mediaplayer/mediaplayer-dash/4.4.0/b81e8b7d597570005da36c3c8fa65ddbdc3a30d0/mediaplayer-dash-4.4.0-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.protyposis.android.mediaplayer/mediaplayer-dash/4.4.0/b162dd5a2ecee8eaaa9e94b6555ba53d378017e7/mediaplayer-dash-4.4.0-sources.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/modules-2/files-2.1/net.protyposis.android.mediaplayer/mediaplayer-dash/4.4.0/b162dd5a2ecee8eaaa9e94b6555ba53d378017e7/mediaplayer-dash-4.4.0-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/Android/Sdk/caches/modules-2/files-2.1/net.protyposis.android.mediaplayer/mediaplayer-dash/4.4.0/b162dd5a2ecee8eaaa9e94b6555ba53d378017e7/mediaplayer-dash-4.4.0-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

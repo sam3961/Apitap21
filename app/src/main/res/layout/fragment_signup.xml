@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/rootLayout"
     android:orientation="vertical">
 
 
@@ -23,8 +24,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:layout_marginTop="30dp"
+                android:layout_marginRight="10dp"
                 android:hint="@string/first_name" />
 
             <EditText
@@ -32,8 +33,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:layout_marginTop="30dp"
+                android:layout_marginRight="10dp"
                 android:hint="@string/second_name" />
 
 
@@ -42,8 +43,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:layout_marginTop="30dp"
+                android:layout_marginRight="10dp"
                 android:hint="@string/enter_email"
                 android:inputType="textEmailAddress" />
 
@@ -52,51 +53,85 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:layout_marginTop="30dp"
+                android:layout_marginRight="10dp"
                 android:cursorVisible="false"
                 android:focusable="false"
                 android:hint="@string/enter_dob"
                 android:inputType="textEmailAddress" />
 
 
-
-
-            <EditText
-                android:id="@+id/password"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:layout_marginTop="30dp"
-                android:hint="@string/enter_password"
-                android:inputType="textPassword" />
+                android:layout_marginRight="10dp">
 
-            <EditText
-                android:id="@+id/confirm_password"
+
+                <EditText
+                    android:id="@+id/password"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="@string/enter_password"
+                    android:inputType="textPassword" />
+
+                <ImageView
+                    android:id="@+id/imageViewHideShowPass"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="@dimen/_8sdp"
+                    android:elevation="2dp"
+                    android:src="@drawable/ic_hide_pass"
+                    android:translationZ="2dp"
+                    app:tint="@android:color/darker_gray" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:layout_marginTop="30dp"
-                android:hint="@string/confirm_password"
-                android:inputType="textPassword" />
+                android:layout_marginRight="10dp">
+
+                <EditText
+                    android:id="@+id/confirm_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="@string/confirm_password"
+                    android:inputType="textPassword" />
+
+                <ImageView
+                    android:id="@+id/imageViewHideShowConfirmPass"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="@dimen/_8sdp"
+                    android:elevation="2dp"
+                    android:src="@drawable/ic_hide_pass"
+                    android:translationZ="2dp"
+                    app:tint="@android:color/darker_gray" />
+
+            </RelativeLayout>
 
             <Spinner
                 android:id="@+id/spinner"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:layout_marginTop="30dp"
+                android:layout_marginRight="10dp"
                 android:visibility="gone"></Spinner>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:layout_marginTop="15dp"
+                android:layout_marginRight="10dp"
                 android:visibility="gone">
 
                 <TextView
@@ -111,18 +146,18 @@
                 android:id="@+id/create_account"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingVertical="@dimen/_4sdp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:layout_marginTop="40dp"
+                android:layout_marginRight="10dp"
                 android:background="@drawable/rounded_bg_dblue"
-                android:gravity="center">
+                android:gravity="center"
+                android:paddingVertical="@dimen/_4sdp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:padding="8dp"
                     android:gravity="center"
+                    android:padding="8dp"
                     android:text="@string/create_acc"
                     android:textColor="@color/colorWhite" />
 

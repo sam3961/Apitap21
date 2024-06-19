@@ -89,24 +89,33 @@ public class FragmentSearch extends BaseFragment {
         scrollView = v.findViewById(R.id.scroll_view);
         relativeLayoutSearchBarStoreFront = getActivity().findViewById(R.id.search_storefront);
 
-        searchKey = getArguments().getString("key");
-        sort_by = getArguments().getString("sortby");
-        zip = getArguments().getString("zip");
-        brandName = getArguments().getString("brandName");
-        rating = getArguments().getString("rating");
+        if (getArguments() != null && getArguments().containsKey(Constants.IMAGE_BASE_64)) {
+            showProgress();
+            ModelManager.getInstance().getSearchItemsManager()
+                    .imageSearch(getContext(),
+                            Operations.imageSearch(getContext(),
+                                    getArguments().getString(Constants.IMAGE_BASE_64)),
+                            Constants.FETCH_IMAGE_SEARCH_RESULT);
 
-        if (getArguments().containsKey("merchantId"))
-            merchantId = ATPreferences.readString(getActivity(), Constants.MERCHANT_ID);
+        } else {
+            searchKey = getArguments().getString("key");
+            sort_by = getArguments().getString("sortby");
+            zip = getArguments().getString("zip");
+            brandName = getArguments().getString("brandName");
+            rating = getArguments().getString("rating");
+
+            if (getArguments().containsKey("merchantId"))
+                merchantId = ATPreferences.readString(getActivity(), Constants.MERCHANT_ID);
 
 
-        showProgress();
-        ModelManager.getInstance().getSearchItemsManager().getAllSearchProduct(getActivity(),
-                Operations.makeJsonSearchProduct(getActivity(),
-                        Utils.convertStringToHex(searchKey), sort_by,
-                        merchantId, zip
-                        , brandName, rating));
+            showProgress();
+            ModelManager.getInstance().getSearchItemsManager().getAllSearchProduct(getActivity(),
+                    Operations.makeJsonSearchProduct(getActivity(),
+                            Utils.convertStringToHex(searchKey), sort_by,
+                            merchantId, zip
+                            , brandName, rating));
 
-
+        }
         listView = v.findViewById(R.id.list);
         listView2 = v.findViewById(R.id.list2);
         listView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
@@ -133,6 +142,14 @@ public class FragmentSearch extends BaseFragment {
     public void onEvent(Event event) {
         switch (event.getKey()) {
             case Constants.SEARCH_ITEM_SUCCESS:
+                if (getArguments() != null && getArguments().containsKey(Constants.IMAGE_BASE_64)) {
+                    hideProgress();
+                    scrollView.setVisibility(View.VISIBLE);
+                    adLayout.setVisibility(View.GONE);
+                    noadLayout.setVisibility(View.GONE);
+                    listlayout2.setVisibility(View.GONE);
+                    noSpecialFound.setVisibility(View.GONE);
+                }
                 boolean setAdap = false;
                 //   final List<SearchItemBean.Result.ResultData> arrayList = ModelManager.getInstance().getSearchItemsManager().searchItemBean.getResult().get(0).getResult();
                 final HashMap<Integer, ArrayList<SearchBean>> map = ModelManager.getInstance().getSearchItemsManager().itemsData;
@@ -181,6 +198,16 @@ public class FragmentSearch extends BaseFragment {
                 hideProgress();
                 noItemFound.setVisibility(View.GONE);
                 listlayout1.setVisibility(View.GONE);
+
+                if (getArguments()!=null&&getArguments().containsKey(Constants.IMAGE_BASE_64)){
+                    adLayout.setVisibility(View.GONE);
+                    noadLayout.setVisibility(View.GONE);
+                    listlayout2.setVisibility(View.GONE);
+                    noSpecialFound.setVisibility(View.GONE);
+                    noItemFound.setVisibility(View.VISIBLE);
+                    listlayout1.setVisibility(View.GONE);
+
+                }
                 break;
 
             case Constants.SEARCH_ITEM_SUCCESS_List2:
@@ -347,7 +374,7 @@ public class FragmentSearch extends BaseFragment {
                         }
                     });
                     Glide.with(mActivity).load(ATPreferences.readString(mActivity, Constants.KEY_IMAGE_URL)
-                            + allImagesItems.get(0).getPC().get(position).get121170())
+                                    + allImagesItems.get(0).getPC().get(position).get121170())
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .into(imageView);
 

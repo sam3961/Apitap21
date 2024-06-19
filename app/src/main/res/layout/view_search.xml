@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/view_search"
     android:layout_width="match_parent"
+
     android:layout_height="wrap_content"
-
-    android:visibility="gone"
     android:background="@color/transparent"
-    android:id="@+id/view_search">
-
-
+    android:visibility="gone">
 
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/_2sdp"
-        android:background="@android:color/transparent">
+        android:background="@android:color/transparent"
+        android:padding="@dimen/_2sdp">
 
 
         <RelativeLayout
@@ -73,23 +71,45 @@
                     android:textColor="@color/colorBlack"
                     android:textSize="@dimen/_9ssp" />
 
-                <AutoCompleteTextView
-                    android:id="@+id/editTextSearch"
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingVertical="@dimen/_8sdp"
+                    android:background="@drawable/rectangular_black_transparent_"
                     android:layout_centerVertical="true"
                     android:layout_marginHorizontal="@dimen/_4sdp"
+                    android:orientation="horizontal"
                     android:layout_toStartOf="@+id/textViewSearch"
-                    android:background="@drawable/rectangular_black_transparent_"
-                    android:fontFamily="@font/rubik_italic"
-                    android:hint="@string/enter_a_word_or_phrase_to_look_for"
-                    android:imeOptions="actionSearch"
-                    android:maxLines="1"
-                    android:paddingStart="@dimen/dp_4"
-                    android:paddingEnd="@dimen/dp_4"
-                    android:singleLine="true"
-                    android:textSize="@dimen/_9ssp" />
+                    >
+
+                    <AutoCompleteTextView
+                        android:id="@+id/editTextSearch"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toStartOf="@+id/imageViewCamera"
+                        android:background="@android:color/transparent"
+                        android:fontFamily="@font/rubik_italic"
+
+                        android:hint="@string/enter_a_word_or_phrase_to_look_for"
+                        android:imeOptions="actionSearch"
+                        android:maxLines="1"
+                        android:paddingVertical="@dimen/_8sdp"
+                        android:paddingStart="@dimen/dp_4"
+                        android:paddingEnd="@dimen/dp_4"
+                        android:singleLine="true"
+                        android:textSize="@dimen/_9ssp" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/imageViewCamera"
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_height="match_parent"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="@dimen/_8sdp"
+                        android:src="@drawable/ic_camera_icon" />
+
+                </RelativeLayout>
+
 
                 <TextView
                     android:id="@+id/textViewFilter"
