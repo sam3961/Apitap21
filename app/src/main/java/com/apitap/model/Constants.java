@@ -168,8 +168,11 @@ public class Constants {
     public static final int GET_CARD_SUCCESS = 20055;
     public static final int REMOVE_CARD_SUCCESS = 20056;
     public static final int GET_Delivery_Merchant = 30055;
-    public static final int GET_OPTIONS1_SUCCESS = 40060;
+    public static final int GET_ITEM_OPTIONS_SUCCESS = 40060;
     public static final int GET_OPTIONS2_SUCCESS = 30056;
+
+    public static final int GET_OPTIONS_CHOICES_1_SUCCESS = 400601;
+    public static final int GET_OPTIONS_CHOICES_2_SUCCESS = 300561;
     public static final int GET_SHOPPING_SUCCESS = 50060;
     public static final int GET_SHOPPING_FAILED = 50061;
     public static final int GET_SERVER_ERROR = 60061;

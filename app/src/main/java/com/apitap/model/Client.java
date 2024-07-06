@@ -38,8 +38,7 @@ public class Client {
 //    https://aiodc.com:8020/NmcServerS/nmc-server/post/
 
     //************************************Production**************************************//
-    public static final String BASE_URL =
-//            "http://66.179.57.54:2039/NmcServerS/nmc-server/post/";// production //new
+ /*   public static final String BASE_URL =
             "https://aiodc.com:8020/NmcServerS/nmc-server/post/";// production //new
 
     public static final String BASE_URL_CART =
@@ -51,11 +50,10 @@ public class Client {
 
     public static final String URL_SETTINGS =
             "https://aiodc.com:8050/MobileClient/?t=";  //production
+*/
     //************************************QA**************************************//
 
-/*    public static final String BASE_URL =
-//            "http://66.179.57.52:2039/NmcServerS/nmc-server/post"; //new QA
-//            "http://aiodctesting.org:2039/NmcServerS/nmc-server/post"; //new QA
+    public static final String BASE_URL =
             "http://aiodctesting.org:8095/api/server/post";
 
     public static final String BASE_URL_CART =
@@ -67,7 +65,7 @@ public class Client {
 
 
     public static final String URL_SETTINGS =
-            "http://aiodctesting.org:8090/MobileClient/?t=";  //QA*/
+            "http://aiodctesting.org:8090/MobileClient/?t=";  //QA
 
     public static String Caller(String parametersToCall) {
         String result = "";

@@ -122,9 +122,9 @@ public class DetailsManager {
                                             String locationSate = jsonObjectST.getString("_47_16");
                                             JSONObject jsonObjectCO = jsonObjectAd.getJSONObject("CO");
                                             String locationCountry = jsonObjectCO.getString("_47_18");
-                                            arrayListLocation.add(locationFullName+" "+locationName+" "+locationSate+" "+locationCountry);
+                                            arrayListLocation.add(locationFullName + " " + locationName + " " + locationSate + " " + locationCountry);
                                         }
-                                    }catch (Exception e){
+                                    } catch (Exception e) {
                                         e.printStackTrace();
                                     }
                                 }
@@ -210,11 +210,12 @@ public class DetailsManager {
                                 String option_name = Utils.hexToASCII(jsonObject2.getString("_122_134"));
                                 productOptionsBean.setOption_id(option_id);
                                 productOptionsBean.setName_option(option_name);
-                                arrayList.add(productOptionsBean);
+                                if (!option_name.equals("Default"))
+                                    arrayList.add(productOptionsBean);
                                 Log.d("optionsIdbEAN", option_id);
                             }
                             arrayOptions1 = arrayList;
-                            EventBus.getDefault().post(new Event(Constants.GET_OPTIONS1_SUCCESS, ""));
+                            EventBus.getDefault().post(new Event(Constants.GET_ITEM_OPTIONS_SUCCESS, ""));
 
                         } else if (jobj.getString("_101").equals("010400599")) {
 
@@ -284,76 +285,76 @@ public class DetailsManager {
                             Log.d("sssadss", jobj.toString());
                             JSONObject object = new JSONObject(jobj.toString());
                             JSONArray jsonArray = object.getJSONArray("RESULT");
-                            if (jsonArray.length()>0) {
+                            if (jsonArray.length() > 0) {
                                 JSONObject object1 = jsonArray.getJSONObject(0);
                                 EventBus.getDefault().post(new Event(Constants.PRODUCT_VIDEO_EXISTS,
                                         object1.getString("_121_2")));
                             }
 
+                        }
                     }
                 }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+                EventBus.getDefault().post(new Event(-1, ""));
+            }
+        }
+    }
+
+    private class ExecuteRelatedItemsApi extends AsyncTask<String, String, String> {
+        Context mContext;
+        HashMap<String, String> url_maps = new HashMap<String, String>();
+
+        ExecuteRelatedItemsApi(Context context) {
+            mContext = context;
+        }
+
+        @Override
+        protected String doInBackground(String... param) {
+            String response = Client.Caller(param[0]);
+            Log.d(TAG, "response_related_item---" + response);
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            relatedDetailsBean = new Gson().fromJson(s, RelatedDetailsBean.class);
+            if (relatedDetailsBean.getRESULT().get(0).get44().equals("Transaction Approved")) {
+                EventBus.getDefault().post(new Event(Constants.RELATED_DETAILS, ""));
+            } else {
+                EventBus.getDefault().post(new Event(-1, ""));
+            }
+        }
+    }
+
+    private class ExecuteCategoryApi extends AsyncTask<String, String, String> {
+        Context mContext;
+        HashMap<String, String> url_maps = new HashMap<String, String>();
+
+        ExecuteCategoryApi(Context context) {
+            mContext = context;
+        }
+
+        @Override
+        protected String doInBackground(String... param) {
+            String response = Client.Caller(param[0]);
+            Log.d(TAG, "response_special_item---" + response);
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            specialItemBean = new Gson().fromJson(s, SpecialItemBean.class);
+            if (specialItemBean.getRESULT().get(0).get44().equals("Transaction Approved")) {
+                EventBus.getDefault().post(new Event(Constants.RELATED_SPECIAL_DETAILS, ""));
+            } else {
+                EventBus.getDefault().post(new Event(-1, ""));
             }
 
-        } catch(JSONException e) {
-            e.printStackTrace();
-            EventBus.getDefault().post(new Event(-1, ""));
         }
     }
-}
-
-private class ExecuteRelatedItemsApi extends AsyncTask<String, String, String> {
-    Context mContext;
-    HashMap<String, String> url_maps = new HashMap<String, String>();
-
-    ExecuteRelatedItemsApi(Context context) {
-        mContext = context;
-    }
-
-    @Override
-    protected String doInBackground(String... param) {
-        String response = Client.Caller(param[0]);
-        Log.d(TAG, "response_related_item---" + response);
-        return response;
-    }
-
-    @Override
-    protected void onPostExecute(String s) {
-        super.onPostExecute(s);
-        relatedDetailsBean = new Gson().fromJson(s, RelatedDetailsBean.class);
-        if (relatedDetailsBean.getRESULT().get(0).get44().equals("Transaction Approved")) {
-            EventBus.getDefault().post(new Event(Constants.RELATED_DETAILS, ""));
-        } else {
-            EventBus.getDefault().post(new Event(-1, ""));
-        }
-    }
-}
-
-private class ExecuteCategoryApi extends AsyncTask<String, String, String> {
-    Context mContext;
-    HashMap<String, String> url_maps = new HashMap<String, String>();
-
-    ExecuteCategoryApi(Context context) {
-        mContext = context;
-    }
-
-    @Override
-    protected String doInBackground(String... param) {
-        String response = Client.Caller(param[0]);
-        Log.d(TAG, "response_special_item---" + response);
-        return response;
-    }
-
-    @Override
-    protected void onPostExecute(String s) {
-        super.onPostExecute(s);
-        specialItemBean = new Gson().fromJson(s, SpecialItemBean.class);
-        if (specialItemBean.getRESULT().get(0).get44().equals("Transaction Approved")) {
-            EventBus.getDefault().post(new Event(Constants.RELATED_SPECIAL_DETAILS, ""));
-        } else {
-            EventBus.getDefault().post(new Event(-1, ""));
-        }
-
-    }
-}
 
 }

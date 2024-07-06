@@ -23,35 +23,37 @@ import java.util.ArrayList;
 public class GetProductOptions {
 
     private static final String TAG = GetProductOptions.class.getSimpleName();
-    public ArrayList<ProductOptionsBean> arrayOptions1 = new ArrayList<ProductOptionsBean>();
-    public ArrayList<ProductOptions2Bean> arrayOptions2 = new ArrayList<ProductOptions2Bean>();
-    public ArrayList<String> arrayOptionsStr = new ArrayList<String>();
-    public ArrayList<String> arrayOptionsStr2 = new ArrayList<String>();
+    public ArrayList<ProductOptionsBean> productOptionsBeans1 = new ArrayList<ProductOptionsBean>();
+    public ArrayList<ProductOptionsBean> productOptionsBeans2 = new ArrayList<ProductOptionsBean>();
+    public ArrayList<String> arrayListOption1 = new ArrayList<String>();
+    public ArrayList<String> arrayListOption2 = new ArrayList<String>();
     private int key;
 
-    public void getOption1(Context context, String params) {
-        new ExecuteApi(context).execute(params);
+
+    public void getOption1(Context context, String params, int i) {
+        this.key = i;
+        new ExecuteApiGetOption1(context).execute(params);
     }
 
     public void getOption2(Context context, String params, int i) {
         this.key = i;
-        new ExecuteApiProducts(context).execute(params);
+        new ExecuteApiGetOption2(context).execute(params);
     }
 
 
-    private class ExecuteApi extends AsyncTask<String, String, String> {
-        private int key;
+    private class ExecuteApiGetOption1 extends AsyncTask<String, String, String> {
+
         Context mContext;
 
-        ExecuteApi(Context context) {
+        ExecuteApiGetOption1(Context context) {
             mContext = context;
         }
+
 
         @Override
         protected String doInBackground(String... param) {
             String response = Client.Caller(param[0]);
             Log.d(TAG, "get_option1_Item---" + response);
-
             return response;
         }
 
@@ -71,16 +73,17 @@ public class GetProductOptions {
                 for (int i = 0; i < jsonArray1.length(); i++) {
                     JSONObject jsonObject2 = jsonArray1.getJSONObject(i);
                     ProductOptionsBean productOptionsBean = new ProductOptionsBean();
-                    String option_id = jsonObject2.getString("_122_111");
-                    String option_name = Utils.hexToASCII(jsonObject2.getString("_122_134"));
-
-                    productOptionsBean.setOption_id(option_id);
-                    productOptionsBean.setName_option(option_name);
+                    String choice_id = jsonObject2.getString("_122_111");
+                    String choice_name = jsonObject2.getString("_122_135");
+                    String choice_price = jsonObject2.getString("_114_98");
+                    arrayListOption1.add(choice_id);
+                    productOptionsBean.setChoice_id(choice_id);
+                    productOptionsBean.setChoice_name(choice_name);
+                    productOptionsBean.setChoice_price(choice_price);
                     arrayList.add(productOptionsBean);
-                    Log.d("optionsIdbEAN", option_id);
                 }
-                arrayOptions1 = arrayList;
-                EventBus.getDefault().post(new Event(Constants.GET_OPTIONS1_SUCCESS, ""));
+                productOptionsBeans1 = arrayList;
+                EventBus.getDefault().post(new Event(Constants.GET_OPTIONS_CHOICES_1_SUCCESS, ""));
             } catch (Exception e) {
 
                 e.printStackTrace();
@@ -88,11 +91,11 @@ public class GetProductOptions {
         }
     }
 
-    private class ExecuteApiProducts extends AsyncTask<String, String, String> {
+    private class ExecuteApiGetOption2 extends AsyncTask<String, String, String> {
 
         Context mContext;
 
-        ExecuteApiProducts(Context context) {
+        ExecuteApiGetOption2(Context context) {
             mContext = context;
         }
 
@@ -107,7 +110,7 @@ public class GetProductOptions {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            ArrayList<ProductOptions2Bean> arrayList = new ArrayList<ProductOptions2Bean>();
+            ArrayList<ProductOptionsBean> arrayList = new ArrayList<ProductOptionsBean>();
 
             try {
 
@@ -119,21 +122,18 @@ public class GetProductOptions {
                 JSONArray jsonArray1 = jsonObject1.getJSONArray("RESULT");
                 for (int i = 0; i < jsonArray1.length(); i++) {
                     JSONObject jsonObject2 = jsonArray1.getJSONObject(i);
-                    ProductOptions2Bean productOptionsBean = new ProductOptions2Bean();
+                    ProductOptionsBean productOptionsBean = new ProductOptionsBean();
                     String choice_id = jsonObject2.getString("_122_111");
                     String choice_name = jsonObject2.getString("_122_135");
                     String choice_price = jsonObject2.getString("_114_98");
-                    if (key == 0)
-                        arrayOptionsStr.add(choice_id);
-                    else
-                        arrayOptionsStr2.add(choice_id);
+                    arrayListOption2.add(choice_id);
                     productOptionsBean.setChoice_id(choice_id);
                     productOptionsBean.setChoice_name(choice_name);
                     productOptionsBean.setChoice_price(choice_price);
                     arrayList.add(productOptionsBean);
                 }
-                arrayOptions2 = arrayList;
-                EventBus.getDefault().post(new Event(Constants.GET_OPTIONS2_SUCCESS, ""));
+                productOptionsBeans2 = arrayList;
+                EventBus.getDefault().post(new Event(Constants.GET_OPTIONS_CHOICES_2_SUCCESS, ""));
             } catch (Exception e) {
 
                 e.printStackTrace();

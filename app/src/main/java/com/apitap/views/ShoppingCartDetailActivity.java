@@ -462,15 +462,15 @@ public class ShoppingCartDetailActivity extends AppCompatActivity implements Vie
 
                 break;
 
-            case Constants.GET_OPTIONS1_SUCCESS:
-                productOptionsArrayList = ModelManager.getInstance().getProductOptions().arrayOptions1;
+            case Constants.GET_ITEM_OPTIONS_SUCCESS:
+                productOptionsArrayList = ModelManager.getInstance().getProductOptions().productOptionsBeans1;
                 adp1 = new GetOption1(mActivity, productOptionsArrayList);
                 break;
 
-            case Constants.GET_OPTIONS2_SUCCESS:
+        /*    case Constants.GET_OPTIONS2_SUCCESS:
                 state++;
-                productOptionsArrayList2 = ModelManager.getInstance().getProductOptions().arrayOptions2;
-                productOptionsArrayList2Str = ModelManager.getInstance().getProductOptions().arrayOptionsStr;
+                productOptionsArrayList2 = ModelManager.getInstance().getProductOptions().productOptionsBeans2;
+                productOptionsArrayList2Str = ModelManager.getInstance().getProductOptions().arrayListOption1;
                 adp2 = new GetOption2(mActivity, productOptionsArrayList2);
                 //option2_spinner.setAdapter(adp2);
 
@@ -488,7 +488,7 @@ public class ShoppingCartDetailActivity extends AppCompatActivity implements Vie
                 }
                 if (state > 1) {
                     option2.setAdapter(adp2);
-                    productOptionsArrayList3 = ModelManager.getInstance().getProductOptions().arrayOptionsStr2;
+                    productOptionsArrayList3 = ModelManager.getInstance().getProductOptions().arrayListOption2;
                     for (int i = 0; i < productOptionsArrayList2.size(); i++) {
                         Log.d("SpinnerName2", response.get(itemPosition).getcH().get(1).get_12716() + "  " + productOptionsArrayList2.get(i).getChoice_name());
                         if (response.get(itemPosition).getcH().get(1).get_12716().equals(productOptionsArrayList2.get(i).getChoice_name())) {
@@ -506,7 +506,7 @@ public class ShoppingCartDetailActivity extends AppCompatActivity implements Vie
                     }
 
                 }
-                break;
+                break;*/
             case Constants.SHOPPING_SUCCESS:
                 String id = "";
                 if (!event.getResponse().isEmpty()) {
@@ -1106,7 +1106,7 @@ public class ShoppingCartDetailActivity extends AppCompatActivity implements Vie
                         itemPosition = position;
                         deleteitemposition = response.get(position).get_12130();
                         productIdiS = response.get(position).get_114144();
-                        ModelManager.getInstance().getProductOptions().getOption1(activity, Operations.makeJsonGetOptions(activity, Utils.getElevenDigitId(productIdiS)));
+//                        ModelManager.getInstance().getProductOptions().getOption1(activity, Operations.makeJsonGetOptions(activity, Utils.getElevenDigitId(productIdiS)));
 
 
                         for (int i = 0; i < mCheckBoxes.size(); i++) {
@@ -1480,7 +1480,7 @@ public class ShoppingCartDetailActivity extends AppCompatActivity implements Vie
             vi = inflater.inflate(R.layout.spinner_row, null);
             TextView txt_type = (TextView) vi.findViewById(R.id.txt_type);
             TextView txt_price = (TextView) vi.findViewById(R.id.txt_price);
-            Log.d("responseas", response.get(position).getChoice_name() + "wdk");
+//            Log.d("responseas", response.get(position).getChoice_name() + "wdk");
 
             txt_type.setText(response.get(position).getChoice_name());
             txt_price.setVisibility(View.VISIBLE);

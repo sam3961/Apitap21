@@ -4,9 +4,12 @@ package com.apitap.views.NavigationMenu;
  * Created by Ravi on 29/07/15.
  */
 
+import static com.apitap.App.isGuest;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+
 import androidx.fragment.app.Fragment;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -14,6 +17,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
+
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -23,6 +27,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.apitap.R;
+import com.apitap.model.Constants;
+import com.apitap.model.preferences.ATPreferences;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,14 +76,27 @@ public class FragmentDrawer extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // drawer labels
-        titles = getActivity().getResources().getStringArray(R.array.nav_drawer_labels);
+        boolean isGuest = ATPreferences.readBoolean(requireContext(), Constants.GUEST);
 
-        images = new Integer[]{R.drawable.notification,R.drawable.question_mark, R.drawable.tour_arrow, R.drawable.home, R.drawable.ic_icon_store_white,
-                R.drawable.ads, R.drawable.special, R.drawable.item, R.drawable.scan_slider, R.drawable.cart_slider, R.drawable.email_slider
-                , R.drawable.shop, R.drawable.favourite, R.drawable.history, R.drawable.settings,R.drawable.about_apitap,
-                R.drawable.logout
-        };
+        // drawer labels
+        if (isGuest)
+            titles = getActivity().getResources().getStringArray(R.array.nav_drawer_labels_guest);
+        else
+            titles = getActivity().getResources().getStringArray(R.array.nav_drawer_labels);
+
+        if (isGuest) {
+            images = new Integer[]{R.drawable.notification, R.drawable.question_mark, R.drawable.tour_arrow, R.drawable.home, R.drawable.ic_icon_store_white,
+                    R.drawable.ads, R.drawable.special, R.drawable.item, R.drawable.scan_slider, R.drawable.cart_slider, R.drawable.email_slider
+                    , R.drawable.shop, R.drawable.favourite, R.drawable.history, R.drawable.settings, R.drawable.about_apitap,
+                    R.drawable.ic_login_drawer
+            };
+        } else {
+            images = new Integer[]{R.drawable.notification, R.drawable.question_mark, R.drawable.tour_arrow, R.drawable.home, R.drawable.ic_icon_store_white,
+                    R.drawable.ads, R.drawable.special, R.drawable.item, R.drawable.scan_slider, R.drawable.cart_slider, R.drawable.email_slider
+                    , R.drawable.shop, R.drawable.favourite, R.drawable.history, R.drawable.settings, R.drawable.about_apitap,
+                    R.drawable.logout
+            };
+        }
 
         pref = getActivity().getSharedPreferences(TAG1, getActivity().MODE_PRIVATE);
         editor = pref.edit();

@@ -1102,20 +1102,24 @@ public class HomeActivity extends BaseActivity implements FragmentDrawer.Fragmen
                 break;
 
             case 16:
-                ATPreferences.putString(context, Constants.StaySignedIn, "false");
-                ATPreferences.putString(context, Constants.KEY_USERNAME, "");
-                ATPreferences.putString(context, Constants.KEY_USERID, "");
-                ATPreferences.putString(context, Constants.LOCATION_ID, "");
-                ATPreferences.putString(context, Constants.TOKEN, "");
-                mlogo.setVisibility(View.GONE);
-                mTxtHeading.setVisibility(View.VISIBLE);
-                mTxtHeading.setText("Logout");
+                if (isGuest) {
+                    startActivity(new Intent(this, LoginActivity.class));
+                } else {
+                    ATPreferences.putString(context, Constants.StaySignedIn, "false");
+                    ATPreferences.putString(context, Constants.KEY_USERNAME, "");
+                    ATPreferences.putString(context, Constants.KEY_USERID, "");
+                    ATPreferences.putString(context, Constants.LOCATION_ID, "");
+                    ATPreferences.putString(context, Constants.TOKEN, "");
+                    mlogo.setVisibility(View.GONE);
+                    mTxtHeading.setVisibility(View.VISIBLE);
+                    mTxtHeading.setText("Logout");
 
-                startActivity(new Intent(this, LoginActivity.class));
-                finishAffinity();
-                break;
+                    startActivity(new Intent(this, LoginActivity.class));
+                    finishAffinity();
+
+                    break;
+                }
         }
-
     }
 
     private boolean checkAndRequestPermissions() {
@@ -1126,7 +1130,7 @@ public class HomeActivity extends BaseActivity implements FragmentDrawer.Fragmen
 
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.CAMERA
-                    //        , Manifest.permission.WRITE_EXTERNAL_STORAGE
+                            //        , Manifest.permission.WRITE_EXTERNAL_STORAGE
                     },
                     CAMERA_PERMISSION_REQUEST_CODE);
             return false;
@@ -2696,7 +2700,8 @@ public class HomeActivity extends BaseActivity implements FragmentDrawer.Fragmen
         // headerClick(position, itemListResponse, true);
     }
 
-    public void headerClick(int position, ItemStoreFrontResponse itemListResponse, boolean isDisplayView) {
+    public void headerClick(int position, ItemStoreFrontResponse itemListResponse,
+                            boolean isDisplayView) {
       /*  recyclerViewCategoryHeader = findViewById(R.id.recyclerViewCategoryHeader);
         adapterHeaderCategory = null;
         if (browseCategoryResponse.getRESULT().size() == 1) {
