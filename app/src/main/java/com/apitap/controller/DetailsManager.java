@@ -210,7 +210,7 @@ public class DetailsManager {
                                 String option_name = Utils.hexToASCII(jsonObject2.getString("_122_134"));
                                 productOptionsBean.setOption_id(option_id);
                                 productOptionsBean.setName_option(option_name);
-                                if (!option_name.equals("Default"))
+//                                if (!option_name.equals("Default"))
                                     arrayList.add(productOptionsBean);
                                 Log.d("optionsIdbEAN", option_id);
                             }

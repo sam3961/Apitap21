@@ -70,6 +70,7 @@ import java.io.ByteArrayOutputStream;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -96,7 +97,7 @@ public class Utils {
     public final static String TAG_NAME_FRAGMENT = "ACTIVITY_FRAGMENT";
     public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 456;
-    public static final String APK_VERSION = "24.0622.001"; // yy - mm-dd-version
+    public static final String APK_VERSION = "24.0709.002"; // yy - mm-dd-version
     public static String seacrh_key = "";
     public static String locationSearch = "";
     public static ArrayList<String> placeIdList;
@@ -147,44 +148,71 @@ public class Utils {
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
+//    public static String getFormatAmount(String Amount) {
+//        double value = 0;
+//        DecimalFormat decimalFormat = null;
+//        switch (Amount.length()) {
+//            case 9:
+//                decimalFormat = new DecimalFormat("000,000.00");
+//                break;
+//            case 8:
+//                decimalFormat = new DecimalFormat("00,000.00");
+//                break;
+//            case 7:
+//                decimalFormat = new DecimalFormat("0,000.00");
+//                break;
+//            case 6:
+//                decimalFormat = new DecimalFormat("000.00");
+//                break;
+//            case 5:
+//                decimalFormat = new DecimalFormat("00.00");
+//                break;
+//            case 4:
+//                decimalFormat = new DecimalFormat("0.00");
+//                break;
+//
+//        }
+//
+//        if (decimalFormat != null) {
+//            return decimalFormat.format(value);
+//        }
+//    }
+
     public static String getFormatAmount(String Amount) {
-        double value = 0;
-        String returnValue = "";
-        DecimalFormat decimalFormat = null;
-        // String am = Amount.replace(".", "");
-        if (!Amount.isEmpty()) {
+        double value;
+        try {
             value = Double.parseDouble(Amount);
-            returnValue = NumberFormat.getNumberInstance(Locale.US).format(value);
-            //  returnValue String.format("%.2f", Double.parseDouble(returnValue));
+        } catch (NumberFormatException e) {
+            System.err.println("Invalid amount: " + Amount);
+            return null;
+        }
+
+        // Split the amount into integer and decimal parts
+        String[] parts = Amount.split("\\.");
+        String integerPart = parts[0];
+        String decimalPart = parts.length > 1 ? parts[1] : "";
+
+        // Generate format string based on the length of integer and decimal parts
+        StringBuilder formatBuilder = new StringBuilder();
+        for (int i = 0; i < integerPart.length(); i++) {
+            if (i > 0 && (integerPart.length() - i) % 3 == 0) {
+                formatBuilder.append(',');
+            }
+            formatBuilder.append('0');
+        }
+        if (!decimalPart.isEmpty()) {
+            formatBuilder.append('.');
+            for (int i = 0; i < decimalPart.length(); i++) {
+                formatBuilder.append('0');
+            }
         } else {
-            returnValue = Amount;
-        }
-        //Log.d("AmountOf", Amount + "  " + Amount.length());
-        switch (Amount.length()) {
-            case 9:
-                decimalFormat = new DecimalFormat("000,000.00");
-                break;
-            case 8:
-                decimalFormat = new DecimalFormat("00,000.00");
-                break;
-            case 7:
-                decimalFormat = new DecimalFormat("0,000.00");
-                break;
-            case 6:
-                decimalFormat = new DecimalFormat("000.00");
-                break;
-            case 5:
-                decimalFormat = new DecimalFormat("00.00");
-                break;
-            case 4:
-                decimalFormat = new DecimalFormat("0.00");
-                break;
-
+            formatBuilder.append(".00"); // Default to two decimal places if none provided
         }
 
-        assert decimalFormat != null;
+        // Create the decimal format with the generated format string
+        DecimalFormat decimalFormat = new DecimalFormat(formatBuilder.toString(), new DecimalFormatSymbols(Locale.US));
+
         return decimalFormat.format(value);
-        //return Amount;
     }
 
     // Get exist Fragment by it's tag name.
