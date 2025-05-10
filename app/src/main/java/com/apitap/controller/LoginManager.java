@@ -90,7 +90,7 @@ public class LoginManager {
                     ATPreferences.putString(mContext, Constants.KEY_USER_PIN, jsonObject.has("_39") ? jsonObject.getString("_39") : "");
 
                 JSONArray imageURLArray = jobj.getJSONArray("RESULT");
-                if (imageURLArray.length()>0)
+                if (imageURLArray.length() > 0)
                     imageURLobj = imageURLArray.getJSONObject(0);
 
                 if (!isLogin) {
@@ -251,10 +251,14 @@ public class LoginManager {
                 JSONObject jsonObject1 = jsonArray.getJSONObject(0);
                 JSONArray jsonArray1 = jsonObject1.getJSONArray("RESULT");
                 JSONObject jsonObject2 = jsonArray1.getJSONObject(0);
-                String terms = jsonObject2.getString("_119_15");
-                String policies = jsonObject2.getString("_119_16");
-                ATPreferences.putString(mContext, Constants.TERMS, terms);
-                ATPreferences.putString(mContext, Constants.POLICIES, policies);
+                if (jsonObject2.has("_119_15")) {
+                    String terms = jsonObject2.getString("_119_15");
+                    ATPreferences.putString(mContext, Constants.TERMS, terms);
+                }
+                if (jsonObject2.has("_119_16")) {
+                    String policies = jsonObject2.getString("_119_16");
+                    ATPreferences.putString(mContext, Constants.POLICIES, policies);
+                }
                 EventBus.getDefault().post(new Event(Constants.TERMS_CONDITIONS, ""));
             } catch (JSONException e) {
                 e.printStackTrace();

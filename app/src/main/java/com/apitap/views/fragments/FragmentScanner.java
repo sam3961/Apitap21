@@ -3,6 +3,7 @@ package com.apitap.views.fragments;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,9 +77,9 @@ public class FragmentScanner extends BaseFragment implements View.OnClickListene
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        Log.d("TAG", "run: "+result.getText());
                         if (result.getText().startsWith("https://www.apitap.com/")) {
                             String actualResult = result.getText().replaceAll("https://www.apitap.com/", "");
-                            String lastBit = "";
 
                             if (actualResult.startsWith("adv")) {
                                 String[] ids = actualResult.split("/");
@@ -90,6 +91,22 @@ public class FragmentScanner extends BaseFragment implements View.OnClickListene
                                 String[] ids = actualResult.split("/");
                                 navigateToStoreFront(Utils.hexToASCII(ids[1]));
                             }
+                        }else if (result.getText().startsWith("http://aiodctesting.org:5443/")){
+                            String actualResult = result.getText().replaceAll("http://aiodctesting.org:5443/", "");
+
+                            if (actualResult.startsWith("adv")) {
+                                String[] ids = actualResult.split("/");
+                                navigateToItemDetail(ids[1], "23");
+                            } else if (actualResult.startsWith("products")) {
+                                String[] ids = actualResult.split("/");
+                                navigateToItemDetail(ids[1], "21");
+                            } else {
+                                String[] ids = actualResult.split("/");
+                                navigateToStoreFront(Utils.hexToASCII(ids[1]));
+                            }
+                        }
+                        else{
+                            Log.d("TAG", "run: "+result.getText());
                         }
                     }
                 });

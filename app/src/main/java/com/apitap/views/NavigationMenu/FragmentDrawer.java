@@ -21,6 +21,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
+import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -237,5 +238,6 @@ public class FragmentDrawer extends Fragment {
 
     public interface FragmentDrawerListener {
         public void onDrawerItemSelected(View view, int position);
+
     }
 }

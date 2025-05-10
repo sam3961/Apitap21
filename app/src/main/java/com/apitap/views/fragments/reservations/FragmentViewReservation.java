@@ -224,7 +224,7 @@ public class FragmentViewReservation extends BaseFragment implements View.OnClic
             calendar.setTimeInMillis(getTimeStampFromDate(
                     resultItem.get(i).getJsonMember116201()));
 
-            eventsList.add(new EventDay(calendar, DrawableUtils.getThreeDots(requireContext()), Color.RED));
+            eventsList.add(new EventDay(calendar, DrawableUtils.getThreeDotsDrawableResId(), Color.RED));
         }
         calendarView.setEvents(eventsList);
     }

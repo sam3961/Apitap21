@@ -14,13 +14,13 @@
       </configuration>
     </facet>
   </component>
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_7">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
     <output-test url="file://$MODULE_DIR$/../../../code-scanner-master/build/intermediates/javac/debugUnitTest/classes" />
     <exclude-output />
     <content url="file://$MODULE_DIR$/../../../code-scanner-master/build/generated/ap_generated_sources/debugUnitTest/out" />
     <content url="file://$MODULE_DIR$/../../../code-scanner-master/src/test" />
     <content url="file://$MODULE_DIR$/../../../code-scanner-master/src/testDebug" />
-    <orderEntry type="jdk" jdkName="Android API 28 Platform" jdkType="Android SDK" />
+    <orderEntry type="jdk" jdkName="Android API 31 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="APITAP-Android.code-scanner-master.main" scope="TEST" />
     <orderEntry type="library" scope="TEST" name="Gradle: com.google.zxing:core:3.3.3" level="project" />

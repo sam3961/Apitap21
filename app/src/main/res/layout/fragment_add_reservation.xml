@@ -295,6 +295,7 @@
                 android:textSize="@dimen/_13ssp" />
 
             <LinearLayout
+                android:id="@+id/linearLayoutArea"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"

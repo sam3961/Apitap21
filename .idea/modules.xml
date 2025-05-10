@@ -11,10 +11,18 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/APITAP-Android.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/APITAP-Android.app.androidTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/APITAP-Android.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/APITAP-Android.app.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/APITAP-Android.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/APITAP-Android.app.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/aviloader/APITAP-Android.aviloader.iml" filepath="$PROJECT_DIR$/.idea/modules/aviloader/APITAP-Android.aviloader.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/aviloader/APITAP-Android.aviloader.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/aviloader/APITAP-Android.aviloader.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/aviloader/APITAP-Android.aviloader.main.iml" filepath="$PROJECT_DIR$/.idea/modules/aviloader/APITAP-Android.aviloader.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/aviloader/APITAP-Android.aviloader.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/aviloader/APITAP-Android.aviloader.unitTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/code-scanner-master/APITAP-Android.code-scanner-master.iml" filepath="$PROJECT_DIR$/.idea/modules/code-scanner-master/APITAP-Android.code-scanner-master.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/code-scanner-master/APITAP-Android.code-scanner-master.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/code-scanner-master/APITAP-Android.code-scanner-master.androidTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/code-scanner-master/APITAP-Android.code-scanner-master.main.iml" filepath="$PROJECT_DIR$/.idea/modules/code-scanner-master/APITAP-Android.code-scanner-master.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/code-scanner-master/APITAP-Android.code-scanner-master.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/code-scanner-master/APITAP-Android.code-scanner-master.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/mediapicker/APITAP-Android.mediapicker.iml" filepath="$PROJECT_DIR$/.idea/modules/mediapicker/APITAP-Android.mediapicker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/mediapicker/APITAP-Android.mediapicker.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/mediapicker/APITAP-Android.mediapicker.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/mediapicker/APITAP-Android.mediapicker.main.iml" filepath="$PROJECT_DIR$/.idea/modules/mediapicker/APITAP-Android.mediapicker.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/mediapicker/APITAP-Android.mediapicker.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/mediapicker/APITAP-Android.mediapicker.unitTest.iml" />
     </modules>
   </component>
 </project>

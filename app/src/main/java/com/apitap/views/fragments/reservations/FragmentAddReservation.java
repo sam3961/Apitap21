@@ -66,6 +66,7 @@ public class FragmentAddReservation extends BaseFragment implements View.OnClick
     private RelativeLayout relativeLayoutSearchBarStoreFront;
     private LinearLayout linearLayoutStoreDetailHeader;
     private LinearLayout linearLayoutHeaderStoreFront;
+    private LinearLayout linearLayoutArea;
     private LinearLayout linearLayoutHeaderCategory;
     private RelativeLayout relativeLayoutSave;
     private Spinner spinnerDining, spinnerArea, spinnerTable, spinnerAssign, spinnerPromo, spinnerLocation, spinnerSmokingArea;
@@ -124,11 +125,11 @@ public class FragmentAddReservation extends BaseFragment implements View.OnClick
     }
 
 
-
     private void initViews() {
         imageViewBack = rootView.findViewById(R.id.imageViewBack);
 
         relativeLayoutSave = rootView.findViewById(R.id.relativeLayoutSave);
+        linearLayoutArea = rootView.findViewById(R.id.linearLayoutArea);
 
         checkBoxWheelChairAccess = rootView.findViewById(R.id.checkBoxWheelChairAccess);
         checkBoxChildSeating = rootView.findViewById(R.id.checkBoxChildSeating);
@@ -278,7 +279,7 @@ public class FragmentAddReservation extends BaseFragment implements View.OnClick
                     public void run() {
                         ((HomeActivity) requireContext()).displayViewReplace(new FragmentViewReservation(), Constants.TAG_VIEW_RESERVATION, new Bundle());
                     }
-                }, 700);
+                }, 1000);
                 break;
             case Constants.GET_ASSIGNED_TO_USER_SUCCESS:
 
@@ -330,15 +331,17 @@ public class FragmentAddReservation extends BaseFragment implements View.OnClick
                     seatingAreaLocationList.add(
                             Utils.hexToASCII(seatingAreaLocationResponse.getRESULT().get(0).getRESULT().get(i).getJsonMember11512()));
                 }
-                setAreaListAdapter(seatingAreaLocationList);
 
-                if (seatingAreaLocationResponse.getRESULT().get(0).getRESULT().size() == 0) {
+                if (seatingAreaLocationList.size() == 1) {
                     textViewAreaLabel.setVisibility(View.GONE);
-                    spinnerArea.setVisibility(View.GONE);
+                    linearLayoutArea.setVisibility(View.GONE);
                 } else {
                     textViewAreaLabel.setVisibility(View.VISIBLE);
-                    spinnerArea.setVisibility(View.VISIBLE);
+                    linearLayoutArea.setVisibility(View.VISIBLE);
                 }
+
+                setAreaListAdapter(seatingAreaLocationList);
+
 
                 break;
 
@@ -742,7 +745,7 @@ public class FragmentAddReservation extends BaseFragment implements View.OnClick
 //            baseshowFeedbackMessage(requireActivity(), rootView, "Please select dining method");
 //            return false;
 //        }
-        else if (spinnerArea.getVisibility() == View.VISIBLE && spinnerArea.getSelectedItemPosition() == 0) {
+        else if (spinnerArea.getVisibility() == View.VISIBLE && spinnerArea.getSelectedItemPosition() == 0 && spinnerArea.getAdapter().getCount() > 1) {
             baseshowFeedbackMessage(requireActivity(), rootView, "Please select area");
             return false;
         }
@@ -775,7 +778,7 @@ public class FragmentAddReservation extends BaseFragment implements View.OnClick
 //            return false;
 //        }
 
-        else if (spinnerSmokingArea.getSelectedItemPosition() == 0) {
+        else if (spinnerSmokingArea.getSelectedItemPosition() == 0 && spinnerSmokingArea.getAdapter().getCount() > 1) {
             baseshowFeedbackMessage(requireActivity(), rootView, "Please select Smoking Area Preference");
             return false;
         }
@@ -786,16 +789,16 @@ public class FragmentAddReservation extends BaseFragment implements View.OnClick
     private void disableViews() {
         relativeLayoutSave.setVisibility(View.GONE); // cannot edit reservation
 
-        Utils.disableEnableClickable(editTextName,false);
-        Utils.disableEnableClickable(editTextStartDate,false);
-        Utils.disableEnableClickable(editTextStartTime,false);
-        Utils.disableEnableClickable(editTextEndTime,false);
-        Utils.disableEnableClickable(editTextNumberOfPeople,false);
-        Utils.disableEnableClickable(editTextNotes,false);
+        Utils.disableEnableClickable(editTextName, false);
+        Utils.disableEnableClickable(editTextStartDate, false);
+        Utils.disableEnableClickable(editTextStartTime, false);
+        Utils.disableEnableClickable(editTextEndTime, false);
+        Utils.disableEnableClickable(editTextNumberOfPeople, false);
+        Utils.disableEnableClickable(editTextNotes, false);
 
-        Utils.disableEnableClickable(spinnerLocation,false);
-        Utils.disableEnableClickable(spinnerArea,false);
-        Utils.disableEnableClickable(spinnerSmokingArea,false);
+        Utils.disableEnableClickable(spinnerLocation, false);
+        Utils.disableEnableClickable(spinnerArea, false);
+        Utils.disableEnableClickable(spinnerSmokingArea, false);
 
     }
 

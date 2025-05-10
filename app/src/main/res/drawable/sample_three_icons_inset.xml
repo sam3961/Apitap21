@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<inset xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/sample_three_icons"
+    android:left="100dp"
+    android:right="100dp">
+    <!-- Adjust padding as needed -->
+</inset>

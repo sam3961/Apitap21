@@ -173,13 +173,12 @@ public class App extends Application {
         return both;
     }
 
-    public DataSource.Factory buildDataSourceFactory(TransferListener<? super DataSource> listener) {
+    public DataSource.Factory buildDataSourceFactory(TransferListener listener) {
         return new DefaultDataSourceFactory(this, listener, buildHttpDataSourceFactory(listener));
     }
 
     /** Returns a {@link HttpDataSource.Factory}. */
-    public HttpDataSource.Factory buildHttpDataSourceFactory(
-            TransferListener<? super DataSource> listener) {
+    public HttpDataSource.Factory buildHttpDataSourceFactory(TransferListener listener) {
         return new DefaultHttpDataSourceFactory(userAgent, listener);
     }
 

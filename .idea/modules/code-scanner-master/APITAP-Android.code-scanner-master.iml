@@ -20,13 +20,13 @@
       </configuration>
     </facet>
   </component>
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_7">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
     <exclude-output />
     <content url="file://$MODULE_DIR$/../../../code-scanner-master">
       <excludeFolder url="file://$MODULE_DIR$/../../../code-scanner-master/.gradle" />
       <excludeFolder url="file://$MODULE_DIR$/../../../code-scanner-master/build" />
     </content>
-    <orderEntry type="jdk" jdkName="Android API 28 Platform" jdkType="Android SDK" />
+    <orderEntry type="jdk" jdkName="Android API 31 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>

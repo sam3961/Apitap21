@@ -13,7 +13,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import androidx.annotation.Nullable;
+
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -22,7 +22,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.os.StrictMode;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.Surface;
@@ -40,6 +39,7 @@ import android.widget.TextView;
 
 import com.apitap.App;
 import com.apitap.R;
+import com.apitap.model.CacheManager;
 import com.apitap.model.Constants;
 import com.apitap.model.Utils;
 import com.apitap.model.bean.ProductDetailsBean;
@@ -51,39 +51,29 @@ import com.apitap.views.fragments.messages.FragmentMessages;
 import com.apitap.views.fragments.FragmentScanner;
 import com.apitap.views.fragments.specials.FragmentSpecial;
 import com.apitap.views.fragments.ads.FragmentAds;
+import com.apitap.views.fragments.storefront.adapter.AdapterStoreAdsPager;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.github.rahatarmanahmed.cpv.CircularProgressView;
-import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlaybackException;
-import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.LoadControl;
+import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.PlaybackPreparer;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.decoder.DecoderCounters;
-import com.google.android.exoplayer2.drm.DrmSessionManager;
-import com.google.android.exoplayer2.drm.FrameworkMediaCrypto;
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
-import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
-import com.google.android.exoplayer2.source.MediaSourceEventListener;
+import com.google.android.exoplayer2.source.ProgressiveMediaSource;
 import com.google.android.exoplayer2.source.TrackGroupArray;
-import com.google.android.exoplayer2.source.dash.DashMediaSource;
-import com.google.android.exoplayer2.source.dash.DefaultDashChunkSource;
-import com.google.android.exoplayer2.source.hls.HlsMediaSource;
-import com.google.android.exoplayer2.source.smoothstreaming.DefaultSsChunkSource;
-import com.google.android.exoplayer2.source.smoothstreaming.SsMediaSource;
 import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
-import com.google.android.exoplayer2.trackselection.TrackSelection;
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.PlayerView;
-import com.google.android.exoplayer2.upstream.BandwidthMeter;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
@@ -91,7 +81,6 @@ import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.upstream.FileDataSource;
 import com.google.android.exoplayer2.upstream.cache.CacheDataSink;
 import com.google.android.exoplayer2.upstream.cache.CacheDataSource;
-import com.google.android.exoplayer2.upstream.cache.LeastRecentlyUsedCacheEvictor;
 import com.google.android.exoplayer2.upstream.cache.SimpleCache;
 import com.google.android.exoplayer2.util.EventLogger;
 import com.google.android.exoplayer2.util.Util;
@@ -102,7 +91,6 @@ import com.squareup.picasso.Picasso;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -239,26 +227,31 @@ public class FullScreenImage extends AppCompatActivity implements PlaybackPrepar
 
         mainHandler = new Handler();
 
-        BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
-        TrackSelection.Factory videoTrackSelectionFactory = new AdaptiveTrackSelection.Factory(bandwidthMeter);
-        TrackSelector trackSelector = new DefaultTrackSelector(videoTrackSelectionFactory);
+        // Create an instance of the AdaptiveTrackSelection.Factory
+        AdaptiveTrackSelection.Factory adaptiveTrackSelectionFactory = new AdaptiveTrackSelection.Factory();
+
+        // Initialize the TrackSelector with the AdaptiveTrackSelection.Factory
+        TrackSelector trackSelector = new DefaultTrackSelector(this, adaptiveTrackSelectionFactory);
 
 // 2. Create a default LoadControl
         LoadControl loadControl = new DefaultLoadControl();
 
-        DrmSessionManager<FrameworkMediaCrypto> drmSessionManager = null;
 
         @DefaultRenderersFactory.ExtensionRendererMode int extensionRendererMode =
                 App.getInstance().useExtensionRenderers()
-                        ? (true ? DefaultRenderersFactory.EXTENSION_RENDERER_MODE_PREFER
-                        : DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON)
+                        ? (DefaultRenderersFactory.EXTENSION_RENDERER_MODE_PREFER)
                         : DefaultRenderersFactory.EXTENSION_RENDERER_MODE_OFF;
-        DefaultRenderersFactory renderersFactory = new DefaultRenderersFactory(this,
-                drmSessionManager, extensionRendererMode);
+
+
+        DefaultRenderersFactory renderersFactory = new DefaultRenderersFactory(this)
+                .setExtensionRendererMode(extensionRendererMode);
 
 // 3. Create the player
         //    player = ExoPlayerFactory.newSimpleInstance(this, trackSelector, loadControl);
-        player = ExoPlayerFactory.newSimpleInstance(renderersFactory, trackSelector, loadControl);
+        player = new SimpleExoPlayer.Builder(this, renderersFactory)
+                .setTrackSelector(trackSelector)
+                .setLoadControl(loadControl)
+                .build();
 
         if (!video.equals("")) {
             if (!previousClass.equals("ProductDetail"))
@@ -381,7 +374,7 @@ public class FullScreenImage extends AppCompatActivity implements PlaybackPrepar
                     .putExtra("adpos", adpos)
                     .putExtra("vidpos", currentvidPosition)
                     .putExtra("merchantid", merchantid));
-           finish();
+            finish();
         } else {
             state = 0;
             finish();
@@ -411,21 +404,18 @@ public class FullScreenImage extends AppCompatActivity implements PlaybackPrepar
 
     public void initializePlayer() {
         Uri videoUri = Uri.parse(ATPreferences.readString(this, Constants.KEY_VIDEO_URL) + video);
-     //   final Uri videoUri = Uri.parse("http://djjohalhd.video/get/17016/1080/Sauda%20Khara%20Khara%20(Good%20Newwz)%20(DJJOhAL.Com).mp4");
+        //   final Uri videoUri = Uri.parse("http://djjohalhd.video/get/17016/1080/Sauda%20Khara%20Khara%20(Good%20Newwz)%20(DJJOhAL.Com).mp4");
+        // Create an instance of the AdaptiveTrackSelection.Factory
+        AdaptiveTrackSelection.Factory adaptiveTrackSelectionFactory = new AdaptiveTrackSelection.Factory();
 
-        TrackSelection.Factory adaptiveTrackSelectionFactory =
-                new AdaptiveTrackSelection.Factory(BANDWIDTH_METER);
-        trackSelector = new DefaultTrackSelector(adaptiveTrackSelectionFactory);
+        // Initialize the TrackSelector with the AdaptiveTrackSelection.Factory
+        trackSelector = new DefaultTrackSelector(this, adaptiveTrackSelectionFactory);
         eventLogger = new EventLogger(trackSelector);
         extensions = new String[1];
-      //  com.google.android.exoplayer2.source.MediaSource[] mediaSources = new com.google.android.exoplayer2.source.MediaSource[1];
+        //  com.google.android.exoplayer2.source.MediaSource[] mediaSources = new com.google.android.exoplayer2.source.MediaSource[1];
         //   mediaSources[i] = buildMediaSource(uris[i], extensions[i], mainHandler, eventLogger);
 
-        MediaSource mediaSources = new ExtractorMediaSource(videoUri,
-                new CacheDataSourceFactory(FullScreenImage.this,
-                        100 * 1024 * 1024, 5 * 1024 * 1024), new DefaultExtractorsFactory(), null, null);
-
-
+        MediaSource mediaSources =buildMediaSource(videoUri);
         //mediaSources[0] = buildMediaSource(videoUri, extensions[0], mainHandler, eventLogger);
 
         //   mediaSources[i] = buildMediaSource(uri, extensions[i], mainHandler, eventLogger);
@@ -441,13 +431,18 @@ public class FullScreenImage extends AppCompatActivity implements PlaybackPrepar
         videoPlayerView.setPlaybackPreparer(this);
         videoPlayerView.setPlayer(player);
         player.addListener(new PlayerEventListener());
-        player.addListener(eventLogger);
+//        player.addListener(eventLogger);
         player.setRepeatMode(Player.REPEAT_MODE_ALL);
         player.setPlayWhenReady(true); //run file/link when ready to play.
-        player.addVideoDebugListener(this);
+//        player.addVideoDebugListener(this);
 
         player.prepare(mediaSources, false, false);
         player.seekTo(currentvidPosition);
+    }
+
+    private MediaSource buildMediaSource(Uri videoUri) {
+        return new ProgressiveMediaSource.Factory(new CacheDataSourceFactory(this, 100 * 1024 * 1024, 5 * 1024 * 1024))
+                .createMediaSource(MediaItem.fromUri(videoUri));
     }
 
     @Override
@@ -476,16 +471,6 @@ public class FullScreenImage extends AppCompatActivity implements PlaybackPrepar
     }
 
     @Override
-    public void onVideoSizeChanged(int width, int height, int unappliedRotationDegrees, float pixelWidthHeightRatio) {
-
-    }
-
-    @Override
-    public void onRenderedFirstFrame(Surface surface) {
-
-    }
-
-    @Override
     public void onVideoDisabled(DecoderCounters counters) {
 
     }
@@ -495,7 +480,7 @@ public class FullScreenImage extends AppCompatActivity implements PlaybackPrepar
                 .buildDataSourceFactory(useBandwidthMeter ? BANDWIDTH_METER : null);
     }
 
-    private com.google.android.exoplayer2.source.MediaSource buildMediaSource(
+  /*  private com.google.android.exoplayer2.source.MediaSource buildMediaSource(
             Uri uri,
             String overrideExtension,
             @Nullable Handler handler,
@@ -523,7 +508,7 @@ public class FullScreenImage extends AppCompatActivity implements PlaybackPrepar
                 throw new IllegalStateException("Unsupported type: " + type);
             }
         }
-    }
+    }*/
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -578,7 +563,7 @@ public class FullScreenImage extends AppCompatActivity implements PlaybackPrepar
         }
     }
 
-    private class PlayerEventListener extends Player.DefaultEventListener {
+    private class PlayerEventListener implements Player.EventListener {
 
         @Override
         public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
@@ -653,11 +638,11 @@ public class FullScreenImage extends AppCompatActivity implements PlaybackPrepar
 
         @Override
         public DataSource createDataSource() {
-            LeastRecentlyUsedCacheEvictor evictor = new LeastRecentlyUsedCacheEvictor(maxCacheSize);
-            SimpleCache simpleCache = new SimpleCache(new File(context.getCacheDir(), "media"), evictor);
+            SimpleCache simpleCache = CacheManager.getInstance(context);
             return new CacheDataSource(simpleCache, defaultDatasourceFactory.createDataSource(),
                     new FileDataSource(), new CacheDataSink(simpleCache, maxFileSize),
                     CacheDataSource.FLAG_BLOCK_ON_CACHE | CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR, null);
+
         }
     }
 

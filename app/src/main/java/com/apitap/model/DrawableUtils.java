@@ -26,6 +26,10 @@ public final class DrawableUtils {
             return new InsetDrawable(drawable, 100, 0, 100, 0);
         }
 
+    public static int getThreeDotsDrawableResId() {
+        return R.drawable.sample_three_icons_inset;
+    }
+
     private DrawableUtils() {
     }
 }

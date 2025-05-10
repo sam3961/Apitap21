@@ -33,21 +33,15 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.github.rahatarmanahmed.cpv.CircularProgressView;
 import com.google.android.exoplayer2.C;
-import com.google.android.exoplayer2.DefaultLoadControl;
-import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlaybackException;
-import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.Format;
-import com.google.android.exoplayer2.LoadControl;
+import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.PlaybackPreparer;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.decoder.DecoderCounters;
-import com.google.android.exoplayer2.drm.DrmSessionManager;
-import com.google.android.exoplayer2.drm.FrameworkMediaCrypto;
 import com.google.android.exoplayer2.source.ConcatenatingMediaSource;
-import com.google.android.exoplayer2.source.ExtractorMediaSource;
-import com.google.android.exoplayer2.source.MediaSourceEventListener;
+import com.google.android.exoplayer2.source.ProgressiveMediaSource;
 import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.source.dash.DashMediaSource;
 import com.google.android.exoplayer2.source.dash.DefaultDashChunkSource;
@@ -56,18 +50,15 @@ import com.google.android.exoplayer2.source.smoothstreaming.DefaultSsChunkSource
 import com.google.android.exoplayer2.source.smoothstreaming.SsMediaSource;
 import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
-import com.google.android.exoplayer2.trackselection.TrackSelection;
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
-import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.PlayerView;
-import com.google.android.exoplayer2.upstream.BandwidthMeter;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
-import com.google.android.exoplayer2.util.EventLogger;
 import com.google.android.exoplayer2.util.Util;
 import com.google.android.exoplayer2.video.VideoRendererEventListener;
 
 import java.util.ArrayList;
+import java.util.EventListener;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.Random;
@@ -107,7 +98,7 @@ public class SamplePagerAdapter extends PagerAdapter implements PlaybackPreparer
     private Handler mainHandler;
     private DataSource.Factory mediaDataSourceFactory;
     private DefaultTrackSelector trackSelector;
-    private EventLogger eventLogger;
+    private EventListener eventLogger;
     private PlayerView videoPlayerView;
     private CircularProgressView progressBar;
 
@@ -654,45 +645,18 @@ public class SamplePagerAdapter extends PagerAdapter implements PlaybackPreparer
 */
 
 
-    private void playerReadyIntialization() {
-
-        BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
-        TrackSelection.Factory videoTrackSelectionFactory = new AdaptiveTrackSelection.Factory(bandwidthMeter);
-        TrackSelector trackSelector = new DefaultTrackSelector(videoTrackSelectionFactory);
-
-// 2. Create a default LoadControl
-        LoadControl loadControl = new DefaultLoadControl();
-
-        DrmSessionManager<FrameworkMediaCrypto> drmSessionManager = null;
-
-        @DefaultRenderersFactory.ExtensionRendererMode int extensionRendererMode =
-                App.getInstance().useExtensionRenderers()
-                        ? (true ? DefaultRenderersFactory.EXTENSION_RENDERER_MODE_PREFER
-                        : DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON)
-                        : DefaultRenderersFactory.EXTENSION_RENDERER_MODE_OFF;
-        DefaultRenderersFactory renderersFactory = new DefaultRenderersFactory(context,
-                drmSessionManager, extensionRendererMode);
-
-// 3. Create the player
-        //    player = ExoPlayerFactory.newSimpleInstance(this, trackSelector, loadControl);
-        player = ExoPlayerFactory.newSimpleInstance(renderersFactory, trackSelector, loadControl);
-
-    }
-
-
     public void initializePlayer() {
 
         final Uri videoUri = Uri.parse(/*ATPreferences.readString(context, Constants.KEY_VIDEO_URL) +*/ videoUrl);
-        TrackSelection.Factory adaptiveTrackSelectionFactory =
-                new AdaptiveTrackSelection.Factory(BANDWIDTH_METER);
-        trackSelector = new DefaultTrackSelector(adaptiveTrackSelectionFactory);
-        eventLogger = new EventLogger(trackSelector);
+        AdaptiveTrackSelection.Factory adaptiveTrackSelectionFactory = new AdaptiveTrackSelection.Factory();
+        trackSelector = new DefaultTrackSelector(context, adaptiveTrackSelectionFactory);
+//        eventLogger = new EventLogger(trackSelector);
         extensions = new String[1];
         com.google.android.exoplayer2.source.MediaSource[] mediaSources = new com.google.android.exoplayer2.source.MediaSource[1];
         //   mediaSources[i] = buildMediaSource(uris[i], extensions[i], mainHandler, eventLogger);
 
 
-        mediaSources[0] = buildMediaSource(videoUri, extensions[0], mainHandler, eventLogger);
+        mediaSources[0] = buildMediaSource(videoUri, extensions[0], mainHandler);
 
         //   mediaSources[i] = buildMediaSource(uri, extensions[i], mainHandler, eventLogger);
 
@@ -705,11 +669,10 @@ public class SamplePagerAdapter extends PagerAdapter implements PlaybackPreparer
         videoPlayerView.setPlaybackPreparer(this);
         videoPlayerView.setPlayer(player);
         player.addListener(playerEventListener);
-        player.addListener(eventLogger);
+//        player.addListener(eventLogger);
         player.setRepeatMode(Player.REPEAT_MODE_OFF);
         player.setVolume(0f);
         player.setPlayWhenReady(true); //run file/link when ready to play.
-        player.addVideoDebugListener(this);
 
         player.prepare(mediaSource, false, false);
     }
@@ -739,15 +702,6 @@ public class SamplePagerAdapter extends PagerAdapter implements PlaybackPreparer
 
     }
 
-    @Override
-    public void onVideoSizeChanged(int width, int height, int unappliedRotationDegrees, float pixelWidthHeightRatio) {
-
-    }
-
-    @Override
-    public void onRenderedFirstFrame(Surface surface) {
-
-    }
 
     @Override
     public void onVideoDisabled(DecoderCounters counters) {
@@ -762,34 +716,34 @@ public class SamplePagerAdapter extends PagerAdapter implements PlaybackPreparer
     private com.google.android.exoplayer2.source.MediaSource buildMediaSource(
             Uri uri,
             String overrideExtension,
-            @Nullable Handler handler,
-            @Nullable MediaSourceEventListener listener) {
+            @Nullable Handler handler) {
         @C.ContentType int type = TextUtils.isEmpty(overrideExtension) ? Util.inferContentType(uri)
                 : Util.inferContentType("." + overrideExtension);
+        MediaItem mediaItem = MediaItem.fromUri(uri);
         switch (type) {
             case C.TYPE_DASH:
                 return new DashMediaSource.Factory(
                         new DefaultDashChunkSource.Factory(mediaDataSourceFactory),
                         buildDataSourceFactory(false))
-                        .createMediaSource(uri, handler, listener);
+                        .createMediaSource(mediaItem);
             case C.TYPE_SS:
                 return new SsMediaSource.Factory(
                         new DefaultSsChunkSource.Factory(mediaDataSourceFactory),
                         buildDataSourceFactory(false))
-                        .createMediaSource(uri, handler, listener);
+                        .createMediaSource(mediaItem);
             case C.TYPE_HLS:
                 return new HlsMediaSource.Factory(mediaDataSourceFactory)
-                        .createMediaSource(uri, handler, listener);
+                        .createMediaSource(mediaItem);
             case C.TYPE_OTHER:
-                return new ExtractorMediaSource.Factory(mediaDataSourceFactory)
-                        .createMediaSource(uri, handler, listener);
+                return new ProgressiveMediaSource.Factory(mediaDataSourceFactory)
+                        .createMediaSource(mediaItem);
             default: {
                 throw new IllegalStateException("Unsupported type: " + type);
             }
         }
     }
 
-    private class PlayerEventListener extends Player.DefaultEventListener {
+    private class PlayerEventListener implements Player.EventListener {
 
         @Override
         public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {

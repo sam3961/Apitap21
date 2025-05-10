@@ -1,26 +1,32 @@
 buildscript {
     repositories {
+        maven { url 'https://maven.google.com' }
+//        maven { url 'https://plugins.gradle.org/m2' }
         google()
         jcenter()
+        mavenCentral()
     }
 
     dependencies {
         classpath 'com.android.tools.build:gradle:7.0.4'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
+//        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
     }
 }
 
 allprojects {
     repositories {
+        maven { url 'https://maven.google.com' }
+//        maven { url 'https://plugins.gradle.org/m2' }
         google()
         jcenter()
+        mavenCentral() // Replacing jcenter()
     }
 }
 
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'com.jfrog.bintray'
+//apply plugin: 'com.jfrog.bintray'
 
 ext {
     libraryName = 'CodeScanner'
@@ -40,17 +46,17 @@ ext {
 }
 
 android {
-    compileSdkVersion 28
-    buildToolsVersion '28.0.3'
+    compileSdkVersion 31
+
 
     defaultConfig {
-        minSdkVersion 19
-        targetSdkVersion 28
+        minSdkVersion 24
+        targetSdkVersion 33
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     buildTypes {
@@ -129,23 +135,23 @@ artifacts {
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
-bintray {
-    user = properties.getProperty('bintray.user')
-    key = properties.getProperty('bintray.apikey')
-    configurations = ['archives']
-
-    pkg {
-        repo = bintrayRepo
-        name = bintrayName
-        desc = libraryDescription
-        websiteUrl = siteUrl
-        vcsUrl = gitUrl
-        licenses = allLicenses
-        publish = true
-
-        version {
-            desc = libraryDescription
-            vcsTag = 'v' + libraryVersion
-        }
-    }
-}
+//bintray {
+//    user = properties.getProperty('bintray.user')
+//    key = properties.getProperty('bintray.apikey')
+//    configurations = ['archives']
+//
+//    pkg {
+//        repo = bintrayRepo
+//        name = bintrayName
+//        desc = libraryDescription
+//        websiteUrl = siteUrl
+//        vcsUrl = gitUrl
+//        licenses = allLicenses
+//        publish = true
+//
+//        version {
+//            desc = libraryDescription
+//            vcsTag = 'v' + libraryVersion
+//        }
+//    }
+//}

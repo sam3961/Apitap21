@@ -1,2 +1,4 @@
 include ':code-scanner-master'
 include ':app', ':MediaPlayer'
+include ':aviloader'
+include ':mediapicker'

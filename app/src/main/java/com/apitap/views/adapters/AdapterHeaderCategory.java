@@ -19,7 +19,7 @@ import java.util.List;
 
 public class AdapterHeaderCategory extends RecyclerView.Adapter<AdapterHeaderCategory.ViewHolder> {
 
-    private List<String> categoryList;
+    public List<String> categoryList;
     private CategoryHeaderClick adapterClick;
     private Context mContext;
     private int row_index=-1;

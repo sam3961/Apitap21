@@ -168,6 +168,7 @@ public class FragmentItemsHomeStoreFront extends BaseFragment implements View.On
     private int categorySelectedPosition;
     private BrowseCategoryResponse browseCategoryResponse;
     private BrandNamesResponse brandNamesResponse;
+    private LinearLayout linearLayoutHeaderCategory;
 
 
     @Override
@@ -219,7 +220,7 @@ public class FragmentItemsHomeStoreFront extends BaseFragment implements View.On
     }
 
     private void initViews() {
-        TabLayout tabLayout = getActivity().findViewById(R.id.tabs);
+        linearLayoutHeaderCategory = getActivity().findViewById(R.id.header_browse_category);
         imageViewFilter = rootView.findViewById(R.id.imageViewFilter);
         imageViewStoreImage = rootView.findViewById(R.id.adstoreImg);
         imageViewBackHeaderCat = getActivity().findViewById(R.id.imageViewBackHeaderCat);
@@ -1098,6 +1099,12 @@ public class FragmentItemsHomeStoreFront extends BaseFragment implements View.On
         else {
            adapterHeaderCategory = new AdapterHeaderCategory(arrayListHeaderCategory, this);
             recyclerViewCategoryHeader.setAdapter(adapterHeaderCategory);
+        }
+
+        if (Utils.isListValid(adapterHeaderCategory.categoryList)){
+            linearLayoutHeaderCategory.setVisibility(View.VISIBLE);
+        }else{
+            linearLayoutHeaderCategory.setVisibility(View.GONE);
         }
     }
 

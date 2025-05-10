@@ -97,7 +97,7 @@ public class Utils {
     public final static String TAG_NAME_FRAGMENT = "ACTIVITY_FRAGMENT";
     public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 456;
-    public static final String APK_VERSION = "24.0709.002"; // yy - mm-dd-version
+    public static final String APK_VERSION = "25.0318.519"; // yy - mm-dd-version
     public static String seacrh_key = "";
     public static String locationSearch = "";
     public static ArrayList<String> placeIdList;
@@ -1280,10 +1280,6 @@ public class Utils {
     }
 
     public static String bitmapToBase64(Bitmap bitmap) {
-       /* ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-        byte[] byteArray = byteArrayOutputStream.toByteArray();
-        return Base64.encodeToString(byteArray, Base64.DEFAULT);*/
             int previewWidth=150;
             int previewHeight=bitmap.getHeight()*previewWidth/ bitmap.getWidth();
             Bitmap previewBitmap = Bitmap.createScaledBitmap(bitmap,previewWidth,previewHeight,false);
@@ -1292,4 +1288,19 @@ public class Utils {
             byte[] bytes=byteArrayOutputStream.toByteArray();
             return Base64.encodeToString(bytes,Base64.DEFAULT);
     }
+
+    public static boolean isListValid(List<String> list) {
+        if (list == null) {
+            return false;
+        }
+
+        // Check if the size is 1
+        if (list.size() == 1) {
+            // Check if the single element is null
+            return list.get(0) != null;
+        }
+
+        return true;
+    }
+
 }

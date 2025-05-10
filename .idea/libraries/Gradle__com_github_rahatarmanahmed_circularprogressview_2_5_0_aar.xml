@@ -1,15 +1,15 @@
 <component name="libraryTable">
   <library name="Gradle: com.github.rahatarmanahmed:circularprogressview:2.5.0@aar" external-system-id="GRADLE">
     <CLASSES>
-      <root url="file://$PROJECT_DIR$/../../../Ubuntu/Android/Sdk/caches/transforms-2/files-2.1/1ae708934b6097dc8c6fb8f5bf92d087/jetified-circularprogressview-2.5.0/res" />
-      <root url="file://$PROJECT_DIR$/../../../Ubuntu/Android/Sdk/caches/transforms-2/files-2.1/1ae708934b6097dc8c6fb8f5bf92d087/jetified-circularprogressview-2.5.0/AndroidManifest.xml" />
-      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/Android/Sdk/caches/transforms-2/files-2.1/1ae708934b6097dc8c6fb8f5bf92d087/jetified-circularprogressview-2.5.0/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/1ae708934b6097dc8c6fb8f5bf92d087/jetified-circularprogressview-2.5.0/res" />
+      <root url="file://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/1ae708934b6097dc8c6fb8f5bf92d087/jetified-circularprogressview-2.5.0/AndroidManifest.xml" />
+      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/transforms-2/files-2.1/1ae708934b6097dc8c6fb8f5bf92d087/jetified-circularprogressview-2.5.0/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/Android/Sdk/caches/modules-2/files-2.1/com.github.rahatarmanahmed/circularprogressview/2.5.0/a075c1e752c3904fd75c3de54382790ba9862195/circularprogressview-2.5.0-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/modules-2/files-2.1/com.github.rahatarmanahmed/circularprogressview/2.5.0/a075c1e752c3904fd75c3de54382790ba9862195/circularprogressview-2.5.0-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
-      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/Android/Sdk/caches/modules-2/files-2.1/com.github.rahatarmanahmed/circularprogressview/2.5.0/9d21e30881abb940beeb2da01e664bca3d40db2a/circularprogressview-2.5.0-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../Ubuntu/.gradle/caches/modules-2/files-2.1/com.github.rahatarmanahmed/circularprogressview/2.5.0/9d21e30881abb940beeb2da01e664bca3d40db2a/circularprogressview-2.5.0-sources.jar!/" />
     </SOURCES>
   </library>
 </component>
