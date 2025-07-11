@@ -224,7 +224,7 @@ public class BaseFragment extends Fragment implements AdapterBusinessSelect.Busi
 
     public void baseshowFeedbackMessage(Activity activity, View view, String message) {
         Snackbar snakbar = Snackbar.make(view, message, Snackbar.LENGTH_LONG);
-        TextView tv = snakbar.getView().findViewById(R.id.snackbar_text);
+        TextView tv = snakbar.getView().findViewById(com.google.android.material.R.id.snackbar_text);
         tv.setTextColor(ContextCompat.getColor(activity, R.color.colorWhite));
         snakbar.getView().setBackgroundColor(ContextCompat.getColor(activity, R.color.colorGreenLogo));
         if (snakbar.isShown()) {

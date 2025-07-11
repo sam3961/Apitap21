@@ -41,10 +41,10 @@ import com.apitap.views.TermsAndConditionsActivity;
 import com.apitap.views.WebViewActivity;
 import com.apitap.views.fragments.BaseFragment;
 import com.github.rahatarmanahmed.cpv.CircularProgressView;
-import com.google.android.gms.auth.api.credentials.Credential;
+/*import com.google.android.gms.auth.api.credentials.Credential;
 import com.google.android.gms.auth.api.credentials.Credentials;
 import com.google.android.gms.auth.api.credentials.CredentialsClient;
-import com.google.android.gms.auth.api.credentials.CredentialsOptions;
+import com.google.android.gms.auth.api.credentials.CredentialsOptions;*/
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -205,7 +205,7 @@ public class FragmentLogin extends BaseFragment implements View.OnClickListener 
         ATPreferences.putString(getActivity(), Constants.USER_MAIL, editEmail.getText().toString());
         ATPreferences.putString(getActivity(), Constants.USER_PASSWORD, editPassword.getText().toString());
 
-        Credential credential = new Credential.Builder(editEmail.getText().toString())
+     /*   Credential credential = new Credential.Builder(editEmail.getText().toString())
                 .setPassword(editPassword.getText().toString())  // Important: only store passwords in this field.
                 .build();
 
@@ -215,7 +215,7 @@ public class FragmentLogin extends BaseFragment implements View.OnClickListener 
 
         CredentialsClient credentialsClient = Credentials.getClient(getActivity(), options);
 
-        credentialsClient.save(credential);
+        credentialsClient.save(credential);*/
 
 
     }

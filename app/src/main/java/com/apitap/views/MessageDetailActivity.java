@@ -1171,7 +1171,7 @@ public class MessageDetailActivity extends BaseActivity implements FragmentDrawe
                     } else if (productId != null && !productId.isEmpty()) {
 
                         if (*/
-/*isItemDetails &&*//*
+                /*isItemDetails &&*//*
  list.get(0).getProductName() == null)
                             ModelManager.getInstance().getMessageManager().sendMessage(mActivity,
                                     Operations.sendMessageForProduct(mActivity,
@@ -1210,7 +1210,7 @@ public class MessageDetailActivity extends BaseActivity implements FragmentDrawe
         View view = layoutInflater.inflate(R.layout.view_choose_attachment, null);
         dialog = new BottomSheetDialog(mActivity);
         dialog.setContentView(view);
-        dialog.getWindow().findViewById(R.id.design_bottom_sheet).setBackgroundResource(android.R.color.transparent);
+        dialog.getWindow().findViewById(com.google.android.material.R.id.design_bottom_sheet).setBackgroundResource(android.R.color.transparent);
         TextView textViewGallery = dialog.findViewById(R.id.textViewPhoto);
         TextView textViewCamera = dialog.findViewById(R.id.textViewCamera);
         TextView textViewCancel = dialog.findViewById(R.id.textViewCancel);

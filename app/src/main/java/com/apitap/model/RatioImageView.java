@@ -1,3 +1,4 @@
+/*
 package com.apitap.model;
 
 import android.content.Context;
@@ -97,11 +98,13 @@ public class RatioImageView extends ImageView {
         mDimenCache.put(groupId, new DimenPair(cachedWidth, cachedHeight));
     }
 
-    /***
+    */
+/***
      * Change the groupId for this image view. This will trigger recalculation of dimensions.
      *
      * @param groupId String any string or null.
-     */
+     *//*
+
     public void setGroupId(String groupId) {
         if(groupId != null) {
             mDimenCache.remove(groupId);
@@ -111,11 +114,13 @@ public class RatioImageView extends ImageView {
         cachedHeight = 0;
     }
 
-    /***
+    */
+/***
      * Default: false. If set to true, we will adjust the width to maintain aspect ration instead of the height.
      *
      * @param adjustWidth
-     */
+     *//*
+
     public void setAdjustWidth(boolean adjustWidth) {
         this.adjustWidth = adjustWidth;
         cachedWidth = 0;
@@ -133,4 +138,4 @@ public class RatioImageView extends ImageView {
         int width;
         int height;
     }
-}
+}*/

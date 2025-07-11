@@ -1078,8 +1078,7 @@ public class FragmentMessageDetail extends BaseFragment implements View.OnClickL
         View view = layoutInflater.inflate(R.layout.view_choose_attachment, null);
         dialog = new BottomSheetDialog(mActivity);
         dialog.setContentView(view);
-        dialog.getWindow().findViewById(R.id.design_bottom_sheet).setBackgroundResource(android.R.color.transparent);
-        TextView textViewGallery = dialog.findViewById(R.id.textViewPhoto);
+        TextView textViewPhoto = dialog.findViewById(R.id.textViewPhoto);
         TextView textViewCamera = dialog.findViewById(R.id.textViewCamera);
         TextView textViewCancel = dialog.findViewById(R.id.textViewCancel);
         textViewCamera.setOnClickListener(new View.OnClickListener() {
@@ -1089,7 +1088,7 @@ public class FragmentMessageDetail extends BaseFragment implements View.OnClickL
 
             }
         });
-        textViewGallery.setOnClickListener(new View.OnClickListener() {
+        textViewPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 imagePickerIntent(ImagePicker.Mode.GALLERY);
