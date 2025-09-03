@@ -25,6 +25,7 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.apitap.R;
@@ -52,10 +53,14 @@ import im.delight.android.webview.AdvancedWebView;
 
 public class FragmentCheckout extends BaseFragment implements View.OnClickListener, KeyboardHeightObserver {
 
-
+    String TAG = FragmentCheckout.class.getSimpleName();
+    private Boolean headerCategoryVisible = false;
+    private Boolean isSearchToolbarVisible = false;
     private WebView webView;
     private LinearLayout backll;
     private LinearLayout linearLayoutHeader;
+    private LinearLayout linearLayoutHeaderCategory;
+    private RelativeLayout relativeLayoutSearchBar;
     String url = "";
     private Context mContext;
     private boolean isCurrentMerchantFav;
@@ -65,7 +70,7 @@ public class FragmentCheckout extends BaseFragment implements View.OnClickListen
 
     private String merchantId, companyLogo, deliveryId = "", cartId = "";
     private Button buttonStoreInfo;
-  //  private KeyboardHeightProvider keyboardHeightProvider;
+    //  private KeyboardHeightProvider keyboardHeightProvider;
     private LinearLayout keyBoardView;
 
     @Override
@@ -78,13 +83,18 @@ public class FragmentCheckout extends BaseFragment implements View.OnClickListen
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mContext = getActivity();
-      //  keyboardHeightProvider = new KeyboardHeightProvider(getActivity());
+        //  keyboardHeightProvider = new KeyboardHeightProvider(getActivity());
         View activitylayout = view.findViewById(R.id.activitylayout);
 //        activitylayout.post(new Runnable() {
 //            public void run() {
 //                keyboardHeightProvider.start();
 //            }
 //        });
+        if (getActivity() != null) {
+            linearLayoutHeaderCategory = getActivity().findViewById(R.id.header_browse_category);
+            relativeLayoutSearchBar = getActivity().findViewById(R.id.view_search);
+        }
+
         backll = (LinearLayout) view.findViewById(R.id.back_ll);
         linearLayoutHeader = (LinearLayout) view.findViewById(R.id.header);
         keyBoardView = view.findViewById(R.id.keyboard);
@@ -97,6 +107,15 @@ public class FragmentCheckout extends BaseFragment implements View.OnClickListen
 
         if (!ATPreferences.readBoolean(getActivity(), Constants.HEADER_STORE)) {
             linearLayoutHeader.setVisibility(View.VISIBLE);
+        }
+
+        if (linearLayoutHeaderCategory.getVisibility() == View.VISIBLE) {
+            headerCategoryVisible = true;
+            linearLayoutHeaderCategory.setVisibility(View.GONE);
+        }
+        if (relativeLayoutSearchBar.getVisibility() == View.VISIBLE) {
+            isSearchToolbarVisible = true;
+            relativeLayoutSearchBar.setVisibility(View.GONE);
         }
 
 
@@ -122,7 +141,7 @@ public class FragmentCheckout extends BaseFragment implements View.OnClickListen
         }
         textViewStoreName.setText(companyName);
         Picasso.get().load(ATPreferences.readString(getActivity(), Constants.KEY_IMAGE_URL) +
-                companyLogo)
+                        companyLogo)
                 .placeholder(R.drawable.loading).into(imageViewStoreHeader);
 
 
@@ -160,6 +179,7 @@ public class FragmentCheckout extends BaseFragment implements View.OnClickListen
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 try {
+                    Log.d(TAG, "shouldOverrideUrlLoading: " + url);
                     if (url.equalsIgnoreCase(Constants.SHOPPING_SUCCESS_URL)) {
                         webView.stopLoading();
                         ModelManager.getInstance().getShoppingManager().updateGPSCoordinatesByCartId(getActivity()
@@ -201,7 +221,6 @@ public class FragmentCheckout extends BaseFragment implements View.OnClickListen
         }
 
     }
-
 
 
     @Override
@@ -380,5 +399,13 @@ public class FragmentCheckout extends BaseFragment implements View.OnClickListen
 
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (isSearchToolbarVisible)
+            relativeLayoutSearchBar.setVisibility(View.VISIBLE);
+        if (headerCategoryVisible)
+            linearLayoutHeaderCategory.setVisibility(View.VISIBLE);
+    }
 }
 

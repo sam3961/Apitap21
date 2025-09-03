@@ -186,11 +186,11 @@ public class MerchantManager {
 
                             phonenumber = /*objPh.getString("_48_28");*/objPh.has("_48_28") ? objPh.getString("_48_28") : "";
                             //         Log.d("countrynamekkk", phonenumber + "");
-                            addresslineone = objthre.getString("_114_12");
-                            addresslinetwo = objthre.getString("_114_13");
-                            latmap = objLc.getString("_120_38");
-                            longmap = objLc.getString("_120_39");
-                            distance = objLc.getString("_122_107");
+                            addresslineone = objthre.optString("_114_12");
+                            addresslinetwo = objthre.optString("_114_13");
+                            latmap = objLc.optString("_120_38");
+                            longmap = objLc.optString("_120_39");
+                            distance = objLc.optString("_122_107");
                             String locationName = Utils.hexToASCII(objtwo.getString("_114_70"));
 
                             latlist.add(latmap);

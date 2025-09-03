@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        style="@style/ScrollBarStyle"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/rootLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_12sdp">
+
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imageViewClose"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_close"
+                app:layout_constraintBottom_toBottomOf="@+id/textViewItemName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textViewItemName" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textViewItemName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_4sdp"
+                android:fontFamily="@font/rubik_medium"
+                android:includeFontPadding="false"
+                android:maxLines="2"
+                android:text="Prosciutto Pizza"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/_12sdp"
+                android:ellipsize="end"
+                app:layout_constraintEnd_toStartOf="@+id/imageViewClose"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/imageViewItem"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_100sdp"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/demo_pizza"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/viewDividerOptions"
+                app:shapeAppearanceOverlay="@style/RoundedImageView10" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textViewItemPrice"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_12sdp"
+                android:ellipsize="end"
+                android:fontFamily="@font/poppins_semibold"
+                android:gravity="start"
+                android:includeFontPadding="false"
+                android:maxLines="2"
+                android:text="15% OFF"
+                android:textColor="@color/colorBlue"
+                android:textSize="@dimen/_14sdp"
+                app:layout_constraintEnd_toEndOf="@+id/imageViewClose"
+                app:layout_constraintStart_toEndOf="@+id/imageViewItem"
+                app:layout_constraintTop_toTopOf="@+id/imageViewItem" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textViewItemDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:fontFamily="@font/rubik_regular"
+                android:gravity="start"
+                android:text=""
+                android:includeFontPadding="false"
+                android:textColor="@color/colorText"
+                android:textSize="@dimen/_10sdp"
+                app:layout_constraintEnd_toEndOf="@+id/imageViewClose"
+                app:layout_constraintStart_toStartOf="@+id/textViewItemPrice"
+                app:layout_constraintTop_toBottomOf="@+id/textViewItemPrice" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textViewRequiredItems"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:background="@drawable/button_rounded_green_8"
+                android:backgroundTint="@color/colorShiftGrey"
+                android:ellipsize="end"
+                android:fontFamily="@font/rubik_regular"
+                android:gravity="start"
+                android:includeFontPadding="false"
+                android:paddingHorizontal="@dimen/_8sdp"
+                android:paddingVertical="@dimen/_4sdp"
+                android:text="You need to add at least 4 of each selected item to enable the promotion."
+                android:textColor="@color/colorText"
+                android:textSize="@dimen/_9sdp"
+                app:layout_constraintEnd_toEndOf="@+id/imageViewClose"
+                app:layout_constraintStart_toStartOf="@+id/imageViewItem"
+                app:layout_constraintTop_toBottomOf="@+id/imageViewItem" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textViewFreeItem"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:background="@drawable/button_rounded_green_8"
+                android:backgroundTint="@color/colorGreyBar"
+                android:ellipsize="end"
+                android:fontFamily="@font/rubik_regular"
+                android:gravity="start"
+                android:visibility="gone"
+                android:includeFontPadding="false"
+                android:paddingHorizontal="@dimen/_8sdp"
+                android:paddingVertical="@dimen/_4sdp"
+                android:text="Please select an item to start."
+                android:textColor="@color/colorText"
+                android:textSize="@dimen/_9sdp"
+                app:layout_constraintEnd_toEndOf="@+id/imageViewClose"
+                app:layout_constraintStart_toStartOf="@+id/imageViewItem"
+                app:layout_constraintTop_toBottomOf="@+id/textViewRequiredItems" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textViewSelectItem"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:background="@drawable/button_rounded_green_8"
+                android:backgroundTint="@color/colorVeryLightPink"
+                android:ellipsize="end"
+                android:fontFamily="@font/rubik_regular"
+                android:gravity="start"
+                android:includeFontPadding="false"
+                android:paddingHorizontal="@dimen/_8sdp"
+                android:paddingVertical="@dimen/_4sdp"
+                android:text="Please select an item to start."
+                android:textColor="@color/status_red"
+                android:textSize="@dimen/_9sdp"
+                app:layout_constraintEnd_toEndOf="@+id/imageViewClose"
+                app:layout_constraintStart_toStartOf="@+id/imageViewItem"
+                app:layout_constraintTop_toBottomOf="@+id/textViewFreeItem" />
+
+
+            <View
+                android:id="@+id/viewDividerOptions"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:background="@color/hintColor"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewItemName" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textViewOptionsMandatory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/rubik_regular"
+                android:text="@string/the_options_are_required"
+                android:textColor="@color/colorOrangeRed"
+                android:textSize="@dimen/_9sdp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="@+id/textViewItemDescription"
+                app:layout_constraintTop_toBottomOf="@+id/imageViewItem" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewPromotionsItems"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/ScrollBarStyle"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:nestedScrollingEnabled="false"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintStart_toStartOf="@+id/textViewItemDescription"
+                app:layout_constraintTop_toBottomOf="@+id/textViewSelectItem"
+                tools:itemCount="2"
+                tools:listitem="@layout/adapter_promotion_items" />
+
+            <View
+                android:id="@+id/viewDivider"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:background="@color/hintColor"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/recyclerViewPromotionsItems" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/editTextNotes"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_60sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:background="@drawable/rounded_outline_button_4"
+                android:fontFamily="@font/rubik_regular"
+                android:gravity="start"
+                android:hint="@string/note"
+                android:includeFontPadding="false"
+                android:padding="@dimen/_8sdp"
+                android:textColor="@color/colorText"
+                android:textColorHint="@color/colorOutline"
+                android:textSize="@dimen/_11sdp"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@+id/viewDivider" />
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintAddToOrder"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_marginEnd="@dimen/_12sdp"
+                app:layout_constraintBottom_toBottomOf="@+id/buttonCancel"
+                app:layout_constraintEnd_toStartOf="@+id/buttonAddToOrder"
+                app:layout_constraintTop_toBottomOf="@+id/editTextNotes">
+
+                <LinearLayout
+                    android:id="@+id/linearLayoutCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/rounded_outline_button_4"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/textViewMinus"
+                        android:layout_width="@dimen/_30sdp"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:gravity="center"
+                        android:includeFontPadding="false"
+                        android:text="-"
+                        android:textSize="@dimen/_13sdp" />
+
+                    <View
+                        android:layout_width="@dimen/_1sdp"
+                        android:layout_height="match_parent"
+                        android:background="@color/colorGreen" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/textViewCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/rubik_medium"
+                        android:gravity="center"
+                        android:includeFontPadding="false"
+                        android:paddingHorizontal="@dimen/_16sdp"
+                        android:text="1"
+                        android:textSize="@dimen/_13sdp" />
+
+                    <View
+                        android:layout_width="@dimen/_1sdp"
+                        android:layout_height="match_parent"
+                        android:background="@color/colorGreen" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/textViewPlus"
+                        android:layout_width="@dimen/_30sdp"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:gravity="center"
+                        android:includeFontPadding="false"
+                        android:text="+"
+                        android:textSize="@dimen/_13sdp" />
+
+
+                </LinearLayout>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/buttonItemNotAvailable"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_outline_button_4"
+                    android:enabled="false"
+                    android:fontFamily="@font/rubik_medium"
+                    android:includeFontPadding="false"
+                    android:paddingHorizontal="@dimen/_8sdp"
+                    android:text="@string/item_not_available"
+                    android:textAllCaps="false"
+                    android:textColor="@color/button_text_color"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/buttonCancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:background="@drawable/rounded_outline_button_4"
+                android:fontFamily="@font/rubik_medium"
+                android:includeFontPadding="false"
+                android:paddingHorizontal="@dimen/_8sdp"
+                android:text="@string/media_picker_cancel"
+                android:textColor="@color/colorGreen"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toStartOf="@+id/constraintAddToOrder"
+                app:layout_constraintTop_toBottomOf="@+id/editTextNotes" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/buttonAddToOrder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_bg_dblue"
+                android:fontFamily="@font/rubik_medium"
+                android:includeFontPadding="false"
+                android:paddingHorizontal="@dimen/_8sdp"
+                android:text="@string/add_to_order"
+                android:textColor="@color/button_text_color_green"
+                android:visibility="visible"
+                app:layout_constraintBottom_toTopOf="@+id/viewDividerBottom"
+                app:layout_constraintEnd_toEndOf="@+id/viewDivider"
+                app:layout_constraintTop_toBottomOf="@+id/viewDivider" />
+
+
+            <View
+                android:id="@+id/viewDividerBottom"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:background="@color/hintColor"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buttonCancel" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

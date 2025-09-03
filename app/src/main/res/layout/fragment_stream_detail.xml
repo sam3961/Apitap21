@@ -2,13 +2,13 @@
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nestedScrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/nestedScrollView"
     android:layout_marginTop="@dimen/_2sdp"
-    android:keepScreenOn="true"
     android:background="@color/colorGrey"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    android:keepScreenOn="true">
 
 
     <LinearLayout
@@ -97,13 +97,13 @@
             tools:listitem="@layout/adapter_game_deals" />
 
         <TextView
+            android:id="@+id/textViewNowPlaying"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_6sdp"
             android:background="@color/colorPurple"
             android:fontFamily="@font/rubik_medium"
             android:gravity="center"
-            android:id="@+id/textViewNowPlaying"
             android:paddingVertical="@dimen/_4sdp"
             android:text="Now Playing"
             android:textColor="@color/colorWhite"
@@ -197,41 +197,41 @@
 
                     <FrameLayout
                         android:layout_width="match_parent"
-                        android:padding="@dimen/_8sdp"
-                        android:layout_height="@dimen/_80sdp">
+                        android:layout_height="@dimen/_80sdp"
+                        android:padding="@dimen/_8sdp">
 
                         <pl.droidsonroids.gif.GifImageView
                             android:id="@+id/imageViewGif"
                             android:layout_width="@dimen/_30sdp"
                             android:layout_height="@dimen/_30sdp"
-                            android:layout_gravity="center"
-                            />
+                            android:layout_gravity="center" />
 
                         <com.mikhaellopez.circularprogressbar.CircularProgressBar
                             android:id="@+id/circularProgressBar"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center"
                             app:cpb_background_progressbar_color="#b6bbd8"
                             app:cpb_background_progressbar_width="5dp"
                             app:cpb_progress_direction="to_right"
                             app:cpb_progressbar_color="@color/colorGreen"
-                            android:layout_gravity="center"
                             app:cpb_progressbar_width="@dimen/_6sdp"
                             app:cpb_round_border="false" />
+
                         <SeekBar
                             android:id="@+id/seek_bar"
                             android:layout_width="fill_parent"
                             android:layout_height="12dp"
-                            android:progress="0"
-                            android:background="@null"
-                            android:shape="oval"
-                            android:visibility="gone"
-                            android:layout_marginHorizontal="@dimen/_4sdp"
                             android:layout_gravity="center"
-                            android:splitTrack="false"
+                            android:layout_marginHorizontal="@dimen/_4sdp"
+                            android:background="@null"
+                            android:progress="0"
                             android:progressDrawable="@drawable/progress_background"
                             android:secondaryProgress="0"
-                            android:thumb="@drawable/oval_seekbar_thumb" />
+                            android:shape="oval"
+                            android:splitTrack="false"
+                            android:thumb="@drawable/oval_seekbar_thumb"
+                            android:visibility="gone" />
 
 
                     </FrameLayout>
@@ -261,15 +261,15 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/_40sdp"
-            android:padding="@dimen/_8sdp"
-            android:background="@color/colorBlack">
+            android:background="@color/colorBlack"
+            android:padding="@dimen/_8sdp">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imageViewMute"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_centerVertical="true"
-                android:src="@drawable/volume_mute_white"/>
+                android:src="@drawable/volume_mute_white" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imageViewLowVolume"
@@ -278,30 +278,30 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/_20sdp"
                 android:layout_toEndOf="@+id/imageViewMute"
-                android:src="@drawable/ic_baseline_volume_down_24"/>
+                android:src="@drawable/ic_baseline_volume_down_24" />
 
 
             <SeekBar
                 android:id="@+id/seekBar"
-                android:layout_toEndOf="@+id/imageViewLowVolume"
-                android:layout_toStartOf="@+id/imageViewViewVolumeUp"
                 android:layout_width="match_parent"
-                android:progressTint="@color/colorWhite"
-                android:indeterminateTint="@color/colorWhite"
-                android:progressBackgroundTint="@color/colorWhite"
-                android:thumbTint="@color/colorRed"
-                android:progress="100"
+                android:layout_height="@dimen/_20sdp"
                 android:layout_centerVertical="true"
-                android:layout_height="@dimen/_20sdp"/>
+                android:layout_toStartOf="@+id/imageViewViewVolumeUp"
+                android:layout_toEndOf="@+id/imageViewLowVolume"
+                android:indeterminateTint="@color/colorWhite"
+                android:progress="100"
+                android:progressBackgroundTint="@color/colorWhite"
+                android:progressTint="@color/colorWhite"
+                android:thumbTint="@color/colorRed" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imageViewViewVolumeUp"
-                android:layout_centerVertical="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/_20sdp"
                 android:layout_toStartOf="@+id/imageViewHeadset"
-                android:src="@drawable/ic_baseline_volume_up_24"/>
+                android:src="@drawable/ic_baseline_volume_up_24" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imageViewHeadset"
@@ -309,8 +309,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/ic_baseline_headset_off_24"/>
-
+                android:src="@drawable/ic_baseline_headset_off_24" />
 
 
         </RelativeLayout>
@@ -340,7 +339,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/textViewTvName"
+                        android:id="@+id/textViewTvNameSecond"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/colorGreenLogo"

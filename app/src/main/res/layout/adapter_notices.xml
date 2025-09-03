@@ -80,7 +80,7 @@
                             android:textColor="@color/colorBlack"
                             android:textSize="@dimen/_11ssp" />
                         <TextView
-                            android:id="@+id/textViewShowDuration"
+                            android:id="@+id/textViewShowDurationSecond"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/rubik_regular"
@@ -93,7 +93,7 @@
                             android:textColor="@color/colorBlack"
                             android:textSize="@dimen/_11ssp" />
                         <TextView
-                            android:id="@+id/textViewShowDuration"
+                            android:id="@+id/textViewShowDurationThird"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/rubik_regular"

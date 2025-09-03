@@ -12,6 +12,9 @@
     <string name="create_pass">Create a new password</string>
     <string name="secure_login">Secure Login</string>
     <string name="privacy">By Logging in you agree to our T&amp;C and Privacy Policy</string>
+    <string name="add_to_order">ADD TO ORDER</string>
+    <string name="item_not_available">Item not available</string>
+    <string name="the_options_are_required">The options are required</string>
 
 
     <!--sign up-->
@@ -270,5 +273,6 @@
     <string name="no_data_found">No Data Found</string>
     <string name="restrictions">Restrictions</string>
     <string name="specifications">Specifications</string>
+    <string name="note">Note</string>
 
 </resources>

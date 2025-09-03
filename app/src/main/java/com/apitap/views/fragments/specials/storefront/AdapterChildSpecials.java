@@ -74,8 +74,10 @@ public class AdapterChildSpecials extends RecyclerView.Adapter<AdapterChildSpeci
             @Override
             public void onClick(View v) {
                 adapterClick.onSpecialsClick(
-                        Utils.lengtT(11,arrayListItems.get(position).getJsonMember114144()),
-                        arrayListItems.get(position).getJsonMember114112());
+                        arrayListItems.get(position).getJsonMember114144(),
+//                        Utils.lengtT(11,arrayListItems.get(position).getJsonMember114144()),
+                        arrayListItems.get(position).getJsonMember114112(),
+                        arrayListItems.get(position).getJsonMember114179());
             }
         });
 
@@ -119,6 +121,6 @@ public class AdapterChildSpecials extends RecyclerView.Adapter<AdapterChildSpeci
     }
 
     public interface SpecialListClick {
-        public void onSpecialsClick(String productId,String productType);
+        public void onSpecialsClick(String productId,String productType,String merchantId);
     }
 }

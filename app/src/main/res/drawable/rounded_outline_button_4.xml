@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- res/drawable/rounded_outline_button.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Define rounded corners -->
+    <corners android:radius="@dimen/_4sdp" />
+
+    <!-- Transparent background -->
+    <solid android:color="@android:color/transparent" />
+
+    <!-- Define border color and width -->
+    <stroke
+        android:width="@dimen/_1sdp"
+        android:color="@color/colorGreen" />
+</shape>

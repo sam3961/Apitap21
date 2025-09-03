@@ -4296,14 +4296,14 @@ public class Operations {
 //                + dataPlana + "]}";
 //        Log.d("ParamsAddtocart", parametersToCall);
 //        return parametersToCall;
-//    }
+//    }030400198
 
     public static String makeJsonAddToCartItems(Activity context, String quantity, String productId, String merchantID,
                                                 String Option_Id, String Option_Id2, String specialInstructions) {
         String ChoiceArray = "";
         if (!Option_Id2.isEmpty()) {
             ChoiceArray = "{\"121.104\":\"" + Option_Id + "\"},{\"121.104\":\"" + Option_Id2 + "\"}";
-        } else {
+        } else if (!Option_Id.isEmpty()) {
             ChoiceArray = "{\"121.104\":\"" + Option_Id + "\"}";
         }
         if (!specialInstructions.isEmpty())

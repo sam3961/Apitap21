@@ -1,13 +1,19 @@
 package com.apitap.views.fragments.specials.storefront;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,6 +26,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.apitap.R;
@@ -27,6 +34,7 @@ import com.apitap.controller.ModelManager;
 import com.apitap.model.Constants;
 import com.apitap.model.Operations;
 import com.apitap.model.Utils;
+import com.apitap.model.bean.MerchantLocationBean;
 import com.apitap.model.bean.SelectedParentModel;
 import com.apitap.model.bean.levelOneCategories.LevelOneCategory;
 import com.apitap.model.customclasses.Event;
@@ -42,11 +50,18 @@ import com.apitap.views.adapters.AdapterCategorySpinner;
 import com.apitap.views.adapters.AdapterInitalCategories;
 import com.apitap.views.fragments.BaseFragment;
 import com.apitap.views.fragments.interfaces.SearchStoreClickListener;
-import com.apitap.views.fragments.itemDetails.FragmentItemDetails;
 import com.apitap.views.fragments.messages.FragmentMessages;
 import com.apitap.views.fragments.items.adapter.AdapterCategoryListSpinner;
 import com.apitap.views.fragments.items.adapter.AdapterMerchantCategoryItem;
 import com.apitap.views.fragments.items.adapter.AdapterParentCategoriesItem;
+import com.apitap.views.fragments.shoppingCart.ShoppingCartFragment;
+import com.apitap.views.fragments.specials.AddPromoToOrderDialog;
+import com.apitap.views.fragments.specials.data.AllProductsListResponse;
+import com.apitap.views.fragments.specials.data.AppliedListItem;
+import com.apitap.views.fragments.specials.data.OptionsProductPromoItem;
+import com.apitap.views.fragments.specials.data.ProductItemWrapper;
+import com.apitap.views.fragments.specials.data.PromotionListingResponse;
+import com.apitap.views.fragments.specials.viewModel.SpecialsViewModel;
 import com.google.android.material.tabs.TabLayout;
 import com.squareup.picasso.Picasso;
 
@@ -54,9 +69,17 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import static com.apitap.App.isGuest;
+import static com.apitap.views.fragments.specials.utils.CommonFunctions.promotionActiveProductResponse;
+import static com.apitap.views.fragments.specials.utils.CommonFunctions.promotionCombinedProductList;
+import static com.apitap.views.fragments.specials.utils.CommonFunctions.promotionByIdResponse;
+import static com.apitap.views.fragments.specials.utils.CommonFunctions.promotionMerchantId;
 
 public class FragmentSpecialStoreFront extends BaseFragment implements View.OnClickListener,
         AdapterInitalCategories.CategoriesItemClick,
@@ -119,6 +142,7 @@ public class FragmentSpecialStoreFront extends BaseFragment implements View.OnCl
     private MerchantCategoryListModel merchantCategoryListResponse;
     private StoreFrontSpecialsResponse specialListResponse;
 
+    private String selectedPromotionId = "";
     private String searchKey = "";
     private String selectedCategoryId = "";
     private String selectedLevelOneCategoryId = "";
@@ -136,6 +160,7 @@ public class FragmentSpecialStoreFront extends BaseFragment implements View.OnCl
     private boolean isFromStoreFront;
     private String locationName = "";
     private BrowseCategoryResponse browseCategoryResponse;
+    private SpecialsViewModel specialsViewModel;
 
 
     @Override
@@ -149,6 +174,8 @@ public class FragmentSpecialStoreFront extends BaseFragment implements View.OnCl
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        specialsViewModel = new ViewModelProvider(this).get(SpecialsViewModel.class);
 
         isFromStoreFront = ATPreferences.readBoolean(getActivity(), Constants.HEADER_STORE);
 
@@ -173,6 +200,113 @@ public class FragmentSpecialStoreFront extends BaseFragment implements View.OnCl
         if (isGuest) {
             ModelManager.getInstance().getLoginManager().guestLastActivity(getActivity(), Operations.makeJsonLastActivityByGuest(getActivity()));
         }
+
+        initObserver();
+    }
+
+    private void initObserver() {
+        specialsViewModel.getPromotionsByIdResponse().observe(getViewLifecycleOwner(), event -> {
+            if (event != null) {
+                List<PromotionListingResponse> promoListings = event.getContentIfNotHandled();
+                if (promoListings != null) {
+                    promotionByIdResponse = new ArrayList<>(promoListings);
+                    // Use the full products map (change to getActiveProductsMap() if you prefer that source)
+                    Set<String> allProductIds = new HashSet<>();
+                    for (int i = 0; i < promoListings.size(); i++) {
+                        PromotionListingResponse promo = promoListings.get(i);
+                        // requiredList
+                        for (int k = 0; k < promo.getRequiredList().size(); k++) {
+                            AppliedListItem item = promo.getRequiredList().get(k);
+                            allProductIds.add(String.valueOf(item.getProductId()));
+                        }
+
+                        // appliedList
+                        for (int j = 0; j < promo.getAppliedList().size(); j++) {
+                            AppliedListItem item = promo.getAppliedList().get(j);
+                            allProductIds.add(String.valueOf(item.getProductId()));
+                        }
+                    }
+
+                    // Join IDs once and call API
+                    String ids = TextUtils.join(",", allProductIds);
+                    specialsViewModel.getActiveItemsByIds(ids);
+
+                }
+
+            }
+        });
+        specialsViewModel.getActiveProductResponse().observe(getViewLifecycleOwner(), event -> {
+            if (event != null) {
+                hideProgress();
+                List<AllProductsListResponse> response = event.getContentIfNotHandled();
+                if (response != null) {
+                    promotionActiveProductResponse = new ArrayList<>(response);
+                    Map<Integer, AllProductsListResponse> allProductsMap = getActiveProductsMap();
+                    List<ProductItemWrapper> requiredItems = new ArrayList<>();
+                    List<ProductItemWrapper> appliedItems = new ArrayList<>();
+
+                    for (int i = 0; i < promotionByIdResponse.size(); i++) {
+                        PromotionListingResponse promo = promotionByIdResponse.get(i);
+
+                        // requiredList
+                        for (int k = 0; k < promo.getRequiredList().size(); k++) {
+                            AppliedListItem item = promo.getRequiredList().get(k);
+
+                            List<OptionsProductPromoItem> matchingOptions = null;
+                            AllProductsListResponse prod = allProductsMap.get(item.getProductId());
+                            if (prod != null) matchingOptions = prod.getOptions();
+
+                            item.setOptions(matchingOptions);
+                            item.setRequiredItem(true);
+
+                            requiredItems.add(new ProductItemWrapper(item, false));
+                        }
+
+                        // appliedList
+                        for (int j = 0; j < promo.getAppliedList().size(); j++) {
+                            AppliedListItem item = promo.getAppliedList().get(j);
+
+                            List<OptionsProductPromoItem> matchingOptions = null;
+                            AllProductsListResponse prod = allProductsMap.get(item.getProductId());
+                            if (prod != null) matchingOptions = prod.getOptions();
+
+                            item.setOptions(matchingOptions);
+                            item.setRequiredItem(false);
+
+                            appliedItems.add(new ProductItemWrapper(item, true));
+                        }
+                    }
+
+                    promotionCombinedProductList = new ArrayList<>(requiredItems.size() + appliedItems.size());
+                    promotionCombinedProductList.addAll(requiredItems);
+                    promotionCombinedProductList.addAll(appliedItems);
+
+
+                    if (getActivity() != null) {
+                        AddPromoToOrderDialog.INSTANCE.show(
+                                getActivity(),
+                                selectedPromotionId,
+                                promotionByIdResponse.get(0),
+                                true,
+                                null,
+                                () -> showProgress()
+                        );
+                    }
+
+                }
+            }
+        });
+
+    }
+
+    public Map<Integer, AllProductsListResponse> getActiveProductsMap() {
+        Map<Integer, AllProductsListResponse> activeProductsMap = new HashMap<>();
+        for (AllProductsListResponse product : promotionActiveProductResponse) {
+            if (product.getProductId() != null) {
+                activeProductsMap.put(product.getProductId(), product);
+            }
+        }
+        return activeProductsMap;
     }
 
     @Override
@@ -200,11 +334,11 @@ public class FragmentSpecialStoreFront extends BaseFragment implements View.OnCl
     }
 
     private void checkFromStoreFront() {
-        storeFrontCategory = ATPreferences.readString(getActivity(),Constants.MERCHANT_CATEGORY);
+        storeFrontCategory = ATPreferences.readString(getActivity(), Constants.MERCHANT_CATEGORY);
         if (isFromStoreFront) {
             storeFrontTabsView();
             Picasso.get().load(ATPreferences.readString(getActivity(), Constants.KEY_IMAGE_URL) +
-                    ATPreferences.readString(getActivity(), Constants.HEADER_IMG))
+                            ATPreferences.readString(getActivity(), Constants.HEADER_IMG))
                     .placeholder(R.drawable.loading).into(imageViewStoreImage);
             merchantId = ATPreferences.readString(getActivity(), Constants.MERCHANT_ID);
         } else {
@@ -280,8 +414,7 @@ public class FragmentSpecialStoreFront extends BaseFragment implements View.OnCl
         if (isFromStoreFront) {
             selectedCategoryId = browseCategoryResponse.getRESULT().get(position).getJsonMember11493();
             selectedLevelOneCategoryId = browseCategoryResponse.getRESULT().get(position).getJsonMember11493();
-        }
-        else {
+        } else {
             selectedLevelOneCategoryId = levelOneCategoryResponse.getRESULT().get(0).getRESULT().get(position).get_11493();
             selectedCategoryId = levelOneCategoryResponse.getRESULT().get(0).getRESULT().get(position).get_11493();
         }
@@ -290,8 +423,8 @@ public class FragmentSpecialStoreFront extends BaseFragment implements View.OnCl
             selectedParentId = "";
             parentTitle = "";
             selectedDeliveryId = "";
-        }else{
-            isFirstTimeLoaded =false;
+        } else {
+            isFirstTimeLoaded = false;
             checkFromStoreFront();
         }
 
@@ -418,7 +551,7 @@ public class FragmentSpecialStoreFront extends BaseFragment implements View.OnCl
                 specialListResponse.getRESULT().get(0).getRESULT(), this);
         recyclerViewSpecial.setAdapter(adapterSpecials);
 
-        for ( int i = 0; i < adapterSpecials.getGroupCount(); i++ ) {
+        for (int i = 0; i < adapterSpecials.getGroupCount(); i++) {
             recyclerViewSpecial.expandGroup(i);
         }
 
@@ -482,6 +615,10 @@ public class FragmentSpecialStoreFront extends BaseFragment implements View.OnCl
     public void onEvent(final Event event) {
         switch (event.getKey()) {
 
+            case Constants.SHOPPING_SUCCESS:
+                hideProgress();
+                showSuccessdialog();
+                break;
             case Constants.GUEST_ACTIVITY_SUCCESS:
             case Constants.GUEST_ACTIVITY_TIMEOUT:
                 break;
@@ -513,7 +650,7 @@ public class FragmentSpecialStoreFront extends BaseFragment implements View.OnCl
                     deliverySpinnerListener();
                     setDeliveryMethodSpinnerAdapter();
                 } else {
-                  //  Utils.baseshowFeedbackMessage(getActivity(), parentLayout, "No Delivery Data Found");
+                    //  Utils.baseshowFeedbackMessage(getActivity(), parentLayout, "No Delivery Data Found");
                 }
 
                 break;
@@ -534,26 +671,71 @@ public class FragmentSpecialStoreFront extends BaseFragment implements View.OnCl
                 setLeftPanelVisibility(false);
                 specialListResponse = ModelManager.getInstance().getSpecialsManager().storeSpecialsModel;
                 if (event.hasData()) {
-                    if (getArguments()!=null&&getArguments().containsKey("key"))
-                        ((HomeActivity) getActivity()).fetchSpecialsCategoryList(searchKey,false);
+                    if (getArguments() != null && getArguments().containsKey("key"))
+                        ((HomeActivity) getActivity()).fetchSpecialsCategoryList(searchKey, false);
 
                     setSpecialAdapter();
                     checkForFilterHeader();
                     fetchDeliveryServices();
                 } else {
-                    if (adapterSpecials!=null)
+                    if (adapterSpecials != null)
                         adapterSpecials.customNotify(new ArrayList<>());
                     Utils.baseshowFeedbackMessage(getActivity(), parentLayout, "No Item Found");
                 }
 
                 break;
 
+
+            case Constants.GET_MERCHANT_LOCATION_SUCCESS:
+                List<MerchantLocationBean.RESULT.MerchantLocationData> data = ModelManager.getInstance().getMerchantManager().merchantLocationBean.getRESULT().get(0).getRESULT();
+                if (!data.isEmpty()) {
+                    merchantId = data.get(0).locationID;
+                    promotionMerchantId = Integer.parseInt(merchantId);
+                }
+
+                specialsViewModel.promotionById(Integer.parseInt(selectedPromotionId));
+
+                break;
             case -1:
                 hideProgress();
                 break;
 
 
         }
+
+    }
+
+    public void showSuccessdialog() {
+        final Dialog dialog = new Dialog(requireActivity(), R.style.AppTheme_Dialog_MyDialogTheme);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        dialog.setContentView(R.layout.customdialogcart);
+        Button btncontinue = dialog.findViewById(R.id.continueshoping);
+        Button btncheckout = dialog.findViewById(R.id.checkout);
+
+        btncontinue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        btncheckout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((HomeActivity) getActivity()).displayView(new ShoppingCartFragment(), Constants.TAG_SHOPPING, new Bundle());
+                dialog.dismiss();
+
+            }
+        });
+
+        dialog.show();
+        // dialog.getWindow().setAttributes(lp);
+        dialog.getWindow().setDimAmount(0.5f);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
     }
 
@@ -748,8 +930,8 @@ public class FragmentSpecialStoreFront extends BaseFragment implements View.OnCl
 
     private void fetchSpecialsCategoryList() {
         showProgress();
-        String searchWord= "";
-        if (getArguments()!=null&&getArguments().containsKey("key"))
+        String searchWord = "";
+        if (getArguments() != null && getArguments().containsKey("key"))
             searchWord = getArguments().getString("key");
 
         ModelManager.getInstance().getMerchantStoresManager()
@@ -767,20 +949,27 @@ public class FragmentSpecialStoreFront extends BaseFragment implements View.OnCl
     }
 
     @Override
-    public void onSpecialsClick(String productId, String productType) {
-
+    public void onSpecialsClick(String productId, String productType, String merchantId) {
+        showProgress();
+        selectedPromotionId = productId;
         ModelManager.getInstance().setProductSeen().setProductSeen(getActivity(), Operations.makeProductSeen(getActivity(),
-                productId));
+                Utils.getElevenDigitId(productId)));
+
+        ModelManager.getInstance().getMerchantManager().getMerchantLocation(requireContext(),
+                Operations.makeJsonGetMerchantLocation(requireActivity(), merchantId), Constants.GET_MERCHANT_LOCATION_SUCCESS);
+
 
         Bundle bundle = new Bundle();
         bundle.putString("productId", productId);
         bundle.putString("productType", productType);
-        FragmentItemDetails fragment = new FragmentItemDetails();
-        fragment.setArguments(bundle);
 
-        ((HomeActivity) getActivity()).displayAddView(fragment, Constants.TAG_SPECIAL, Constants.TAG_DETAILSPAGE, bundle);
 
-        storeFrontTabsView();
+//        FragmentItemDetails fragment = new FragmentItemDetails();
+//        fragment.setArguments(bundle);
+
+//        ((HomeActivity) getActivity()).displayAddView(fragment, Constants.TAG_SPECIAL, Constants.TAG_DETAILSPAGE, bundle);
+
+//        storeFrontTabsView();
     }
 
     @Override
@@ -794,7 +983,7 @@ public class FragmentSpecialStoreFront extends BaseFragment implements View.OnCl
             parentTitle = "";
             textViewCategorySelect.setText("Select Category");
         }
-        selectedUpdatedCategoryId =  arrayListSelectParent.get(position).getParentId();
+        selectedUpdatedCategoryId = arrayListSelectParent.get(position).getParentId();
         rvMerchantCategory.setVisibility(View.GONE);
         recycelerViewParentCategory.setVisibility(View.GONE);
         fetchSpecialsCategoryList();

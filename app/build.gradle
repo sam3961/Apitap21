@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'kotlin-parcelize'   // ✅ Add this line
 
 // key alias : apitap
 // key password : 123456
@@ -12,7 +12,7 @@ android {
         minSdkVersion 24
         targetSdkVersion 35
         versionCode 20
-        versionName "1.0.19"
+        versionName "1.0.20"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -31,13 +31,21 @@ android {
 
         }
     }
+/*
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+*/
 
     lintOptions {
         checkReleaseBuilds false
+    }
+ /*   kotlinOptions {
+        jvmTarget = '1.8'
+    }*/
+    buildFeatures {
+        viewBinding true
     }
 }
 
@@ -55,6 +63,12 @@ dependencies {
     implementation 'com.hannesdorfmann.smoothprogressbar:library:1.0.0'
     implementation 'com.makeramen:roundedimageview:2.3.0'
     implementation 'com.google.code.gson:gson:2.13.1'
+    implementation 'com.squareup.retrofit2:retrofit:2.11.0'
+    implementation('com.squareup.retrofit2:converter-gson:2.11.0') {
+        exclude group: 'com.google.code.gson', module: 'gson'
+    }
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.1'
+
     // compile reader library
     // google vision library
 /*    implementation 'io.github.rockerhieu:emojicon:1.4.1'
@@ -85,6 +99,7 @@ dependencies {
     implementation project(path: ':code-scanner-master')
     implementation project(':aviloader')
     implementation project(':mediapicker')
+    implementation 'androidx.core:core-ktx:1.17.0'
     testImplementation 'junit:junit:4.13.2'
     implementation 'com.lsjwzh:materialloadingprogressbar:0.5.8-RELEASE'
 
@@ -138,6 +153,7 @@ java {
 }
 
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'org.jetbrains.kotlin.android'
 repositories {
     mavenCentral()
 }

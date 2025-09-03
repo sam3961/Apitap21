@@ -3,6 +3,7 @@ package com.apitap.views.fragments.specials;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,8 +19,8 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.apitap.R;
@@ -40,14 +41,19 @@ import com.apitap.views.MerchantStoreDetails;
 import com.apitap.views.adapters.AdapterCategorySpinner;
 import com.apitap.views.adapters.AdapterInitalCategories;
 import com.apitap.views.fragments.BaseFragment;
-import com.apitap.views.fragments.ads.storeFront.FragmentAdsStoreFront;
 import com.apitap.views.fragments.itemDetails.FragmentItemDetails;
 import com.apitap.views.fragments.messages.FragmentMessages;
 import com.apitap.views.fragments.items.adapter.AdapterCategoryListSpinner;
 import com.apitap.views.fragments.items.adapter.AdapterMerchantCategoryItem;
 import com.apitap.views.fragments.items.adapter.AdapterParentCategoriesItem;
+import com.apitap.views.fragments.specials.data.AllProductsListResponse;
+import com.apitap.views.fragments.specials.data.PromotionListingResponse;
 import com.apitap.views.fragments.specials.storefront.FragmentSpecialStoreFront;
+import com.apitap.views.fragments.specials.utils.CommonFunctions;
+import com.apitap.views.fragments.specials.utils.SingleEvent;
+import com.apitap.views.fragments.specials.viewModel.SpecialsViewModel;
 import com.google.android.material.tabs.TabLayout;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
@@ -132,7 +138,7 @@ public class FragmentSpecial extends BaseFragment implements View.OnClickListene
     private int categorySelectedPosition;
 
     private boolean isFromStoreFront;
-
+    private SpecialsViewModel specialsViewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -145,6 +151,8 @@ public class FragmentSpecial extends BaseFragment implements View.OnClickListene
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        specialsViewModel = new ViewModelProvider(this).get(SpecialsViewModel.class);
 
         initViews();
 
@@ -165,7 +173,13 @@ public class FragmentSpecial extends BaseFragment implements View.OnClickListene
         if (isGuest) {
             ModelManager.getInstance().getLoginManager().guestLastActivity(getActivity(), Operations.makeJsonLastActivityByGuest(getActivity()));
         }
+
+
+//        specialsViewModel.activeProductsByCompanyId();
+//        specialsViewModel.getPromotionsByCompanyId();
+
     }
+
 
     @Override
     public void onResume() {
@@ -197,7 +211,7 @@ public class FragmentSpecial extends BaseFragment implements View.OnClickListene
         if (isFromStoreFront) {
             storeFrontTabsView();
             Picasso.get().load(ATPreferences.readString(getActivity(), Constants.KEY_IMAGE_URL) +
-                    ATPreferences.readString(getActivity(), Constants.HEADER_IMG))
+                            ATPreferences.readString(getActivity(), Constants.HEADER_IMG))
                     .placeholder(R.drawable.loading).into(imageViewStoreImage);
             merchantId = ATPreferences.readString(getActivity(), Constants.MERCHANT_ID);
             relativeLayoutAfterSelection.setVisibility(View.VISIBLE);
@@ -215,10 +229,10 @@ public class FragmentSpecial extends BaseFragment implements View.OnClickListene
         spinnerSearchFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    if (position == 2)
-                        editTextSearchZip.setVisibility(View.VISIBLE);
-                    else
-                        editTextSearchZip.setVisibility(View.GONE);
+                if (position == 2)
+                    editTextSearchZip.setVisibility(View.VISIBLE);
+                else
+                    editTextSearchZip.setVisibility(View.GONE);
 
             }
 
@@ -341,7 +355,7 @@ public class FragmentSpecial extends BaseFragment implements View.OnClickListene
     }
 
     private void inflateCategorySpinnerList() {
-        arrayListSpinnerCategory= new ArrayList<>();
+        arrayListSpinnerCategory = new ArrayList<>();
         for (int i = 0; i < levelOneCategory.getRESULT().get(0).getRESULT().size(); i++) {
             String name = levelOneCategory.getRESULT().get(0).getRESULT().get(i).get_12045();
             arrayListSpinnerCategory.add(name);
@@ -472,7 +486,7 @@ public class FragmentSpecial extends BaseFragment implements View.OnClickListene
                     deliverySpinnerListener();
                     setDeliveryMethodSpinnerAdapter();
                 } else {
-                   // Utils.baseshowFeedbackMessage(getActivity(), parentLayout, "No Delivery Data Found");
+                    // Utils.baseshowFeedbackMessage(getActivity(), parentLayout, "No Delivery Data Found");
                 }
 
                 break;
@@ -492,6 +506,7 @@ public class FragmentSpecial extends BaseFragment implements View.OnClickListene
                 hideProgress();
                 setLeftPanelVisibility(false);
                 specialListResponse = ModelManager.getInstance().getSpecialsManager().specialModel;
+                Log.d("TAG", "onEventss: " + new Gson().toJson(specialListResponse));
                 if (event.hasData()) {
                     setSpecialAdapter();
                 } else {
@@ -583,8 +598,8 @@ public class FragmentSpecial extends BaseFragment implements View.OnClickListene
         categorySelected(position);*/
 
         selectedCategoryId = levelOneCategory.getRESULT().get(0).getRESULT().get(position).get_11493();
-        Bundle bundle =new Bundle();
-        bundle.putString(Constants.MERCHANT_CATEGORY_ID,selectedCategoryId);
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.MERCHANT_CATEGORY_ID, selectedCategoryId);
         ((HomeActivity) getActivity()).displayView(new FragmentSpecialStoreFront(), Constants.TAG_SPECIALS_STOREFRONT, bundle);
 
     }
@@ -601,7 +616,7 @@ public class FragmentSpecial extends BaseFragment implements View.OnClickListene
             recyclerViewSpecial.setNestedScrollingEnabled(true);
             textViewFilter.setTextColor(getResources().getColor(R.color.darkBlue));
             relativeLayoutFilter.setBackground(getResources().getDrawable(R.drawable.rounded_blue_transparent_));
-            imageViewFilter.setColorFilter(ContextCompat.getColor(getActivity(),R.color.dark_blue),
+            imageViewFilter.setColorFilter(ContextCompat.getColor(getActivity(), R.color.dark_blue),
                     android.graphics.PorterDuff.Mode.MULTIPLY);
             imageViewFilter.setImageDrawable(getResources().getDrawable(R.drawable.ic_icon_downarrow));
         } else {
@@ -609,12 +624,12 @@ public class FragmentSpecial extends BaseFragment implements View.OnClickListene
             recyclerViewSpecial.setNestedScrollingEnabled(false);
             textViewFilter.setTextColor(getResources().getColor(R.color.colorWhite));
             relativeLayoutFilter.setBackground(getResources().getDrawable(R.drawable.round_dark_blue_white_outline_));
-            imageViewFilter.setColorFilter(ContextCompat.getColor(getActivity(),R.color.colorWhite),
+            imageViewFilter.setColorFilter(ContextCompat.getColor(getActivity(), R.color.colorWhite),
                     android.graphics.PorterDuff.Mode.MULTIPLY);
             imageViewFilter.setImageDrawable(getResources().getDrawable(R.drawable.ic_icon_uparrow));
 
             if (deliveryServiceResponse == null) {
-                    fetchDeliveryServices();
+                fetchDeliveryServices();
             }
         }
     }
@@ -686,7 +701,7 @@ public class FragmentSpecial extends BaseFragment implements View.OnClickListene
         FragmentItemDetails fragment = new FragmentItemDetails();
         fragment.setArguments(bundle);
 
-        ((HomeActivity) getActivity()).displayView(fragment,  Constants.TAG_DETAILSPAGE, bundle);
+        ((HomeActivity) getActivity()).displayView(fragment, Constants.TAG_DETAILSPAGE, bundle);
 
         storeFrontTabsView();
     }

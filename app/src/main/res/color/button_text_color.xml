@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- State when the button is disabled -->
+    <item android:color="@color/colorOutline" android:state_enabled="false" />
+
+    <!-- State when the button is pressed -->
+    <item android:color="@color/colorGreen" android:state_pressed="true" />
+
+    <!-- Default state (enabled and not pressed) -->
+    <item android:color="@color/colorGreen" />
+</selector>
