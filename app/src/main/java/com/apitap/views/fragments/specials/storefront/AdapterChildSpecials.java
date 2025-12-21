@@ -67,7 +67,7 @@ public class AdapterChildSpecials extends RecyclerView.Adapter<AdapterChildSpeci
 
         Picasso.get().load(ATPreferences.readString(context, Constants.KEY_IMAGE_URL)
                 + "_t_" + arrayListItems.get(position).getJsonMember121170())
-                .placeholder(R.drawable.splash_screen_new)
+                .placeholder(R.drawable.loading)
                 .fit().centerInside().into(holder.imageViewItem);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

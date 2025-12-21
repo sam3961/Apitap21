@@ -97,7 +97,7 @@ public class Utils {
     public final static String TAG_NAME_FRAGMENT = "ACTIVITY_FRAGMENT";
     public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 456;
-    public static final String APK_VERSION = "25.0904.520"; // yy - mm-dd-version
+    public static final String APK_VERSION = "25.1222.521"; // yy - mm-dd-version
     public static String seacrh_key = "";
     public static String locationSearch = "";
     public static ArrayList<String> placeIdList;
@@ -461,6 +461,14 @@ public class Utils {
             id = "0" + id;
         }
         return id;
+    }
+
+    public static String removeLeadingZeros(String id) {
+        int i = 0;
+        while (i < id.length() - 1 && id.charAt(i) == '0') {
+            i++;
+        }
+        return id.substring(i);
     }
 
     public static String getStringHexaDecimal(String hex) {

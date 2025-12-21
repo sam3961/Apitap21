@@ -255,7 +255,9 @@ data class PromoProductItem(
     val createdAt: String? = null,
 
     @SerializedName("details")
-    val details: List<PromoDetailItem>? = null
+    val details: List<PromoDetailItem>? = null,
+
+    val isRequiredItem: Boolean? = false
 ) {
     fun getNameOfProduct(): String? {
         return CommonFunctions.promotionActiveProductResponse.find { it.productId == productId }?.productName

@@ -1,5 +1,7 @@
 package com.apitap.controller;
 
+import static com.apitap.model.Client.BASE_URL_PART;
+
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -18,6 +20,7 @@ import com.apitap.model.bean.RelatedDetailsBean;
 import com.apitap.model.bean.SizeBean;
 import com.apitap.model.bean.Sizedata;
 import com.apitap.model.bean.SpecialItemBean;
+import com.apitap.model.bean.items.LocationBean;
 import com.apitap.model.customclasses.Event;
 import com.google.gson.Gson;
 
@@ -27,7 +30,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by apple on 10/08/16.
@@ -47,6 +54,9 @@ public class DetailsManager {
     public ArrayList<String> favIds = new ArrayList<String>();
     public ArrayList<String> hexIds = new ArrayList<String>();
     public HashMap<Integer, ArrayList<Favdetailsbean>> itemsData = new HashMap<Integer, ArrayList<Favdetailsbean>>();
+    public ArrayList<LocationBean> locationBeans;
+    public Map<String, Integer> comboQtyMap = new HashMap<>();
+    public Map<String, Set<String>> choiceAdjacencyMap = new HashMap<>();
 
     public ArrayList<DetailsBean> getDetails(Context context, String params, boolean isRelatedItems) {
         if (isRelatedItems)
@@ -61,6 +71,16 @@ public class DetailsManager {
         return arrayDetails;
     }
 
+    public void getItemInventory(Context mContext, String productId, ArrayList<String> choiceListOne,
+                                 ArrayList<String> choiceListTwo){
+        new FetchItemInventoryTask(
+                mContext,
+                productId,
+                choiceListOne,
+                choiceListTwo
+        ).execute();
+
+    }
 
     private class ExecuteApi extends AsyncTask<String, String, String> {
         Context mContext;
@@ -98,6 +118,7 @@ public class DetailsManager {
                                 DetailsBean detailsBean = new DetailsBean();
                                 JSONObject object = imgeArray.getJSONObject(i);
                                 String merchantId = object.getString("_53");
+                                String productId = object.getString("_114_144");
                                 String specialPrice = object.getString("_122_162");
                                 String image = object.getString("_121_170");
                                 String name = Utils.hexToASCII(object.getString("_120_83"));
@@ -145,6 +166,35 @@ public class DetailsManager {
                                 String age18flag = object.getString("_123_23");
                                 if (object.has("_114_149"))
                                     detailsBean.setBrand(object.getString("_114_149"));
+
+                                locationBeans = new ArrayList<>();
+
+                                for (int lo = 0; lo < loArray.length(); lo++) {
+
+                                    JSONObject loObj = loArray.getJSONObject(lo);
+                                    LocationBean locationBean = new LocationBean();
+
+                                    // Location ID
+                                    locationBean.setLocationId(loObj.getString("_114_47"));
+
+                                    // Location Name
+                                    locationBean.setLocationName(loObj.getString("_114_70"));
+
+                                    JSONObject adObj = loObj.getJSONObject("AD");
+
+                                    // Address (HEX → ASCII)
+                                    String address = Utils.hexToASCII(adObj.getString("_114_12"));
+                                    locationBean.setAddress(address);
+
+                                    // Quantity default = 0 (will update after inventory call)
+//                                    locationBean.setChoiceQuantity("",0);
+
+                                    locationBeans.add(locationBean);
+                                }
+
+                                detailsBean.setLocationList(locationBeans);
+
+
                                 detailsBean.setImage(image);
                                 detailsBean.setMerchantID(merchantId);
                                 Log.d("mERCHANTS", merchantId);
@@ -211,7 +261,7 @@ public class DetailsManager {
                                 productOptionsBean.setOption_id(option_id);
                                 productOptionsBean.setName_option(option_name);
 //                                if (!option_name.equals("Default"))
-                                    arrayList.add(productOptionsBean);
+                                arrayList.add(productOptionsBean);
                                 Log.d("optionsIdbEAN", option_id);
                             }
                             arrayOptions1 = arrayList;
@@ -356,5 +406,163 @@ public class DetailsManager {
 
         }
     }
+
+    public class FetchItemInventoryTask extends AsyncTask<Void, Void, JSONArray> {
+
+        private Context context;
+        private String productId;
+        private ArrayList<String> selectedChoiceOne;
+        private ArrayList<String> selectedChoiceSecond;
+
+        public FetchItemInventoryTask(Context context,
+                                      String productId,
+                                      ArrayList<String> selectedChoiceOne,
+                                      ArrayList<String> selectedChoiceSecond
+                                      ) {
+            this.context = context;
+            this.productId = productId;
+            this.selectedChoiceOne = selectedChoiceOne;
+            this.selectedChoiceSecond = selectedChoiceSecond;
+        }
+
+        @Override
+        protected JSONArray doInBackground(Void... voids) {
+            try {
+                String url =
+                        BASE_URL_PART + "aioproducts/itemInventoryByProductId/"
+                                + productId;
+
+                // 🔹 POST with empty body
+                String response = Client.simplePost(url, "{}");
+
+                Log.d("InventoryAPI", response);
+
+                if (response != null) {
+                    return new JSONArray(response);
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(JSONArray inventoryArray) {
+
+            if (inventoryArray == null || locationBeans == null) return;
+
+            try {
+
+                for (LocationBean loc : locationBeans) {
+                    loc.getChoiceQuantityMap().clear();
+                }
+
+                buildInventoryMaps(inventoryArray);
+
+                for (int i = 0; i < inventoryArray.length(); i++) {
+
+                    JSONObject obj = inventoryArray.getJSONObject(i);
+
+                    String locationId = obj.getString("tblLocationId");
+                    String inventoryChoices =
+                            obj.optString("tblProductinventoryChoices", "");
+                    int qty = obj.getInt("tblProductinventoryQuantity");
+
+                    if (!isChoiceMatched(
+                            inventoryChoices,
+                            selectedChoiceOne,
+                            selectedChoiceSecond)) {
+                        continue;
+                    }
+
+                    String key = inventoryChoices.replace(",", "_");
+
+                    for (LocationBean loc : locationBeans) {
+                        if (loc.getLocationId().equals(locationId)) {
+
+                            int existing = loc.getQuantityForChoices(key);
+                            loc.setQuantityForChoices(key, existing + qty);
+                            break;
+                        }
+                    }
+                }
+
+                EventBus.getDefault().post(
+                        new Event(Constants.INVENTORY_UPDATED, "")
+                );
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    private boolean isChoiceMatched(String inventoryChoices,
+                                    ArrayList<String> choiceListOne,
+                                    ArrayList<String> choiceListTwo) {
+
+        if (inventoryChoices == null || inventoryChoices.isEmpty()) {
+            return false;
+        }
+
+        String[] inventoryArray = inventoryChoices.split(",");
+
+        boolean matchOne = false;
+        boolean matchTwo = false;
+
+        for (String invChoice : inventoryArray) {
+
+            if (choiceListOne != null && choiceListOne.contains(invChoice)) {
+                matchOne = true;
+            }
+
+            if (choiceListTwo != null && choiceListTwo.contains(invChoice)) {
+                matchTwo = true;
+            }
+        }
+
+        // If only ONE option exists
+        if (choiceListTwo == null || choiceListTwo.isEmpty()) {
+            return matchOne;
+        }
+
+        return matchOne && matchTwo;
+    }
+
+    private void buildInventoryMaps(JSONArray inventoryArray) throws Exception {
+
+        comboQtyMap.clear();
+        choiceAdjacencyMap.clear();
+
+        for (int i = 0; i < inventoryArray.length(); i++) {
+
+            JSONObject obj = inventoryArray.getJSONObject(i);
+
+            int qty = obj.getInt("tblProductinventoryQuantity");
+            if (qty <= 0) continue;
+
+            String choices = obj.getString("tblProductinventoryChoices");
+            String key = choices.replace(",", "_");
+
+            comboQtyMap.put(key, qty);
+
+            String[] parts = choices.split(",");
+            if (parts.length < 2) continue;
+
+            String c1 = parts[0];
+            String c2 = parts[1];
+
+            choiceAdjacencyMap
+                    .computeIfAbsent(c1, k -> new HashSet<>())
+                    .add(c2);
+
+            choiceAdjacencyMap
+                    .computeIfAbsent(c2, k -> new HashSet<>())
+                    .add(c1);
+        }
+    }
+
 
 }

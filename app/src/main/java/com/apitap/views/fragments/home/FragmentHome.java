@@ -383,16 +383,26 @@ public class FragmentHome extends BaseFragment implements View.OnClickListener, 
 
         @Override
         public void run() {
-            getActivity().runOnUiThread(() -> {
 
-                if (currentAdPage == adapterStorePager.getCount()) { // In my case the number of pages are 5
-                    currentAdPage = 0;
-                } else {
-                    viewPagerAds.setCurrentItem(currentAdPage++);
+            if (!isAdded() || getActivity() == null) {
+                return; // Fragment not attached
+            }
+
+            requireActivity().runOnUiThread(() -> {
+
+                if (adapterStorePager == null || viewPagerAds == null) {
+                    return;
                 }
+
+                if (currentAdPage >= adapterStorePager.getCount()) {
+                    currentAdPage = 0;
+                }
+
+                viewPagerAds.setCurrentItem(currentAdPage++, true);
             });
         }
     }
+
 
     private void setStoreCategoryAdapter() {
         AdapterStoreCategories adapterStoreCategories = new AdapterStoreCategories(requireContext(), storeCategoryResponse.getRESULT(), this);

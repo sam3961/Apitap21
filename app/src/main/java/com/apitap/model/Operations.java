@@ -4328,6 +4328,58 @@ public class Operations {
         return parametersToCall;
     }
 
+    public static String makeJsonAddPromotionToCart(
+            Activity context,
+            String userId,
+            String productId,
+            String someId6006,
+            String someValue6007,
+            String merchantId,
+            String quantity,
+            String specialInstructions,
+            String someValue6002,
+            String optionId,
+            String optionId2
+    ) {
+        // Convert special instructions if provided
+        if (!specialInstructions.isEmpty()) {
+            specialInstructions = Utils.convertStringToHex(specialInstructions);
+        }
+
+        // Build CH array (support 1 or 2 options)
+        String choiceArray = "";
+        if (!optionId2.isEmpty()) {
+            choiceArray = "{\"121.104\":\"" + optionId + "\"},{\"121.104\":\"" + optionId2 + "\"}";
+        } else if (!optionId.isEmpty()) {
+            choiceArray = "{\"121.104\":\"" + optionId + "\"}";
+        }
+
+        // Build PARAM object
+        String dataPlana = "{\"101\":\"030400198\",\"PARAM\":{"
+                + "\"53\":\"" + userId + "\""
+                + ",\"114.144\":\"" + productId + "\""
+                + ",\"600.6\":\"" + someId6006 + "\""
+                + ",\"600.7\":\"" + someValue6007 + "\""
+                + ",\"114.179\":\"" + merchantId + "\""
+                + ",\"114.121\":\"" + quantity + "\""
+                + ",\"121.55\":\"" + specialInstructions + "\""
+                + ",\"600.2\":\"" + someValue6002 + "\""
+                + ",\"CH\":[" + choiceArray + "]}}";
+
+        // Final wrapper request
+        String parametersToCall = "{\"192\":\"" + ATPreferences.readString(context, Constants.KEY_USER_DEFAULT)
+                + "\",\"11\":\"" + Client.getTimeStamp() + "\""
+                + ",\"122.45\":\"en\""
+                + ",\"57\":\"" + Utils.getDeviceId(context) + "\""
+                + ",\"120.38\":\"" + App.latitude + "\""
+                + ",\"120.39\":\"" + App.longitude + "\""
+                + ",\"OPTLST\":[" + dataPlana + "]}";
+
+        Log.d("ParamsNewRequest", parametersToCall);
+        return parametersToCall;
+    }
+
+
     public static String makeJsonSearchNearBy(Activity context, String keyword, String lat, String longs) {
         String dataPlana = "{\"101\":\"010400228\",\"PARAM\":{\"53\":\""
                 + ATPreferences.readString(context, Constants.KEY_USERID) + "\" ,\"127.10\":\"" + "001" + "\" ,\"120.38\":\"" + lat + "\" ,\"120.39\":\"" + longs + "\" ,\"114.127\":\"" + keyword + "\"}}";

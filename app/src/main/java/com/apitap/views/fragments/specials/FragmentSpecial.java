@@ -374,7 +374,7 @@ public class FragmentSpecial extends BaseFragment implements View.OnClickListene
     }
 
     private void setSortByAdapter() {
-        spinnerSortBy.setAdapter(new AdapterCategorySpinner(getActivity(), sortByListNames()));
+        spinnerSortBy.setAdapter(new AdapterCategorySpinner(getActivity(), promoSortByListNames()));
         sortByID = sortByListId().get(0);
 
     }
@@ -600,6 +600,7 @@ public class FragmentSpecial extends BaseFragment implements View.OnClickListene
         selectedCategoryId = levelOneCategory.getRESULT().get(0).getRESULT().get(position).get_11493();
         Bundle bundle = new Bundle();
         bundle.putString(Constants.MERCHANT_CATEGORY_ID, selectedCategoryId);
+        bundle.putParcelable(Constants.LEVEL_ONE_CATEGORIES, levelOneCategory);
         ((HomeActivity) getActivity()).displayView(new FragmentSpecialStoreFront(), Constants.TAG_SPECIALS_STOREFRONT, bundle);
 
     }

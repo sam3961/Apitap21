@@ -20,9 +20,16 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.Date;
 import java.util.HashMap;
@@ -38,8 +45,11 @@ public class Client {
 //    https://aiodc.com:8020/NmcServerS/nmc-server/post/
 
     //************************************Production**************************************//
+    public static final String BASE_URL_PART =
+            "https://aiodc.com:8095/api/";// production //new
+
     public static final String BASE_URL =
-            "https://aiodc.com:8020/NmcServerS/nmc-server/post/";// production //new
+            "https://aiodc.com:8095/api/server/post";// production //new
 
     public static final String BASE_URL_CART =
             "https://aiodc.com:8050/Apitap_ShoppingCart/?nmcId=";// cart production
@@ -52,7 +62,10 @@ public class Client {
             "https://aiodc.com:8050/MobileClient/?t=";  //production
     //************************************QA**************************************//
 
-/*    public static final String BASE_URL =
+/*    public static final String BASE_URL_PART =
+            "http://aiodctesting.org:8095/api/";
+
+             public static final String BASE_URL =
             "http://aiodctesting.org:8095/api/server/post";
 
     public static final String BASE_URL_CART =
@@ -122,6 +135,67 @@ public class Client {
 
         return json;
     }
+
+    public static String simplePost(String urlString, String bodyJson) {
+
+        HttpURLConnection connection = null;
+        BufferedWriter writer = null;
+        BufferedReader reader = null;
+
+        try {
+            URL url = new URL(urlString);
+            connection = (HttpURLConnection) url.openConnection();
+
+            connection.setRequestMethod("POST");
+            connection.setConnectTimeout(15000);
+            connection.setReadTimeout(15000);
+            connection.setDoInput(true);
+            connection.setDoOutput(true);
+
+            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setRequestProperty("Accept", "application/json");
+
+            // 🔹 Write request body
+            writer = new BufferedWriter(
+                    new OutputStreamWriter(connection.getOutputStream(), "UTF-8")
+            );
+            writer.write(bodyJson);
+            writer.flush();
+
+            int responseCode = connection.getResponseCode();
+
+            InputStream inputStream;
+            if (responseCode >= HttpURLConnection.HTTP_OK
+                    && responseCode < HttpURLConnection.HTTP_BAD_REQUEST) {
+                inputStream = connection.getInputStream();
+            } else {
+                inputStream = connection.getErrorStream();
+            }
+
+            reader = new BufferedReader(new InputStreamReader(inputStream));
+            StringBuilder response = new StringBuilder();
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                response.append(line);
+            }
+
+            return response.toString();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+
+        } finally {
+            try {
+                if (writer != null) writer.close();
+                if (reader != null) reader.close();
+            } catch (Exception ignored) {}
+
+            if (connection != null) connection.disconnect();
+        }
+    }
+
 
     public static String CallerHttpPart(String parametersToCall) {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();

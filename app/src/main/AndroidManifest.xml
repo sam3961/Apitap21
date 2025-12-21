@@ -14,21 +14,31 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
 
-    <uses-feature android:name="android.hardware.bluetooth" android:required="false"/>
-    <uses-feature android:name="android.hardware.bluetooth_le" android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.bluetooth"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.bluetooth_le"
+        android:required="false" />
+
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
     <!-- Required for Nearby Connections -->
-    <uses-permission android:name="android.permission.BLUETOOTH"
-        android:maxSdkVersion="30"/>
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"
-        android:maxSdkVersion="30"/>
+    <uses-permission
+        android:name="android.permission.BLUETOOTH"
+        android:maxSdkVersion="30" />
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_ADMIN"
+        android:maxSdkVersion="30" />
 
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
-    <uses-permission android:name="com.google.android.gms.permission.AD_ID" tools:node="remove"/>
+    <uses-permission
+        android:name="com.google.android.gms.permission.AD_ID"
+        tools:node="remove" />
+
     <uses-feature android:name="android.hardware.camera" />
     <application
         android:name=".App"
@@ -36,19 +46,20 @@
         android:fullBackupContent="false"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher_square"
-        android:roundIcon="@mipmap/ic_launcher_circle"
-        android:requestLegacyExternalStorage="true"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:networkSecurityConfig="@xml/network_security_config"
+        android:requestLegacyExternalStorage="true"
+        android:roundIcon="@mipmap/ic_launcher_circle"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon,android:allowBackup">
         <activity
             android:name=".views.SplashActivity"
+            android:exported="true"
+            android:resizeableActivity="false"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize"
-            android:exported="true">
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -58,11 +69,13 @@
 
         <activity
             android:name=".views.LoginActivity"
+            android:resizeableActivity="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize"></activity>
         <activity
             android:name=".views.fragments.FragmentTour"
             android:screenOrientation="portrait"
+            android:resizeableActivity="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:windowSoftInputMode="adjustResize"></activity>
 
@@ -72,14 +85,17 @@
 
         <activity
             android:name=".views.ForgotPasswordActivity"
+            android:screenOrientation="portrait"
+            android:resizeableActivity="false"
             android:label="Forgot Password" />
 
 
         <activity
             android:name=".views.HomeActivity"
+            android:exported="true"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize"
-            android:exported="true">
+            android:resizeableActivity="false"
+            android:windowSoftInputMode="stateHidden|adjustResize">
 
             <intent-filter>
                 <category android:name="android.intent.category.ALTERNATIVE" />
@@ -97,9 +113,10 @@
 
         <activity
             android:name=".views.AdDetailActivity"
+            android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:exported="true">
+            android:resizeableActivity="false"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
 
             <intent-filter>
@@ -116,19 +133,29 @@
         </activity>
         <activity
             android:name=".views.KeyboardActivity"
+            android:screenOrientation="portrait"
+            android:resizeableActivity="false"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".views.PaymentActivity"
+            android:screenOrientation="portrait"
+            android:resizeableActivity="false"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".views.AddressDetailActivity"
+            android:screenOrientation="portrait"
+            android:resizeableActivity="false"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
 
         <activity
             android:name=".views.FullScreenImage"
+            android:screenOrientation="portrait"
+            android:resizeableActivity="false"
             android:theme="@style/Theme.Design.Light.NoActionBar" />
         <activity
             android:name=".views.MerchantStoreMap"
+            android:screenOrientation="portrait"
+            android:resizeableActivity="false"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
 
         <meta-data
@@ -138,64 +165,80 @@
         <activity
             android:name=".views.MerchantDetailActivity"
             android:screenOrientation="portrait"
+            android:resizeableActivity="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <activity
             android:name=".views.MerchantStoreDetails"
             android:screenOrientation="portrait"
+            android:resizeableActivity="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <activity
             android:name=".views.RateMerchant"
             android:screenOrientation="portrait"
+            android:resizeableActivity="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:windowSoftInputMode="adjustResize|stateHidden" />
 
         <activity
             android:name=".views.ZoomImage"
+            android:screenOrientation="portrait"
+            android:resizeableActivity="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".views.HistoryDetailActivity"
             android:screenOrientation="portrait"
+            android:resizeableActivity="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".views.MessageDetailActivity"
             android:screenOrientation="portrait"
+            android:resizeableActivity="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".views.SelectAddressScreen"
+            android:screenOrientation="portrait"
+            android:resizeableActivity="false"
             android:theme="@style/Theme.AppCompat.Translucent" />
 
         <activity
             android:name=".views.AllStoresActivity"
             android:screenOrientation="portrait"
+            android:resizeableActivity="false"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
 
         <activity
             android:name=".views.SearchItemActivity"
             android:screenOrientation="portrait"
+            android:resizeableActivity="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <activity
             android:name=".views.ShoppingCartDetailActivity"
             android:screenOrientation="portrait"
+            android:resizeableActivity="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".views.WebViewActivity"
             android:screenOrientation="portrait"
+            android:resizeableActivity="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".views.TermsAndConditionsActivity"
             android:screenOrientation="portrait"
+            android:resizeableActivity="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".views.ZoomMessageImage"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:resizeableActivity="false" />
 
 
-        <service android:name=".model.MyFirebaseMessagingService"
+        <service
+            android:name=".model.MyFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

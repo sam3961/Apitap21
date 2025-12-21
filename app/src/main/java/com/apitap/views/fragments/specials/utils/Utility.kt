@@ -6,7 +6,7 @@ import com.apitap.views.fragments.specials.network.RetrofitClient
 object Utility {
     suspend fun isCombinationInStock(productId: Int?, selectedChoices: List<Int>): Boolean {
 //        val currentLocationId = SharedPreferenceHelper.getLoginUserResponse().data?.location?.tblLocationId
-        val currentLocationId = CommonFunctions.promotionMerchantId
+        val currentLocationId = CommonFunctions.promotionMerchantLocationId
 
         return try {
             val inventoryList = RetrofitClient.instance.getInventoryByProductId(productId)
@@ -31,8 +31,7 @@ object Utility {
     }
 
     suspend fun isInStock(productId: Int?): Boolean {
-//        val currentLocationId = SharedPreferenceHelper.getLoginUserResponse().data?.location?.tblLocationId
-        val currentLocationId = CommonFunctions.promotionMerchantId
+        val currentLocationId = CommonFunctions.promotionMerchantLocationId
 
         return try {
             val inventoryList = RetrofitClient.instance.getInventoryByProductId(productId)

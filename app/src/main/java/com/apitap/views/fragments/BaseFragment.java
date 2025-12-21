@@ -109,7 +109,7 @@ public class BaseFragment extends Fragment implements AdapterBusinessSelect.Busi
 
     public void showProgress() {
         if (dialogProgressBar != null && dialogProgressBar.isShowing())
-            dialogProgressBar.dismiss();
+            return;
         dialogProgressBar = Utils.createLoadingDialog(getActivity(),true);
         dialogProgressBar.show();
     }
@@ -198,6 +198,31 @@ public class BaseFragment extends Fragment implements AdapterBusinessSelect.Busi
         arrayListSortById.add("114.132-DESC");
         return arrayListSortById;
     }
+
+    public ArrayList<String> promoSortByListId() {
+        arrayListSortById = new ArrayList<>();
+        arrayListSortById.add("114.144-DESC");
+        arrayListSortById.add("120.83-ASC");
+        arrayListSortById.add("120.83-DESC");
+        arrayListSortById.add("114.98-ASC");
+        arrayListSortById.add("114.98-DESC");
+        arrayListSortById.add("120.11-ASC");
+        arrayListSortById.add("114.132-DESC");
+        return arrayListSortById;
+    }
+
+    public ArrayList<String> promoSortByListNames() {
+        arrayListSortByName = new ArrayList<>();
+        arrayListSortByName.add("Newest");
+        arrayListSortByName.add("A - Z");
+        arrayListSortByName.add("Z - A");
+        arrayListSortByName.add("Price - Low to High");
+        arrayListSortByName.add("Price - High to Low");
+        arrayListSortByName.add("Nearest");
+        arrayListSortByName.add("Popularity - Most viewed");
+        return arrayListSortByName;
+    }
+
 
     public void storeFrontTabsView() {
       //  HomeActivity.homeTab2.setBackgroundColor(getActivity().getResources().getColor(R.color.colorWhite));

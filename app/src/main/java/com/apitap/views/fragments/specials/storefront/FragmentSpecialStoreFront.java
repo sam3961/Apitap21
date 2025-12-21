@@ -1,12 +1,12 @@
 package com.apitap.views.fragments.specials.storefront;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -67,6 +67,9 @@ import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -79,12 +82,12 @@ import static com.apitap.App.isGuest;
 import static com.apitap.views.fragments.specials.utils.CommonFunctions.promotionActiveProductResponse;
 import static com.apitap.views.fragments.specials.utils.CommonFunctions.promotionCombinedProductList;
 import static com.apitap.views.fragments.specials.utils.CommonFunctions.promotionByIdResponse;
-import static com.apitap.views.fragments.specials.utils.CommonFunctions.promotionMerchantId;
+import static com.apitap.views.fragments.specials.utils.CommonFunctions.promotionMerchantLocationId;
 
 public class FragmentSpecialStoreFront extends BaseFragment implements View.OnClickListener,
         AdapterInitalCategories.CategoriesItemClick,
         AdapterMerchantCategoryItem.MerchantCategoryClick,
-        AdapterParentCategoriesItem.ParentCategoryClick, AdapterChildSpecials.SpecialListClick, SearchStoreClickListener {
+        AdapterParentCategoriesItem.ParentCategoryClick, AdapterChildSpecials.SpecialListClick, SearchStoreClickListener, AddPromoToOrderDialog.OnPromoCartListener {
 
     private View rootView;
 
@@ -97,6 +100,7 @@ public class FragmentSpecialStoreFront extends BaseFragment implements View.OnCl
     private RelativeLayout relativeLayoutFilter;
 
     private Button buttonStoreDetails;
+    private MerchantCategoryListModel levelOneCategory;
 
     private LinearLayout linearLayoutSelectionCategory;
     private LinearLayout linearLayoutViewResults;
@@ -154,6 +158,7 @@ public class FragmentSpecialStoreFront extends BaseFragment implements View.OnCl
     private String parentTitle = "";
     private String sortByID = "";
     private String storeFrontCategory = "";
+    private JSONObject promoRequest = new JSONObject();
 
     private int categorySelectedPosition;
     public boolean isFirstTimeLoaded = true;
@@ -286,11 +291,11 @@ public class FragmentSpecialStoreFront extends BaseFragment implements View.OnCl
                         AddPromoToOrderDialog.INSTANCE.show(
                                 getActivity(),
                                 selectedPromotionId,
+                                merchantId,
                                 promotionByIdResponse.get(0),
                                 true,
-                                null,
-                                () -> showProgress()
-                        );
+                                null, this);
+
                     }
 
                 }
@@ -362,6 +367,10 @@ public class FragmentSpecialStoreFront extends BaseFragment implements View.OnCl
         if (getArguments() != null && getArguments().containsKey(Constants.MERCHANT_CATEGORY_ID)) {
             selectedCategoryId = getArguments().getString(Constants.MERCHANT_CATEGORY_ID);
             selectedUpdatedCategoryId = getArguments().getString(Constants.MERCHANT_CATEGORY_ID);
+        }
+
+        if (getArguments() != null && getArguments().containsKey(Constants.LEVEL_ONE_CATEGORIES)) {
+            levelOneCategory = getArguments().getParcelable(Constants.LEVEL_ONE_CATEGORIES);
         }
 
 /*
@@ -463,7 +472,7 @@ public class FragmentSpecialStoreFront extends BaseFragment implements View.OnCl
         spinnerSortBy.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                sortByID = sortByListId().get(position);
+                sortByID = promoSortByListId().get(position);
             }
 
             @Override
@@ -524,14 +533,37 @@ public class FragmentSpecialStoreFront extends BaseFragment implements View.OnCl
     }
 
     private void inflateCategorySpinnerList() {
-        for (int i = 0; i < levelOneCategoryResponse.getRESULT().get(0).getRESULT().size(); i++) {
-            String name = levelOneCategoryResponse.getRESULT().get(0).getRESULT().get(i).get_12045();
-            arrayListSpinnerCategory.add(name);
+        if (levelOneCategory != null) {
+            for (int i = 0; i < levelOneCategory.getRESULT().get(0).getRESULT().size(); i++) {
+                String name = levelOneCategory.getRESULT().get(0).getRESULT().get(i).get_12045();
+                arrayListSpinnerCategory.add(name);
+            }
+        } else {
+            for (int i = 0; i < levelOneCategoryResponse.getRESULT().get(0).getRESULT().size(); i++) {
+                String name = levelOneCategoryResponse.getRESULT().get(0).getRESULT().get(i).get_12045();
+                arrayListSpinnerCategory.add(name);
+            }
         }
     }
 
     private void setCategorySpinnerAdapter() {
         spinnerCategory.setAdapter(new AdapterCategorySpinner(getActivity(), arrayListSpinnerCategory));
+
+        if (levelOneCategory != null) {
+            for (int i = 0; i < levelOneCategory.getRESULT().get(0).getRESULT().size(); i++) {
+                if (selectedCategoryId.equals(levelOneCategory.getRESULT().get(0).getRESULT().get(i).get_11493())) {
+                    spinnerCategory.setSelection(i);
+                    break;
+                }
+            }
+        } else {
+            for (int i = 0; i < levelOneCategoryResponse.getRESULT().get(0).getRESULT().size(); i++) {
+                if (selectedCategoryId.equals(levelOneCategoryResponse.getRESULT().get(0).getRESULT().get(i).get_11493())) {
+                    spinnerCategory.setSelection(i);
+                    break;
+                }
+            }
+        }
     }
 
     private void setDeliveryMethodSpinnerAdapter() {
@@ -541,8 +573,8 @@ public class FragmentSpecialStoreFront extends BaseFragment implements View.OnCl
     }
 
     private void setSortByAdapter() {
-        spinnerSortBy.setAdapter(new AdapterCategorySpinner(getActivity(), sortByListNames()));
-        sortByID = sortByListId().get(0);
+        spinnerSortBy.setAdapter(new AdapterCategorySpinner(getActivity(), promoSortByListNames()));
+        sortByID = promoSortByListId().get(0);
 
     }
 
@@ -615,7 +647,33 @@ public class FragmentSpecialStoreFront extends BaseFragment implements View.OnCl
     public void onEvent(final Event event) {
         switch (event.getKey()) {
 
-            case Constants.SHOPPING_SUCCESS:
+            case Constants.SHOPPING_ADD_TO_PROMO_SUCCESS:
+                showProgress();
+                var cartId = event.getResponse();
+                try {
+                    JSONArray optList = promoRequest.getJSONArray("OPTLST");
+                    for (int i = 0; i < optList.length(); i++) {
+                        JSONObject item = optList.getJSONObject(i);
+                        JSONObject param = item.getJSONObject("PARAM");
+
+                        // update 600.7 for each child
+                        param.put("600.7", Utils.lengtT(11, cartId));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        showProgress();
+                        ModelManager.getInstance().getShoppingCartManager()
+                                .addPromotionToCart(requireActivity(), promoRequest.toString());
+                    }
+                }, 2000);
+
+                break;
+            case Constants.SHOPPING_PROMO_ADDED_CART_SUCCESS:
                 hideProgress();
                 showSuccessdialog();
                 break;
@@ -689,8 +747,8 @@ public class FragmentSpecialStoreFront extends BaseFragment implements View.OnCl
             case Constants.GET_MERCHANT_LOCATION_SUCCESS:
                 List<MerchantLocationBean.RESULT.MerchantLocationData> data = ModelManager.getInstance().getMerchantManager().merchantLocationBean.getRESULT().get(0).getRESULT();
                 if (!data.isEmpty()) {
-                    merchantId = data.get(0).locationID;
-                    promotionMerchantId = Integer.parseInt(merchantId);
+                    merchantId = data.get(0).getaD()._53;
+                    promotionMerchantLocationId = Integer.parseInt(data.get(0).locationID);
                 }
 
                 specialsViewModel.promotionById(Integer.parseInt(selectedPromotionId));
@@ -756,11 +814,21 @@ public class FragmentSpecialStoreFront extends BaseFragment implements View.OnCl
                 }
             }
         } else {
-            for (int i = 0; i < levelOneCategoryResponse.getRESULT().get(0).getRESULT().size(); i++) {
-                if (levelOneCategoryResponse.getRESULT().get(0).getRESULT().get(i).get_12045().equals(storeFrontCategory)) {
-                    spinnerCategory.setSelection(i);
-                    intialListCategoryClick(i);
-                    break;
+            if (levelOneCategory != null) {
+                for (int i = 0; i < levelOneCategory.getRESULT().get(0).getRESULT().size(); i++) {
+                    if (levelOneCategory.getRESULT().get(0).getRESULT().get(i).get_12045().equals(storeFrontCategory)) {
+                        spinnerCategory.setSelection(i);
+                        intialListCategoryClick(i);
+                        break;
+                    }
+                }
+            } else {
+                for (int i = 0; i < levelOneCategoryResponse.getRESULT().get(0).getRESULT().size(); i++) {
+                    if (levelOneCategoryResponse.getRESULT().get(0).getRESULT().get(i).get_12045().equals(storeFrontCategory)) {
+                        spinnerCategory.setSelection(i);
+                        intialListCategoryClick(i);
+                        break;
+                    }
                 }
             }
         }
@@ -1015,35 +1083,10 @@ public class FragmentSpecialStoreFront extends BaseFragment implements View.OnCl
             linearLayoutSearchHeader.setVisibility(View.VISIBLE);
     }
 
-    public class SpinnerInteractionListener implements AdapterView.OnItemSelectedListener, View.OnTouchListener {
-
-        boolean userSelect = false;
-
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
-            if (deliveryServiceResponse == null) {
-//                if (waitCode())
-//                    fetchDeliveryServices();
-            }
-            setLeftPanelVisibility(true);
-            userSelect = true;
-            return false;
-        }
-
-        @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            if (userSelect) {
-                if (position == 2)
-                    editTextSearchZip.setVisibility(View.VISIBLE);
-                else
-                    editTextSearchZip.setVisibility(View.GONE);
-            }
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> parent) {
-        }
-
+    @Override
+    public void onAddToPromoCart(@NotNull JSONObject request) {
+        showProgress();
+        promoRequest = request;
     }
 
 }

@@ -33,6 +33,10 @@ public class ShoppingCartManager {
         new ExecuteAddItemApi(context).execute(params);
     }
 
+    public void addPromotionToCart(Context context, String params) {
+        new ExecuteAddPromoApi(context).execute(params);
+    }
+
     public void reOrderCart(Context context, String params) {
         new ExecuteReorderApi(context).execute(params);
     }
@@ -111,7 +115,56 @@ public class ShoppingCartManager {
         @Override
         protected String doInBackground(String... param) {
             String response = Client.Caller(param[0]);
-            Log.d(TAG, "response_cartadd---" + response);
+            Log.d(TAG, "ExecuteAddItemApiRequest---" + param[0]);
+            Log.d(TAG, "ExecuteAddItemApiResponse---" + response);
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            Log.d("helloCart", s + "");
+            String shoppingId = "";
+            String cartId = "";
+            try {
+                if (s != null) {
+                    JSONObject jsonObject = new JSONObject(s);
+                    JSONArray resultArray = jsonObject.getJSONArray("RESULT");
+                    // for (int i = 0; i < resultArray.length(); i++) {
+                    JSONObject resultObj = resultArray.getJSONObject(0);
+                    String trans = resultObj.getString("_44");
+                    JSONArray jsonArray = resultObj.getJSONArray("RESULT");
+                    JSONObject jsonObject1 = jsonArray.getJSONObject(0);
+                    if (jsonObject1.has("_122_31")) shoppingId = jsonObject1.getString("_122_31");
+                    if (jsonObject1.has("_600_7")) cartId = jsonObject1.getString("_600_7");
+                    if (trans.equals("Transaction Approved")) {
+                        EventBus.getDefault().post(new Event(Constants.SHOPPING_SUCCESS, shoppingId));
+                        EventBus.getDefault().post(new Event(Constants.SHOPPING_ADD_TO_PROMO_SUCCESS, cartId));
+                    } else {
+                        EventBus.getDefault().post(new Event(-1, ""));
+                    }
+
+                    //}
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private class ExecuteAddPromoApi extends AsyncTask<String, String, String> {
+
+        Context mContext;
+
+        ExecuteAddPromoApi(Context context) {
+            mContext = context;
+        }
+
+        @Override
+        protected String doInBackground(String... param) {
+            String response = Client.Caller(param[0]);
+            Log.d(TAG, "OperationsAddPromoApi---" + param[0]);
+            Log.d(TAG, "ExecuteAddPromoApi---" + response);
             return response;
         }
 
@@ -131,8 +184,7 @@ public class ShoppingCartManager {
                     JSONObject jsonObject1 = jsonArray.getJSONObject(0);
                     if (jsonObject1.has("_122_31")) shoppingId = jsonObject1.getString("_122_31");
                     if (trans.equals("Transaction Approved")) {
-
-                        EventBus.getDefault().post(new Event(Constants.SHOPPING_SUCCESS, shoppingId));
+                        EventBus.getDefault().post(new Event(Constants.SHOPPING_PROMO_ADDED_CART_SUCCESS, shoppingId));
                     } else {
                         EventBus.getDefault().post(new Event(-1, ""));
                     }

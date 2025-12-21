@@ -46,7 +46,7 @@ public class CommonFunctions {
     public static ArrayList<PromotionListingResponse> promotionByIdResponse = new ArrayList<>();
     public static ArrayList<AllProductsListResponse> promotionActiveProductResponse = new ArrayList<>();
     public static List<ProductItemWrapper> promotionCombinedProductList = new ArrayList<>();
-    public static int promotionMerchantId = 0;
+    public static int promotionMerchantLocationId = 0;
     public static boolean isDialogShowing = false;
 
     public static void lockOrientation(Activity activity) {

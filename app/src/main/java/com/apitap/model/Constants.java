@@ -122,6 +122,8 @@ public class Constants {
 
 
     public static final int SHOPPING_SUCCESS = 10028;
+    public static final int SHOPPING_PROMO_ADDED_CART_SUCCESS = 10070;
+    public static final int SHOPPING_ADD_TO_PROMO_SUCCESS = 10071;
     public static final int SHOPPING_DETAIL_SUCCESS = 20034;
     public static final int GET_MERCHANT_SUCCESS = 20035;
     public static final int GET_MERCHANT_LOCATION_SUCCESS = 20036;
@@ -140,6 +142,7 @@ public class Constants {
 
     public static final int RELATED_DETAILS = 20045;
     public static final int RELATED_SPECIAL_DETAILS = 40045;
+    public static final int INVENTORY_UPDATED = 400451;
     public static final int CATEGORY_DETAILS = 21045;
     public static final int SEARCH_ITEM_SUCCESS = 20046;
     public static final int SEARCH_ITEM_SUCCESS_Empty = 30047;
@@ -313,6 +316,7 @@ public class Constants {
     public static final String MERCHANT_ID = "merchant_store";
     public static final String MERCHANT_CATEGORY = "merchant_category";
     public static final String MERCHANT_CATEGORY_ID = "merchant_category_id";
+    public static final String LEVEL_ONE_CATEGORIES = "level_one_categories";
     public static final String TERMS = "terms";
     public static final String POLICIES = "policies";
     public static final String LOGIN_FROM_TEMP_PASS = "login_temp_password";

@@ -18,6 +18,7 @@ import androidx.core.view.isVisible
 import com.apitap.R
 import com.apitap.controller.ModelManager
 import com.apitap.databinding.DialogAddPromoOrderBinding
+import com.apitap.model.Client
 import com.apitap.model.Constants
 import com.apitap.model.Operations
 import com.apitap.model.Utils
@@ -34,6 +35,8 @@ import com.apitap.views.fragments.specials.utils.PromotionTypeRuleEvaluator
 import com.apitap.views.fragments.specials.utils.PromotionTypeRuleEvaluator.getPromotionConditionLabel
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
+import org.json.JSONArray
+import org.json.JSONObject
 import kotlin.math.round
 
 
@@ -51,6 +54,7 @@ object AddPromoToOrderDialog {
     fun show(
         context: Activity,
         selectedPromotionId: String,
+        merchantId: String,
         product: PromotionListingResponse,
         showAddToOrder: Boolean = true,
         selectedProduct: PromotionListingResponse? = null,
@@ -127,7 +131,7 @@ object AddPromoToOrderDialog {
                             ATPreferences.readString(
                                 context, Constants.KEY_IMAGE_URL
                             ).toString().plus(data.productImages?.firstOrNull()?.productImage)
-                        ).placeholder(R.drawable.gallery_placeholder).into(image);
+                        ).placeholder(R.drawable.loading).into(image);
                     }
 
                     buttonAddToOrder.isVisible = showAddToOrder
@@ -435,6 +439,7 @@ object AddPromoToOrderDialog {
                                 ?: 0) > 0)
                         }?.map { it.item } ?: emptyList()
 
+
                         val promoResponse = selectedProducts.toPromoProductList(product)
 
                         /*
@@ -461,20 +466,108 @@ object AddPromoToOrderDialog {
 
                         Log.d("PROMO_DEBUG", "Added Promo: ${Gson().toJson(promoResponse)}")
 
-                        listener?.onAddToPromoCart()
                         ModelManager.getInstance().getShoppingCartManager().addItemTOCart(
                             context,
                             Operations.makeJsonAddToCartItems(
                                 context,
                                 "1",
-                                Utils.lengtT(11,selectedPromotionId),
-                                Utils.lengtT(11,CommonFunctions.promotionMerchantId.toString()),
+                                Utils.lengtT(11, selectedPromotionId),
+                                Utils.lengtT(11, merchantId),
                                 "",
                                 "",
                                 ""
                             )
                         )
 
+
+                        val optListArray = JSONArray()
+
+                        promoResponse.promoProductList?.forEach { promoItem ->
+                            val childProductId = promoItem.productId?.toString() ?: return@forEach
+                            val detailQty = promoItem.detailQty?.toString() ?: "1"
+
+                            // collect options (valueId) from details
+                            val optionIds = promoItem.details?.flatMap {
+                                it.options?.mapNotNull { opt -> opt.valueId?.toString() }
+                                    ?: emptyList()
+                            } ?: emptyList()
+
+                            val optionId = optionIds.getOrNull(0) ?: ""
+                            val optionId2 = optionIds.getOrNull(1) ?: ""
+
+                            // decide role (R = required, A = applied)
+                            val role = if (promoItem.isRequiredItem == true) "R" else "A"
+
+                            // build PARAM object
+                            val paramObj = JSONObject().apply {
+                                put(
+                                    "53",
+                                    Utils.lengtT(
+                                        11,
+                                        ATPreferences.readString(context, Constants.KEY_USERID)
+                                    )
+                                )
+                                put(
+                                    "114.144",
+                                    Utils.lengtT(11, childProductId)
+                                )                 // child product
+                                put(
+                                    "600.6",
+                                    Utils.lengtT(11, promoResponse.productId.toString())
+                                ) // parent = promotionId
+                                put(
+                                    "600.7",
+                                    detailQty
+                                )                                          // quantity
+                                put(
+                                    "114.179",
+                                    Utils.lengtT(11, merchantId)
+                                )
+                                put(
+                                    "114.121",
+                                    detailQty
+                                )  // parent qty
+                                put("121.55", promoResponse.productNotes ?: "")
+                                put("600.2", role)
+
+                                // options array
+                                val chArray = JSONArray()
+                                if (optionId.isNotEmpty()) chArray.put(
+                                    JSONObject().put(
+                                        "121.104",
+                                        Utils.lengtT(11, optionId)
+                                    )
+                                )
+                                if (optionId2.isNotEmpty()) chArray.put(
+                                    JSONObject().put(
+                                        "121.104",
+                                        Utils.lengtT(11, optionId2)
+                                    )
+                                )
+                                put("CH", chArray)
+                            }
+
+                            // wrap with 101 + PARAM
+                            val itemObj = JSONObject().apply {
+                                put("101", "030400198") // API code
+                                put("PARAM", paramObj)
+                            }
+
+                            optListArray.put(itemObj)
+                        }
+
+// now build final request
+                        val finalRequest = JSONObject().apply {
+                            put("11", Client.getTimeStamp())
+                            put(
+                                "192",
+                                ATPreferences.readString(context, Constants.KEY_USER_DEFAULT)
+                            )
+                            put("122.45", "en")
+                            put("OPTLST", optListArray)
+                        }
+
+                        listener?.onAddToPromoCart(finalRequest)
 
                         dismissDialog(context)
                     }
@@ -797,6 +890,7 @@ object AddPromoToOrderDialog {
                     productName = CommonFunctions.hexToASCII(item.productName),
                     productPriceCurrencyName = item.productPriceCurrencyName,
                     productImage = item.productImage,
+                    isRequiredItem = isRequiredItem,
                     detailQty = quantity,
                     promoActualPrice = actualPrice,
                     promoDiscountPrice = discountPrice,
@@ -844,7 +938,7 @@ object AddPromoToOrderDialog {
     }
 
     interface OnPromoCartListener {
-        fun onAddToPromoCart()
+        fun onAddToPromoCart(request: JSONObject)
     }
 }
 

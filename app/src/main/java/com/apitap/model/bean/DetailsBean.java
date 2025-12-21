@@ -3,6 +3,8 @@ package com.apitap.model.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.apitap.model.bean.items.LocationBean;
+
 import java.util.ArrayList;
 
 /**
@@ -23,6 +25,7 @@ public class DetailsBean implements Parcelable{
     private String name;
     private String brand;
     private String sellerName;
+    private ArrayList<LocationBean> locationList;
     private String productDesc;
     private String availability;
     private String title;
@@ -94,6 +97,14 @@ public class DetailsBean implements Parcelable{
 
     public void setModel(String model) {
         this.model = model;
+    }
+
+    public ArrayList<com.apitap.model.bean.items.LocationBean> getLocationList() {
+        return locationList;
+    }
+
+    public void setLocationList(ArrayList<com.apitap.model.bean.items.LocationBean> locationList) {
+        this.locationList = locationList;
     }
 
 
