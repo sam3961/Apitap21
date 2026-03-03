@@ -33,6 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/txtcart"
+                android:visibility="gone"
                 android:layout_marginTop="20dp">
 
                 <TextView
@@ -40,6 +41,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
+                    android:visibility="gone"
                     android:text="Select Type "
                     android:textColor="@color/colorBlue"
                     android:textSize="@dimen/_13ssp" />
@@ -49,6 +51,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/option"
                     android:layout_marginLeft="40dp"
+                    android:visibility="gone"
                     android:layout_marginRight="40dp"
                     android:background="@drawable/back_round"
 
@@ -169,8 +172,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/option3"
                     android:layout_centerInParent="true"
-                    android:layout_marginLeft="40dp"
-                    android:layout_marginRight="40dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
                     android:background="@drawable/back_round"
                     android:visibility="visible"
 

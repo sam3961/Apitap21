@@ -7,10 +7,13 @@
     android:background="@color/colorWhite">
 
     <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         style="@style/ScrollBarStyle"
-        android:fillViewport="true">
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@+id/constraintBottom"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/rootLayout"
@@ -33,13 +36,13 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_4sdp"
+                android:ellipsize="end"
                 android:fontFamily="@font/rubik_medium"
                 android:includeFontPadding="false"
                 android:maxLines="2"
                 android:text="Prosciutto Pizza"
                 android:textColor="@color/colorBlack"
                 android:textSize="@dimen/_12sdp"
-                android:ellipsize="end"
                 app:layout_constraintEnd_toStartOf="@+id/imageViewClose"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -81,11 +84,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_4sdp"
                 android:ellipsize="end"
-                android:maxLines="2"
                 android:fontFamily="@font/rubik_regular"
                 android:gravity="start"
-                android:text=""
                 android:includeFontPadding="false"
+                android:maxLines="2"
+                android:text=""
                 android:textColor="@color/colorText"
                 android:textSize="@dimen/_10sdp"
                 app:layout_constraintEnd_toEndOf="@+id/imageViewClose"
@@ -122,13 +125,13 @@
                 android:ellipsize="end"
                 android:fontFamily="@font/rubik_regular"
                 android:gravity="start"
-                android:visibility="gone"
                 android:includeFontPadding="false"
                 android:paddingHorizontal="@dimen/_8sdp"
                 android:paddingVertical="@dimen/_4sdp"
                 android:text="Please select an item to start."
                 android:textColor="@color/colorText"
                 android:textSize="@dimen/_9sdp"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="@+id/imageViewClose"
                 app:layout_constraintStart_toStartOf="@+id/imageViewItem"
                 app:layout_constraintTop_toBottomOf="@+id/textViewRequiredItems" />
@@ -179,9 +182,9 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewPromotionsItems"
+                style="@style/ScrollBarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/ScrollBarStyle"
                 android:layout_marginTop="@dimen/_8sdp"
                 android:nestedScrollingEnabled="false"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -196,6 +199,7 @@
                 android:layout_height="@dimen/_1sdp"
                 android:layout_marginTop="@dimen/_8sdp"
                 android:background="@color/hintColor"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/recyclerViewPromotionsItems" />
@@ -209,6 +213,7 @@
                 android:fontFamily="@font/rubik_regular"
                 android:gravity="start"
                 android:hint="@string/note"
+
                 android:includeFontPadding="false"
                 android:padding="@dimen/_8sdp"
                 android:textColor="@color/colorText"
@@ -222,10 +227,11 @@
                 android:id="@+id/constraintAddToOrder"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
+                android:layout_marginStart="@dimen/_8sdp"
                 android:layout_marginTop="@dimen/_8sdp"
-                android:layout_marginEnd="@dimen/_12sdp"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/buttonCancel"
-                app:layout_constraintEnd_toStartOf="@+id/buttonAddToOrder"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editTextNotes">
 
                 <LinearLayout
@@ -234,6 +240,7 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/rounded_outline_button_4"
                     android:orientation="horizontal"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
@@ -312,24 +319,9 @@
                 android:paddingHorizontal="@dimen/_8sdp"
                 android:text="@string/media_picker_cancel"
                 android:textColor="@color/colorGreen"
-                android:visibility="invisible"
+                android:visibility="gone"
                 app:layout_constraintEnd_toStartOf="@+id/constraintAddToOrder"
                 app:layout_constraintTop_toBottomOf="@+id/editTextNotes" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/buttonAddToOrder"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/rounded_bg_dblue"
-                android:fontFamily="@font/rubik_medium"
-                android:includeFontPadding="false"
-                android:paddingHorizontal="@dimen/_8sdp"
-                android:text="@string/add_to_order"
-                android:textColor="@color/button_text_color_green"
-                android:visibility="visible"
-                app:layout_constraintBottom_toTopOf="@+id/viewDividerBottom"
-                app:layout_constraintEnd_toEndOf="@+id/viewDivider"
-                app:layout_constraintTop_toBottomOf="@+id/viewDivider" />
 
 
             <View
@@ -338,6 +330,7 @@
                 android:layout_height="@dimen/_1sdp"
                 android:layout_marginTop="@dimen/_8sdp"
                 android:background="@color/hintColor"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/buttonCancel" />
@@ -346,5 +339,91 @@
 
 
     </androidx.core.widget.NestedScrollView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintBottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/colorPaleGreyLight"
+            app:cardCornerRadius="0dp"
+            app:cardElevation="@dimen/_12sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_8sdp">
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/textViewTotalPriceTotal"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/rubik_medium"
+                    android:gravity="start"
+                    android:includeFontPadding="false"
+                    android:maxLines="2"
+                    android:text="Total"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="@dimen/_11sdp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/textViewTotalPrice"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:gravity="start"
+                    android:includeFontPadding="false"
+                    android:maxLines="2"
+                    android:text="$0.00"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/_14sdp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textViewTotalPriceTotal" />
+
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/buttonAddToOrder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alpha="0.5"
+                    android:background="@drawable/rounded_bg_dblue"
+                    android:drawableStart="@drawable/cart_icon"
+                    android:drawablePadding="@dimen/_4sdp"
+                    android:enabled="false"
+                    android:fontFamily="@font/rubik_medium"
+                    android:includeFontPadding="false"
+                    android:paddingHorizontal="@dimen/_8sdp"
+                    android:text="@string/add_to_cart"
+                    android:textAllCaps="false"
+                    android:textColor="@color/button_text_color_green"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.cardview.widget.CardView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

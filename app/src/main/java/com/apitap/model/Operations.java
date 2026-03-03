@@ -7,7 +7,6 @@ import android.util.Log;
 
 import com.apitap.App;
 import com.apitap.BuildConfig;
-import com.apitap.controller.ModelManager;
 import com.apitap.model.bean.DtoDefaultValues;
 import com.apitap.model.bean.ShoppingCompBean;
 import com.apitap.model.preferences.ATPreferences;
@@ -4280,24 +4279,6 @@ public class Operations {
         return parametersToCall;
     }
 
-//    public static String makeJsonAddToCartItems(Activity context, String quantity, String productId, String merchantID, String Option_Id,String Option_Id2) {
-//        String dataPlana = "{\"101\":\"030400198\",\"PARAM\":{\"53\":\""
-//                + ATPreferences.readString(context, Constants.KEY_USERID) + "\" ,\"114.121\":\""
-//                + quantity + "\",\"114.144\":\""
-//                + productId + "\" ,\"114.179\":\""
-//                + merchantID + "\" ,\"121.104\":\""
-//                + Option_Id + "\"}}";
-//        String parametersToCall = "{\"192\":\"" + ATPreferences.readString(context, Constants.KEY_USER_DEFAULT)
-//                + "\",\"11\":\"" + Client.getTimeStamp() + "\",\"122.45\":\""
-//                + "en" + "\",\"57\":\""
-//                + /*Util.GetDeviceId()*/Utils.getDeviceId(context) + "\",\"120.38\":\""
-//                + "0.0" + "\",\"120.39\":\""
-//                + "0.0" + "\",\"OPTLST\":["
-//                + dataPlana + "]}";
-//        Log.d("ParamsAddtocart", parametersToCall);
-//        return parametersToCall;
-//    }030400198
-
     public static String makeJsonAddToCartItems(Activity context, String quantity, String productId, String merchantID,
                                                 String Option_Id, String Option_Id2, String specialInstructions) {
         String ChoiceArray = "";
@@ -4325,57 +4306,6 @@ public class Operations {
                 + App.longitude + "\",\"OPTLST\":["
                 + dataPlana + "]}";
         Log.d("ParamsAddtocart", parametersToCall);
-        return parametersToCall;
-    }
-
-    public static String makeJsonAddPromotionToCart(
-            Activity context,
-            String userId,
-            String productId,
-            String someId6006,
-            String someValue6007,
-            String merchantId,
-            String quantity,
-            String specialInstructions,
-            String someValue6002,
-            String optionId,
-            String optionId2
-    ) {
-        // Convert special instructions if provided
-        if (!specialInstructions.isEmpty()) {
-            specialInstructions = Utils.convertStringToHex(specialInstructions);
-        }
-
-        // Build CH array (support 1 or 2 options)
-        String choiceArray = "";
-        if (!optionId2.isEmpty()) {
-            choiceArray = "{\"121.104\":\"" + optionId + "\"},{\"121.104\":\"" + optionId2 + "\"}";
-        } else if (!optionId.isEmpty()) {
-            choiceArray = "{\"121.104\":\"" + optionId + "\"}";
-        }
-
-        // Build PARAM object
-        String dataPlana = "{\"101\":\"030400198\",\"PARAM\":{"
-                + "\"53\":\"" + userId + "\""
-                + ",\"114.144\":\"" + productId + "\""
-                + ",\"600.6\":\"" + someId6006 + "\""
-                + ",\"600.7\":\"" + someValue6007 + "\""
-                + ",\"114.179\":\"" + merchantId + "\""
-                + ",\"114.121\":\"" + quantity + "\""
-                + ",\"121.55\":\"" + specialInstructions + "\""
-                + ",\"600.2\":\"" + someValue6002 + "\""
-                + ",\"CH\":[" + choiceArray + "]}}";
-
-        // Final wrapper request
-        String parametersToCall = "{\"192\":\"" + ATPreferences.readString(context, Constants.KEY_USER_DEFAULT)
-                + "\",\"11\":\"" + Client.getTimeStamp() + "\""
-                + ",\"122.45\":\"en\""
-                + ",\"57\":\"" + Utils.getDeviceId(context) + "\""
-                + ",\"120.38\":\"" + App.latitude + "\""
-                + ",\"120.39\":\"" + App.longitude + "\""
-                + ",\"OPTLST\":[" + dataPlana + "]}";
-
-        Log.d("ParamsNewRequest", parametersToCall);
         return parametersToCall;
     }
 

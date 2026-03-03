@@ -53,6 +53,7 @@
     <color name="transparent">#00000000</color>
     <color name="colorGreenLogo">#99b945</color>
     <color name="colorGreenDarkLogo">#80A423</color>
+    <color name="colorOffWhite">#FAF9F6</color>
 
 
 </resources>

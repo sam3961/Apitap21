@@ -2024,9 +2024,11 @@ public class HomeActivity extends BaseActivity implements FragmentDrawer.Fragmen
 
             case -1:
                 hideProgress();
-                Utils.baseshowFeedbackMessage(this,
-                        rootLayout,
-                        event.getResponse());
+                if (event.getResponse()!=null&& !event.getResponse().isEmpty()) {
+                    Utils.baseshowFeedbackMessage(this,
+                            rootLayout,
+                            event.getResponse());
+                }
                 break;
         }
     }

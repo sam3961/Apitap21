@@ -62,23 +62,23 @@ public class Client {
             "https://aiodc.com:8050/MobileClient/?t=";  //production
     //************************************QA**************************************//
 
-/*    public static final String BASE_URL_PART =
-            "http://aiodctesting.org:8095/api/";
+   /* public static final String BASE_URL_PART =
+            "https://aiodctesting.org:8095/api/";
 
              public static final String BASE_URL =
-            "http://aiodctesting.org:8095/api/server/post";
+            "https://aiodctesting.org:8095/api/server/post";
 
     public static final String BASE_URL_CART =
-            "http://aiodctesting.org:8090/Apitap_ShoppingCart/?nmcId=";// cart qa //new
+            "https://aiodctesting.org:8090/Apitap_ShoppingCart/?nmcId=";// cart qa //new
 
 
     public static final String URL_CREATE_PASSWORD =
-            "http://aiodctesting.org:5443/sign-in/forgot";  //QA
+            "https://aiodctesting.org:5443/sign-in/forgot";  //QA
 
 
     public static final String URL_SETTINGS =
-            "http://aiodctesting.org:8090/MobileClient/?t=";  //QA*/
-
+            "https://aiodctesting.org:8090/MobileClient/?t=";  //QA
+*/
     public static String Caller(String parametersToCall) {
         String result = "";
 

@@ -6,7 +6,6 @@ import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
 import android.text.style.RelativeSizeSpan
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,17 +17,14 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.apitap.R
+import com.apitap.views.fragments.specials.AddPromoToOrderDialog
 import com.apitap.views.fragments.specials.data.AllProductsListResponse
 import com.apitap.views.fragments.specials.data.AppliedListItem
 import com.apitap.views.fragments.specials.data.ProductItemWrapper
 import com.apitap.views.fragments.specials.data.PromotionListingResponse
 import com.apitap.views.fragments.specials.utils.CommonFunctions
 import com.apitap.views.fragments.specials.utils.PromotionTypeRuleEvaluator
-import com.apitap.views.fragments.specials.utils.Utility.isInStock
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import com.apitap.views.fragments.specials.utils.Utility.isCombinationInStock
 
 class PromotionsItemsAdapter(
     var itemList: List<ProductItemWrapper>?,
@@ -38,6 +34,8 @@ class PromotionsItemsAdapter(
     private var discountConditionAppliesId: Int?,
     private var discountTypeId: Int?,
     private var selectedProduct: PromotionListingResponse?,
+    private var mapOfProductStock: HashMap<Int, Boolean>?,
+    private var inventoryIndexMap: Map<Int, List<AddPromoToOrderDialog.InventoryIndex>>? = HashMap(),
     private var allowAppliedSelection: Boolean,
     private var textViewRequiredItems: AppCompatTextView,
     private var hasRequired: Boolean,
@@ -101,7 +99,8 @@ class PromotionsItemsAdapter(
             existingAdapter ?: PromotionOptionsAdapter(
                 this,
                 data.item.productId,
-                data.item.options, selectedProduct
+                data.item.options, selectedProduct,
+                inventoryIndexMap
             ) {
 
                 //call api
@@ -127,20 +126,23 @@ class PromotionsItemsAdapter(
             }.also { optionsAdapterMap[productId] = it }
         holder.recyclerViewPromotionsOptions.adapter = promotionsOptionAdapter
 
+
         holder.checkBoxName.setOnCheckedChangeListener { _, isChecked ->
             if (!isChecked) {
-                data.item.options?.forEach {
-                    it.selectedItem = false
-                }
-                data.item.quantity = null
                 data.item.isSelected = false
-                holder.checkBoxName.isVisible = false
+                data.item.quantity = null
+
+                // 🔥 FULL RESET
+                resetItemOptions(productId)
+                clearAllSelectionsForItem(productId)
+                // keep accordion open (WEB)
+                holder.recyclerViewPromotionsOptions.isVisible = true
                 holder.linearAddItem.isVisible = false
-                holder.recyclerViewPromotionsOptions.isVisible = false
-                optionsAdapterMap[productId]?.clearAllChoicesSelections()
+
                 onItemClick.invoke(data.item)
             }
         }
+
 
 
         val productName = CommonFunctions.hexToASCII(data.item.productName)
@@ -218,6 +220,8 @@ class PromotionsItemsAdapter(
                         "You can only add $conditionQty item(s) in this promotion.",
                         Toast.LENGTH_SHORT
                     ).show()
+//                    holder.checkBox.isChecked = false
+//                    holder.checkBoxName.isChecked = false
                     return@setOnClickListener
                 }
             }
@@ -245,6 +249,9 @@ class PromotionsItemsAdapter(
                     data.item.quantity = 0
                     data.item.isSelected = false
                     holder.linearAddItem.isVisible = false
+
+                    clearAllSelectionsForItem(productId)
+
                     holder.recyclerViewPromotionsOptions.isVisible = false
                     holder.textViewCount.text = "1"
                     optionsAdapterMap[productId]?.clearAllChoicesSelections()
@@ -300,12 +307,14 @@ class PromotionsItemsAdapter(
                     }
                 }
 
-                if (totalQtyInTargetList >= conditionQty && checkCondition && isQtyAll) {
+                if (totalQtyInTargetList > conditionQty && checkCondition && isQtyAll) {
                     Toast.makeText(
                         holder.itemView.context,
                         "You can only add $conditionQty item(s) in this promotion.",
                         Toast.LENGTH_SHORT
                     ).show()
+                    holder.checkBox.isChecked = false
+                    holder.checkBoxName.isChecked = false
                     return@setOnClickListener
                 }
 
@@ -472,22 +481,43 @@ class PromotionsItemsAdapter(
         }
 
 //        if (data.item.options.isNullOrEmpty()) {
-            CoroutineScope(Dispatchers.Main).launch {
-                val inStock = withContext(Dispatchers.IO) {
-                    isInStock(productId)
-                }
-                if (!inStock) {
-                    holder.textViewOutOfStock.isVisible = true
-                    holder.linearLayoutRoot.alpha = 0.5f
-                    holder.linearLayoutRoot.isEnabled = false
-                    holder.checkBox.isEnabled = false
-                    holder.checkBoxName.isEnabled = false
-                    holder.linearAddItem.isVisible = false
-                } else {
-                    holder.textViewOutOfStock.isVisible = false
-                }
-//            }
+        /*
+                    CoroutineScope(Dispatchers.Main).launch {
+                        val inStock = withContext(Dispatchers.IO) {
+                            isInStock(productId)
+                        }
+                        if (!inStock) {
+                            holder.textViewOutOfStock.isVisible = true
+                            holder.linearLayoutRoot.alpha = 0.5f
+                            holder.linearLayoutRoot.isEnabled = false
+                            holder.checkBox.isEnabled = false
+                            holder.checkBoxName.isEnabled = false
+                            holder.linearAddItem.isVisible = false
+                        } else {
+                            holder.textViewOutOfStock.isVisible = false
+                        }
+        //            }
 
+                }
+        */
+
+        val inStock =
+            if (data.item.options.isNullOrEmpty()) {
+                inventoryIndexMap?.get(productId)?.any { it.qty > 0 } ?: false
+            } else {
+                true // options handle stock themselves
+            }
+
+
+        if (!inStock) {
+            holder.textViewOutOfStock.isVisible = true
+            holder.linearLayoutRoot.alpha = 0.5f
+            holder.linearLayoutRoot.isEnabled = false
+            holder.checkBox.isEnabled = false
+            holder.checkBoxName.isEnabled = false
+            holder.linearAddItem.isVisible = false
+        } else {
+            holder.textViewOutOfStock.isVisible = false
         }
     }
 
@@ -532,76 +562,80 @@ class PromotionsItemsAdapter(
         holder.checkBox.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
 
-                //call api
+                val selectedChoices =
+                    optionsAdapterMap[data.item.productId]
+                        ?.getAllSelectedChoices()
+                        ?: emptySet()
 
-                CoroutineScope(Dispatchers.Main).launch {
-                    val inStock = withContext(Dispatchers.IO) {
-                        isInStock(
-                            data.item.productId
-                        )
+                val inStock = isCombinationInStock(
+                    data.item.productId ?: return@setOnCheckedChangeListener,
+                    selectedChoices,
+                    inventoryIndexMap
+                )
+
+
+                if (!inStock) {
+                    Toast.makeText(
+                        holder.itemView.context,
+                        "Oops! Looks like this combination is out of stock.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    holder.checkBox.isChecked = false
+                    holder.checkBoxName.isChecked = false
+                    holder.linearAddItem.isVisible = false
+                    return@setOnCheckedChangeListener // 🚫 stop here, don’t run the below code
+                }
+
+                // if error check false again and returns from it
+
+                // ✅ NO FREE ITEMS check
+                if (discountTypeId == PromotionTypeRuleEvaluator.DiscountType.NO_FREE_ITEMS.id) {
+                    val maxFreeItems = (discountValue ?: 0.0).toInt()
+                    var totalAppliedQty = 0
+                    itemList?.forEach {
+                        if (it.isApplied) {
+                            totalAppliedQty += (it.item.quantity ?: 0)
+                        }
                     }
-
-                    if (!inStock) {
+                    if (totalAppliedQty >= maxFreeItems && data.isApplied) {
                         Toast.makeText(
                             holder.itemView.context,
-                            "Oops! Looks like this combination is out of stock.",
+                            "You can only have $maxFreeItems free item(s) in this promotion.",
                             Toast.LENGTH_SHORT
                         ).show()
                         holder.checkBox.isChecked = false
                         holder.checkBoxName.isChecked = false
-                        holder.linearAddItem.isVisible = false
-                        return@launch // 🚫 stop here, don’t run the below code
-                    }
-
-                    // if error check false again and returns from it
-
-                    // ✅ NO FREE ITEMS check
-                    if (discountTypeId == PromotionTypeRuleEvaluator.DiscountType.NO_FREE_ITEMS.id) {
-                        val maxFreeItems = (discountValue ?: 0.0).toInt()
-                        var totalAppliedQty = 0
-                        itemList?.forEach {
-                            if (it.isApplied) {
-                                totalAppliedQty += (it.item.quantity ?: 0)
-                            }
-                        }
-                        if (totalAppliedQty >= maxFreeItems && data.isApplied) {
-                            Toast.makeText(
-                                holder.itemView.context,
-                                "You can only have $maxFreeItems free item(s) in this promotion.",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            holder.checkBox.isChecked = false
-                            holder.checkBoxName.isChecked = false
-                            return@launch
-                        }
-                    }
-
-
-                    var checkCondition = false
-                    var totalQtyInTargetList = 0
-                    itemList?.forEach {
-                        if (hasRequired && !it.isApplied) {
-                            checkCondition = true
-                            totalQtyInTargetList = totalQtyInTargetList + (it.item.quantity ?: 0)
-                        } else if (!hasRequired && it.isApplied) {
-                            checkCondition = true
-                            totalQtyInTargetList = totalQtyInTargetList + (it.item.quantity ?: 0)
-                        } else if (hasRequired && data.isApplied) {
-                            checkCondition = false
-                        }
-                    }
-
-                    if (totalQtyInTargetList >= conditionQty && checkCondition && isQtyAll) {
-                        Toast.makeText(
-                            holder.itemView.context,
-                            "You can only add $conditionQty item(s) in this promotion.",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        return@launch
+                        return@setOnCheckedChangeListener
                     }
                 }
 
-                data.item.isSelected = isChecked
+
+                var checkCondition = false
+                var totalQtyInTargetList = 0
+                itemList?.forEach {
+                    if (hasRequired && !it.isApplied) {
+                        checkCondition = true
+                        totalQtyInTargetList = totalQtyInTargetList + (it.item.quantity ?: 0)
+                    } else if (!hasRequired && it.isApplied) {
+                        checkCondition = true
+                        totalQtyInTargetList = totalQtyInTargetList + (it.item.quantity ?: 0)
+                    } else if (hasRequired && data.isApplied) {
+                        checkCondition = false
+                    }
+                }
+
+                if (totalQtyInTargetList > conditionQty && checkCondition && isQtyAll) {
+                    Toast.makeText(
+                        holder.itemView.context,
+                        "You can only add $conditionQty item(s) in this promotion.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    holder.checkBox.isChecked = false
+                    holder.checkBoxName.isChecked = false
+                    return@setOnCheckedChangeListener
+                }
+
+                data.item.isSelected = true
 //            val initialQty = if (isQtyEach && (data.item.quantity ?: 0) == 0) conditionQty else 1
                 var initialQty = 1
                 if (isQtyEach && !hasRequired) {
@@ -611,14 +645,24 @@ class PromotionsItemsAdapter(
 
                 data.item.quantity = initialQty
                 holder.textViewCount.text = initialQty.toString()
-                holder.linearAddItem.isVisible = isChecked
-                if (!isChecked) {
-                    data.item.quantity = null
-                    holder.recyclerViewPromotionsOptions.isVisible = false
-                    optionsAdapterMap[data.item.productId]?.clearAllChoicesSelections()
-                }
-                onItemClick.invoke(data.item)
+                holder.linearAddItem.isVisible = true
+            } else {
+                data.item.isSelected = false
+                data.item.quantity = null
+//                holder.recyclerViewPromotionsOptions.isVisible = false
+//                holder.linearAddItem.isVisible = false
+//                optionsAdapterMap[data.item.productId]?.clearAllChoicesSelections()
+
+                resetItemOptions(data.item.productId)
+
+                    clearAllSelectionsForItem(data.item.productId)
+
+                holder.recyclerViewPromotionsOptions.isVisible = true
+                holder.linearAddItem.isVisible = false
+
+                notifyOptionsChanged(data.item.productId)
             }
+            onItemClick.invoke(data.item)
         }
     }
 
@@ -662,4 +706,68 @@ class PromotionsItemsAdapter(
             SpannableString(baseName)
         }
     }
+
+    fun notifyOptionsChanged(productId: Int?) {
+        productId ?: return
+        optionsAdapterMap[productId]?.notifyAllChoicesChanged()
+    }
+
+    fun clearSelectionsAfterOption(productId: Int?, optionId: Int?) {
+        if (productId == null || optionId == null) return
+
+        val product = itemList
+            ?.firstOrNull { it.item.productId == productId }
+            ?.item ?: return
+
+        var clear = false
+
+        product.options?.forEach { option ->
+            if (clear) {
+                option.selectedItem = false
+                option.choices?.forEach { it.selectedItem = false }
+            }
+
+            if (option.id == optionId) {
+                clear = true
+            }
+        }
+    }
+
+    fun resetItemOptions(productId: Int?) {
+        if (productId == null) return
+
+        val product = itemList
+            ?.firstOrNull { it.item.productId == productId }
+            ?.item ?: return
+
+        // 1️⃣ Clear ALL option & choice selections
+        product.options?.forEach { option ->
+            option.selectedItem = false
+            option.choices?.forEach { choice ->
+                choice.selectedItem = false
+            }
+        }
+
+        // 2️⃣ Force adapters to rebind
+        optionsAdapterMap[productId]?.clearAllChoicesSelections()
+        optionsAdapterMap[productId]?.notifyAllChoicesChanged()
+    }
+
+    fun clearAllSelectionsForItem(productId: Int?) {
+        itemList
+            ?.firstOrNull { it.item.productId == productId }
+            ?.item
+            ?.options
+            ?.forEach { option ->
+                option.choices?.forEach {
+                    it.selectedItem = false
+                }
+            }
+
+        notifyOptionsChanged(productId)
+    }
+
+
+
+
 }

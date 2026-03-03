@@ -1,5 +1,11 @@
 package com.apitap.views.fragments.specials.adapter
 
+import android.content.Context
+import android.graphics.Color
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
+import android.text.style.RelativeSizeSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,14 +13,12 @@ import android.widget.Toast
 import androidx.appcompat.widget.AppCompatRadioButton
 import androidx.recyclerview.widget.RecyclerView
 import com.apitap.R
+import com.apitap.views.fragments.specials.AddPromoToOrderDialog
 import com.apitap.views.fragments.specials.data.PromoChoicesItem
 import com.apitap.views.fragments.specials.data.PromotionListingResponse
 import com.apitap.views.fragments.specials.utils.CommonFunctions
-import com.apitap.views.fragments.specials.utils.Utility.isCombinationInStock
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import com.apitap.views.fragments.specials.utils.Utility.isChoiceAvailable
+import com.apitap.views.fragments.specials.utils.Utility.isChoiceGloballyInStock
 
 class PromotionChoicesAdapter(
     private val promoItemsAdapter: PromotionsItemsAdapter,
@@ -22,6 +26,7 @@ class PromotionChoicesAdapter(
     private val optionId: Int?,
     private val choicesItems: MutableList<PromoChoicesItem>?,
     private val selectedProduct: PromotionListingResponse?,
+    private var inventoryIndexMap: Map<Int, List<AddPromoToOrderDialog.InventoryIndex>>? = HashMap(),
     private val onItemClick: (PromoChoicesItem?) -> Unit
 ) : RecyclerView.Adapter<PromotionChoicesAdapter.ViewHolder>() {
 
@@ -36,83 +41,154 @@ class PromotionChoicesAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        choicesItems?.get(position)?.let { item ->
-            holder.radioButtonChoices.text =
+        val item = choicesItems?.get(position) ?: return
+        val pid = productId ?: return
+
+        val selectedChoices = getSelectedChoices(productId, optionId).toSet()
+
+  /*          val isAvailable = isChoiceAvailable(
+            pid,
+            item.valueId ?: return,
+            selectedChoices,
+            inventoryIndexMap
+        )
+*/
+        val isAvailableWithSelection = isChoiceAvailable(
+            pid,
+            item.valueId ?: return,
+            selectedChoices,
+            inventoryIndexMap
+        )
+
+        val isGloballyInStock = isChoiceGloballyInStock(
+            pid,
+            item.valueId ?: return,
+            inventoryIndexMap
+        )
+
+
+        holder.radioButtonChoices.text = when {
+            isAvailableWithSelection -> {
                 "${item.valueName}: $${CommonFunctions.formatPrice(item.extraPrice ?: 0.0)}"
-
-            holder.radioButtonChoices.isChecked = item.selectedItem == true
-
-            holder.radioButtonChoices.setOnClickListener {
-
-                CoroutineScope(Dispatchers.Main).launch {
-                    val inStock = withContext(Dispatchers.IO) {
-                        val listOfOldChoice = getSelectedChoices(productId, optionId)
-                        if (!listOfOldChoice.contains(item.valueId)) {
-                            listOfOldChoice.add(item.valueId ?: 0)
-                        }
-                        isCombinationInStock(
-                            productId,
-                            listOfOldChoice
-                        )
-                    }
-
-                    if (!inStock) {
-                        Toast.makeText(
-                            holder.itemView.context,
-                            "Oops! Looks like this combination is out of stock.",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        holder.radioButtonChoices.isChecked = false
-                        return@launch // 🚫 stop here, don’t run the below code
-                    }
-
-                    selectItem(position)
-                    onItemClick(item)
-                }
             }
 
-            holder.itemView.setOnClickListener {
-                CoroutineScope(Dispatchers.Main).launch {
-                    val inStock = withContext(Dispatchers.IO) {
-                        val listOfOldChoice = getSelectedChoices(productId, optionId)
-                        if (!listOfOldChoice.contains(item.valueId)) {
-                            listOfOldChoice.add(item.valueId ?: 0)
-                        }
-
-                        isCombinationInStock(
-                            productId,
-                            listOfOldChoice
-                        )
-                    }
-
-                    if (!inStock) {
-                        Toast.makeText(
-                            holder.itemView.context,
-                            "Oops! Looks like this combination is out of stock.",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        return@launch // 🚫 stop here, don’t run the below code
-                    }
-
-                    selectItem(position)
-                    onItemClick(item)
-                }
+            !isGloballyInStock -> {
+                buildRedSuffixText(
+                    holder.itemView.context,
+                    "${item.valueName}: $${CommonFunctions.formatPrice(item.extraPrice ?: 0.0)}",
+                    "(Out of stock)"
+                )
             }
+
+            else -> {
+                buildYellowSuffixText(
+                    holder.itemView.context,
+                    "${item.valueName}: $${CommonFunctions.formatPrice(item.extraPrice ?: 0.0)}",
+                    "(Not available with selection)"
+                )
+            }
+        }
+
+
+        holder.radioButtonChoices.isEnabled = isAvailableWithSelection
+        holder.radioButtonChoices.alpha =
+            if (isAvailableWithSelection) 1f else 0.4f
+
+        holder.radioButtonChoices.isChecked = item.selectedItem == true
+
+        holder.radioButtonChoices.setOnClickListener {
+            if (!isAvailableWithSelection) {
+                Toast.makeText(
+                    holder.itemView.context,
+                    if (!isGloballyInStock)
+                        "This option is out of stock"
+                    else
+                        "Not available with current selection",
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@setOnClickListener
+            }
+
+            selectItem(position)
+            onItemClick(item)
+
+            // 🔥 Force re-evaluation of all choices (web behavior)
+            promoItemsAdapter.notifyOptionsChanged(productId)
+        }
+
+    }
+
+    private fun buildRedSuffixText(
+        context: Context,
+        base: String,
+        suffix: String
+    ): SpannableString {
+        val text = "$base $suffix"
+        return SpannableString(text).apply {
+            val start = text.indexOf(suffix)
+            val end = start + suffix.length
+
+            setSpan(
+                ForegroundColorSpan(context.getColor(R.color.colorOrangeRed)), // better yellow
+                start,
+                end,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+
+            setSpan(
+                RelativeSizeSpan(0.85f), // 👈 smaller text
+                start,
+                end,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
         }
     }
 
-    private fun selectItem(position: Int) {
-        choicesItems?.let { list ->
-            val prevSelectedIndex = list.indexOfFirst { it.selectedItem == true }
+    private fun buildYellowSuffixText(
+        context: Context,
+        base: String,
+        suffix: String
+    ): SpannableString {
+        val text = "$base $suffix"
+        return SpannableString(text).apply {
+            val start = text.indexOf(suffix)
+            val end = start + suffix.length
 
-            if (prevSelectedIndex != -1 && prevSelectedIndex != position) {
-                list[prevSelectedIndex].selectedItem = false
-                notifyItemChanged(prevSelectedIndex)
-            }
+            setSpan(
+                ForegroundColorSpan(context.getColor(R.color.colorOrangeNew)), // better yellow
+                start,
+                end,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
 
-            list[position].selectedItem = true
-            notifyItemChanged(position)
+            setSpan(
+                RelativeSizeSpan(0.85f), // 👈 smaller text
+                start,
+                end,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
         }
+    }
+
+
+    private fun selectItem(position: Int) {
+        val list = choicesItems ?: return
+
+        val prevSelectedIndex = list.indexOfFirst { it.selectedItem == true }
+
+        if (prevSelectedIndex != -1 && prevSelectedIndex != position) {
+            list[prevSelectedIndex].selectedItem = false
+            notifyItemChanged(prevSelectedIndex)
+        }
+
+        list[position].selectedItem = true
+        notifyItemChanged(position)
+
+        // 🔥 IMPORTANT: CLEAR DOWNSTREAM OPTIONS (WEB BEHAVIOR)
+        promoItemsAdapter.clearSelectionsAfterOption(
+            productId = productId,
+            optionId = optionId
+        )
     }
 
     fun clearSelection() {
@@ -144,6 +220,19 @@ class PromotionChoicesAdapter(
             }
 
         return listOfSelectedChoices
+    }
+
+    fun getSelectedChoicesForStock(): List<Int> {
+        return choicesItems
+            ?.filter { it.selectedItem == true }
+            ?.mapNotNull { it.valueId }
+            ?: emptyList()
+    }
+
+    fun updateChoices(newChoices: List<PromoChoicesItem>?) {
+        choicesItems?.clear()
+        choicesItems?.addAll(newChoices ?: emptyList())
+        notifyDataSetChanged()
     }
 
 

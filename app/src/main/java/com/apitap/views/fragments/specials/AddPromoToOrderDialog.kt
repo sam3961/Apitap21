@@ -25,6 +25,7 @@ import com.apitap.model.Utils
 import com.apitap.model.preferences.ATPreferences
 import com.apitap.views.fragments.specials.adapter.PromotionsItemsAdapter
 import com.apitap.views.fragments.specials.data.AppliedListItem
+import com.apitap.views.fragments.specials.data.InventoryResponse
 import com.apitap.views.fragments.specials.data.ProductByIdResponse
 import com.apitap.views.fragments.specials.data.PromoChoiceOption
 import com.apitap.views.fragments.specials.data.PromoDetailItem
@@ -58,6 +59,7 @@ object AddPromoToOrderDialog {
         product: PromotionListingResponse,
         showAddToOrder: Boolean = true,
         selectedProduct: PromotionListingResponse? = null,
+        inventoryMap: Map<Int, List<InventoryResponse>>? = HashMap(),
         listener: OnPromoCartListener? = null
     ): Dialog {
 
@@ -126,6 +128,10 @@ object AddPromoToOrderDialog {
                     }
 
 
+
+
+
+
                     imageViewItem.let { image ->
                         Glide.with(image.context).load(
                             ATPreferences.readString(
@@ -135,8 +141,8 @@ object AddPromoToOrderDialog {
                     }
 
                     buttonAddToOrder.isVisible = showAddToOrder
-                    viewDividerBottom.isVisible = showAddToOrder
-                    viewDivider.isVisible = showAddToOrder
+//                    viewDividerBottom.isVisible = showAddToOrder
+//                    viewDivider.isVisible = showAddToOrder
 
 
                     textViewItemDescription.text = data.promoDescription
@@ -215,7 +221,28 @@ object AddPromoToOrderDialog {
                     val allowAppliedItemSelection =
                         !hasRequired && (requiresAll || conditionName.contains("quantity"))
 
-// Now assign the adapter after declaring the var
+
+                    val productListing: ArrayList<Int> = arrayListOf()
+                    val mapOfProductStock: HashMap<Int, Boolean> = hashMapOf()
+                    CommonFunctions.promotionCombinedProductList.forEach {
+                        productListing.add(it.item.productId ?: 0)
+                    }
+
+                    /*                    CoroutineScope(Dispatchers.Main).launch {
+
+                                            val uniqueProducts = productListing.distinct()
+
+                                            val results = uniqueProducts.map { productId ->
+                                                async(Dispatchers.IO) {
+                                                    productId to isInStock(productId)
+                                                }
+                                            }.awaitAll()
+
+                                            results.forEach { (id, inStock) ->
+                                                mapOfProductStock[id] = inStock
+                                            }*/
+                    // Now assign the adapter after declaring the var
+                    val inventoryIndexMap = buildInventoryIndex(inventoryMap)
                     promotionsItemsAdapter = PromotionsItemsAdapter(
                         itemList = CommonFunctions.promotionCombinedProductList,
                         allProductsList = CommonFunctions.promotionActiveProductResponse,
@@ -228,8 +255,10 @@ object AddPromoToOrderDialog {
                         totalCartAmount = subTotal,
                         discountTypeId = data.discountTypeId,
                         selectedProduct = selectedProduct,
+                        mapOfProductStock = mapOfProductStock,
+                        inventoryIndexMap = inventoryIndexMap,
                         onItemClick = { appliedItem ->
-
+//                            recalculatePromoUI(binding,product, hasRequired, appliedItem)
                             finalAmount = 0.0
                             finalAmount = fetchCurrentPromoTotalAmount(
                                 product = product,
@@ -237,7 +266,19 @@ object AddPromoToOrderDialog {
                                 selectedListItem = appliedItem
                             )
 
+                            recalculatePromoUI(
+                                binding,
+                                product,
+                                hasRequired,
+                                appliedItem,
+                                finalAmount,
+                                promotionsItemsAdapter
+                            )
+
                             Log.d("TAG", "fetchCurrentPromoTotalAmount: " + finalAmount)
+
+
+//                            textViewTotalPrice.text = "$$subTotal"
 
                             val labelText = getPromotionConditionLabel(
                                 discountTypeId = product?.discountTypeId,
@@ -280,21 +321,21 @@ object AddPromoToOrderDialog {
 
 
 
-                                                        promotionsItemsAdapter?.updatePromotionState(
-                                                            isRequirementMet,
-                                                            hasRequired
-                                                        )*/
+                                                    promotionsItemsAdapter?.updatePromotionState(
+                                                        isRequirementMet,
+                                                        hasRequired
+                                                    )*/
 
-                            if (isClickedItemFromRequired && totalSelectedQty >= requiredTotal && (appliedItem?.isSelected != true || (appliedItem.quantity
-                                    ?: 0) == 0)
-                            ) {
-                                Toast.makeText(
-                                    context,
-                                    "You can only select $requiredTotal required items.",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                return@PromotionsItemsAdapter
-                            }
+                            /*                         if (isClickedItemFromRequired && totalSelectedQty >= requiredTotal && (appliedItem?.isSelected != true || (appliedItem.quantity
+                                                             ?: 0) == 0)
+                                                     ) {
+                                                         Toast.makeText(
+                                                             context,
+                                                             "You can only select "+requiredTotal.toInt() +" required items.",
+                                                             Toast.LENGTH_SHORT
+                                                         ).show()
+                                                         return@PromotionsItemsAdapter
+                                                     }*/
 
                             val anyItemSelected = promotionsItemsAdapter?.itemList?.any {
                                 it.item.isSelected == true || (it.item.quantity ?: 0) > 0
@@ -303,9 +344,9 @@ object AddPromoToOrderDialog {
                             binding.textViewSelectItem.isVisible = !anyItemSelected
 
                             /*   binding.textViewRequiredItems.text = getPromotionRequirementMessage(
-                                   remaining = remaining,
-                                   isAmount = data.discountConditionAppliesId == PromotionTypeRuleEvaluator.DiscountConditionType.TOTAL_PURCHASE.id
-                               )*/
+                               remaining = remaining,
+                               isAmount = data.discountConditionAppliesId == PromotionTypeRuleEvaluator.DiscountConditionType.TOTAL_PURCHASE.id
+                           )*/
 
 
 
@@ -314,7 +355,11 @@ object AddPromoToOrderDialog {
 
                             when (labelText) {
                                 "Promotion enabled" -> {
-                                    binding.textViewRequiredItems.setTextColor(context.getColor(R.color.colorWhite))
+                                    binding.textViewRequiredItems.setTextColor(
+                                        context.getColor(
+                                            R.color.colorWhite
+                                        )
+                                    )
                                     binding.textViewRequiredItems.backgroundTintList =
                                         ContextCompat.getColorStateList(
                                             context, R.color.colorGreenLogo
@@ -322,7 +367,11 @@ object AddPromoToOrderDialog {
                                 }
 
                                 else -> {
-                                    binding.textViewRequiredItems.setTextColor(context.getColor(R.color.colorText))
+                                    binding.textViewRequiredItems.setTextColor(
+                                        context.getColor(
+                                            R.color.colorText
+                                        )
+                                    )
                                     binding.textViewRequiredItems.backgroundTintList =
                                         ContextCompat.getColorStateList(
                                             context, R.color.colorShiftGrey
@@ -342,6 +391,8 @@ object AddPromoToOrderDialog {
                     recyclerViewPromotionsItems.adapter = promotionsItemsAdapter
                     promotionsItemsAdapter?.recyclerView = recyclerViewPromotionsItems
 
+//                    }
+
                     if (selectedProduct == null) {
                         promotionsItemsAdapter?.itemList?.forEach {
                             it.item.quantity = null
@@ -359,7 +410,7 @@ object AddPromoToOrderDialog {
                     }, 500)
 
 
-                    buttonAddToOrder.isEnabled = true
+//                    buttonAddToOrder.isEnabled = true
                     buttonAddToOrder.setOnClickListener {
                         promotionsItemsAdapter?.itemList?.forEach {
                             Log.d(
@@ -778,7 +829,10 @@ object AddPromoToOrderDialog {
             val quantity = item.quantity ?: 0
             if ((item.isSelected == true || quantity > 0)) {
 
-                val isRequiredItem = requiredIds.contains(item.productId)
+//                val isRequiredItem = requiredIds.contains(item.productId)
+
+                val isRequiredItem = item.isRequiredItem == true
+
 
                 // per-item extra from selected choices
                 val perItemExtra = item.options?.sumOf { option ->
@@ -940,5 +994,118 @@ object AddPromoToOrderDialog {
     interface OnPromoCartListener {
         fun onAddToPromoCart(request: JSONObject)
     }
+
+    data class InventoryIndex(
+        val productId: Int,
+        val choiceSet: Set<Int>,
+        val qty: Int
+    )
+
+    fun buildInventoryIndex(
+        inventoryMap: Map<Int, List<InventoryResponse>>?
+    ): Map<Int, List<InventoryIndex>>? {
+
+        return inventoryMap?.mapValues { (_, list) ->
+            list.map {
+                InventoryIndex(
+                    productId = it.tblProductId ?: 0,
+                    choiceSet = it.tblProductinventoryChoices
+                        ?.split(",")
+                        ?.mapNotNull { id -> id.toIntOrNull() }
+                        ?.toSet()
+                        ?: emptySet(),
+                    qty = it.tblProductinventoryQuantity ?: 0
+                )
+            }
+        }
+    }
+
+    private fun recalculatePromoUI(
+        binding: DialogAddPromoOrderBinding,
+        product: PromotionListingResponse,
+        hasRequired: Boolean,
+        appliedItem: AppliedListItem? = null,
+        total: Double? = null,
+        promotionsItemsAdapter: PromotionsItemsAdapter?
+    ) {
+        /*      val total = fetchCurrentPromoTotalAmount(
+                  product = product,
+                  hasRequired = hasRequired,
+                  selectedListItem = appliedItem
+              )*/
+
+//        finalAmount = total
+
+        var amount = 0.0
+
+        promotionsItemsAdapter?.itemList?.forEach { wrapper ->
+            val item = wrapper.item
+
+            if (item.isSelected != true) return@forEach
+
+            val quantity = item.quantity ?: 1
+
+            // 1️⃣ Base price (discount price)
+            val basePrice = if (item.productDiscountPrice?.replace("$", "")
+                    .equals("0.0")
+            ) item.productActualPrice?.replace("$", "")?.toDoubleOrNull() ?: 0.0
+            else item.productDiscountPrice?.replace("$", "")?.toDoubleOrNull() ?: 0.0
+
+
+            amount += basePrice * quantity
+
+            if (item.options?.isEmpty() == true) {
+                Log.d(
+                    "TAGEED",
+                    "recalculatePromoUI: productRegularPrice=" + wrapper.item.productRegularPrice + "   productActualPrice=" +
+                            wrapper.item.productActualPrice + "   productDiscountPrice=" + wrapper.item.productDiscountPrice
+                            + "    extraPrice=nill"
+                )
+            }
+            // 2️⃣ Options extra price
+            item.options?.forEach { option ->
+                if (option.selectedItem == true) {
+                    option.choices?.forEach { choice ->
+                        if (choice.selectedItem == true) {
+                            val extraPrice = choice.extraPrice ?: 0.0
+                            amount += extraPrice * quantity
+
+                            Log.d(
+                                "TAGEED",
+                                "recalculatePromoUI: productRegularPrice=" + wrapper.item.productRegularPrice + "   productActualPrice=" +
+                                        wrapper.item.productActualPrice + "   productDiscountPrice=" + wrapper.item.productDiscountPrice
+                                        + "    extraPrice=" + choice.extraPrice
+                            )
+                        }
+                    }
+                }
+            }
+        }
+        binding.textViewTotalPrice.text = "$${"%.2f".format(amount)}"
+
+
+        val label = getPromotionConditionLabel(
+            discountTypeId = product.discountTypeId,
+            discountConditionId = product.discountConditionAppliesId,
+            hasRequired = hasRequired,
+            requiredQty = product.discountConditionValue?.toInt(),
+            requiredAmount = product.discountConditionValue,
+            cartAmount = 0.0,
+            currentPromoAmount = total,
+            currentQuantity = currentQuantity(hasRequired),
+            selectedListItem = appliedItem
+        )
+
+        binding.textViewRequiredItems.text = label
+        val enabled = label == "Promotion enabled" || label.isEmpty()
+        updateBottomBarState(binding, enabled)
+    }
+
+    private fun updateBottomBarState(binding: DialogAddPromoOrderBinding, isEnabled: Boolean) {
+        binding.buttonAddToOrder.isEnabled = isEnabled
+        binding.buttonAddToOrder.alpha = if (isEnabled) 1f else 0.5f
+    }
+
+
 }
 

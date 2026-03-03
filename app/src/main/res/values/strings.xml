@@ -13,6 +13,7 @@
     <string name="secure_login">Secure Login</string>
     <string name="privacy">By Logging in you agree to our T&amp;C and Privacy Policy</string>
     <string name="add_to_order">ADD TO ORDER</string>
+    <string name="add_to_cart">Add to cart</string>
     <string name="item_not_available">Item not available</string>
     <string name="the_options_are_required">The options are required</string>
 

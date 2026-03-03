@@ -137,6 +137,7 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
     List<CategoryDetailsBean.RESULT> catArray;
     Spinner spinnerSize, spinnerColor, spinnerLocations;
     LinearLayout linearLayoutZoomIn, linearLayoutZoomOut, llListImages, linearSpinnerLocationParent;
+    LinearLayout linearLayoutOptionOne, linearLayoutOptionSecond;
     TextView thumbNa;
     ArrayList<String> arrayListChoices = new ArrayList<String>();
     RadioGroup rgAvailability;
@@ -151,6 +152,8 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
     GetOption2 getOptionChoicesTwoAdapter;
     Spinner spinnerCartOption1, spinnerCartOption2;
     Spinner spinnerInfoOption1, spinnerInfoOption2;
+    Spinner spinnerHomeOptionOne, spinnerHomeOptionSecond;
+    TextView textViewHomeOptionOne, textViewHomeOptionTwo;
     EditText editTextSpecialInstructions;
     Button detailStore;
     TextView textViewVideo;
@@ -288,6 +291,14 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
 
             relativeLayoutSearchBarStoreFront = getActivity().findViewById(R.id.search_storefront);
         linearLayoutHeaderStoreFront = getActivity().findViewById(R.id.header);
+
+        linearLayoutOptionOne = v.findViewById(R.id.linearLayoutOptionOne);
+        linearLayoutOptionSecond = v.findViewById(R.id.linearLayoutOptionSecond);
+        spinnerHomeOptionOne = v.findViewById(R.id.editoption);
+        spinnerHomeOptionSecond = v.findViewById(R.id.editoption2);
+        textViewHomeOptionOne = v.findViewById(R.id.option);
+        textViewHomeOptionTwo = v.findViewById(R.id.option1);
+
         llListImages = v.findViewById(R.id.ll_list_images);
         rootLayout = v.findViewById(R.id.rootLayout);
         thumbNa = v.findViewById(R.id.tvthumb);
@@ -426,8 +437,6 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
 
                     hideProgress();
                 }
-
-                Log.d("TAGeed00", "option_Id: " + option_Id + "   option_Id2=" + option_Id2 + "    str_option_Id=" + str_option_Id + "   str_option_Id2=" + str_option_Id2);
 
 
                 break;
@@ -747,6 +756,7 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
 
                 spinnerCartOption1.setAdapter(getOptionChoicesOneAdapter);
                 spinnerInfoOption1.setAdapter(getOptionChoicesOneAdapter);
+                spinnerHomeOptionOne.setAdapter(getOptionChoicesOneAdapter);
 
                 if (productOptionsArrayList.size() == 1)
                     hideProgress();
@@ -782,6 +792,7 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
 
                 spinnerCartOption2.setAdapter(getOptionChoicesTwoAdapter);
                 spinnerInfoOption2.setAdapter(getOptionChoicesTwoAdapter);
+                spinnerHomeOptionSecond.setAdapter(getOptionChoicesTwoAdapter);
 
                 hideProgress();
                 Log.d("TAGeed02", "option_Id: " + option_Id + "   option_Id2=" + option_Id2 + "    str_option_Id=" + str_option_Id + "   str_option_Id2=" + str_option_Id2);
@@ -1136,11 +1147,13 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
         RelativeLayout rlSpinnerQty = addToCartDialog.findViewById(R.id.rlSpinnerQty);
         LinearLayout llQuantity = addToCartDialog.findViewById(R.id.ll_quantity);
         ArrayList<LocationBean> locationBeans = ModelManager.getInstance().getDetailsManager().locationBeans;
+/*
 
         if (productOptionsArrayList.isEmpty())
             relativeLayoutChoiceOne.setVisibility(View.GONE);
         else
             relativeLayoutChoiceOne.setVisibility(View.VISIBLE);
+*/
 
 
         if (limit.equals("0") || limit.isEmpty()) {
@@ -1158,7 +1171,7 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
         }
 
 
-        spinnerCartOption1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+     /*   spinnerCartOption1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String optionId = productOptionChoices1ArrayList.get(i).getChoice_id();
@@ -1202,6 +1215,7 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
 
             }
         });
+*/
         spinnerQty.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -1214,6 +1228,7 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
             }
         });
 
+/*
         if (productOptionsArrayList.size() == 1) {
             tv_option.setText(productOptionsArrayList.get(0).getName_option() + "");
             option_Id = Utils.getElevenDigitId(productOptionsArrayList.get(0).getOption_id());
@@ -1227,6 +1242,7 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
             tv_option1.setText(productOptionsArrayList.get(1).getName_option() + "");
             option_Id2 = Utils.getElevenDigitId(productOptionsArrayList.get(1).getOption_id());
         }
+*/
 
 
         cancel.setOnClickListener(new View.OnClickListener() {
@@ -1352,10 +1368,13 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
         spinnerInfoOption1 = moreDetailDialog.findViewById(R.id.editoption);
         spinnerInfoOption2 = moreDetailDialog.findViewById(R.id.editoption2);
 
-        if (productOptionsArrayList.isEmpty())
+        if (productOptionsArrayList.isEmpty()) {
             linearLayoutChoiceOne.setVisibility(View.GONE);
-        else
+            linearLayoutOptionOne.setVisibility(View.GONE);
+        } else {
             linearLayoutChoiceOne.setVisibility(View.VISIBLE);
+            linearLayoutOptionOne.setVisibility(View.VISIBLE);
+        }
 
         ArrayList<LocationBean> locationBeans = ModelManager.getInstance().getDetailsManager().locationBeans;
         LinearLayout linear_layoutQty = moreDetailDialog.findViewById(R.id.limited_qty_ll);
@@ -1365,18 +1384,22 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
 
         if (productOptionsArrayList.size() == 1) {
             textViewOptionOne.setText(productOptionsArrayList.get(0).getName_option() + "");
+            textViewHomeOptionOne.setText(productOptionsArrayList.get(0).getName_option() + "");
             option_Id = Utils.getElevenDigitId(productOptionsArrayList.get(0).getOption_id());
         } else if (productOptionsArrayList.size() >= 2) {
+            linearLayoutOptionSecond.setVisibility(View.VISIBLE);
             relativeLayoutChoiceSecond.setVisibility(View.VISIBLE);
 
             textViewOptionOne.setText(productOptionsArrayList.get(0).getName_option() + "");
+            textViewHomeOptionOne.setText(productOptionsArrayList.get(0).getName_option() + "");
             option_Id = Utils.getElevenDigitId(productOptionsArrayList.get(0).getOption_id());
 
             textViewOptionTwo.setText(productOptionsArrayList.get(1).getName_option() + "");
+            textViewHomeOptionTwo.setText(productOptionsArrayList.get(1).getName_option() + "");
             option_Id2 = Utils.getElevenDigitId(productOptionsArrayList.get(1).getOption_id());
         }
 
-        spinnerInfoOption1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinnerHomeOptionOne.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String optionId = productOptionChoices1ArrayList.get(i).getChoice_id();
@@ -1397,7 +1420,52 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
             }
         });
 
+/*
+        spinnerInfoOption1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String optionId = productOptionChoices1ArrayList.get(i).getChoice_id();
+                str_option_Id = Utils.getElevenDigitId(optionId);
 
+
+                LocationSpinnerAdapter adapter = new LocationSpinnerAdapter(requireContext(), locationBeans,
+                        Utils.removeLeadingZeros(str_option_Id), Utils.removeLeadingZeros(str_option_Id2));
+                spinnerLocations.setAdapter(adapter);
+
+                Log.d("TAGeed3", "option_Id: " + option_Id + "   option_Id2=" + option_Id2 + "    str_option_Id=" + str_option_Id + "   str_option_Id2=" + str_option_Id2);
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+*/
+
+
+        spinnerHomeOptionSecond.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (relativeLayoutChoiceSecond.getVisibility() == View.VISIBLE) {
+                    String optionId = productOptionChoices2ArrayList.get(i).getChoice_id();
+                    str_option_Id2 = Utils.getElevenDigitId(optionId);
+
+                    LocationSpinnerAdapter adapter = new LocationSpinnerAdapter(requireContext(), locationBeans,
+                            Utils.removeLeadingZeros(str_option_Id), Utils.removeLeadingZeros(str_option_Id2));
+                    spinnerLocations.setAdapter(adapter);
+
+                    Log.d("TAGeed4", "option_Id: " + option_Id + "   option_Id2=" + option_Id2 + "    str_option_Id=" + str_option_Id + "   str_option_Id2=" + str_option_Id2);
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+/*
         spinnerInfoOption2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -1419,6 +1487,7 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
 
             }
         });
+*/
 
 
         //specification.setMovementMethod(new ScrollingMovementMethod());
@@ -1675,14 +1744,17 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
             View vi = view;
             vi = inflater.inflate(R.layout.spinner_row, null);
             TextView txt_type = vi.findViewById(R.id.txt_type);
-            txt_type.setText(Utils.hexToASCII(response.get(position).getChoice_name()));
 
             String name = Utils.hexToASCII(response.get(position).getChoice_name());
+            double price = Double.parseDouble(response.get(position).getChoice_price());
+            String priceFormat = "$" + (String.format("%.2f", price));
 
             boolean enabled = enabledChoiceIds.contains(response.get(position).getChoice_id());
             txt_type.setEnabled(enabled);
             txt_type.setAlpha(enabled ? 1f : 0.4f);
-            txt_type.setText(getDisplayText(name, enabled));
+
+            txt_type.setText(name + " + " + getDisplayText(priceFormat, enabled));
+
 
             return vi;
         }
@@ -1735,12 +1807,12 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
             vi = inflater.inflate(R.layout.spinner_row_options, null);
             TextView txt_type = vi.findViewById(R.id.txt_type);
             TextView txt_price = vi.findViewById(R.id.txt_price);
-            txt_price.setVisibility(View.VISIBLE);
+
+            txt_price.setVisibility(View.GONE);
+
             double price = Double.parseDouble(response.get(position).getChoice_price());
             String priceFormat = "$" + (String.format("%.2f", price));
             txt_price.setText(priceFormat);
-
-            txt_type.setText(Utils.hexToASCII(response.get(position).getChoice_name()));
 
             boolean enabled = enabledChoiceIds.contains(response.get(position).getChoice_id());
             txt_type.setEnabled(enabled);
@@ -1749,7 +1821,8 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
             txt_price.setEnabled(enabled);
             txt_price.setAlpha(enabled ? 1f : 0.4f);
 
-            txt_price.setText(getDisplayText(priceFormat, enabled));
+            txt_type.setText(Utils.hexToASCII(response.get(position).getChoice_name()) + " + " + getDisplayText(priceFormat, enabled));
+//            txt_price.setText(getDisplayText(priceFormat, enabled));
 
             return vi;
         }

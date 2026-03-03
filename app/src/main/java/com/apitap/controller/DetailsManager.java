@@ -22,17 +22,21 @@ import com.apitap.model.bean.Sizedata;
 import com.apitap.model.bean.SpecialItemBean;
 import com.apitap.model.bean.items.LocationBean;
 import com.apitap.model.customclasses.Event;
+import com.apitap.views.fragments.specials.data.InventoryResponse;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -69,6 +73,17 @@ public class DetailsManager {
     public ArrayList<DetailsBean> getSpecialDetails(Context context, String params) {
         new ExecuteCategoryApi(context).execute(params);
         return arrayDetails;
+    }
+
+    public void getPromoItemInventory(Context context,
+                                      String productId,
+                                      PromoInventoryCallback callback) {
+
+        new FetchPromoItemInventoryTask(
+                context,
+                productId,
+                callback
+        ).execute();
     }
 
     public void getItemInventory(Context mContext, String productId, ArrayList<String> choiceListOne,
@@ -498,6 +513,66 @@ public class DetailsManager {
         }
 
     }
+
+    public class FetchPromoItemInventoryTask
+            extends AsyncTask<Void, Void, List<InventoryResponse>> {
+
+        private Context context;
+        private String productId;
+        private PromoInventoryCallback callback;
+
+        public FetchPromoItemInventoryTask(Context context,
+                                           String productId,
+                                           PromoInventoryCallback callback) {
+            this.context = context;
+            this.productId = productId;
+            this.callback = callback;
+        }
+
+        @Override
+        protected List<InventoryResponse> doInBackground(Void... voids) {
+            try {
+
+                String url = BASE_URL_PART
+                        + "aioproducts/itemInventoryByProductId/"
+                        + productId;
+
+                // API call
+                String response = Client.simplePost(url, "{}");
+
+                Log.d("InventoryAPI", response);
+
+                if (response != null && !response.isEmpty()) {
+                    Gson gson = new Gson();
+                    Type type = new TypeToken<List<InventoryResponse>>() {}.getType();
+                    return gson.fromJson(response, type);
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(List<InventoryResponse> inventoryList) {
+
+            if (callback == null) return;
+
+            if (inventoryList != null) {
+                callback.onInventoryLoaded(productId, inventoryList);
+            } else {
+                callback.onError();
+            }
+        }
+    }
+
+    public interface PromoInventoryCallback {
+        void onInventoryLoaded(String productId, List<InventoryResponse> inventoryList);
+        void onError();
+    }
+
 
     private boolean isChoiceMatched(String inventoryChoices,
                                     ArrayList<String> choiceListOne,

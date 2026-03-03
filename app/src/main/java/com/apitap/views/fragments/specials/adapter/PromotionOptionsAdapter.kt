@@ -6,15 +6,19 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.apitap.R
+import com.apitap.views.fragments.specials.AddPromoToOrderDialog
 import com.apitap.views.fragments.specials.data.OptionsProductPromoItem
 import com.apitap.views.fragments.specials.data.PromoChoicesItem
 import com.apitap.views.fragments.specials.data.PromotionListingResponse
+import com.apitap.views.fragments.specials.utils.Utility.isChoiceAvailable
+import com.apitap.views.fragments.specials.utils.Utility.isCombinationInStock
 
 class PromotionOptionsAdapter(
     private val promoItemsAdapter: PromotionsItemsAdapter,
     private val productId: Int?,
     private val choicesItems: List<OptionsProductPromoItem>?,
     private val selectedProduct: PromotionListingResponse?,
+    private var inventoryIndexMap: Map<Int, List<AddPromoToOrderDialog.InventoryIndex>>? = HashMap(),
     private val onItemClick: (PromoChoicesItem?) -> Unit
 ) :
 
@@ -26,6 +30,7 @@ class PromotionOptionsAdapter(
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val textViewOptions: AppCompatTextView = itemView.findViewById(R.id.textViewOptions)
         val recyclerViewOptions: RecyclerView = itemView.findViewById(R.id.recyclerViewOptions)
+        var choicesAdapter: PromotionChoicesAdapter? = null
     }
 
     // Inflate the item layout and create the ViewHolder
@@ -36,23 +41,44 @@ class PromotionOptionsAdapter(
     }
 
     // Bind data to the UI components in the ViewHolder
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        choicesItems?.get(position)?.let { item ->
-            holder.textViewOptions.text = item.name
 
-            val promotionChoicesAdapter = PromotionChoicesAdapter(
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val item = choicesItems?.get(position) ?: return
+
+        val hasAnyStock = item.choices?.any { choice ->
+            isChoiceAvailable(
+                productId ?: return@any false,
+                choice.valueId ?: return@any false,
+                emptySet(),
+                inventoryIndexMap
+            )
+        } == true
+
+        holder.recyclerViewOptions.isEnabled = hasAnyStock
+        holder.textViewOptions.alpha = if (hasAnyStock) 1f else 0.4f
+        holder.textViewOptions.text = item.name
+
+        if (holder.choicesAdapter == null) {
+            val adapter = PromotionChoicesAdapter(
                 promoItemsAdapter,
                 productId,
                 item.id,
-                item.choices?.toMutableList(), selectedProduct
+                item.choices?.toMutableList(),
+                selectedProduct,
+                inventoryIndexMap
             ) {
                 item.selectedItem = true
                 onItemClick.invoke(it)
             }
-            choicesAdapters.add(promotionChoicesAdapter) // Store reference
 
-            holder.recyclerViewOptions.adapter = promotionChoicesAdapter
+            holder.choicesAdapter = adapter
+            holder.recyclerViewOptions.adapter = adapter
 
+            // ✅ REGISTER ONCE (NO DUPLICATES)
+            choicesAdapters.add(adapter)
+
+        } else {
+            holder.choicesAdapter?.updateChoices(item.choices)
         }
     }
 
@@ -62,8 +88,18 @@ class PromotionOptionsAdapter(
         choicesAdapters.forEach { it.clearSelection() }
     }
 
-    fun customNotify(options: List<OptionsProductPromoItem>?) {
-
+    fun notifyAllChoicesChanged() {
+        choicesAdapters.forEach { it.notifyDataSetChanged() }
     }
+
+    fun getAllSelectedChoices(): Set<Int> {
+        val result = mutableSetOf<Int>()
+        choicesAdapters.forEach { adapter ->
+            adapter.getSelectedChoicesForStock().let { result.addAll(it) }
+        }
+        return result
+    }
+
+
 
 }

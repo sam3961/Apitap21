@@ -44,6 +44,7 @@
                         android:includeFontPadding="false"
                         android:padding="0dp"
                         android:text="Coffee"
+                        android:textColor="@color/colorText2"
                         android:textSize="@dimen/_13sdp"
                         android:visibility="gone" />
 
@@ -58,6 +59,7 @@
                             android:id="@+id/checkBoxName"
                             android:layout_width="@dimen/_24sdp"
                             android:layout_height="@dimen/_24sdp"
+                            android:textColor="@color/colorText2"
                             android:buttonTint="@color/checkbox_radio_color"
                             android:visibility="gone" />
 
@@ -70,6 +72,7 @@
                             android:includeFontPadding="false"
                             android:paddingVertical="@dimen/_2sdp"
                             android:text="Coffee"
+                            android:textColor="@color/colorText2"
                             android:textSize="@dimen/_12sdp" />
 
                     </LinearLayout>

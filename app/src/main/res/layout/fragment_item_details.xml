@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -87,7 +88,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="360dp"
                 android:layout_margin="5dp"
-                android:elevation="4dp">
+                android:elevation="4dp"
+                app:cardCornerRadius="4dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -559,7 +561,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                app:cardCornerRadius="6dp"
+                app:cardCornerRadius="4dp"
                 app:cardElevation="4dp">
 
                 <LinearLayout
@@ -588,11 +590,10 @@
                             android:id="@+id/txtAvailability"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text=""
                             android:layout_marginStart="@dimen/_4sdp"
+                            android:text=""
                             android:textColor="@color/colorDarkGrey"
-                            android:textSize="14sp"
-                             />
+                            android:textSize="14sp" />
 
 
                     </LinearLayout>
@@ -603,8 +604,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:visibility="gone"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <RadioButton
                             android:id="@+id/rbOnline"
@@ -640,8 +641,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
-                        android:visibility="gone"
-                        android:background="@drawable/back_round">
+                        android:background="@drawable/back_round"
+                        android:visibility="gone">
 
                         <Spinner
                             android:id="@+id/spinnerLocations"
@@ -656,12 +657,114 @@
 
             </androidx.cardview.widget.CardView>
 
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                app:cardCornerRadius="4dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorWhite"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Options"
+                        android:textColor="@color/colorBlue"
+                        android:textSize="15sp"
+                        android:visibility="visible" />
+
+                    <LinearLayout
+                        android:id="@+id/linearLayoutOptionOne"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone"
+                        tools:visibility="visible">
+
+                        <TextView
+                            android:id="@+id/option"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                            android:textColor="@color/colorBlue"
+                            android:textSize="13sp"
+                            android:textStyle="bold"
+                            tools:text="Choose Option" />
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_2sdp"
+                            android:background="@drawable/back_round">
+
+                            <Spinner
+                                android:id="@+id/editoption"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:dropDownVerticalOffset="40dp"
+                                android:spinnerMode="dropdown" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linearLayoutOptionSecond"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:visibility="gone"
+                        android:orientation="vertical"
+                        tools:visibility="visible">
+
+                        <TextView
+                            android:id="@+id/option1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                            android:textColor="@color/colorBlue"
+                            android:textSize="13sp"
+                            android:textStyle="bold"
+                            tools:text="Choose Option" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_2sdp"
+                            android:background="@drawable/back_round">
+
+                            <Spinner
+                                android:id="@+id/editoption2"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:dropDownVerticalOffset="40dp"
+                                android:spinnerMode="dropdown" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:elevation="4dp">
+                android:elevation="4dp"
+                app:cardCornerRadius="4dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -759,7 +862,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:elevation="4dp"
-                android:visibility="gone">
+                android:visibility="gone"
+                app:cardCornerRadius="4dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -882,7 +986,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="5dp"
-                android:elevation="4dp">
+                android:elevation="4dp"
+                app:cardCornerRadius="4dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -928,7 +1033,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="5dp"
-                android:elevation="4dp">
+                android:elevation="4dp"
+                app:cardCornerRadius="4dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -942,8 +1048,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
+                        android:layout_marginTop="4dp"
                         android:text="People Also View"
-
                         android:textColor="@color/colorBlack"
                         android:textSize="15sp"
                         android:visibility="gone" />
@@ -976,7 +1082,8 @@
                 android:layout_height="match_parent"
                 android:layout_margin="5dp"
                 android:elevation="4dp"
-                android:visibility="gone">
+                android:visibility="gone"
+                app:cardCornerRadius="4dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"

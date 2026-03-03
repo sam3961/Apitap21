@@ -45,6 +45,11 @@
           <theme>@style/AppTheme</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/customdialog_checkout.xml">
+        <config>
+          <theme>@style/AppTheme</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/dialog_add_promo_order.xml">
         <config>
           <theme>@style/AppTheme</theme>
@@ -61,6 +66,11 @@
         </config>
       </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_login.xml">
+        <config>
+          <theme>@style/AppTheme</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_shopping_cart.xml">
         <config>
           <theme>@style/AppTheme</theme>
         </config>
@@ -127,34 +137,35 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="82c2b959-eb25-4623-b703-66dfb07c533e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/model/bean/items/LocationBean.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/itemDetails/LocationSpinnerAdapter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/spinner_location_dropdown.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/spinner_location_selected.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/spinner_row_options.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/release/app-release.apk" beforeDir="false" afterPath="$PROJECT_DIR$/app/release/app-release.apk" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/release/baselineProfiles/0/app-release.dm" beforeDir="false" afterPath="$PROJECT_DIR$/app/release/baselineProfiles/0/app-release.dm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/release/baselineProfiles/1/app-release.dm" beforeDir="false" afterPath="$PROJECT_DIR$/app/release/baselineProfiles/1/app-release.dm" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/controller/DetailsManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/controller/DetailsManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/controller/ShoppingCartManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/controller/ShoppingCartManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/model/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/model/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/model/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/model/Constants.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/model/Operations.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/model/Operations.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/model/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/model/Utils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/model/bean/DetailsBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/model/bean/DetailsBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/model/merchantCategoryList/MerchantCategoryListModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/model/merchantCategoryList/MerchantCategoryListModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/model/merchantCategoryList/RESULT.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/model/merchantCategoryList/RESULT.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/BaseFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/BaseFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/home/FragmentHome.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/home/FragmentHome.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/views/HomeActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/views/HomeActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/FragmentCheckout.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/FragmentCheckout.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/itemDetails/FragmentItemDetails.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/itemDetails/FragmentItemDetails.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/AddPromoToOrderDialog.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/AddPromoToOrderDialog.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/FragmentSpecial.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/FragmentSpecial.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/data/ProductByIdResponse.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/data/ProductByIdResponse.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/storefront/AdapterChildSpecials.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/storefront/AdapterChildSpecials.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/adapter/PromotionChoicesAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/adapter/PromotionChoicesAdapter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/adapter/PromotionOptionsAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/adapter/PromotionOptionsAdapter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/adapter/PromotionsItemsAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/adapter/PromotionsItemsAdapter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/network/APIConstant.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/network/APIConstant.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/network/ApiService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/network/ApiService.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/storefront/FragmentSpecialStoreFront.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/storefront/FragmentSpecialStoreFront.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/utils/CommonFunctions.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/utils/CommonFunctions.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/utils/Utility.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/utils/Utility.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/adapter_promotion_items.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/adapter_promotion_items.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/customdialog_checkout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/customdialog_checkout.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/dialog_add_promo_order.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/dialog_add_promo_order.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_item_details.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_item_details.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/more_details_dialog.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/more_details_dialog.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/spinner_row_options.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/spinner_row_options.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/reports/problems/problems-report.html" beforeDir="false" afterPath="$PROJECT_DIR$/build/reports/problems/problems-report.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -165,7 +176,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=LocalEmulator, isTemplate=false, identifier=path=/home/shami/.android/avd/Pixel.avd)]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=PhysicalDevice, isTemplate=false, identifier=serial=12D231931000087)]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -182,7 +193,6 @@
     <option name="KEY_STORE_PATH" value="$PROJECT_DIR$/release/apitap.jks" />
     <option name="KEY_ALIAS" value="apitap" />
     <option name="REMEMBER_PASSWORDS" value="true" />
-    <option name="BUILD_TARGET_KEY" value="apk" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -190,9 +200,12 @@
   <component name="GithubDefaultAccount">
     <option name="defaultAccountId" value="1b57b65d-5c19-4325-9dd4-ec1b1f5a6e18" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 6
-}]]></component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
   <component name="ProjectId" id="320zsYEJrwb7XixjdDlUxyr5q5n" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -204,10 +217,12 @@
   "keyToString": {
     "Android App.app.executor": "Run",
     "ApkExportedModule": "APITAP-Android.app",
+    "BundleExportedModule": "APITAP-Android.app",
     "DEBUGGABLE_DEVICE": "Pixel [emulator-5554]",
     "DEBUGGABLE_PROCESS": "com.apitap",
     "DEBUGGER_ID": "Auto",
     "ExportApk.ApkPathForAPITAP-Android.app": "/media/shami/Projects1/Android/APITAP-Android/APITAP-Android/app",
+    "ExportBundle.BundlePathForAPITAP-Android.app": "/media/shami/Projects1/Android/APITAP-Android/APITAP-Android/app",
     "Gradle.Download Sources.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "OverrideImplement.combined": "false",
@@ -221,7 +236,10 @@
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
     "git-widget-placeholder": "master",
-    "last_opened_file_path": "/media/shami/Projects1/Android/APITAP-Android/APITAP-Android/release/apitap.jks",
+    "last_opened_file_path": "/media/shami/Projects1/Android/AIOPOS",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.17",
+    "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle"
   },
   "keyToStringList": {
@@ -331,7 +349,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/FragmentCheckout.java</url>
-          <line>182</line>
+          <line>176</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -355,74 +373,44 @@
           <option name="timeStamp" value="15" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/controller/ShoppingCartManager.java</url>
-          <line>154</line>
-          <option name="timeStamp" value="17" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/storefront/FragmentSpecialStoreFront.java</url>
-          <line>366</line>
-          <option name="timeStamp" value="20" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/storefront/FragmentSpecialStoreFront.java</url>
-          <line>367</line>
-          <option name="timeStamp" value="22" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/storefront/FragmentSpecialStoreFront.java</url>
-          <line>368</line>
-          <option name="timeStamp" value="23" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/storefront/FragmentSpecialStoreFront.java</url>
-          <line>369</line>
-          <option name="timeStamp" value="24" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/storefront/FragmentSpecialStoreFront.java</url>
-          <line>810</line>
+          <line>870</line>
           <option name="timeStamp" value="25" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/storefront/FragmentSpecialStoreFront.java</url>
-          <line>809</line>
+          <line>869</line>
           <option name="timeStamp" value="26" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/storefront/FragmentSpecialStoreFront.java</url>
-          <line>819</line>
+          <line>879</line>
           <option name="timeStamp" value="27" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/storefront/FragmentSpecialStoreFront.java</url>
-          <line>818</line>
+          <line>878</line>
           <option name="timeStamp" value="28" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/storefront/FragmentSpecialStoreFront.java</url>
-          <line>840</line>
+          <line>900</line>
           <option name="timeStamp" value="29" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/storefront/FragmentSpecialStoreFront.java</url>
-          <line>911</line>
+          <line>971</line>
           <option name="timeStamp" value="30" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/storefront/FragmentSpecialStoreFront.java</url>
-          <line>985</line>
+          <line>1045</line>
           <option name="timeStamp" value="31" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/storefront/FragmentSpecialStoreFront.java</url>
-          <line>983</line>
+          <line>1043</line>
           <option name="timeStamp" value="32" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/storefront/FragmentSpecialStoreFront.java</url>
-          <line>549</line>
-          <option name="timeStamp" value="33" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/storefront/FragmentStoreFront.java</url>
@@ -435,69 +423,209 @@
           <option name="timeStamp" value="35" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/FragmentSpecial.java</url>
-          <line>603</line>
-          <option name="timeStamp" value="36" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/storefront/FragmentSpecialStoreFront.java</url>
-          <line>543</line>
+          <line>603</line>
           <option name="timeStamp" value="37" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/storefront/FragmentSpecialStoreFront.java</url>
-          <line>542</line>
+          <line>602</line>
           <option name="timeStamp" value="38" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/storefront/FragmentSpecialStoreFront.java</url>
-          <line>411</line>
-          <option name="timeStamp" value="39" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/storefront/FragmentSpecialStoreFront.java</url>
-          <line>426</line>
-          <option name="timeStamp" value="40" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/storefront/FragmentSpecialStoreFront.java</url>
-          <line>427</line>
-          <option name="timeStamp" value="41" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/storefront/FragmentSpecialStoreFront.java</url>
-          <line>561</line>
+          <line>621</line>
           <option name="timeStamp" value="42" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/FragmentSpecial.java</url>
-          <line>360</line>
-          <option name="timeStamp" value="43" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/FragmentSpecial.java</url>
-          <line>359</line>
-          <option name="timeStamp" value="44" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/itemDetails/FragmentItemDetails.java</url>
-          <line>422</line>
+          <line>433</line>
           <option name="timeStamp" value="75" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/itemDetails/FragmentItemDetails.java</url>
-          <line>1681</line>
+          <line>1751</line>
           <option name="timeStamp" value="94" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/itemDetails/FragmentItemDetails.java</url>
-          <line>1682</line>
+          <line>1752</line>
           <option name="timeStamp" value="95" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/itemDetails/FragmentItemDetails.java</url>
-          <line>424</line>
+          <line>435</line>
           <option name="timeStamp" value="98" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/controller/ShoppingCartManager.java</url>
+          <line>94</line>
+          <option name="timeStamp" value="116" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/controller/ShoppingCartManager.java</url>
+          <line>100</line>
+          <option name="timeStamp" value="117" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/controller/ShoppingCartManager.java</url>
+          <line>91</line>
+          <option name="timeStamp" value="118" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/home/FragmentHome.java</url>
+          <line>220</line>
+          <option name="timeStamp" value="120" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/model/Utils.java</url>
+          <line>1198</line>
+          <option name="timeStamp" value="121" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/BaseActivity.java</url>
+          <line>236</line>
+          <option name="timeStamp" value="122" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/BaseActivity.java</url>
+          <line>238</line>
+          <option name="timeStamp" value="124" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/BaseActivity.java</url>
+          <line>241</line>
+          <option name="timeStamp" value="125" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/BaseActivity.java</url>
+          <line>243</line>
+          <option name="timeStamp" value="127" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/HomeActivity.java</url>
+          <line>1956</line>
+          <option name="timeStamp" value="128" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/HomeActivity.java</url>
+          <line>2007</line>
+          <option name="timeStamp" value="129" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/HomeActivity.java</url>
+          <line>2027</line>
+          <option name="timeStamp" value="130" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/HomeActivity.java</url>
+          <line>2181</line>
+          <option name="timeStamp" value="131" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/HomeActivity.java</url>
+          <line>2230</line>
+          <option name="timeStamp" value="132" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/HomeActivity.java</url>
+          <line>895</line>
+          <option name="timeStamp" value="133" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/HomeActivity.java</url>
+          <line>948</line>
+          <option name="timeStamp" value="134" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/storefront/FragmentSpecialStoreFront.java</url>
+          <line>718</line>
+          <option name="timeStamp" value="140" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/adapter/PromotionsItemsAdapter.kt</url>
+          <line>584</line>
+          <option name="timeStamp" value="109" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/adapter/PromotionsItemsAdapter.kt</url>
+          <line>649</line>
+          <option name="timeStamp" value="110" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/adapter/PromotionsItemsAdapter.kt</url>
+          <line>265</line>
+          <option name="timeStamp" value="115" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/adapter/PromotionsItemsAdapter.kt</url>
+          <line>217</line>
+          <option name="timeStamp" value="136" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/adapter/PromotionsItemsAdapter.kt</url>
+          <line>310</line>
+          <option name="timeStamp" value="137" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/AddPromoToOrderDialog.kt</url>
+          <line>568</line>
+          <option name="timeStamp" value="141" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/adapter/PromotionsItemsAdapter.kt</url>
+          <line>180</line>
+          <option name="timeStamp" value="142" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/adapter/PromotionsItemsAdapter.kt</url>
+          <line>200</line>
+          <option name="timeStamp" value="143" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/adapter/PromotionsItemsAdapter.kt</url>
+          <line>202</line>
+          <option name="timeStamp" value="144" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/adapter/PromotionsItemsAdapter.kt</url>
+          <line>206</line>
+          <option name="timeStamp" value="145" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/adapter/PromotionsItemsAdapter.kt</url>
+          <line>212</line>
+          <option name="timeStamp" value="147" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/adapter/PromotionsItemsAdapter.kt</url>
+          <line>209</line>
+          <option name="timeStamp" value="148" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/adapter/PromotionsItemsAdapter.kt</url>
+          <line>216</line>
+          <option name="timeStamp" value="149" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/adapter/PromotionsItemsAdapter.kt</url>
+          <line>190</line>
+          <option name="timeStamp" value="150" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/adapter/PromotionsItemsAdapter.kt</url>
+          <line>181</line>
+          <option name="timeStamp" value="151" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/adapter/PromotionsItemsAdapter.kt</url>
+          <line>191</line>
+          <option name="timeStamp" value="152" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/specials/adapter/PromotionsItemsAdapter.kt</url>
+          <line>229</line>
+          <option name="timeStamp" value="153" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -507,12 +635,12 @@
       <map>
         <entry key="com.apitap">
           <value>
-            <CheckInfo lastCheckTimestamp="1766304960287" />
+            <CheckInfo lastCheckTimestamp="1772518617447" />
           </value>
         </entry>
         <entry key="com.apitap.test">
           <value>
-            <CheckInfo lastCheckTimestamp="1766304960286" />
+            <CheckInfo lastCheckTimestamp="1772518617446" />
           </value>
         </entry>
         <entry key="net.alhazmy13.mediapicker.test">

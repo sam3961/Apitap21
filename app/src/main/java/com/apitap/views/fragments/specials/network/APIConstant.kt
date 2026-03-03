@@ -1,8 +1,10 @@
 package com.apitap.views.fragments.specials.network
 
+import com.apitap.model.Client.BASE_URL_PART
+
 
 object APIConstant {
-    var BASE_URL: String = "https://aiodc.com:8095/"
+    var BASE_URL: String = BASE_URL_PART
 
     var TOKEN: String = "token"
 
