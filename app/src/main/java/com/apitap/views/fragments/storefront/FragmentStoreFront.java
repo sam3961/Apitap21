@@ -365,15 +365,18 @@ public class FragmentStoreFront extends BaseFragment implements View.OnClickList
                 storeName = Utils.hexToASCII(storeDetailsResponse.getRESULT().get(0).getJsonMember11470());
                 isBroadcasting = Boolean.valueOf(storeDetailsResponse.getRESULT().get(0).getIsBroadcasting());
                 storeImageUrl = storeDetailsResponse.getRESULT().get(0).getJsonMember121170();
+                int storeId = storeDetailsResponse.getRESULT().get(0).getStoreId();
                 ATPreferences.putString(getActivity(), Constants.HEADER_IMG, storeImageUrl);
                 ATPreferences.putString(getActivity(), Constants.STORE_NAME, storeName);
+                ATPreferences.putInt(getActivity(), Constants.STORE_ID, storeId);
                 ATPreferences.putString(getActivity(), Constants.STORE_RATE, storeDetailsResponse.getRESULT().get(0).getJsonMember12219());
 
-                if (isBroadcasting)
+                //commented by sumit later broadcast on
+              /*  if (isBroadcasting)
                     linearLayoutHeaderCheckin.setVisibility(View.VISIBLE);
                 else
                     linearLayoutHeaderCheckin.setVisibility(View.GONE);
-
+*/
                 Picasso.get().load(ATPreferences.readString(getActivity(), Constants.KEY_IMAGE_URL) +
                                 storeImageUrl)
                         .placeholder(R.drawable.loading).into(imageViewStoreHeader);

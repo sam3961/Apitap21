@@ -21,12 +21,12 @@
         android:name="android.hardware.bluetooth_le"
         android:required="false" />
 
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+   <!-- <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
-    <!-- Required for Nearby Connections -->
+    &lt;!&ndash; Required for Nearby Connections &ndash;&gt;
     <uses-permission
         android:name="android.permission.BLUETOOTH"
         android:maxSdkVersion="30" />
@@ -34,7 +34,9 @@
         android:name="android.permission.BLUETOOTH_ADMIN"
         android:maxSdkVersion="30" />
 
-    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />-->
+
+
     <uses-permission
         android:name="com.google.android.gms.permission.AD_ID"
         tools:node="remove" />
@@ -95,6 +97,7 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:resizeableActivity="false"
+            android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateHidden|adjustResize">
 
             <intent-filter>

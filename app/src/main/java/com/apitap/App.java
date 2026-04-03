@@ -15,6 +15,7 @@ import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.upstream.HttpDataSource;
 import com.google.android.exoplayer2.upstream.TransferListener;
 import com.google.android.exoplayer2.util.Util;
+import com.google.android.libraries.places.api.Places;
 import com.google.firebase.FirebaseApp;
 
 import java.io.File;
@@ -58,6 +59,9 @@ public class App extends Application {
         ATPreferences.putString(getApplicationContext(), Constants.MERCHANT_ID, "");
         new ProgressDialogLoading();
         new AddTabBar();
+        if (!Places.isInitialized()) {
+            Places.initialize(getApplicationContext(), getString(R.string.google_maps_key));
+        }
     }
 
     @Override

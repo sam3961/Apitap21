@@ -45,6 +45,9 @@ public class Client {
 //    https://aiodc.com:8020/NmcServerS/nmc-server/post/
 
     //************************************Production**************************************//
+/*    public static final String BASE_URL_ONLY =
+            "https://aiodc.com:8095/";// production //new
+
     public static final String BASE_URL_PART =
             "https://aiodc.com:8095/api/";// production //new
 
@@ -59,13 +62,16 @@ public class Client {
 
 
     public static final String URL_SETTINGS =
-            "https://aiodc.com:8050/MobileClient/?t=";  //production
+            "https://aiodc.com:8050/MobileClient/?t=";  //production*/
     //************************************QA**************************************//
 
-   /* public static final String BASE_URL_PART =
+    public static final String BASE_URL_PART =
             "https://aiodctesting.org:8095/api/";
 
-             public static final String BASE_URL =
+    public static final String BASE_URL_ONLY =
+            "https://aiodctesting.org:8095/";//
+
+    public static final String BASE_URL =
             "https://aiodctesting.org:8095/api/server/post";
 
     public static final String BASE_URL_CART =
@@ -78,7 +84,7 @@ public class Client {
 
     public static final String URL_SETTINGS =
             "https://aiodctesting.org:8090/MobileClient/?t=";  //QA
-*/
+
     public static String Caller(String parametersToCall) {
         String result = "";
 
@@ -190,7 +196,8 @@ public class Client {
             try {
                 if (writer != null) writer.close();
                 if (reader != null) reader.close();
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+            }
 
             if (connection != null) connection.disconnect();
         }

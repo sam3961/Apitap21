@@ -21,6 +21,7 @@ import com.apitap.model.customclasses.Event;
 import com.apitap.model.deliveryServices.DeliveryServiceModel;
 import com.apitap.model.headerCategory.HeaderCategoryResponse;
 import com.apitap.model.merchantCategoryList.MerchantCategoryListModel;
+import com.apitap.model.preferences.ATPreferences;
 import com.apitap.model.ratings.RatingResponse;
 import com.apitap.model.showCase.ShowCaseResponse;
 import com.apitap.model.showCaseTitle.ShowCaseTitleResponse;
@@ -36,6 +37,7 @@ import com.google.gson.Gson;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -130,9 +132,52 @@ public class MerchantStoresManager {
         new ExecuteApiActivePlayers(context).execute(params);
     }
 
+    public void getTermsAndConditions(Context context, String params) {
+        new ExecuteTCApi(context).execute(params);
+    }
+
     public void getMerchantStoresList(Context context, String params) {
         new ExecuteApiMerchantStoreList(context).execute(params);
     }
+
+    private class ExecuteTCApi extends AsyncTask<String, String, String> {
+        Context mContext;
+
+        ExecuteTCApi(Context context) {
+            mContext = context;
+        }
+
+        @Override
+        protected String doInBackground(String... param) {
+            String response = Client.Caller(param[0]);
+            Log.d(TAG, "response_terms_api---" + response);
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            Log.d("response_terms_apimerchant", s + "");
+            try {
+                JSONObject jsonObject = new JSONObject(s);
+                JSONArray jsonArray = jsonObject.getJSONArray("RESULT");
+                JSONObject jsonObject1 = jsonArray.getJSONObject(0);
+                JSONArray jsonArray1 = jsonObject1.getJSONArray("RESULT");
+                JSONObject jsonObject2 = jsonArray1.getJSONObject(0);
+                if (jsonObject2.has("_119_15")) {
+                    String terms = jsonObject2.getString("_119_15");
+                    ATPreferences.putString(mContext, Constants.TERMS, terms);
+                }
+                if (jsonObject2.has("_119_16")) {
+                    String policies = jsonObject2.getString("_119_16");
+                }
+                EventBus.getDefault().post(new Event(Constants.TERMS_CONDITIONS, ""));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 
     private class ExecuteApi extends AsyncTask<String, String, String> {
         Context mContext;

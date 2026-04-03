@@ -121,22 +121,24 @@
                             android:layout_marginEnd="1dp"
                             android:layout_toStartOf="@+id/details_stor"
                             android:layout_toEndOf="@+id/ic_back"
+                            android:fontFamily="@font/poppins_semibold"
                             android:gravity="center"
+                            android:includeFontPadding="false"
                             android:maxLines="2"
                             android:textColor="@color/colorBlue"
-                            android:textSize="13sp"
-                            android:textStyle="bold" />
+                            android:textSize="13sp" />
 
                         <Button
                             android:id="@+id/details_stor"
-                            style="@style/Base.TextAppearance.AppCompat.Small"
                             android:layout_width="93dp"
                             android:layout_height="match_parent"
                             android:layout_alignParentEnd="true"
                             android:layout_gravity="end"
                             android:layout_marginEnd="2dp"
                             android:background="@drawable/rounded_bg_dblue"
+                            android:fontFamily="@font/poppins_regular"
                             android:gravity="center"
+                            android:includeFontPadding="false"
                             android:padding="3dp"
                             android:text="View merchant storefront"
                             android:textAlignment="center"
@@ -204,18 +206,17 @@
 
                                     <TextView
                                         android:id="@+id/title"
-                                        style="@style/Base.TextAppearance.AppCompat.Small"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_below="@+id/ic_backss"
                                         android:layout_gravity="start|center_vertical"
                                         android:layout_marginLeft="5dp"
                                         android:layout_marginTop="2dp"
+                                        android:fontFamily="@font/poppins_semibold"
                                         android:gravity="center"
                                         android:textAlignment="center"
                                         android:textColor="@color/colorBlue"
-                                        android:textSize="14sp"
-                                        android:textStyle="bold" />
+                                        android:textSize="14sp" />
 
                                     <TextView
                                         android:id="@+id/tvAvailability"
@@ -406,7 +407,9 @@
                                 android:layout_marginEnd="8dp"
                                 android:layout_marginBottom="30dp"
                                 android:background="@drawable/back_round_blue_border"
+                                android:fontFamily="@font/poppins_regular"
                                 android:gravity="center"
+                                android:includeFontPadding="false"
                                 android:padding="5dp"
                                 android:text="View Options &amp; More Details"
                                 android:textColor="@color/colorBlue"
@@ -498,11 +501,12 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_weight=".2"
+                            android:fontFamily="@font/poppins_semibold"
                             android:gravity="center"
+                            android:includeFontPadding="false"
                             android:maxLines="1"
                             android:paddingLeft="2dp"
-                            android:textColor="@color/colorBlack"
-                            android:textStyle="bold" />
+                            android:textColor="@color/colorBlack" />
 
                         <TextView
                             android:id="@+id/price_after_discount"
@@ -510,7 +514,9 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="end"
                             android:layout_weight=".2"
+                            android:fontFamily="@font/poppins_semibold"
                             android:gravity="center"
+                            android:includeFontPadding="false"
                             android:maxLines="1"
                             android:paddingRight="2dp"
                             android:textColor="@color/colorBlack"
@@ -541,7 +547,9 @@
                             android:layout_height="37dp"
                             android:layout_gravity="center"
                             android:background="@drawable/round_btn_blue"
+                            android:fontFamily="@font/poppins_regular"
                             android:gravity="center"
+                            android:includeFontPadding="false"
                             android:paddingStart="4dp"
                             android:paddingTop="7dp"
                             android:paddingEnd="4dp"
@@ -581,16 +589,19 @@
                             android:id="@+id/txtAvailabilityTitle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins_semibold"
+                            android:includeFontPadding="false"
                             android:text="Availability:"
-                            android:textColor="@color/colorDarkGrey"
-                            android:textSize="15sp"
-                            android:textStyle="bold" />
+                            android:textColor="@color/colorBlue"
+                            android:textSize="15sp" />
 
                         <TextView
                             android:id="@+id/txtAvailability"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/_4sdp"
+                            android:fontFamily="@font/poppins_regular"
+                            android:includeFontPadding="false"
                             android:text=""
                             android:textColor="@color/colorDarkGrey"
                             android:textSize="14sp" />
@@ -630,13 +641,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
+                        android:fontFamily="@font/poppins_semibold"
                         android:text="Locations:"
-                        android:textColor="@color/colorDarkGrey"
+                        android:textColor="@color/colorBlue"
                         android:textSize="15sp"
                         android:visibility="gone" />
 
                     <!-- Location Dropdown -->
-                    <LinearLayout
+                    <FrameLayout
                         android:id="@+id/linearSpinnerLocationParent"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -648,9 +660,30 @@
                             android:id="@+id/spinnerLocations"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:spinnerMode="dropdown" />
+                            android:spinnerMode="dropdown"
+                            android:visibility="gone" />
 
-                    </LinearLayout>
+                        <TextView
+                            android:id="@+id/tvLocation"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:paddingVertical="12dp"
+                            android:paddingStart="12dp"
+                            android:paddingEnd="12dp"
+                            android:text="Select Location"
+                            android:textColor="@color/colorTextDarkGrey" />
+
+                        <ImageView
+                            android:layout_width="@dimen/_10sdp"
+                            android:layout_height="@dimen/_6sdp"
+                            android:layout_gravity="end|center"
+                            android:layout_marginEnd="@dimen/_8sdp"
+                            android:focusable="false"
+                            android:focusableInTouchMode="false"
+                            android:src="@drawable/down_arrow" />
+
+                    </FrameLayout>
 
 
                 </LinearLayout>
@@ -658,6 +691,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/cardViewOptions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -671,49 +705,119 @@
                     android:orientation="vertical"
                     android:padding="8dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="Options"
-                        android:textColor="@color/colorBlue"
-                        android:textSize="15sp"
-                        android:visibility="visible" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/poppins_semibold"
+                            android:gravity="center"
+                            android:includeFontPadding="false"
+                            android:text="Options"
+                            android:textColor="@color/colorBlue"
+                            android:textSize="15sp"
+                            android:visibility="visible" />
+
+                        <TextView
+                            android:id="@+id/optionMainQty"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_2sdp"
+                            android:fontFamily="@font/poppins_medium"
+                            android:includeFontPadding="false"
+                            android:paddingHorizontal="@dimen/_4sdp"
+                            android:paddingVertical="@dimen/_2sdp"
+                            android:textColor="@color/colorGreen"
+                            android:textSize="15sp"
+                            tools:text="In Stock (15)" />
+
+                    </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/linearLayoutOptionOne"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_8sdp"
                         android:orientation="vertical"
                         android:visibility="gone"
                         tools:visibility="visible">
 
-                        <TextView
-                            android:id="@+id/option"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-                            android:textColor="@color/colorBlue"
-                            android:textSize="13sp"
-                            android:textStyle="bold"
-                            tools:text="Choose Option" />
-
-
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/option"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins_medium"
+                                android:includeFontPadding="false"
+                                android:textColor="@color/colorTextGrey"
+                                android:textSize="13sp"
+                                tools:text="Choose Option" />
+
+                            <TextView
+                                android:id="@+id/optionOneQty"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_2sdp"
+                                android:fontFamily="@font/poppins_medium"
+                                android:includeFontPadding="false"
+                                android:paddingHorizontal="@dimen/_4sdp"
+                                android:paddingVertical="@dimen/_2sdp"
+                                android:textColor="@color/colorGreen"
+                                android:textSize="13sp"
+                                android:visibility="gone"
+                                tools:text="In Stock (15)" />
+
+
+                        </LinearLayout>
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_2sdp"
-                            android:background="@drawable/back_round">
+                            android:background="@drawable/back_round"
+                            android:orientation="horizontal">
 
                             <Spinner
                                 android:id="@+id/editoption"
                                 android:layout_width="match_parent"
                                 android:layout_height="40dp"
                                 android:dropDownVerticalOffset="40dp"
-                                android:spinnerMode="dropdown" />
+                                android:spinnerMode="dropdown"
+                                android:visibility="gone" />
 
-                        </LinearLayout>
+                            <TextView
+                                android:id="@+id/tvOptionOne"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:background="@drawable/back_round"
+                                android:fontFamily="@font/poppins_regular"
+                                android:gravity="center_vertical"
+                                android:includeFontPadding="false"
+                                android:paddingStart="12dp"
+                                android:paddingEnd="12dp"
+                                android:text="Select Option"
+                                android:textColor="@color/colorTextDarkGrey"
+                                android:textSize="14sp" />
+
+                            <ImageView
+                                android:layout_width="@dimen/_10sdp"
+                                android:layout_height="@dimen/_6sdp"
+                                android:layout_gravity="end|center"
+                                android:layout_marginEnd="@dimen/_8sdp"
+                                android:focusable="false"
+                                android:focusableInTouchMode="false"
+                                android:src="@drawable/down_arrow" />
+
+
+                        </FrameLayout>
 
                     </LinearLayout>
 
@@ -721,35 +825,82 @@
                         android:id="@+id/linearLayoutOptionSecond"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:visibility="gone"
+                        android:layout_margin="@dimen/_8sdp"
                         android:orientation="vertical"
+                        android:visibility="gone"
                         tools:visibility="visible">
-
-                        <TextView
-                            android:id="@+id/option1"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-                            android:textColor="@color/colorBlue"
-                            android:textSize="13sp"
-                            android:textStyle="bold"
-                            tools:text="Choose Option" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/option1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins_medium"
+                                android:includeFontPadding="false"
+                                android:textColor="@color/colorTextGrey"
+                                android:textSize="13sp"
+                                tools:text="Choose Option" />
+
+                            <TextView
+                                android:id="@+id/optionTwoQty"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_2sdp"
+                                android:fontFamily="@font/poppins_medium"
+                                android:includeFontPadding="false"
+                                android:paddingHorizontal="@dimen/_4sdp"
+                                android:paddingVertical="@dimen/_2sdp"
+                                android:textColor="@color/colorGreen"
+                                android:textSize="13sp"
+                                android:visibility="gone"
+                                tools:text="In Stock (15)" />
+
+                        </LinearLayout>
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_2sdp"
-                            android:background="@drawable/back_round">
+                            android:background="@drawable/back_round"
+                            android:orientation="horizontal">
 
                             <Spinner
                                 android:id="@+id/editoption2"
                                 android:layout_width="match_parent"
                                 android:layout_height="40dp"
                                 android:dropDownVerticalOffset="40dp"
-                                android:spinnerMode="dropdown" />
+                                android:spinnerMode="dropdown"
+                                android:visibility="gone" />
 
-                        </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/tvOptionTwo"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:background="@drawable/back_round"
+                                android:fontFamily="@font/poppins_regular"
+                                android:gravity="center_vertical"
+                                android:includeFontPadding="false"
+                                android:paddingStart="12dp"
+                                android:paddingEnd="12dp"
+                                android:text="Select Option"
+                                android:textColor="@color/colorTextDarkGrey"
+                                android:textSize="14sp" />
+
+                            <ImageView
+                                android:layout_width="@dimen/_10sdp"
+                                android:layout_height="@dimen/_6sdp"
+                                android:layout_gravity="end|center"
+                                android:layout_marginEnd="@dimen/_8sdp"
+                                android:focusable="false"
+                                android:focusableInTouchMode="false"
+                                android:src="@drawable/down_arrow" />
+                        </FrameLayout>
 
                     </LinearLayout>
 
@@ -785,7 +936,9 @@
                             android:layout_alignParentStart="true"
                             android:layout_centerInParent="true"
                             android:layout_marginLeft="10dp"
+                            android:fontFamily="@font/poppins_semibold"
                             android:gravity="center"
+                            android:includeFontPadding="false"
                             android:text="Description"
                             android:textColor="@color/colorBlue"
                             android:textSize="15sp"
@@ -1049,8 +1202,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="4dp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:includeFontPadding="false"
                         android:text="People Also View"
-                        android:textColor="@color/colorBlack"
+                        android:textColor="@color/colorTextGrey"
                         android:textSize="15sp"
                         android:visibility="gone" />
 
@@ -1097,9 +1252,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:includeFontPadding="false"
                         android:text="Related Products"
-
-                        android:textColor="@color/colorBlack"
+                        android:textColor="@color/colorTextGrey"
                         android:textSize="15sp"
                         android:visibility="gone" />
 

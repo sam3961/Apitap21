@@ -1,6 +1,7 @@
 package com.apitap.views.fragments.items.storeFront;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,8 +86,8 @@ public class AdapterParentItem extends BaseExpandableListAdapter {
             convertView = infalInflater.inflate(R.layout.adapter_parent_items_group, viewGroup, false);
             expandableListView = (ExpandableListView) viewGroup;
            // expandableListView.expandGroup(position);
-            convertView.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT,
-                    RecyclerView.LayoutParams.MATCH_PARENT));
+      /*      convertView.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT,
+                    RecyclerView.LayoutParams.MATCH_PARENT));*/
 
         }
         LinearLayout view_ll = convertView.findViewById(R.id.view_ll);
@@ -116,22 +117,30 @@ public class AdapterParentItem extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getChildView(final int groupPosition, final int i1, boolean b, View convertView, ViewGroup viewGroup) {
-        if (convertView == null) {
-            LayoutInflater infalInflater = (LayoutInflater) context
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.vertical_row_items, viewGroup, false);
-        }
-        RecyclerView mTwoWayView = convertView.findViewById(R.id.my_gallery);
+    public View getChildView(final int groupPosition, final int i1,
+                             boolean b, View convertView, ViewGroup viewGroup) {
 
-        mTwoWayView.setNestedScrollingEnabled(false);
-        mTwoWayView.setHasFixedSize(true);
+        if (convertView == null) {
+            LayoutInflater inflater = LayoutInflater.from(context);
+            convertView = inflater.inflate(R.layout.vertical_row_items, viewGroup, false);
+        }
+
+        RecyclerView recyclerView = convertView.findViewById(R.id.my_gallery);
+
+        recyclerView.setNestedScrollingEnabled(false);
+        recyclerView.setHasFixedSize(false);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
-        mTwoWayView.setLayoutManager(layoutManager);
+        recyclerView.setLayoutManager(layoutManager);
 
-        AdapterChildItems adapterChildItems = new AdapterChildItems(context, listParent.get(groupPosition).getPC(), adapterClick);
-        mTwoWayView.setAdapter(adapterChildItems);
+        AdapterChildItems adapter =
+                new AdapterChildItems(context,
+                        listParent.get(groupPosition).getPC(),
+                        adapterClick);
+
+        recyclerView.setAdapter(adapter);
+
+        recyclerView.post(() -> setRecyclerViewHeight(recyclerView));
 
         return convertView;
     }
@@ -146,4 +155,27 @@ public class AdapterParentItem extends BaseExpandableListAdapter {
         notifyDataSetChanged();
     }
 
+    private void setRecyclerViewHeight(RecyclerView recyclerView) {
+        RecyclerView.Adapter adapter = recyclerView.getAdapter();
+        if (adapter == null) return;
+
+        int totalHeight = 0;
+
+        for (int i = 0; i < adapter.getItemCount(); i++) {
+            RecyclerView.ViewHolder holder =
+                    adapter.createViewHolder(recyclerView, adapter.getItemViewType(i));
+            adapter.onBindViewHolder(holder, i);
+
+            holder.itemView.measure(
+                    View.MeasureSpec.makeMeasureSpec(recyclerView.getWidth(), View.MeasureSpec.EXACTLY),
+                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+            );
+
+            totalHeight += holder.itemView.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = recyclerView.getLayoutParams();
+        params.height = totalHeight;
+        recyclerView.setLayoutParams(params);
+    }
 }

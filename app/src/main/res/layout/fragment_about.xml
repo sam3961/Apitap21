@@ -11,16 +11,16 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:weightSum="1"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:weightSum="1">
 
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/ll_shopping"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginBottom="5dp"
             android:layout_marginTop="2dp"
+            android:layout_marginBottom="5dp"
             android:background="@drawable/bottom_line"
             android:gravity="center">
 
@@ -76,9 +76,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/about_apitap"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
+                android:text="@string/about_apitap"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                 android:textColor="@color/colorBlue"
                 android:textStyle="bold" />
@@ -94,13 +94,13 @@
 
 
             <Button
+                android:id="@+id/app_info"
                 android:layout_width="120dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="4dp"
                 android:background="@drawable/rounded_bg_dblue"
                 android:text="App info"
-                android:id="@+id/app_info"
                 android:textAllCaps="false"
                 android:textColor="@color/colorWhite"
                 android:textStyle="bold" />
@@ -114,10 +114,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="@string/contact_us"
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
                 android:layout_marginEnd="8dp"
+                android:text="@string/contact_us"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                 android:textColor="@color/colorBlue"
                 android:textStyle="bold" />
@@ -135,31 +135,31 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_marginTop="4dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/bg_round_dblue_border">
 
                 <Spinner
-                    android:layout_width="match_parent"
                     android:id="@+id/choices"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:dropDownVerticalOffset="50dp"
+                    android:fadeScrollbars="false"
+                    android:gravity="center_vertical"
+                    android:nestedScrollingEnabled="true"
+                    android:popupBackground="@color/colorGreylight"
                     android:popupElevation="6dp"
                     android:popupTheme="@android:style/ThemeOverlay.Material.Light"
-                    android:popupBackground="@color/colorGreylight"
-                    android:dropDownVerticalOffset="50dp"
-                    android:gravity="center_vertical"
-                    android:scrollbars="vertical"
                     android:scrollIndicators="right"
                     android:scrollbarAlwaysDrawVerticalTrack="true"
-                    android:scrollbarSize="3dp"
                     android:scrollbarFadeDuration="0"
-                    android:fadeScrollbars="false"
-                    android:scrollbarStyle="insideInset"
+                    android:scrollbarSize="3dp"
 
-                    android:spinnerMode="dropdown"
+                    android:scrollbarStyle="insideInset"
                     android:scrollbarThumbVertical="@color/darkBlue"
-                    android:nestedScrollingEnabled="true"
-                    android:layout_height="50dp"></Spinner>
+                    android:scrollbars="vertical"
+                    android:spinnerMode="dropdown"></Spinner>
 
             </LinearLayout>
 
@@ -174,19 +174,20 @@
 
 
             <EditText
+                android:id="@+id/reason"
                 android:layout_width="match_parent"
                 android:layout_height="75dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
                 android:layout_marginEnd="8dp"
-                android:id="@+id/reason"
-                android:scrollbars="vertical"
+                android:background="@drawable/bg_round_dblue_border"
+                android:gravity="start"
                 android:maxLines="25"
                 android:padding="5dp"
-                android:gravity="start"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/bg_round_dblue_border"></EditText>
+                android:scrollbars="vertical"></EditText>
 
             <Button
+                android:id="@+id/buttonSubmit"
                 android:layout_width="120dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
@@ -194,9 +195,9 @@
                 android:background="@drawable/rounded_bg_dblue"
                 android:text="@string/Submit"
                 android:textAllCaps="false"
-                android:id="@+id/buttonSubmit"
                 android:textColor="@color/colorWhite"
                 android:textStyle="bold" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="4dp"
@@ -206,10 +207,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="@string/other_info"
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
                 android:layout_marginEnd="8dp"
+                android:text="@string/other_info"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                 android:textColor="@color/colorBlue"
                 android:textStyle="bold" />
@@ -223,9 +224,9 @@
 
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_weight=".5"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_weight=".5"
                     android:gravity="start"
                     android:text="Visit Apitap Online"
                     android:textColor="@color/colorBlack" />
@@ -238,19 +239,20 @@
                     android:src="@drawable/apitap_header_logo" />
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_marginTop="4dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="8dp"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_weight=".7"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_weight=".7"
                     android:gravity="start"
                     android:text="Follow Us On Social Media"
                     android:textColor="@color/colorBlack" />
@@ -258,67 +260,107 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="40dp"
-                    android:gravity="center"
-                    android:layout_weight=".3">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_gravity="end"
-                    android:padding="5dp"
-                    android:id="@+id/fb"
-                    android:src="@drawable/ic_icon_facebook"/>
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:padding="5dp"
-                    android:id="@+id/twitter"
-                    android:src="@drawable/ic_icon_twitter"/>
+                    android:layout_weight=".3"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/fb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_gravity="end"
+                        android:padding="5dp"
+                        android:src="@drawable/ic_icon_facebook" />
+
+                    <ImageView
+                        android:id="@+id/twitter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:padding="5dp"
+                        android:src="@drawable/ic_icon_twitter" />
                 </LinearLayout>
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
                 android:layout_marginEnd="8dp"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_weight=".5"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_weight=".5"
                     android:gravity="start"
                     android:text="Renew Our Policies"
                     android:textColor="@color/colorBlack" />
 
                 <Button
+                    android:id="@+id/privacy"
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:layout_gravity="center"
                     android:layout_weight=".25"
                     android:background="@drawable/rounded_bg_dblue"
-                    android:text="Privacy"
                     android:gravity="center"
-                    android:id="@+id/privacy"
+                    android:text="Privacy"
                     android:textAllCaps="false"
                     android:textColor="@color/colorWhite"
                     android:textStyle="bold" />
+
                 <Button
+                    android:id="@+id/terms"
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:layout_gravity="center"
-                    android:id="@+id/terms"
+                    android:layout_marginStart="5dp"
                     android:layout_weight=".3"
                     android:background="@drawable/rounded_bg_dblue"
                     android:text="Terms of Use"
                     android:textAllCaps="false"
-                    android:layout_marginStart="5dp"
                     android:textColor="@color/colorWhite"
                     android:textStyle="bold" />
 
 
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="8dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight=".5"
+                    android:gravity="start"
+                    android:textColor="@color/colorBlack" />
+
+                <Button
+                    android:id="@+id/returns"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:layout_weight=".5"
+                    android:background="@drawable/rounded_bg_dblue"
+                    android:gravity="center"
+                    android:text="Returns"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorWhite"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_10sdp" />
 
 
         </LinearLayout>

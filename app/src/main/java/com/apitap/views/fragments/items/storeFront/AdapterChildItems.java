@@ -55,6 +55,7 @@ public class AdapterChildItems extends RecyclerView.Adapter<AdapterChildItems.Vi
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
 
+
         String ActualPrice = String.format("%.2f", Double.parseDouble(arrayListItems.get(position).getJsonMember11498()));
         String DiscountPrice = String.format("%.2f", Double.parseDouble(arrayListItems.get(position).getJsonMember122158()));
 

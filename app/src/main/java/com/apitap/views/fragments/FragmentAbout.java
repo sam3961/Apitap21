@@ -42,6 +42,7 @@ public class FragmentAbout extends BaseFragment {
 
     private ViewHolder holder;
     private boolean isTermsClicked;
+    private boolean isReturnsClicked;
     private boolean isPrivacyClicked;
     private final ArrayList<String> reasonsList = new ArrayList<>();
 
@@ -65,7 +66,7 @@ public class FragmentAbout extends BaseFragment {
 
     private class ViewHolder implements View.OnClickListener {
         LinearLayout ll_back;
-        Button app_info, privacy, terms_conditions, buttonSubmit;
+        Button app_info, privacy, terms_conditions, buttonSubmit,returns;
         Spinner options_Spinner;
         EditText clarifyReason_ed;
         ImageView img_fb, img_twitter, imageViewVisitApitap;
@@ -75,6 +76,7 @@ public class FragmentAbout extends BaseFragment {
             ll_back = view.findViewById(R.id.back_ll);
             app_info = view.findViewById(R.id.app_info);
             options_Spinner = view.findViewById(R.id.choices);
+            returns = view.findViewById(R.id.returns);
             clarifyReason_ed = view.findViewById(R.id.reason);
             privacy = view.findViewById(R.id.privacy);
             terms_conditions = view.findViewById(R.id.terms);
@@ -94,6 +96,7 @@ public class FragmentAbout extends BaseFragment {
             privacy.setOnClickListener(this);
             terms_conditions.setOnClickListener(this);
             imageViewVisitApitap.setOnClickListener(this);
+            returns.setOnClickListener(this);
 
             try {
                 Field popup = Spinner.class.getDeclaredField("mPopup");
@@ -123,6 +126,14 @@ public class FragmentAbout extends BaseFragment {
                         isPrivacyClicked = true;
                     }
                     break;
+                case R.id.returns:
+                    if (!ATPreferences.readString(getActivity(), Constants.RETURNS).isEmpty())
+                        startActivity(new Intent(getActivity(), TermsAndConditionsActivity.class).putExtra(Constants.KEY, Constants.RETURNS_KEY));
+                    else {
+                        showProgress();
+                        isReturnsClicked = true;
+                    }
+                    break;
                 case R.id.terms:
                     if (!ATPreferences.readString(getActivity(), Constants.TERMS).isEmpty())
                         startActivity(new Intent(getActivity(), TermsAndConditionsActivity.class).putExtra(Constants.KEY, Constants.TERMS_KEY));
@@ -149,8 +160,8 @@ public class FragmentAbout extends BaseFragment {
                     } else {
                         showProgress();
                         ModelManager.getInstance().getMessageManager().sendMessage(getActivity(), Operations.sendMessageAboutUs(getActivity(),
-                                reasonsList.get(options_Spinner.getSelectedItemPosition()), clarifyReason_ed.getText().toString(),
-                                ContactUsManger.aboutUsBean.getRESULT().get(0).getRESULT().get(options_Spinner.getSelectedItemPosition()).get_122_25())
+                                        reasonsList.get(options_Spinner.getSelectedItemPosition()), clarifyReason_ed.getText().toString(),
+                                        ContactUsManger.aboutUsBean.getRESULT().get(0).getRESULT().get(options_Spinner.getSelectedItemPosition()).get_122_25())
                                 , Constants.MESSAGE_SEND_SUCCESS);
                     }
                     break;
@@ -160,10 +171,10 @@ public class FragmentAbout extends BaseFragment {
 
 
     private void checkForTermsConditions() {
-        if (ATPreferences.readString(getActivity(), Constants.TERMS).isEmpty()) {
+//        if (ATPreferences.readString(getActivity(), Constants.TERMS).isEmpty()) {
             ModelManager.getInstance().getLoginManager().getTermsAndConditions(getActivity(),
                     Operations.makeJsonGetTermsConditions(getActivity()));
-        }
+//        }
     }
 
     private void hitApiForListOfReasons() {
@@ -223,6 +234,8 @@ public class FragmentAbout extends BaseFragment {
                     startActivity(new Intent(getActivity(), TermsAndConditionsActivity.class).putExtra(Constants.KEY, Constants.PRIVACY_KEY));
                 else if (isTermsClicked)
                     startActivity(new Intent(getActivity(), TermsAndConditionsActivity.class).putExtra(Constants.KEY, Constants.TERMS_KEY));
+                else if (isReturnsClicked)
+                    startActivity(new Intent(getActivity(), TermsAndConditionsActivity.class).putExtra(Constants.KEY, Constants.RETURNS_KEY));
                 break;
 
         }

@@ -61,6 +61,7 @@
         <item>@string/messages</item>
         <item>@string/shoppingassistance</item>
         <item>@string/favourite</item>
+        <item>@string/reservations</item>
         <item>@string/history</item>
         <item>@string/setting</item>
         <item>@string/all_about_apitap</item>
@@ -81,8 +82,8 @@
         <item>@string/messages</item>
         <item>@string/shoppingassistance</item>
         <item>@string/favourite</item>
+        <item>@string/reservations</item>
         <item>@string/history</item>
-        <item>@string/setting</item>
         <item>@string/all_about_apitap</item>
         <item>@string/login</item>
     </string-array>
@@ -122,8 +123,14 @@
         <item>3874</item>
 
     </string-array>
+    <string-array name="type_of_location">
+        <item>Select Location</item>
+    </string-array>
     <string-array name="type_of_area">
         <item>Select Area</item>
+    </string-array>
+    <string-array name="type_of_store">
+        <item>Select Store</item>
     </string-array>
     <string-array name="type_of_table">
         <item>Select Table</item>
@@ -259,6 +266,7 @@
     <string name="view">View</string>
     <string name="select_date">Select Date</string>
     <string name="start_time">Select Start Time</string>
+    <string name="start_hour">Select Start Hour</string>
     <string name="end_time">Select End Time</string>
     <string name="number_of_people_mandatory">Enter number of people*</string>
     <string name="number_of_children_mandatory">Enter number of children*</string>
@@ -275,5 +283,6 @@
     <string name="restrictions">Restrictions</string>
     <string name="specifications">Specifications</string>
     <string name="note">Note</string>
+    <string name="place_selection">Place Selection</string>
 
 </resources>

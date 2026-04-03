@@ -45,6 +45,7 @@ public class Constants {
     public static final String TAG_STORESPAGE = "StoresPage";
     public static final String TAG_STORESFRONTPAGE = "StoreFrontPage";
     public static final String TAG_FAVOURITEPAGE = "FavouritePage";
+    public static final String TAG_RESERVATIONSPAGE = "ReservationPage";
     public static final String TAG_HISTORYPAGE = "HistoryPage";
     public static final String TAG_MESSAGEPAGE = "MessagePage";
     public static final String TAG_AD_DETAIL = "TAG_AD_DETAIL";
@@ -66,6 +67,7 @@ public class Constants {
     public static final String TAG_CHECK_IN_TV = "CheckInTv";
     public static final String TAG_ADD_RESERVATION = "AddReservation";
     public static final String TAG_SEATING_AREA_BY_LOCATION = "SeatingAreaByLocation";
+    public static final String TAG_MERCHANT_BY_CATEGORY = "MerchantByCategory";
     public static final String TAG_VIEW_RESERVATION = "ViewReservation";
     public static final String TAG_GET_RESERVATION = "GetReservation";
     public static final String TAG_DELETE_RESERVATION = "DeleteReservation";
@@ -79,8 +81,10 @@ public class Constants {
     public static final String SEARCH_KEY = "search_key";
     public static final String PRIVACY_KEY = "privacy_key";
     public static final String TERMS_KEY = "terms_key";
+    public static final String RETURNS_KEY = "returns_key";
 
     public static final String RESERVATION_ID = "reservation_id";
+    public static final String RESERVATION_DATA = "reservation_data";
 
     public static final int ACCOUNT_CREATED = 10020;
     public static final int ACCOUNT_ALREADY_REGISTERED = 10021;
@@ -143,6 +147,7 @@ public class Constants {
     public static final int RELATED_DETAILS = 20045;
     public static final int RELATED_SPECIAL_DETAILS = 40045;
     public static final int INVENTORY_UPDATED = 400451;
+    public static final int INVENTORY_CHOICES_EMPTY = 4004512;
     public static final int CATEGORY_DETAILS = 21045;
     public static final int SEARCH_ITEM_SUCCESS = 20046;
     public static final int SEARCH_ITEM_SUCCESS_Empty = 30047;
@@ -281,6 +286,7 @@ public class Constants {
     public static final int GET_ASSIGNED_TO_USER_SUCCESS = 1071;
     public static final int GET_ASSIGN_USER_BY_LOCATION_FAILURE = 1072;
     public static final int GET_PROMO_BY_LOCATION_SUCCESS = 1073;
+    public static final int GET_MERCHANT_BY_CATEGORY_SUCCESS = 10731;
     public static final int GET_PROMO_BY_LOCATION_FAILURE = 1074;
     public static final int EDIT_RESERVATION_SUCCESS = 1075;
     public static final int EDIT_RESERVATION_FAILURE = 1076;
@@ -311,6 +317,7 @@ public class Constants {
     public static final String TOKEN = "token";
     public static final String LOCATION_ID = "location_id";
     public static final String STORE_NAME = "store_name";
+    public static final String STORE_ID = "store_id";
     public static final String STORE_RATE = "store_rate";
     public static final String HEADER_STORE = "header_store";
     public static final String MERCHANT_ID = "merchant_store";
@@ -319,7 +326,9 @@ public class Constants {
     public static final String LEVEL_ONE_CATEGORIES = "level_one_categories";
     public static final String TERMS = "terms";
     public static final String POLICIES = "policies";
+    public static final String RETURNS = "returns";
     public static final String LOGIN_FROM_TEMP_PASS = "login_temp_password";
+    public static final String FROM_MENU = "from_menu";
     public static final String TV_HOST = "host";
     public static final String TV_HOST_ADDRESS = "host_address";
     public static final String TV_HOST_NAME = "host_name";

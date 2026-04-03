@@ -44,6 +44,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.WindowCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -258,12 +259,12 @@ public class HomeActivity extends BaseActivity implements FragmentDrawer.Fragmen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorWhite));
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-        }
-        setContentView(R.layout.homepage_activity);
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), true);
 
+        getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorWhite));
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+
+        setContentView(R.layout.homepage_activity);
         manager = getSupportFragmentManager();
         context = this;
         isGuest = ATPreferences.readBoolean(this, Constants.GUEST);
@@ -1075,7 +1076,26 @@ public class HomeActivity extends BaseActivity implements FragmentDrawer.Fragmen
                     displayView(new FragmentFavourite(), Constants.TAG_FAVOURITEPAGE, new Bundle());
                 }
                 break;
+
             case 13:
+                if (isGuest) {
+                    showGuestDialog();
+                } else {
+                    linearLayoutStoreDetailHeader.setVisibility(View.GONE);
+                    ATPreferences.putString(context, Constants.HEADER_IMG, "");
+                    ATPreferences.putString(context, Constants.STORE_NAME, "");
+                    ATPreferences.putInt(context, Constants.STORE_ID, 0);
+                    ATPreferences.putBoolean(context, Constants.HEADER_STORE, false);
+                    ATPreferences.putString(context, Constants.MERCHANT_ID, "");
+
+                    Bundle bundleReservation = new Bundle();
+                    bundleReservation.putBoolean(Constants.FROM_MENU, true);
+                    mTxtHeading.setText("Reservations");
+                    displayView(new FragmentViewReservation(),
+                            Constants.TAG_VIEW_RESERVATION, bundleReservation);
+                }
+                break;
+            case 14:
                 if (isGuest) {
                     showGuestDialog();
                 } else {
@@ -1087,21 +1107,34 @@ public class HomeActivity extends BaseActivity implements FragmentDrawer.Fragmen
                 }
                 break;
 
-            case 14:
-                mlogo.setVisibility(View.VISIBLE);
-                mTxtHeading.setVisibility(View.GONE);
-                mTxtHeading.setText("Settings");
-                inActiveTabs();
-                displayView(new FragmentSettings(), Constants.TAG_SETTINGSPAGE, new Bundle());
-                break;
             case 15:
-                mlogo.setVisibility(View.VISIBLE);
-                mTxtHeading.setVisibility(View.GONE);
-                inActiveTabs();
-                displayView(new FragmentAbout(), Constants.ALL_ABOUT_APITAP, new Bundle());
+                if (!isGuest) {
+                    mlogo.setVisibility(View.VISIBLE);
+                    mTxtHeading.setVisibility(View.GONE);
+                    mTxtHeading.setText("Settings");
+                    inActiveTabs();
+                    displayView(new FragmentSettings(), Constants.TAG_SETTINGSPAGE, new Bundle());
+                } else {
+                    // Guest: About moved here
+                    mlogo.setVisibility(View.VISIBLE);
+                    mTxtHeading.setVisibility(View.GONE);
+                    inActiveTabs();
+                    displayView(new FragmentAbout(), Constants.ALL_ABOUT_APITAP, new Bundle());
+                }
                 break;
 
             case 16:
+                if (isGuest) {
+                    startActivity(new Intent(this, LoginActivity.class));
+                } else {
+                    mlogo.setVisibility(View.VISIBLE);
+                    mTxtHeading.setVisibility(View.GONE);
+                    inActiveTabs();
+                    displayView(new FragmentAbout(), Constants.ALL_ABOUT_APITAP, new Bundle());
+                }
+                break;
+
+            case 17:
                 if (isGuest) {
                     startActivity(new Intent(this, LoginActivity.class));
                 } else {
@@ -2024,7 +2057,7 @@ public class HomeActivity extends BaseActivity implements FragmentDrawer.Fragmen
 
             case -1:
                 hideProgress();
-                if (event.getResponse()!=null&& !event.getResponse().isEmpty()) {
+                if (event.getResponse() != null && !event.getResponse().isEmpty()) {
                     Utils.baseshowFeedbackMessage(this,
                             rootLayout,
                             event.getResponse());

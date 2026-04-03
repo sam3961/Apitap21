@@ -14,6 +14,8 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiInfo;
@@ -67,6 +69,7 @@ import com.apitap.views.fragments.stores.FragmentStore;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -97,7 +100,7 @@ public class Utils {
     public final static String TAG_NAME_FRAGMENT = "ACTIVITY_FRAGMENT";
     public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 456;
-    public static final String APK_VERSION = "26.0303.531"; // yy - mm-dd-version
+    public static final String APK_VERSION = "26.0403.048   "; // yy - mm-dd-version
     public static String seacrh_key = "";
     public static String locationSearch = "";
     public static ArrayList<String> placeIdList;
@@ -146,6 +149,38 @@ public class Utils {
     public static void hideKeyboardFrom(Context context, View view) {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    public static void getAddressFromLatLng(Context context,double latitude, double longitude) {
+
+        Geocoder geocoder = new Geocoder(context, Locale.getDefault());
+
+        try {
+            List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
+
+            if (addresses != null && !addresses.isEmpty()) {
+
+                Address address = addresses.get(0);
+
+                String addressLine1 = address.getAddressLine(0); // Full address
+                String city = address.getLocality(); // City
+                String state = address.getAdminArea(); // State
+                String zip = address.getPostalCode(); // ZIP code
+
+                // Optional extras
+                String country = address.getCountryName();
+
+                // Log or use values
+                Log.d("TAG", "Address: " + addressLine1);
+                Log.d("TAG", "City: " + city);
+                Log.d("TAG", "State: " + state);
+                Log.d("TAG", "ZIP: " + zip);
+
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 //    public static String getFormatAmount(String Amount) {
@@ -213,6 +248,21 @@ public class Utils {
         DecimalFormat decimalFormat = new DecimalFormat(formatBuilder.toString(), new DecimalFormatSymbols(Locale.US));
 
         return decimalFormat.format(value);
+    }
+
+    public static String safe(String value) {
+        return value == null ? "" : value.trim();
+    }
+
+
+    public static String safeHex(String hex) {
+        if (hex == null || hex.isEmpty()) return "";
+        try {
+            String result = Utils.hexToASCII(hex);
+            return result == null ? "" : result.trim();
+        } catch (Exception e) {
+            return "";
+        }
     }
 
     // Get exist Fragment by it's tag name.
@@ -359,8 +409,16 @@ public class Utils {
     public static String getEditTextString(EditText editText) {
         return editText.getText().toString();
     }
+    public static Integer getEditTextInt(EditText editText) {
+        return Integer.parseInt(editText.getText().toString());
+    }
+
     public static String getEditTextStringWithSeconds(EditText editText) {
-        return editText.getText().toString()+":00";
+        return editText.getText().toString() + ":00";
+    }
+
+    public static String getEditTextStringWithoutSeconds(EditText editText) {
+        return editText.getText().toString() ;
     }
 
     public static boolean isDateAfter(String startDate, String endDate, String myFormatString) {
@@ -374,6 +432,38 @@ public class Utils {
             else
                 return false;
         } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public static boolean isAfterCurrentTime(String selectedTime, String format) {
+        try {
+
+            SimpleDateFormat sdf = new SimpleDateFormat(format, java.util.Locale.getDefault());
+
+            Date now = sdf.parse(sdf.format(new Date())); // current time
+            Date selected = sdf.parse(selectedTime);
+
+            return selected.after(now);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static boolean isFutureDateTime(String date, String time) {
+        try {
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+
+            Date now = new Date();
+            Date selected = sdf.parse(date + " " + time);
+
+            return selected.after(now);
+
+        } catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
     }
@@ -1261,7 +1351,7 @@ public class Utils {
         return "";
     }
 
-    public static String removeLastChar(String str,int count){
+    public static String removeLastChar(String str, int count) {
         return str.substring(0, str.length() - count);
     }
 
@@ -1283,19 +1373,19 @@ public class Utils {
         return str;
     }
 
-    public static void disableEnableClickable(View view,Boolean value){
+    public static void disableEnableClickable(View view, Boolean value) {
         view.setEnabled(value);
         view.setClickable(value);
     }
 
     public static String bitmapToBase64(Bitmap bitmap) {
-            int previewWidth=150;
-            int previewHeight=bitmap.getHeight()*previewWidth/ bitmap.getWidth();
-            Bitmap previewBitmap = Bitmap.createScaledBitmap(bitmap,previewWidth,previewHeight,false);
-            ByteArrayOutputStream byteArrayOutputStream=new ByteArrayOutputStream();
-            previewBitmap.compress(Bitmap.CompressFormat.JPEG,50,byteArrayOutputStream);
-            byte[] bytes=byteArrayOutputStream.toByteArray();
-            return Base64.encodeToString(bytes,Base64.DEFAULT);
+        int previewWidth = 150;
+        int previewHeight = bitmap.getHeight() * previewWidth / bitmap.getWidth();
+        Bitmap previewBitmap = Bitmap.createScaledBitmap(bitmap, previewWidth, previewHeight, false);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        previewBitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
+        byte[] bytes = byteArrayOutputStream.toByteArray();
+        return Base64.encodeToString(bytes, Base64.DEFAULT);
     }
 
     public static boolean isListValid(List<String> list) {

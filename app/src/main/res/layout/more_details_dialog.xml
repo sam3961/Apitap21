@@ -552,11 +552,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"
-                        android:fadeScrollbars="false"
-                        android:scrollbarFadeDuration="100"
-                        android:scrollbarSize="10dp"
-                        android:scrollbarThumbVertical="@drawable/custom_scroll_style"
-                        android:scrollbars="vertical"></WebView>
+                    />
                 </LinearLayout>
 
                 <LinearLayout

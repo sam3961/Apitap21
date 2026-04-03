@@ -59,42 +59,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="top"
-            android:layout_marginTop="@dimen/_20sdp"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"
-                android:layout_marginBottom="@dimen/_2sdp"
-                android:fontFamily="@font/rubik_medium"
-                android:includeFontPadding="false"
-                android:text="Name"
-                android:textColor="@color/tabgrey"
-                android:textSize="@dimen/_13ssp" />
-
-            <EditText
-                android:id="@+id/editTextName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:background="@drawable/back_round_blue_border"
-                android:fontFamily="@font/rubik_regular"
-                android:hint="@string/name_mandatory"
-                android:includeFontPadding="false"
-                android:inputType="textPersonName"
-                android:padding="@dimen/_8sdp"
-                android:singleLine="true" />
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginBottom="@dimen/_2sdp"
-                android:fontFamily="@font/rubik_medium"
-                android:includeFontPadding="false"
                 android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginBottom="@dimen/_2sdp"
+                android:fontFamily="@font/rubik_medium"
+                android:includeFontPadding="false"
                 android:text="Date"
                 android:textColor="@color/tabgrey"
                 android:textSize="@dimen/_13ssp" />
@@ -122,7 +96,7 @@
                 android:layout_marginBottom="@dimen/_2sdp"
                 android:fontFamily="@font/rubik_medium"
                 android:includeFontPadding="false"
-                android:text="Start Time"
+                android:text="Start Hour"
                 android:textColor="@color/tabgrey"
                 android:textSize="@dimen/_13ssp" />
 
@@ -136,7 +110,7 @@
                 android:drawableEnd="@drawable/ic_baseline_access_time_24"
                 android:focusable="false"
                 android:fontFamily="@font/rubik_regular"
-                android:hint="@string/start_time"
+                android:hint="@string/start_hour"
                 android:includeFontPadding="false"
                 android:inputType="textEmailAddress"
                 android:padding="@dimen/_8sdp" />
@@ -149,35 +123,7 @@
                 android:layout_marginBottom="@dimen/_2sdp"
                 android:fontFamily="@font/rubik_medium"
                 android:includeFontPadding="false"
-                android:text="End Time"
-                android:textColor="@color/tabgrey"
-                android:textSize="@dimen/_13ssp" />
-
-            <EditText
-                android:id="@+id/editTextEndTime"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:background="@drawable/back_round_blue_border"
-                android:cursorVisible="false"
-                android:drawableEnd="@drawable/ic_baseline_access_time_24"
-                android:focusable="false"
-                android:fontFamily="@font/rubik_regular"
-                android:hint="@string/end_time"
-                android:includeFontPadding="false"
-                android:inputType="textEmailAddress"
-                android:padding="@dimen/_8sdp" />
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:layout_marginBottom="@dimen/_2sdp"
-                android:fontFamily="@font/rubik_medium"
-                android:includeFontPadding="false"
-                android:text="Number of People"
+                android:text="Guests"
                 android:textColor="@color/tabgrey"
                 android:textSize="@dimen/_13ssp" />
 
@@ -194,6 +140,249 @@
                 android:inputType="number"
                 android:padding="@dimen/_8sdp"
                 android:singleLine="true" />
+
+
+            <LinearLayout
+                android:id="@+id/linearLayoutNearMe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginHorizontal="@dimen/_4sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:orientation="horizontal">
+
+                <Switch
+                    android:id="@+id/switchNearMe"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:checked="false"
+                    android:text=""
+                    android:thumbTint="@color/switch_thumb_color"
+                    android:trackTint="@color/switch_track_color" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="@dimen/_2sdp"
+                    android:fontFamily="@font/rubik_medium"
+                    android:includeFontPadding="false"
+                    android:text="Near me"
+                    android:textColor="@color/tabgrey"
+                    android:textSize="@dimen/_13ssp" />
+
+
+            </LinearLayout>
+
+            <View
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_10sdp"
+                android:id="@+id/viewStoreDivider"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_2sdp"
+                android:fontFamily="@font/rubik_medium"
+                android:includeFontPadding="false"
+                android:text="Store"
+                android:textColor="@color/tabgrey"
+                android:textSize="@dimen/_13ssp"
+                android:visibility="visible" />
+
+
+            <LinearLayout
+                android:id="@+id/linearLayoutStore"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:background="@drawable/back_round_blue_border"
+                android:orientation="horizontal"
+                android:paddingHorizontal="@dimen/_2sdp"
+                android:paddingVertical="@dimen/_8sdp">
+
+
+                <Spinner
+                    android:id="@+id/spinnerStore"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:dropDownVerticalOffset="50dp"
+                    android:entries="@array/type_of_store"
+                    android:fadeScrollbars="false"
+                    android:gravity="center_vertical"
+                    android:nestedScrollingEnabled="true"
+                    android:popupElevation="6dp"
+                    android:scrollIndicators="right"
+                    android:scrollbarAlwaysDrawVerticalTrack="true"
+                    android:scrollbarFadeDuration="0"
+                    android:scrollbarSize="3dp"
+                    android:scrollbarStyle="insideInset"
+                    android:scrollbarThumbVertical="@color/darkBlue"
+                    android:scrollbars="vertical"
+                    android:spinnerMode="dropdown"
+                    />
+
+                <TextView
+                    android:id="@+id/textViewStore"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_regular"
+                    android:includeFontPadding="false"
+                    android:paddingHorizontal="@dimen/_6sdp"
+                    android:textSize="@dimen/_13sdp"
+                    android:textColor="@color/hintColor"
+                    android:text=" " />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginBottom="@dimen/_2sdp"
+                android:fontFamily="@font/rubik_medium"
+                android:includeFontPadding="false"
+                android:text="Location"
+                android:textColor="@color/tabgrey"
+                android:textSize="@dimen/_13ssp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:background="@drawable/back_round_blue_border"
+                android:paddingHorizontal="@dimen/_2sdp"
+                android:paddingVertical="@dimen/_8sdp">
+
+
+                <Spinner
+                    android:id="@+id/spinnerLocation"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:dropDownVerticalOffset="50dp"
+                    android:entries="@array/type_of_location"
+                    android:fadeScrollbars="false"
+                    android:gravity="center_vertical"
+                    android:nestedScrollingEnabled="true"
+                    android:popupElevation="6dp"
+                    android:scrollIndicators="right"
+                    android:scrollbarAlwaysDrawVerticalTrack="true"
+                    android:scrollbarFadeDuration="0"
+                    android:scrollbarSize="3dp"
+                    android:scrollbarStyle="insideInset"
+                    android:scrollbarThumbVertical="@color/darkBlue"
+                    android:scrollbars="vertical"
+                    android:spinnerMode="dropdown" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textViewAreaLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginBottom="@dimen/_2sdp"
+                android:fontFamily="@font/rubik_medium"
+                android:includeFontPadding="false"
+                android:text="Area"
+                android:textColor="@color/tabgrey"
+                android:textSize="@dimen/_13ssp"
+                android:visibility="visible" />
+
+            <LinearLayout
+                android:id="@+id/linearLayoutArea"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:background="@drawable/back_round_blue_border"
+                android:paddingHorizontal="@dimen/_2sdp"
+                android:paddingVertical="@dimen/_8sdp"
+                android:visibility="visible">
+
+
+                <Spinner
+                    android:id="@+id/spinnerArea"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:dropDownVerticalOffset="50dp"
+                    android:entries="@array/type_of_area"
+                    android:fadeScrollbars="false"
+                    android:gravity="center_vertical"
+                    android:nestedScrollingEnabled="true"
+                    android:popupElevation="6dp"
+                    android:scrollIndicators="right"
+                    android:scrollbarAlwaysDrawVerticalTrack="true"
+                    android:scrollbarFadeDuration="0"
+                    android:scrollbarSize="3dp"
+                    android:scrollbarStyle="insideInset"
+                    android:scrollbarThumbVertical="@color/darkBlue"
+                    android:scrollbars="vertical"
+                    android:spinnerMode="dropdown" />
+
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginBottom="@dimen/_2sdp"
+                android:fontFamily="@font/rubik_medium"
+                android:includeFontPadding="false"
+                android:text="Name"
+                android:textColor="@color/tabgrey"
+                android:textSize="@dimen/_13ssp" />
+
+            <EditText
+                android:id="@+id/editTextName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:background="@drawable/back_round_blue_border"
+                android:fontFamily="@font/rubik_regular"
+                android:hint="@string/name_mandatory"
+                android:includeFontPadding="false"
+                android:inputType="textPersonName"
+                android:padding="@dimen/_8sdp"
+                android:singleLine="true" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginBottom="@dimen/_2sdp"
+                android:fontFamily="@font/rubik_medium"
+                android:includeFontPadding="false"
+                android:text="End Time"
+                android:textColor="@color/tabgrey"
+                android:textSize="@dimen/_13ssp"
+                android:visibility="gone" />
+
+            <EditText
+                android:id="@+id/editTextEndTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:background="@drawable/back_round_blue_border"
+                android:cursorVisible="false"
+                android:drawableEnd="@drawable/ic_baseline_access_time_24"
+                android:focusable="false"
+                android:fontFamily="@font/rubik_regular"
+                android:hint="@string/end_time"
+                android:includeFontPadding="false"
+                android:inputType="textEmailAddress"
+                android:padding="@dimen/_8sdp"
+                android:visibility="gone" />
+
 
             <TextView
                 android:layout_width="wrap_content"
@@ -238,93 +427,6 @@
 
             </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:layout_marginBottom="@dimen/_2sdp"
-                android:fontFamily="@font/rubik_medium"
-                android:includeFontPadding="false"
-                android:text="Location"
-                android:textColor="@color/tabgrey"
-                android:textSize="@dimen/_13ssp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:background="@drawable/back_round_blue_border"
-                android:paddingHorizontal="@dimen/_2sdp"
-                android:paddingVertical="@dimen/_8sdp">
-
-
-                <Spinner
-                    android:id="@+id/spinnerLocation"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:dropDownVerticalOffset="50dp"
-                    android:entries="@array/type_of_area"
-                    android:fadeScrollbars="false"
-                    android:gravity="center_vertical"
-                    android:nestedScrollingEnabled="true"
-                    android:popupElevation="6dp"
-                    android:scrollIndicators="right"
-                    android:scrollbarAlwaysDrawVerticalTrack="true"
-                    android:scrollbarFadeDuration="0"
-                    android:scrollbarSize="3dp"
-                    android:scrollbarStyle="insideInset"
-                    android:scrollbarThumbVertical="@color/darkBlue"
-                    android:scrollbars="vertical"
-                    android:spinnerMode="dropdown" />
-
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/textViewAreaLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:layout_marginBottom="@dimen/_2sdp"
-                android:fontFamily="@font/rubik_medium"
-                android:includeFontPadding="false"
-                android:text="Area"
-                android:visibility="gone"
-                android:textColor="@color/tabgrey"
-                android:textSize="@dimen/_13ssp" />
-
-            <LinearLayout
-                android:id="@+id/linearLayoutArea"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:background="@drawable/back_round_blue_border"
-                android:paddingHorizontal="@dimen/_2sdp"
-                android:visibility="gone"
-                android:paddingVertical="@dimen/_8sdp">
-
-
-                <Spinner
-                    android:id="@+id/spinnerArea"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:dropDownVerticalOffset="50dp"
-                    android:entries="@array/type_of_area"
-                    android:fadeScrollbars="false"
-                    android:gravity="center_vertical"
-                    android:nestedScrollingEnabled="true"
-                    android:popupElevation="6dp"
-                    android:scrollIndicators="right"
-                    android:scrollbarAlwaysDrawVerticalTrack="true"
-                    android:scrollbarFadeDuration="0"
-                    android:scrollbarSize="3dp"
-                    android:scrollbarStyle="insideInset"
-                    android:scrollbarThumbVertical="@color/darkBlue"
-                    android:scrollbars="vertical"
-                    android:spinnerMode="dropdown" />
-
-            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -371,7 +473,6 @@
             </LinearLayout>
 
 
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -400,46 +501,6 @@
                 android:singleLine="true"
                 android:visibility="gone" />
 
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:layout_marginBottom="@dimen/_2sdp"
-                android:fontFamily="@font/rubik_medium"
-                android:includeFontPadding="false"
-                android:text="Phone"
-                android:textColor="@color/tabgrey"
-                android:textSize="@dimen/_13ssp"
-                android:visibility="gone" />
-
-            <EditText
-                android:id="@+id/editTextPhone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:background="@drawable/back_round_blue_border"
-                android:drawableEnd="@drawable/ic_baseline_local_phone_24"
-                android:fontFamily="@font/rubik_regular"
-                android:hint="@string/phone_mandatory"
-                android:includeFontPadding="false"
-                android:inputType="phone"
-                android:padding="@dimen/_8sdp"
-                android:singleLine="true"
-                android:visibility="gone" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="12dp"
-                android:fontFamily="@font/rubik_medium"
-                android:includeFontPadding="false"
-                android:text="e.g. 999 999 99 99 @ext"
-                android:textColor="@android:color/black"
-                android:visibility="gone" />
-
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -451,7 +512,7 @@
                 android:text="Email"
                 android:textColor="@color/tabgrey"
                 android:textSize="@dimen/_13ssp"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
             <EditText
                 android:id="@+id/editTextEmail"
@@ -466,7 +527,47 @@
                 android:inputType="textEmailAddress"
                 android:padding="@dimen/_8sdp"
                 android:singleLine="true"
+                android:visibility="visible" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginBottom="@dimen/_2sdp"
+                android:fontFamily="@font/rubik_medium"
+                android:includeFontPadding="false"
+                android:text="Phone"
+                android:textColor="@color/tabgrey"
+                android:textSize="@dimen/_13ssp"
+                android:visibility="visible" />
+
+            <EditText
+                android:id="@+id/editTextPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:background="@drawable/back_round_blue_border"
+                android:drawableEnd="@drawable/ic_baseline_local_phone_24"
+                android:fontFamily="@font/rubik_regular"
+                android:hint="@string/phone_mandatory"
+                android:includeFontPadding="false"
+                android:inputType="phone"
+                android:padding="@dimen/_8sdp"
+                android:singleLine="true"
+                android:visibility="visible" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="12dp"
+                android:fontFamily="@font/rubik_medium"
+                android:includeFontPadding="false"
+                android:text="e.g. 999 999 99 99 @ext"
+                android:textColor="@android:color/black"
                 android:visibility="gone" />
+
 
             <TextView
                 android:layout_width="wrap_content"
@@ -623,7 +724,8 @@
                 android:includeFontPadding="false"
                 android:text="Smoking Area Preferred?"
                 android:textColor="@color/tabgrey"
-                android:textSize="@dimen/_13ssp" />
+                android:textSize="@dimen/_13ssp"
+                android:visibility="gone" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -631,7 +733,8 @@
                 android:layout_marginHorizontal="10dp"
                 android:background="@drawable/back_round_blue_border"
                 android:paddingHorizontal="@dimen/_2sdp"
-                android:paddingVertical="@dimen/_8sdp">
+                android:paddingVertical="@dimen/_8sdp"
+                android:visibility="gone">
 
 
                 <Spinner
@@ -672,12 +775,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_80sdp"
                 android:layout_marginHorizontal="10dp"
+                android:layout_marginBottom="40dp"
                 android:background="@drawable/back_round_blue_border"
                 android:fontFamily="@font/rubik_regular"
                 android:gravity="start|top"
                 android:hint="@string/enter_notes"
                 android:includeFontPadding="false"
-                android:layout_marginBottom="40dp"
                 android:inputType="text"
                 android:padding="@dimen/_8sdp" />
 
@@ -766,9 +869,9 @@
                 android:id="@+id/relativeLayoutSave"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_40sdp"
-                android:layout_marginBottom="40dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
+                android:layout_marginBottom="40dp"
                 android:background="@drawable/rounded_bg_dblue"
                 android:gravity="center"
                 android:paddingVertical="@dimen/_4sdp">
@@ -785,6 +888,12 @@
                     android:textSize="@dimen/_13ssp" />
 
             </RelativeLayout>
+
+            <View
+                android:id="@+id/viewKeyboard"
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:layout_height="@dimen/_200sdp"/>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

@@ -2,11 +2,14 @@ package com.apitap.controller;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.text.Html;
+import android.text.InputFilter;
 import android.util.Log;
 
 import com.apitap.model.Client;
 import com.apitap.model.Constants;
 import com.apitap.model.Operations;
+import com.apitap.model.Utils;
 import com.apitap.model.bean.LoginModel;
 import com.apitap.model.bean.guestActivity.GuestActivityBean;
 import com.apitap.model.bean.guestLogin.GuestLoginBean;
@@ -114,26 +117,28 @@ public class LoginManager {
                             ATPreferences.putString(mContext, Constants.USER_DOB, imageURLobj.getString("_114_8"));
 
                         // if (imageURLobj.has("_114_3")){
-                        if (imageURLobj.getString("_114_53").contains(" ")) {
+//                        if (imageURLobj.getString("_114_3").contains(" ")) {
 
-                            String[] fullName = imageURLobj.getString("_114_53").split(" ");
-                            ATPreferences.putString(mContext, Constants.KEY_USERNAME, fullName[0]);
-                            Log.d("KEY_USERNAME", fullName[0]);
-                        } else {
-                            ATPreferences.putString(mContext, Constants.KEY_USERNAME, imageURLobj.getString("_114_53"));
-                            Log.d("KEY_USERNAME", imageURLobj.getString("_114_53"));
-                        }
+                            String fullName = imageURLobj.getString("_114_3");
+                            ATPreferences.putString(mContext, Constants.KEY_USERNAME, fullName);
+                            Log.d("KEY_USERNAME", fullName);
+//                        } else {
+//                            ATPreferences.putString(mContext, Constants.KEY_USERNAME, imageURLobj.getString("_114_53"));
+//                            Log.d("KEY_USERNAME", imageURLobj.getString("_114_53"));
+//                        }
                         //   }
-                        LoginModel loginBean = new Gson().fromJson(s, LoginModel.class);
-                        ATPreferences.putString(mContext,
-                                Constants.TOKEN,
-                                loginBean.getRESULT().get(0).getRESULT().get(0).get_127_18());
+//                        LoginModel loginBean = new Gson().fromJson(s, LoginModel.class);
+
+                        String token = imageURLobj.optString("_127_18");
 
                         ATPreferences.putString(mContext,
-                                Constants.LOCATION_ID,
-                                loginBean.getRESULT().get(0).getRESULT().get(0).get_114_47());
+                                Constants.TOKEN, token);
 
-                        Log.d("tokensss", loginBean.getRESULT().get(0).getRESULT().get(0).get_127_18() + "  ");
+//                        ATPreferences.putString(mContext,
+//                                Constants.LOCATION_ID,
+//                                loginBean.getRESULT().get(0).getRESULT().get(0).get_114_47());
+
+//                        Log.d("tokensss", loginBean.getRESULT().get(0).getRESULT().get(0).get_127_18() + "  ");
                         EventBus.getDefault().post(new Event(Constants.LOGIN_SUCCESS, loginType));
                     }
                 }
@@ -245,21 +250,72 @@ public class LoginManager {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             Log.d("response_terms_api", s + "");
+            String terms = "";
+            String policies = "";
+            String returns = "";
+            JSONObject obj = null;
+
             try {
                 JSONObject jsonObject = new JSONObject(s);
                 JSONArray jsonArray = jsonObject.getJSONArray("RESULT");
                 JSONObject jsonObject1 = jsonArray.getJSONObject(0);
                 JSONArray jsonArray1 = jsonObject1.getJSONArray("RESULT");
-                JSONObject jsonObject2 = jsonArray1.getJSONObject(0);
-                if (jsonObject2.has("_119_15")) {
-                    String terms = jsonObject2.getString("_119_15");
+                obj = jsonArray1.getJSONObject(0);
+
+//                for (int i = 0; i < jsonArray1.length(); i++) {
+//                    obj = jsonArray1.getJSONObject(i);
+
+//                    if ("726".equals(obj.optString("_114_93"))) {
+
+                if (obj.has("_119_15")) {
+                    terms = Utils.hexToASCII(obj.getString("_119_15"));
                     ATPreferences.putString(mContext, Constants.TERMS, terms);
+
+                    Log.d(TAG, "terms: " + Html.fromHtml(Utils.hexToASCII(terms)));
                 }
-                if (jsonObject2.has("_119_16")) {
-                    String policies = jsonObject2.getString("_119_16");
-                    ATPreferences.putString(mContext, Constants.POLICIES, policies);
+
+                if (obj.has("_119_16")) {
+                    returns = Utils.hexToASCII(obj.getString("_119_16"));
+
+                    // ✅ returns is SAME field
+//                            returns = policies;
+
+                    ATPreferences.putString(mContext, Constants.RETURNS, returns);
+
+                    Log.d(TAG, "Returns: " +
+                            Html.fromHtml(Utils.hexToASCII(returns)));
                 }
+
+                if (obj.has("_119_17")) {
+                    String privacy = Utils.hexToASCII(obj.getString("_119_17"));
+                    ATPreferences.putString(mContext, Constants.POLICIES, privacy);
+
+                    Log.d(TAG, "Privacy: " +
+                            Html.fromHtml(Utils.hexToASCII(privacy)));
+                }
+
+//                        break;
+//                    }
+//                }
+
+/*                    if (obj.has("_119_15")) {
+                        terms = obj.getString("_119_15");
+                        ATPreferences.putString(mContext, Constants.TERMS, terms);
+                    }
+
+                    if (obj.has("_119_16")) {
+                        policies = obj.getString("_119_16");
+                        ATPreferences.putString(mContext, Constants.POLICIES, policies);
+                    }
+
+                    if (obj.has("_119_17")) {
+                        returns = obj.getString("_119_17");
+                        Log.d(TAG, "ExecuteTCApi: " + Html.fromHtml(Utils.hexToASCII(returns)));
+                        ATPreferences.putString(mContext, Constants.RETURNS, returns);
+                    }*/
+
                 EventBus.getDefault().post(new Event(Constants.TERMS_CONDITIONS, ""));
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }

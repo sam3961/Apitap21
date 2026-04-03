@@ -88,13 +88,17 @@ public class FragmentDrawer extends Fragment {
         if (isGuest) {
             images = new Integer[]{R.drawable.notification, R.drawable.question_mark, R.drawable.tour_arrow, R.drawable.home, R.drawable.ic_icon_store_white,
                     R.drawable.ads, R.drawable.special, R.drawable.item, R.drawable.scan_slider, R.drawable.cart_slider, R.drawable.email_slider
-                    , R.drawable.shop, R.drawable.favourite, R.drawable.history, R.drawable.settings, R.drawable.about_apitap,
+                    , R.drawable.shop, R.drawable.favourite,
+                    R.drawable.ic_reservation_menu,
+                    R.drawable.history, R.drawable.about_apitap,
                     R.drawable.ic_login_drawer
             };
         } else {
             images = new Integer[]{R.drawable.notification, R.drawable.question_mark, R.drawable.tour_arrow, R.drawable.home, R.drawable.ic_icon_store_white,
                     R.drawable.ads, R.drawable.special, R.drawable.item, R.drawable.scan_slider, R.drawable.cart_slider, R.drawable.email_slider
-                    , R.drawable.shop, R.drawable.favourite, R.drawable.history, R.drawable.settings, R.drawable.about_apitap,
+                    , R.drawable.shop, R.drawable.favourite,
+                    R.drawable.ic_reservation_menu,
+                    R.drawable.history, R.drawable.settings, R.drawable.about_apitap,
                     R.drawable.logout
             };
         }

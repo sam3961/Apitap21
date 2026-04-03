@@ -60,6 +60,16 @@
             android:layout_margin="@dimen/_8sdp"
             android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/textViewContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:textSize="@dimen/_13ssp"
+                android:fontFamily="@font/poppins_medium"
+                android:text="ABC"/>
+
+
             <LinearLayout
                 android:id="@+id/linearLayoutTerms"
                 android:layout_width="match_parent"
@@ -69,8 +79,10 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/rubik_medium"
+                    android:fontFamily="@font/poppins_semibold"
                     android:gravity="top"
+                    android:visibility="gone"
+                    android:includeFontPadding="false"
                     android:text="Terms and Conditions"
                     android:textColor="@color/colorBlue"
                     android:textSize="18sp" />
@@ -82,8 +94,10 @@
                     android:layout_marginTop="@dimen/_2sdp"
                     android:fontFamily="@font/rubik_regular"
                     android:gravity="top"
+                    android:visibility="gone"
                     android:textColor="@color/colorBlack"
                     android:textSize="14sp" />
+
 
             </LinearLayout>
 
@@ -91,6 +105,7 @@
                 android:id="@+id/linearLayoutPolicies"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:orientation="vertical">
 
                 <TextView
@@ -110,6 +125,36 @@
                     android:layout_marginTop="@dimen/_2sdp"
                     android:fontFamily="@font/rubik_regular"
                     android:gravity="top"
+                    android:visibility="gone"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/linearLayoutReturns"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_6sdp"
+                    android:fontFamily="@font/rubik_medium"
+                    android:gravity="top"
+                    android:text="Returns"
+                    android:textColor="@color/colorBlue"
+                    android:textSize="18sp" />
+
+                <WebView
+                    android:id="@+id/webViewReturns"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:fontFamily="@font/rubik_regular"
+                    android:gravity="top"
+                    android:visibility="gone"
                     android:textColor="@color/colorBlack"
                     android:textSize="14sp" />
 

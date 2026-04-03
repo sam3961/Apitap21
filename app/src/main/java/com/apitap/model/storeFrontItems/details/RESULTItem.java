@@ -7,6 +7,9 @@ public class RESULTItem{
 	@SerializedName("_127_66")
 	private String jsonMember12766;
 
+	@SerializedName("_114_1")
+	private int storeId;
+
 	@SerializedName("_123_69")
 	private String isBroadcasting;
 
@@ -102,4 +105,9 @@ public class RESULTItem{
 	public String getIsBroadcasting() {
 		return isBroadcasting;
 	}
+
+	public int getStoreId() {
+		return storeId;
+	}
+
 }

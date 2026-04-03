@@ -1,27 +1,34 @@
 package com.apitap.views.fragments.reservations;
 
 
+import static com.apitap.model.Utils.safe;
+import static com.apitap.model.Utils.safeHex;
+
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -32,16 +39,29 @@ import androidx.fragment.app.Fragment;
 import com.apitap.App;
 import com.apitap.R;
 import com.apitap.controller.ModelManager;
+import com.apitap.controller.ReservationApi;
+import com.apitap.controller.RetrofitClient;
 import com.apitap.model.Constants;
 import com.apitap.model.Operations;
+import com.apitap.model.Triple;
 import com.apitap.model.Utils;
+import com.apitap.model.address.ADItem;
+import com.apitap.model.address.GetAddressResponse;
 import com.apitap.model.assignedToUser.AssignUserLocationResponse;
 import com.apitap.model.bean.LocationListBean;
+import com.apitap.model.bean.MerchantLocationBean;
 import com.apitap.model.customclasses.Event;
 import com.apitap.model.getReservation.GetReservationResponse;
-import com.apitap.model.getReservation.RESULTItem;
 import com.apitap.model.preferences.ATPreferences;
 import com.apitap.model.promoByLocation.PromoByLocationResponse;
+import com.apitap.model.reservation.AddEditReservationRequest;
+import com.apitap.model.reservation.AddEditReservationResponse;
+import com.apitap.model.reservation.MEItem;
+import com.apitap.model.reservation.MerchantByCatResponse;
+import com.apitap.model.reservation.NearbyStoreRequest;
+import com.apitap.model.reservation.ReservationLocationResponse;
+import com.apitap.model.reservation.StoreItem;
+import com.apitap.model.reservation.ViewReservationResponseItem;
 import com.apitap.model.seatingAreaByLocation.SeatingAreaLocationResponse;
 import com.apitap.model.tablesBySeatingArea.TablesBySeatingAreaResponse;
 import com.apitap.views.HomeActivity;
@@ -52,6 +72,15 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -69,20 +98,34 @@ public class FragmentAddReservation extends BaseFragment implements View.OnClick
     private LinearLayout linearLayoutArea;
     private LinearLayout linearLayoutHeaderCategory;
     private RelativeLayout relativeLayoutSave;
-    private Spinner spinnerDining, spinnerArea, spinnerTable, spinnerAssign, spinnerPromo, spinnerLocation, spinnerSmokingArea;
+    private Spinner spinnerDining, spinnerArea, spinnerTable, spinnerAssign, spinnerPromo, spinnerLocation, spinnerSmokingArea, spinnerStore;
     private EditText editTextStartDate, editTextStartTime, editTextEndTime, editTextNumberOfPeople;
     private EditText editTextNumberOfChildren, editTextName, editTextPhone, editTextEmail, editTextSecondEmail;
     private EditText editTextSpecialRequest, editTextNotes, editTextCustomerHistory;
-    private TextView textViewAreaLabel;
+    private Switch switchNearMe;
+    private LinearLayout linearLayoutNearMe;
+    private LinearLayout linearLayoutStore;
+    private View viewStoreDivider,viewKeyboard;
+    private TextView textViewAreaLabel, textViewStore;
     private String reservationId = "";
+    private ViewReservationResponseItem responseItem = null;
     private String selectedLocationId = "";
     private String selectedSeatingAreaId = "";
     private String selectedTableId = "";
     private String selectedPromoId = "";
     private String selectedAssignId = "";
+    private String storeId = "";
+    private String merchantId = "";
+    private String categoryId = "726";
     private Boolean smokingFlag = null;
+    private Boolean fromMenu = false;
+    private Boolean primaryAddressChecked = false;
+    private Boolean gpsAddressChecked = false;
 
     private String[] selectedDiningMethodArray;
+    private ArrayList<StoreItem> fullStoreList = new ArrayList<>();
+    private ArrayList<StoreItem> filteredStoreList = new ArrayList<>();
+    private ArrayList<String> locationIdList = new ArrayList<>();
 
     @Nullable
     @Override
@@ -95,33 +138,102 @@ public class FragmentAddReservation extends BaseFragment implements View.OnClick
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        if (getArguments() != null && getArguments().containsKey(Constants.FROM_MENU)) {
+            fromMenu = getArguments().getBoolean(Constants.FROM_MENU);
+        }
+
         selectedDiningMethodArray = getResources().getStringArray(R.array.dining_method_id);
-
-        if (getArguments() != null && getArguments().containsKey(Constants.RESERVATION_ID))
-            reservationId = getArguments().getString(Constants.RESERVATION_ID);
-
         initViews();
         clickListeners();
 
 
+        if (getArguments() != null && getArguments().containsKey(Constants.RESERVATION_DATA)) {
+            responseItem = (ViewReservationResponseItem)
+                    getArguments().getSerializable(Constants.RESERVATION_DATA);
+
+            reservationId = String.valueOf(responseItem.getId());
+            setData(responseItem);
+
+        }
+
+
         if (reservationId.isEmpty()) {
-            ModelManager.getInstance().getMerchantManager().getMerchantDistance(requireContext(),
-                    Operations.makeJsonGetMerchantDistance(requireContext(),
-                            ATPreferences.readString(requireContext(), Constants.MERCHANT_ID),
-                            String.valueOf(App.latitude),
-                            String.valueOf(App.longitude)), Constants.GET_MERCHANT_DISTANCE_SUCCESS);
+            showProgress();
+            if (fromMenu) {
+                textViewStore.setVisibility(View.GONE);
+                spinnerStore.setVisibility(View.VISIBLE);
+                ModelManager.getInstance().getReservationManager().addReservationDetails(getActivity(),
+                        Operations.makeJsonGetMerchantByCategory(requireActivity(),
+                                categoryId),
+                        Constants.TAG_MERCHANT_BY_CATEGORY);
+            } else {
+                textViewStore.setVisibility(View.VISIBLE);
+                linearLayoutStore.setBackgroundResource(R.drawable.back_round_grey_border);
+                textViewStore.setText(ATPreferences.readString(requireContext(), Constants.STORE_NAME));
+                spinnerStore.setVisibility(View.GONE);
+
+                callStoreLocation(ATPreferences.getInt(requireContext(), Constants.STORE_ID, 0).toString());
+
+              /*  ModelManager.getInstance().getMerchantManager().getMerchantDistance(requireContext(),
+                        Operations.makeJsonGetMerchantDistance(requireContext(),
+                                ATPreferences.readString(requireContext(), Constants.MERCHANT_ID),
+                                String.valueOf(App.latitude),
+                                String.valueOf(App.longitude)), Constants.GET_MERCHANT_DISTANCE_SUCCESS);
+*/
+
+            }
         } else {
             showProgress();
+            linearLayoutStore.setBackgroundResource(R.drawable.back_round_grey_border);
+            textViewStore.setVisibility(View.VISIBLE);
+            spinnerStore.setVisibility(View.GONE);
+            linearLayoutNearMe.setVisibility(View.GONE);
+            viewStoreDivider.setVisibility(View.VISIBLE);
+
             ModelManager.getInstance().getReservationManager().addReservationDetails(getActivity(),
                     Operations.makeJsonGetReservationById(requireActivity(),
                             reservationId),
                     Constants.TAG_GET_RESERVATION);
 
-            disableViews();
+//            disableViews();
 
         }
 
+        if (ATPreferences.readBoolean(requireActivity(), Constants.HEADER_STORE)) {
+            linearLayoutNearMe.setVisibility(View.GONE);
+        }
 
+        ModelManager.getInstance().getReservationManager().getAddress(requireActivity(),
+                Operations.makeJsonGetSavedAddress(requireActivity()));
+
+
+        rootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            private boolean isKeyboardVisible = false;
+
+            @Override
+            public void onGlobalLayout() {
+                Rect rect = new Rect();
+                rootView.getWindowVisibleDisplayFrame(rect);
+
+                int screenHeight = rootView.getRootView().getHeight();
+                int keypadHeight = screenHeight - rect.bottom;
+
+                // Threshold: if more than 15% of screen, keyboard is open
+                boolean isNowVisible = keypadHeight > screenHeight * 0.15;
+
+                if (isNowVisible != isKeyboardVisible) {
+                    isKeyboardVisible = isNowVisible;
+
+                    if (isKeyboardVisible) {
+                        // Keyboard OPEN → Show view
+                        viewKeyboard.setVisibility(View.VISIBLE);
+                    } else {
+                        // Keyboard CLOSED → Hide view
+                        viewKeyboard.setVisibility(View.GONE);
+                    }
+                }
+            }
+        });
     }
 
 
@@ -135,6 +247,7 @@ public class FragmentAddReservation extends BaseFragment implements View.OnClick
         checkBoxChildSeating = rootView.findViewById(R.id.checkBoxChildSeating);
 
         spinnerDining = rootView.findViewById(R.id.spinnerDining);
+        spinnerStore = rootView.findViewById(R.id.spinnerStore);
         spinnerArea = rootView.findViewById(R.id.spinnerArea);
         spinnerTable = rootView.findViewById(R.id.spinnerTable);
         spinnerAssign = rootView.findViewById(R.id.spinnerAssign);
@@ -157,6 +270,12 @@ public class FragmentAddReservation extends BaseFragment implements View.OnClick
         editTextEndTime = rootView.findViewById(R.id.editTextEndTime);
 
         textViewAreaLabel = rootView.findViewById(R.id.textViewAreaLabel);
+        textViewStore = rootView.findViewById(R.id.textViewStore);
+        switchNearMe = rootView.findViewById(R.id.switchNearMe);
+        linearLayoutNearMe = rootView.findViewById(R.id.linearLayoutNearMe);
+        linearLayoutStore = rootView.findViewById(R.id.linearLayoutStore);
+        viewStoreDivider = rootView.findViewById(R.id.viewStoreDivider);
+        viewKeyboard = rootView.findViewById(R.id.viewKeyboard);
 
 
         linearLayoutHeaderCheckin = getActivity().findViewById(R.id.view_checkin);
@@ -168,7 +287,15 @@ public class FragmentAddReservation extends BaseFragment implements View.OnClick
         linearLayoutHeaderCategory = getActivity().findViewById(R.id.header_browse_category);
 
 
-        linearLayoutStoreDetailHeader.setVisibility(View.VISIBLE);
+        if (fromMenu) {
+            linearLayoutStoreDetailHeader.setVisibility(View.GONE);
+        }
+        if (!ATPreferences.readBoolean(requireActivity(), Constants.HEADER_STORE)) {
+            linearLayoutStoreDetailHeader.setVisibility(View.GONE);
+        } else {
+            linearLayoutStoreDetailHeader.setVisibility(View.VISIBLE);
+        }
+
         relativeLayoutSearchBarStoreFront.setVisibility(View.GONE);
         linearLayoutHeaderCheckin.setVisibility(View.GONE);
         linearLayoutStoreReservation.setVisibility(View.GONE);
@@ -183,8 +310,187 @@ public class FragmentAddReservation extends BaseFragment implements View.OnClick
         editTextStartDate.setOnClickListener(this);
         editTextStartTime.setOnClickListener(this);
         editTextEndTime.setOnClickListener(this);
+
+        switchNearMe.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+//                callStoreNearMe(); // filter
+
+                showNearMeBottomSheet();
+            } else {
+                // restore full list
+                setStoreAdapter(fullStoreList, false);
+            }
+        });
     }
 
+    private void callAddReservationAPI() {
+
+        showProgress();
+
+        smokingFlag = spinnerSmokingArea.getSelectedItemPosition() == 0;
+
+        AddEditReservationRequest request = new AddEditReservationRequest();
+        if (!reservationId.isEmpty() && !reservationId.equals("0")) {
+            request.setReservationId(Integer.parseInt(reservationId));
+        } else {
+            request.setReservationId(null); // ✅ now possible
+        }
+        request.setReservationDate(Utils.getEditTextString(editTextStartDate));
+        request.setStartHour(Utils.getEditTextStringWithoutSeconds(editTextStartTime));
+        request.setConsumerName(Utils.getEditTextString(editTextName));
+        request.setPeopleQty(Utils.getEditTextInt(editTextNumberOfPeople));
+        request.setLocationId(Integer.parseInt(selectedLocationId));
+        request.setAreaId(Integer.parseInt(selectedSeatingAreaId));
+        request.setCompanyId(String.valueOf(ATPreferences.getInt(getActivity(), Constants.STORE_ID, 0)));
+        request.setConsumerEmail(Utils.getEditTextString(editTextEmail));
+        request.setConsumerPhone(Utils.getEditTextString(editTextPhone));
+        request.setNote(Utils.getEditTextString(editTextNotes));
+
+
+        ReservationApi api = RetrofitClient.getClient().create(ReservationApi.class);
+
+        Call<AddEditReservationResponse> call = api.addEditReservation(request);
+
+        call.enqueue(new Callback<>() {
+            @Override
+            public void onResponse(Call<AddEditReservationResponse> call, Response<AddEditReservationResponse> response) {
+
+                hideProgress();
+
+                if (response.isSuccessful()) {
+
+                    if (reservationId.isEmpty())
+                        baseshowFeedbackMessage(requireActivity(), rootView, "Reservation added successfully.");
+                    else
+                        baseshowFeedbackMessage(requireActivity(), rootView, "Reservation updated successfully.");
+
+                    new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                        ((HomeActivity) requireContext()).displayViewReplace(
+                                new FragmentViewReservation(),
+                                Constants.TAG_VIEW_RESERVATION,
+                                new Bundle());
+                    }, 1000);
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<AddEditReservationResponse> call, Throwable t) {
+
+                hideProgress();
+                baseshowFeedbackMessage(requireActivity(), rootView, "API Failed: " + t.getMessage());
+
+            }
+        });
+    }
+
+    private void callStoreNearMe(double latitude, double longitude) {
+        showProgress();
+
+        NearbyStoreRequest request = new NearbyStoreRequest();
+//        request.setLatitude(27.9882458);
+//        request.setLongitude(-81.6917568);
+
+        request.setLatitude(latitude);
+        request.setLongitude(longitude);
+
+        ReservationApi api = RetrofitClient.getClient().create(ReservationApi.class);
+        Call<List<Integer>> call = api.getAllMerchantStoresByPointFilteredByCategory(request);
+
+        call.enqueue(new Callback<List<Integer>>() {
+            @Override
+            public void onResponse(Call<List<Integer>> call, Response<List<Integer>> response) {
+                hideProgress();
+
+                if (response.isSuccessful() && response.body() != null) {
+
+                    List<Integer> nearIds = response.body();
+
+                    if (nearIds.isEmpty()) {
+                        Utils.baseshowFeedbackMessage(requireActivity(), rootView, "No nearby store found.");
+                        switchNearMe.setChecked(false);
+                        gpsAddressChecked = false;
+                        primaryAddressChecked = false;
+                    } else {
+                        filteredStoreList.clear();
+//                    filteredStoreList.add(new StoreItem("", "Select Store", ""));
+
+                        Set<String> addedIds = new HashSet<>();
+
+                        for (StoreItem item : fullStoreList) {
+                            if (item.getId() != null && !item.getId().isEmpty()) {
+
+                                if (!addedIds.contains(item.getId()) &&
+                                        nearIds.contains(Integer.parseInt(item.getId()))) {
+
+                                    filteredStoreList.add(item);
+                                    addedIds.add(item.getId());
+                                }
+                            }
+                        }
+
+                        setStoreAdapter(filteredStoreList, true);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Integer>> call, Throwable t) {
+                hideProgress();
+                t.printStackTrace();
+            }
+        });
+    }
+
+    private void callStoreLocation(String categoryId) {
+        showProgress();
+
+        ReservationApi api = RetrofitClient.getClient().create(ReservationApi.class);
+        Call<List<ReservationLocationResponse>> call = api.getReservationLocation(Integer.parseInt(categoryId));
+
+        call.enqueue(new Callback<>() {
+            @Override
+            public void onResponse(Call<List<ReservationLocationResponse>> call, Response<List<ReservationLocationResponse>> response) {
+                hideProgress();
+
+                if (response.isSuccessful() && response.body() != null) {
+                    Log.d("TAGs", "onResponse: " + response.body());
+
+                    hideProgress();
+
+                    ArrayList<String> locationList = new ArrayList<>();
+                    locationIdList.clear(); // 🔥 clear old
+
+                    locationList.add("Select Location");
+                    locationIdList.add(""); // index 0 match
+
+                    for (int i = 0; i < response.body().size(); i++) {
+
+                        ReservationLocationResponse item = response.body().get(i);
+
+                        String address = item.getName();
+                        String id = item.getId().toString();
+
+                        locationList.add(address);
+                        locationIdList.add(id);
+
+                    }
+                    setLocationListAdapter(locationList);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<ReservationLocationResponse>> call, Throwable t) {
+                hideProgress();
+                t.printStackTrace();
+            }
+        });
+    }
+
+
+
+/*
     private void callAddReservationAPI() {
         showProgress();
 
@@ -213,6 +519,8 @@ public class FragmentAddReservation extends BaseFragment implements View.OnClick
                 ), Constants.TAG_ADD_RESERVATION);
     }
 
+*/
+
 
     @Override
     public void onPause() {
@@ -229,7 +537,7 @@ public class FragmentAddReservation extends BaseFragment implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.editTextStartTime:
-                showTimePicker("Select Start Time", true);
+                showTime24HourPicker("Select Start Time", true);
                 break;
             case R.id.editTextEndTime:
                 showTimePicker("Select End Time", false);
@@ -256,16 +564,103 @@ public class FragmentAddReservation extends BaseFragment implements View.OnClick
     @Subscribe
     public void onEvent(final Event event) {
         switch (event.getKey()) {
-            case Constants.GET_RESERVATION_SUCCESS:
+            case -1:
                 hideProgress();
-                GetReservationResponse getReservationResponse = ModelManager.getInstance().getReservationManager().getReservationResponse;
-                setData(getReservationResponse.getRESULT().get(0).getRESULT().get(0));
+                Utils.baseshowFeedbackMessage(requireActivity(), rootView, "Something went wrong.");
+                break;
+            case Constants.GET_ADDRESS_SUCCESS:
 
-                ModelManager.getInstance().getMerchantManager().getMerchantDistance(requireContext(),
-                        Operations.makeJsonGetMerchantDistance(requireContext(),
-                                ATPreferences.readString(requireContext(), Constants.MERCHANT_ID),
-                                String.valueOf(App.latitude),
-                                String.valueOf(App.longitude)), Constants.GET_MERCHANT_DISTANCE_SUCCESS);
+                break;
+            case Constants.GET_MERCHANT_BY_CATEGORY_SUCCESS: //store listing
+                hideProgress();
+
+                ArrayList<StoreItem> storeList = new ArrayList<>();
+                storeList.add(new StoreItem("", "Select Store", ""));
+
+                MerchantByCatResponse response =
+                        ModelManager.getInstance().getReservationManager().merchantByCatResponse;
+
+                if (response != null &&
+                        response.getRESULT() != null &&
+                        !response.getRESULT().isEmpty()) {
+
+                    for (int i = 0; i < response.getRESULT().get(0).getRESULT().size(); i++) {
+
+                        List<MEItem> meList =
+                                response.getRESULT().get(0)
+                                        .getRESULT().get(i)
+                                        .getME();
+
+                        if (meList != null) {
+                            for (int j = 0; j < meList.size(); j++) {
+
+                                MEItem item = meList.get(j);
+
+                                String hexName = item.getJsonMember11470(); // name
+                                String id = item.getJsonMember1141();       // id ⚠️ make sure this exists
+
+                                if (hexName != null && !hexName.isEmpty()) {
+                                    storeList.add(new StoreItem(
+                                            id,
+                                            Utils.hexToASCII(hexName),
+                                            item.getJsonMember53()
+                                    ));
+                                }
+                            }
+                        }
+                    }
+
+                    fullStoreList.clear();
+                    fullStoreList.addAll(storeList);
+
+// default show all
+                    setStoreAdapter(fullStoreList, false);
+
+
+                    if (fullStoreList.size() > 1) {
+                        int positionOfLocationByStore = spinnerStore.getSelectedItemPosition();
+
+                        StoreItem selectedItem = fullStoreList.get(positionOfLocationByStore);
+                        if (!selectedItem.getId().isEmpty())
+                            callStoreLocation(selectedItem.getId());
+//                        showProgress();
+                       /* ModelManager.getInstance().getMerchantManager().getMerchantDistance(
+                                requireContext(),
+                                Operations.makeJsonGetMerchantDistance(
+                                        requireContext(),
+                                        selectedItem.getMerchantId(),
+                                        String.valueOf(App.latitude),
+                                        String.valueOf(App.longitude)
+                                ),
+                                Constants.GET_MERCHANT_DISTANCE_SUCCESS
+                        );*/
+            /*            int positionOfLocationByStore = spinnerStore.getSelectedItemPosition();
+                        if (switchNearMe.isChecked()) {
+                            ModelManager.getInstance().getMerchantManager().getMerchantDistance(requireContext(),
+                                    Operations.makeJsonGetMerchantDistance(requireContext(),
+                                            fullStoreList.get(positionOfLocationByStore).getMerchantId(),
+                                            String.valueOf(App.latitude),
+                                            String.valueOf(App.longitude)), Constants.GET_MERCHANT_DISTANCE_SUCCESS);
+                        }else{
+                            ModelManager.getInstance().getMerchantManager().getMerchantDistance(requireContext(),
+                                    Operations.makeJsonGetMerchantDistance(requireContext(),
+                                    filteredStoreList.get(positionOfLocationByStore).getMerchantId(),
+                                    String.valueOf(App.latitude),
+                                    String.valueOf(App.longitude)), Constants.GET_MERCHANT_DISTANCE_SUCCESS);
+                        }*/
+                    }
+                }
+
+                break;
+            case Constants.GET_RESERVATION_SUCCESS:
+//                hideProgress();
+                GetReservationResponse getReservationResponse = ModelManager.getInstance().getReservationManager().getReservationResponse;
+
+                ModelManager.getInstance().getReservationManager().addReservationDetails(getActivity(),
+                        Operations.makeJsonGetMerchantByCategory(requireActivity(),
+                                categoryId),
+                        Constants.TAG_MERCHANT_BY_CATEGORY);
+
                 break;
             case Constants.ADD_RESERVATION_SUCCESS:
                 hideProgress();
@@ -282,6 +677,7 @@ public class FragmentAddReservation extends BaseFragment implements View.OnClick
                 }, 1000);
                 break;
             case Constants.GET_ASSIGNED_TO_USER_SUCCESS:
+                hideProgress();
 
                 ArrayList<String> assignToUserList = new ArrayList<>();
                 assignToUserList.add("Assign someone to this");
@@ -301,6 +697,7 @@ public class FragmentAddReservation extends BaseFragment implements View.OnClick
                 break;
 
             case Constants.GET_PROMO_BY_LOCATION_SUCCESS:
+//                hideProgress();
 
                 ModelManager.getInstance().getReservationManager().addReservationDetails(getActivity(),
                         Operations.makeJsonGetAssigns(requireActivity(),
@@ -324,6 +721,7 @@ public class FragmentAddReservation extends BaseFragment implements View.OnClick
                 break;
 
             case Constants.GET_SEATING_AREA_LOCATION_SUCCESS:
+                hideProgress();
                 ArrayList<String> seatingAreaLocationList = new ArrayList<>();
                 seatingAreaLocationList.add("Select Area");
                 SeatingAreaLocationResponse seatingAreaLocationResponse = ModelManager.getInstance().getReservationManager().seatingAreaLocationResponse;
@@ -332,13 +730,13 @@ public class FragmentAddReservation extends BaseFragment implements View.OnClick
                             Utils.hexToASCII(seatingAreaLocationResponse.getRESULT().get(0).getRESULT().get(i).getJsonMember11512()));
                 }
 
-                if (seatingAreaLocationList.size() == 1) {
+               /* if (seatingAreaLocationList.size() == 1) {
                     textViewAreaLabel.setVisibility(View.GONE);
                     linearLayoutArea.setVisibility(View.GONE);
                 } else {
                     textViewAreaLabel.setVisibility(View.VISIBLE);
                     linearLayoutArea.setVisibility(View.VISIBLE);
-                }
+                }*/
 
                 setAreaListAdapter(seatingAreaLocationList);
 
@@ -346,6 +744,7 @@ public class FragmentAddReservation extends BaseFragment implements View.OnClick
                 break;
 
             case Constants.GET_TABLES_BY_SEATING_AREA_SUCCESS:
+                hideProgress();
                 ArrayList<String> tablesList = new ArrayList<>();
                 tablesList.add("Select Table");
                 TablesBySeatingAreaResponse tablesBySeatingAreaResponse = ModelManager.getInstance().getReservationManager().tablesBySeatingAreaResponse;
@@ -355,91 +754,132 @@ public class FragmentAddReservation extends BaseFragment implements View.OnClick
                 }
                 setTableListAdapter(tablesList);
 
-                if (!selectedPromoId.isEmpty())
+                if (!selectedPromoId.isEmpty()) {
                     ModelManager.getInstance().getReservationManager().addReservationDetails(getActivity(),
                             Operations.makeJsonGetPromos(requireActivity(),
                                     ATPreferences.readString(requireContext(), Constants.MERCHANT_ID)
                             ),
                             Constants.TAG_PROMO_BY_LOCATION);
+                }
 
                 break;
 
             case Constants.GET_MERCHANT_DISTANCE_SUCCESS:
+                hideProgress();
+
                 ArrayList<String> locationList = new ArrayList<>();
+                locationIdList.clear(); // 🔥 clear old
+
                 locationList.add("Select Location");
-                LocationListBean locationListBean = ModelManager.getInstance().getMerchantManager().locationListBean;
+                locationIdList.add(""); // index 0 match
 
+                List<com.apitap.model.Triple<String, String, Double>> tempList = new ArrayList<>();
 
-                if (locationListBean.getRESULT().get(0).getRESULT().size() == 1 && locationListBean.getRESULT().get(0).getRESULT().get(0).get478() == null)
-                    baseshowFeedbackMessage(requireActivity(), rootView, "No locations found for this store.");
-                else {
+                LocationListBean locationListBean =
+                        ModelManager.getInstance().getMerchantManager().locationListBean;
+
+                if (locationListBean.getRESULT().get(0).getRESULT().size() == 1 &&
+                        locationListBean.getRESULT().get(0).getRESULT().get(0).get478() == null) {
+
+                   /* baseshowFeedbackMessage(requireActivity(), rootView,
+                            "No locations found for this store.");*/
+
+                } else {
+
+                    // 🔥 temp list to hold address + distance
+                    tempList = new ArrayList<>();
+
+                    double myLatitude = App.latitude;
+                    double myLongitude = App.longitude;
+
+/*                    double myLatitude = 27.9882458;
+                    double myLongitude = -81.6917568;*/
+
                     for (int i = 0; i < locationListBean.getRESULT().get(0).getRESULT().size(); i++) {
-                        String addressTwo = "";
-                        if (locationListBean.getRESULT().get(0).getRESULT().get(i).getAD().get11413().isEmpty())
-                            addressTwo =
-                                    Utils.hexToASCII(locationListBean.getRESULT().get(0).getRESULT().get(i).getAD().get11413()).trim()
-                                            +
-                                            " " + locationListBean.getRESULT().get(0).getRESULT().get(i).getAD().getZP().get4717();
-                        else
-                            addressTwo = (locationListBean.getRESULT().get(0).getRESULT().get(i).getAD().getCI().get4715().trim()
-                                    + " " + locationListBean.getRESULT().get(0).getRESULT().get(i).getAD().getCO().get11417() +
-                                    " " + locationListBean.getRESULT().get(0).getRESULT().get(i).getAD().getST().get_1234() +
-                                    " " + locationListBean.getRESULT().get(0).getRESULT().get(i).getAD().getZP().get4717());
 
-                        locationList.add(Utils.hexToASCII(
-                                locationListBean.getRESULT().get(0).getRESULT().get(i).getAD().get11412().trim())
-                                + "  " + addressTwo + " " +
-                                locationListBean.getRESULT().get(0).getRESULT().get(i).getAD().getCO().get4718().trim());
+                        LocationListBean.RESULT_ item =
+                                locationListBean.getRESULT().get(0).getRESULT().get(i);
+
+                        String address = item.get11470();
+                        String id = item.get11447();
+
+                        LocationListBean.AD ad = item.getAD();
+
+                        if (ad == null || ad.get12038() == null || ad.get12039() == null)
+                            continue;
+
+                        try {
+                            double apiLat = Double.parseDouble(ad.get12038());
+                            double apiLong = Double.parseDouble(ad.get12039());
+
+                            float[] results = new float[1];
+
+                            android.location.Location.distanceBetween(
+                                    myLatitude, myLongitude,
+                                    apiLat, apiLong,
+                                    results
+                            );
+
+                            double distanceKm = results[0] / 1000;
+
+                            // 🔥 store address + id + distance
+                            tempList.add(new Triple<>(address, id, distanceKm));
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
-                    setLocationListAdapter(locationList);
+                    // 🔥 SORT by distance
+                    Collections.sort(tempList, Comparator.comparingDouble(t -> t.third));
 
-
-//                    if (selectedPromoId.isEmpty())
-//                        ModelManager.getInstance().getReservationManager().addReservationDetails(getActivity(),
-//                                Operations.makeJsonGetPromos(requireActivity(),
-//                                        ATPreferences.readString(requireContext(), Constants.MERCHANT_ID)
-//                                ),
-//                                Constants.TAG_PROMO_BY_LOCATION);
-
-
+                    // 🔥 add sorted addresses to final list
+                    for (com.apitap.model.Triple<String, String, Double> t : tempList) {
+                        locationList.add(t.first);
+                        locationIdList.add(t.second);
+                    }
                 }
-                break;
 
+                setLocationListAdapter(locationList);
+                break;
         }
     }
 
-    private void setData(RESULTItem result) {
-        editTextStartDate.setText(result.getJsonMember116201());
-        editTextStartTime.setText(Utils.removeSecondsFromTime(result.getJsonMember116202()));
-        editTextEndTime.setText(Utils.removeSecondsFromTime(result.getJsonMember116203()));
-        editTextNumberOfPeople.setText(result.getJsonMember116204());
-        editTextNumberOfChildren.setText(result.getJsonMember116205());
-        editTextEmail.setText(result.getJsonMember1147());
-        editTextSecondEmail.setText(result.getJsonMember11451());
-        editTextPhone.setText(result.getJsonMember4828());
+    private void setData(ViewReservationResponseItem result) {
+        editTextStartDate.setText(result.getReservationDate());
+        editTextStartTime.setText(result.getStartHour());
+        textViewStore.setText(result.getCompanyName());
+//        editTextEndTime.setText(Utils.removeSecondsFromTime(result.getJsonMember116203()));
+        editTextNumberOfPeople.setText(result.getPeopleQty() + "");
+//        editTextNumberOfChildren.setText(result.getJsonMember116205());
+        editTextEmail.setText(result.getConsumerEmail());
+//        editTextSecondEmail.setText(result.getJsonMember11451());
+        editTextPhone.setText(result.getConsumerPhone());
 
-        editTextName.setText(Utils.hexToASCII(result.getJsonMember11453()));
-        editTextSpecialRequest.setText(Utils.hexToASCII(result.getJsonMember12155()));
-        editTextNotes.setText(Utils.hexToASCII(result.getJsonMember11716()));
+        editTextName.setText(result.getConsumerName());
+//        editTextSpecialRequest.setText(Utils.hexToASCII(result.getNote()));
+        editTextNotes.setText(result.getNote());
 
-        checkBoxWheelChairAccess.setChecked(Boolean.parseBoolean(result.getJsonMember116206()));
-        checkBoxChildSeating.setChecked(Boolean.parseBoolean(result.getJsonMember116207()));
+//        checkBoxWheelChairAccess.setChecked(Boolean.parseBoolean(result.getJsonMember116206()));
+//        checkBoxChildSeating.setChecked(Boolean.parseBoolean(result.getJsonMember116207()));
 
+/*
         for (int i = 0; i < selectedDiningMethodArray.length; i++) {
             if (selectedDiningMethodArray[i].equals(result.getJsonMember11571())) {
                 spinnerDining.setSelection(i);
                 break;
             }
         }
+*/
 
-        selectedAssignId = result.getJsonMember114179();
+//        selectedAssignId = result.getJsonMember114179();
         //selectedAssignId = "124";
-        selectedPromoId = result.getJsonMember114144();
-        selectedSeatingAreaId = result.getJsonMember11713();
-        selectedTableId = result.getJsonMember11521();
-        selectedLocationId = result.getJsonMember11447();
+//        selectedPromoId = result.getJsonMember114144();
+        selectedSeatingAreaId = String.valueOf(result.getAreaId());
+//        selectedTableId = result.getJsonMember11521();
+        selectedLocationId = String.valueOf(result.getLocationId());
+        storeId = String.valueOf(result.getCompanyId());
 
-        if (result.getJsonMember12772() != null) {
+/*        if (result.getJsonMember12772() != null) {
             smokingFlag = Boolean.valueOf(result.getJsonMember12772());
 
             if (smokingFlag)
@@ -447,6 +887,76 @@ public class FragmentAddReservation extends BaseFragment implements View.OnClick
             else
                 spinnerSmokingArea.setSelection(2);
 
+        }*/
+    }
+
+    private void setStoreAdapter(ArrayList<StoreItem> storeList, boolean fromNearby) {
+
+        ArrayAdapter<StoreItem> adapter = new ArrayAdapter<>(
+                requireContext(),
+                android.R.layout.simple_spinner_item,
+                storeList
+        );
+
+        adapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
+        spinnerStore.setAdapter(adapter);
+
+        // ✅ Pre-select
+        if (storeId != null && !storeId.isEmpty()) {
+            for (int i = 0; i < storeList.size(); i++) {
+                if (storeList.get(i).getId().equals(storeId)) {
+                    spinnerStore.setSelection(i);
+                    break;
+                }
+            }
+        }
+
+        // ✅ Selection listener
+        spinnerStore.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                StoreItem selectedItem = storeList.get(position);
+
+                if (fromNearby) {
+                    storeId = selectedItem.getId(); // ✅ correct mapping
+                    merchantId = selectedItem.getMerchantId(); // ✅ correct mapping
+                    showProgress();
+
+                /*    ModelManager.getInstance().getMerchantManager().getMerchantDistance(requireContext(),
+                            Operations.makeJsonGetMerchantDistance(requireContext(),
+                                    merchantId,
+                                    String.valueOf(App.latitude),
+                                    String.valueOf(App.longitude)), Constants.GET_MERCHANT_DISTANCE_SUCCESS);*/
+                    callStoreLocation(storeId);
+
+                } else {
+                    if (position != 0) {
+                        storeId = selectedItem.getId(); // ✅ correct mapping
+                        merchantId = selectedItem.getMerchantId(); // ✅ correct mapping
+                        showProgress();
+
+                       /* ModelManager.getInstance().getMerchantManager().getMerchantDistance(requireContext(),
+                                Operations.makeJsonGetMerchantDistance(requireContext(),
+                                        merchantId,
+                                        String.valueOf(App.latitude),
+                                        String.valueOf(App.longitude)), Constants.GET_MERCHANT_DISTANCE_SUCCESS);*/
+                        callStoreLocation(storeId);
+                    } else {
+                        storeId = "";
+                        merchantId = "";
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        // ✅ AUTO SELECT FIRST STORE (only for new reservation)
+        if (reservationId.isEmpty() && storeList.size() > 1) {
+            spinnerStore.setSelection(1); // skip "Select Store"
         }
     }
 
@@ -595,6 +1105,11 @@ public class FragmentAddReservation extends BaseFragment implements View.OnClick
 
             }
         });
+
+        // ✅ AUTO SELECT FIRST AREA
+        if (reservationId.isEmpty() && seatingAreaLocationList.size() > 1) {
+            spinnerArea.setSelection(1);
+        }
     }
 
     private void setLocationListAdapter(ArrayList<String> locationList) {
@@ -603,24 +1118,31 @@ public class FragmentAddReservation extends BaseFragment implements View.OnClick
         locationAdapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
         spinnerLocation.setAdapter(locationAdapter);
 
-        if (!selectedLocationId.isEmpty())
-            for (int i = 0; i <
-                    ModelManager.getInstance().getMerchantManager().locationListBean.getRESULT().get(0).getRESULT().size(); i++) {
-                if (ModelManager.getInstance().getMerchantManager().locationListBean.getRESULT().get(0).getRESULT()
-                        .get(i).get11447().equals(selectedLocationId)) {
-                    spinnerLocation.setSelection(i + 1);
+        if (selectedLocationId != null && !selectedLocationId.isEmpty()) {
+            for (int i = 0; i < locationIdList.size(); i++) {
+                if (locationIdList.get(i).equals(selectedLocationId)) {
+                    spinnerLocation.setSelection(i);
                     break;
                 }
             }
+        }
 
 
         spinnerLocation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (i != 0) {
-                    selectedLocationId = ModelManager.getInstance().getMerchantManager().locationListBean.getRESULT().get(0).getRESULT().get(i - 1).get11447();
-                    ModelManager.getInstance().getReservationManager().addReservationDetails(getActivity(),
-                            Operations.makeJsonSeatingAreasByLocation(requireActivity(), selectedLocationId), Constants.TAG_SEATING_AREA_BY_LOCATION);
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                if (position != 0) {
+                    showProgress();
+                    selectedLocationId = locationIdList.get(position); // 🔥 FIXED
+
+                    ModelManager.getInstance().getReservationManager().addReservationDetails(
+                            getActivity(),
+                            Operations.makeJsonSeatingAreasByLocation(requireActivity(), selectedLocationId),
+                            Constants.TAG_SEATING_AREA_BY_LOCATION
+                    );
+
+                } else {
+                    selectedLocationId = "";
                 }
             }
 
@@ -629,6 +1151,11 @@ public class FragmentAddReservation extends BaseFragment implements View.OnClick
 
             }
         });
+
+        // ✅ AUTO SELECT FIRST LOCATION
+        if (reservationId.isEmpty() && locationList.size() > 1) {
+            spinnerLocation.setSelection(1);
+        }
     }
 
 
@@ -643,7 +1170,7 @@ public class FragmentAddReservation extends BaseFragment implements View.OnClick
     }
 
 
-    //streaming code
+//streaming code
 
     @Override
     public void onStart() {
@@ -689,6 +1216,33 @@ public class FragmentAddReservation extends BaseFragment implements View.OnClick
 
     }
 
+    private void showTime24HourPicker(String title, Boolean isStartTime) {
+
+        Calendar mcurrentTime = Calendar.getInstance();
+        int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+        int minute = mcurrentTime.get(Calendar.MINUTE);
+
+        TimePickerDialog mTimePicker = new TimePickerDialog(
+                requireContext(),
+                (timePicker, selectedHour, selectedMinute) -> {
+
+                    String formattedTime = String.format("%02d:%02d", selectedHour, selectedMinute);
+
+                    if (isStartTime)
+                        editTextStartTime.setText(formattedTime);
+                    else
+                        editTextEndTime.setText(formattedTime);
+
+                },
+                hour,
+                minute,
+                true // force 24 hour
+        );
+
+        mTimePicker.setTitle(title);
+        mTimePicker.show();
+    }
+
     private void showDatePicker() {
 
         Calendar cal = Calendar.getInstance();
@@ -729,16 +1283,22 @@ public class FragmentAddReservation extends BaseFragment implements View.OnClick
 
     private boolean dataValid() {
         if (Utils.checkIfEditextEmpty(editTextStartDate)) {
-            baseshowFeedbackMessage(requireActivity(), rootView, "Please " + editTextStartDate.getText().toString());
+            baseshowFeedbackMessage(requireActivity(), rootView, "Please select start date.");
             return false;
         } else if (Utils.checkIfEditextEmpty(editTextStartTime)) {
             baseshowFeedbackMessage(requireActivity(), rootView, "Please " + editTextStartTime.getText().toString());
             return false;
-        } else if (Utils.checkIfEditextEmpty(editTextEndTime)) {
-            baseshowFeedbackMessage(requireActivity(), rootView, "Please " + editTextEndTime.getText().toString());
-            return false;
-        } else if (!Utils.isDateAfter(Utils.getEditTextString(editTextStartTime), Utils.getEditTextString(editTextEndTime), "HH:mm")) {
-            baseshowFeedbackMessage(requireActivity(), rootView, "End time should be after start time.");
+        }
+//        else if (Utils.checkIfEditextEmpty(editTextEndTime)) {
+//            baseshowFeedbackMessage(requireActivity(), rootView, "Please " + editTextEndTime.getText().toString());
+//            return false;
+//        }
+        else if (!Utils.isFutureDateTime(
+                Utils.getEditTextString(editTextStartDate),
+                Utils.getEditTextString(editTextStartTime))) {
+
+            baseshowFeedbackMessage(requireActivity(), rootView,
+                    "Selected time must be after current time.");
             return false;
         }
 //        else if (spinnerDining.getSelectedItemPosition() == 0) {
@@ -764,11 +1324,13 @@ public class FragmentAddReservation extends BaseFragment implements View.OnClick
         else if (Utils.checkIfEditextEmpty(editTextName)) {
             baseshowFeedbackMessage(requireActivity(), rootView, "Please " + editTextName.getText().toString());
             return false;
+        } else if (Utils.checkIfEditextEmpty(editTextEmail)) {
+            baseshowFeedbackMessage(requireActivity(), rootView, "Please " + editTextEmail.getText().toString());
+            return false;
+        } else if (Utils.checkIfEditextEmpty(editTextPhone)) {
+            baseshowFeedbackMessage(requireActivity(), rootView, "Please " + editTextPhone.getText().toString());
+            return false;
         }
-//        else if (Utils.checkIfEditextEmpty(editTextEmail)) {
-//            baseshowFeedbackMessage(requireActivity(), rootView, "Please " + editTextEmail.getText().toString());
-//            return false;
-//        }
 //        else if (spinnerAssign.getSelectedItemPosition() == 0) {
 //            baseshowFeedbackMessage(requireActivity(), rootView, "Please select assign");
 //            return false;
@@ -778,10 +1340,10 @@ public class FragmentAddReservation extends BaseFragment implements View.OnClick
 //            return false;
 //        }
 
-        else if (spinnerSmokingArea.getSelectedItemPosition() == 0 && spinnerSmokingArea.getAdapter().getCount() > 1) {
-            baseshowFeedbackMessage(requireActivity(), rootView, "Please select Smoking Area Preference");
-            return false;
-        }
+//        else if (spinnerSmokingArea.getSelectedItemPosition() == 0 && spinnerSmokingArea.getAdapter().getCount() > 1) {
+//            baseshowFeedbackMessage(requireActivity(), rootView, "Please select Smoking Area Preference");
+//            return false;
+//        }
 
         return true;
     }
@@ -802,5 +1364,143 @@ public class FragmentAddReservation extends BaseFragment implements View.OnClick
 
     }
 
+    private void showNearMeBottomSheet() {
 
+        View view = LayoutInflater.from(requireContext())
+                .inflate(R.layout.bottom_sheet_near_me, null);
+
+        com.google.android.material.bottomsheet.BottomSheetDialog dialog =
+                new com.google.android.material.bottomsheet.BottomSheetDialog(requireContext());
+
+        dialog.setContentView(view);
+        dialog.setCancelable(true);
+
+        TextView tvUseGps = view.findViewById(R.id.tvUseGps);
+        CheckBox checkBoxPrimaryAddress = view.findViewById(R.id.checkBoxPrimaryAddress);
+        CheckBox checkBoxGps = view.findViewById(R.id.checkBoxGps);
+        TextView tvUseAddress = view.findViewById(R.id.tvUseAddress);
+
+        checkBoxPrimaryAddress.setOnClickListener(view2 -> tvUseAddress.performClick());
+
+        checkBoxGps.setOnClickListener(view1 -> tvUseGps.performClick());
+
+        if (primaryAddressChecked)
+            checkBoxPrimaryAddress.setChecked(true);
+
+        if (gpsAddressChecked)
+            checkBoxGps.setChecked(true);
+
+
+        // 👉 GPS OPTION
+        tvUseGps.setOnClickListener(v -> {
+            checkBoxPrimaryAddress.setChecked(false);
+            checkBoxGps.setChecked(true);
+
+
+            if (App.latitude == 0 || App.longitude == 0) {
+                baseshowFeedbackMessage(requireActivity(), rootView, "GPS location not available");
+                switchNearMe.setChecked(false);
+                return;
+            }
+            dialog.dismiss();
+
+            gpsAddressChecked = true;
+            primaryAddressChecked = false;
+
+            callStoreNearMe(App.latitude, App.longitude);
+        });
+
+        // 👉 PRIMARY ADDRESS OPTION
+        tvUseAddress.setOnClickListener(v -> {
+            try {
+                GetAddressResponse response = ModelManager.getInstance()
+                        .getReservationManager()
+                        .getAddressResponse;
+
+                if (response == null ||
+                        response.getRESULT() == null ||
+                        response.getRESULT().isEmpty() ||
+                        response.getRESULT().get(0).getRESULT() == null ||
+                        response.getRESULT().get(0).getRESULT().isEmpty() ||
+                        response.getRESULT().get(0).getRESULT().get(0).getAD() == null ||
+                        response.getRESULT().get(0).getRESULT().get(0).getAD().isEmpty()) {
+
+                    baseshowFeedbackMessage(requireActivity(), rootView, "Primary address not available");
+                    return;
+                }
+
+                List<ADItem> adList = response.getRESULT().get(0)
+                        .getRESULT().get(0)
+                        .getAD();
+
+                ADItem selectedAd = null;
+
+                // 🔹 Step 1: Try last item
+                ADItem lastAd = adList.get(adList.size() - 1);
+
+                if (isValidLatLng(lastAd)) {
+                    selectedAd = lastAd;
+                }
+                // 🔹 Step 2: Try second last (size - 2)
+                else if (adList.size() >= 2) {
+                    ADItem secondLastAd = adList.get(adList.size() - 2);
+                    if (isValidLatLng(secondLastAd)) {
+                        selectedAd = secondLastAd;
+                    }
+                }
+
+                // 🔹 Step 3: If still null → fail
+                if (selectedAd == null) {
+                    baseshowFeedbackMessage(requireActivity(), rootView, "No valid address found");
+                    return;
+                }
+
+                double latitude = Double.parseDouble(selectedAd.getJsonMember12038());
+                double longitude = Double.parseDouble(selectedAd.getJsonMember12039());
+
+                checkBoxPrimaryAddress.setChecked(true);
+                checkBoxGps.setChecked(false);
+
+                primaryAddressChecked = true;
+                gpsAddressChecked = false;
+
+                dialog.dismiss();
+                callStoreNearMe(latitude, longitude);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                baseshowFeedbackMessage(requireActivity(), rootView, "Something went wrong");
+            }
+
+        });
+
+        dialog.setOnDismissListener(d -> {
+            // If user closes without selection → turn OFF
+            if (primaryAddressChecked == false && gpsAddressChecked == false) {
+                switchNearMe.setChecked(false);
+            }
+        });
+
+        dialog.show();
+    }
+
+    private boolean isValidLatLng(ADItem ad) {
+        if (ad == null) return false;
+
+        String latStr = ad.getJsonMember12038();
+        String lngStr = ad.getJsonMember12039();
+
+        if (latStr == null || lngStr == null || latStr.isEmpty() || lngStr.isEmpty()) {
+            return false;
+        }
+
+        try {
+            double lat = Double.parseDouble(latStr);
+            double lng = Double.parseDouble(lngStr);
+            return lat != 0 && lng != 0;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
 }
+

@@ -237,6 +237,7 @@ public class FragmentStoreDetails extends BaseFragment implements View.OnClickLi
         ModelManager.getInstance().getAddMerchantRating().getMerchantRating(mActivity,
                 Operations.GetMerchantRating(mActivity, ATPreferences.readString(mActivity,
                         Constants.KEY_USERID), merchantId));
+
     }
 
     private void setData() {

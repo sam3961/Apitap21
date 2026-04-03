@@ -121,6 +121,7 @@ public class FragmentStoreAbout extends BaseFragment implements StoreAboutImages
     private void fetchStoreImages() {
         ModelManager.getInstance().getMerchantStoresManager().getStoreImages(getActivity(),
                 Operations.makeJsonGetStoreImages(getActivity(), merchantId));
+
     }
 
     private void initViews(View v) {

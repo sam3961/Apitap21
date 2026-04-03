@@ -76,7 +76,7 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
                 notifyDataSetChanged();
             }
         });
-        if (position == 1 || position == 13)
+        if (position == 1 || position == 14)
             holder.parentLayout.setBackgroundColor(context.getResources().getColor(R.color.colorGreenLogo));
         else
             holder.parentLayout.setBackgroundColor(context.getResources().getColor(R.color.colorNavBackground));

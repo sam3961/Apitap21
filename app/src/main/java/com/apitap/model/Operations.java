@@ -77,23 +77,101 @@ public class Operations {
         return parametersToCall;
     }
 
-    public static String makeJsonUserSignup(Activity context, String email, String fName, String lName, String password, String dob) {
-        String dataPlana = "{\"101\":\"030300120\",\"PARAM\":{" +
-                "\"114.7\":\"" + email +
-                "\",\"114.3\":\"" + fName +
-                "\",\"114.5\":\"" + lName +
-                "\",\"114.8\":\"" + dob +
-                "\",\"52\":\"" + password +
-                "\"}}";
-        String parametersToCall = "{\"192\":\"" + ATPreferences.readString(context, Constants.KEY_USER_DEFAULT)
-                + "\",\"11\":\"" + Client.getTimeStamp() + "\",\"122.45\":\""
-                + "en" + "\",\"57\":\""
-                + /*Util.GetDeviceId()*/Utils.getDeviceId(context) + "\",\"120.38\":\""
-                + "0.0" + "\",\"120.39\":\""
-                + "0.0" + "\",\"OPTLST\":["
-                + dataPlana + "]}";
+    public static String makeJsonUserSignup(Activity context,
+                                            String email,
+                                            String fName,
+                                            String lName,
+                                            String password,
+                                            String dob,
+                                            String address,
+                                            String city,
+                                            String state,
+                                            String zip,
+                                            String nickname,
+                                            String lat,
+                                            String lng) {
 
-        Log.v(TAG, "parameters_createacc---" + parametersToCall);
+        try {
+            JSONObject param = new JSONObject();
+
+            param.put("52", password);
+            param.put("114.7", email);
+
+            // ✅ Convert to HEX
+            param.put("114.3", fName);
+            param.put("114.5", lName);
+
+            // ✅ Fix DOB format before passing
+            param.put("114.8", dob); // must be yyyy-MM-dd
+
+            // ✅ Add missing required fields (minimum)
+            param.put("114.12", Utils.convertStringToHex(address));
+            param.put("114.13", "");
+            param.put("114.53", Utils.convertStringToHex(nickname));
+
+            param.put("47.15", Utils.convertStringToHex(city));
+            param.put("47.16", state); // state
+
+            param.put("600.5", zip); // zip
+
+            param.put("120.38", lat);
+            param.put("120.39", lng);
+            param.put("120.8", "true");
+
+            // ✅ Phone array (important)
+            JSONArray phArray = new JSONArray();
+            JSONObject phObj = new JSONObject();
+            phObj.put("48.28", "");
+            phObj.put("122.87", "00000000233");
+            phObj.put("121.62", "00000004003");
+            phArray.put(phObj);
+
+            param.put("PH", phArray);
+            param.put("122.87", "00000000233");
+
+            JSONObject dataPlana = new JSONObject();
+            dataPlana.put("101", "030300120");
+            dataPlana.put("PARAM", param);
+
+            JSONObject mainObj = new JSONObject();
+            mainObj.put("192", ATPreferences.readString(context, Constants.KEY_USER_DEFAULT));
+            mainObj.put("11", Client.getTimeStamp());
+            mainObj.put("122.45", "en");
+            mainObj.put("57", Utils.getDeviceId(context));
+            mainObj.put("120.38", "0.0");
+            mainObj.put("120.39", "0.0");
+
+            JSONArray optList = new JSONArray();
+            optList.put(dataPlana);
+
+            mainObj.put("OPTLST", optList);
+
+            Log.v(TAG, "parameters_createacc---" + mainObj.toString());
+
+            return mainObj.toString();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static String makeJsonZipLookup(Activity context, String zip) {
+
+        String dataPlana = "{"
+                + "\"101\":\"010100784\","
+                + "\"PARAM\":{"
+                + "\"47.17\":\"" + zip + "\""
+                + "}}";
+
+        String parametersToCall = "{"
+                + "\"192\":\"" + ATPreferences.readString(context, Constants.KEY_USER_DEFAULT) + "\","
+                + "\"11\":\"" + Client.getTimeStamp() + "\","
+                + "\"122.45\":\"en\","
+                + "\"57\":\"" + Utils.getDeviceId(context) + "\","
+                + "\"OPTLST\":[" + dataPlana + "]"
+                + "}";
+
         return parametersToCall;
     }
 
@@ -106,7 +184,7 @@ public class Operations {
         }
         //050300010 // previouse login
         //050300700 for token
-        String dataPlana = "{\"101\":\"050300010\",\"PARAM\":{\"114.7\":\""
+        String dataPlana = "{\"101\":\"050300700\",\"PARAM\":{\"114.7\":\""
                 + email + "\",\"52\":\""
                 + Utils.convertStringToHex(password) + "\",\"57\":\"" + Utils.getDeviceId(context) + "\"}}";
 
@@ -735,6 +813,90 @@ public class Operations {
         Log.d("SpecialsCategory", parametersToCall + "");
         Logger.addRecordToLog(parametersToCall);
         return parametersToCall;
+    }
+
+    public static String makeJsonSaveAddress(Activity context,
+                                             String id,
+                                             String address1,
+                                             String city,
+                                             String state,
+                                             String zip,
+                                             String lat,
+                                             String lon,
+                                             String addressNickname) {
+
+        JSONObject mainObj = new JSONObject();
+
+        try {
+            // 🔹 Operation code
+            mainObj.put("101", "030400056");
+
+            JSONObject param = new JSONObject();
+            param.put("53", id);
+            param.put("114.12", Utils.convertStringToHex(address1)); // Address1
+            param.put("47.15", city);   // cityName
+            param.put("47.16", state);  // stateName
+            param.put("600.5", zip);    // zipcodeName
+            param.put("120.38", lat);    // latitude
+            param.put("120.39", lon);    // longitude
+            param.put("121.45", "11");
+            param.put("122.87", "00000000233");
+            param.put("120.8", "true");
+            param.put("114.53", Utils.convertStringToHex(addressNickname));    // longitude
+
+            mainObj.put("PARAM", param);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        String finalRequest = "{"
+                + "\"192\":\"" + ATPreferences.readString(context, Constants.KEY_USER_DEFAULT) + "\","
+                + "\"11\":\"" + Client.getTimeStamp() + "\","
+                + "\"122.45\":\"en\","
+                + "\"57\":\"" + Utils.getDeviceId(context) + "\","
+                + "\"120.38\":\"0.0\","
+                + "\"120.39\":\"0.0\","
+                + "\"OPTLST\":[" + mainObj.toString() + "]"
+                + "}";
+
+        Log.d("makeJsonSaveAddress", finalRequest);
+
+        return finalRequest;
+    }
+
+    public static String makeJsonGetSavedAddress(Activity context) {
+
+        JSONObject mainObj = new JSONObject();
+
+        try {
+            // 🔹 Operation code
+            mainObj.put("101", "010100055");
+
+            // 🔹 PARAM
+            JSONObject param = new JSONObject();
+            param.put("53", ATPreferences.readString(context, Constants.KEY_USERID));
+
+            mainObj.put("PARAM", param);
+            mainObj.put("EXPECTED", "ALL");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        String finalRequest = "{"
+                + "\"192\":\"" + ATPreferences.readString(context, Constants.KEY_USER_DEFAULT) + "\","
+                + "\"11\":\"" + Client.getTimeStamp() + "\","
+                + "\"122.45\":\"en\","
+                + "\"57\":\"" + Utils.getDeviceId(context) + "\","
+                + "\"120.38\":\"0.0\","
+                + "\"120.39\":\"0.0\","
+                + "\"OPTLST\":[" + mainObj.toString() + "]"
+                + "}";
+
+        Log.d("makeJsonGetAddress", finalRequest);
+//        Logger.addRecordToLog(finalRequest);
+
+        return finalRequest;
     }
 
     public static String makeJsonGetBusinessDetails(Activity context, String merchantId) {
@@ -2692,13 +2854,11 @@ public class Operations {
             obj.put("192", Constants.KEY_DEFAULT);
             obj.put("11", Client.getTimeStamp());
             obj.put("122.45", "en");
-            obj.put("57", Utils.getDeviceId(context));
-            obj.put("120.38", "");
-            obj.put("120.39", "0.0");
             JSONArray arr = new JSONArray();
             JSONObject obj1 = new JSONObject();
             obj1.put("101", "010100812");
             JSONObject obj_param = new JSONObject();
+            obj_param.put("53", "0001444A000000000003");
             obj1.put("PARAM", obj_param);
             arr.put(obj1);
             obj.put("OPTLST", arr);
@@ -2709,6 +2869,50 @@ public class Operations {
 
         if (BuildConfig.DEBUG)
             Log.d(TAG, "parameters_terms_api---" + parametersToCall);
+
+        return parametersToCall;
+    }
+
+    public static String makeJsonGetTermsForMerchant(Activity context, String merchantId) {
+        String parametersToCall = "";
+        try {
+            JSONObject obj = new JSONObject();
+            obj.put("192", Constants.KEY_DEFAULT);
+            obj.put("11", Client.getTimeStamp());
+            obj.put("122.45", "en");
+            obj.put("57", Utils.getDeviceId(context));
+            obj.put("120.38", "");
+            obj.put("120.39", "0.0");
+
+            JSONArray arr = new JSONArray();
+
+            JSONObject obj1 = new JSONObject();
+            obj1.put("101", "010100812");
+
+            JSONObject obj_param = new JSONObject();
+            obj1.put("PARAM", obj_param);
+
+            // ✅ ADD FILTER HERE
+            JSONArray filterArray = new JSONArray();
+            JSONObject filterObj = new JSONObject();
+            filterObj.put("114.93", merchantId);
+            filterObj.put("operator", "eq");
+
+            filterArray.put(filterObj);
+
+            obj1.put("FILTER", filterArray);
+
+            arr.put(obj1);
+            obj.put("OPTLST", arr);
+
+            parametersToCall = obj.toString();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (BuildConfig.DEBUG)
+            Log.d(TAG, "parameters_terms_apimerchant---" + parametersToCall);
 
         return parametersToCall;
     }
@@ -4447,6 +4651,39 @@ public class Operations {
         return parametersToCall;
     }
 
+    public static String makeJsonGetMerchantByCategory(Activity context, String categoryId) {
+        String parametersToCall = "";
+        try {
+            JSONObject obj = new JSONObject();
+            obj.put("192", ATPreferences.readString(context, Constants.KEY_USER_DEFAULT));
+            obj.put("11", Client.getTimeStamp());
+            obj.put("122.45", "en");
+            obj.put("57", Utils.getDeviceId(context));
+            obj.put("120.38", "0.0");
+            obj.put("120.39", "0.0");
+            JSONArray arr = new JSONArray();
+            JSONObject obj1 = new JSONObject();
+            obj1.put("101", "010400898");
+            JSONObject obj_param = new JSONObject();
+            obj_param.put("53", ATPreferences.readString(context, Constants.KEY_USERID));
+            obj_param.put("121.141", Utils.GetToday());
+            obj_param.put("127.89", Client.getWeekDay());
+            obj_param.put("114.93", Utils.getElevenDigitId(categoryId));
+            obj1.put("PARAM", obj_param);
+            arr.put(obj1);
+            obj.put("OPTLST", arr);
+            parametersToCall = obj.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (BuildConfig.DEBUG)
+            Log.d(TAG, "parameters_getmerchantdelivery_api---" + parametersToCall);
+
+        return parametersToCall;
+    }
+
+
     public static String makeJsonGetTablesBySeatingAreaId(Activity context, String seatingAreaId) {
         String parametersToCall = "";
         try {
@@ -4515,16 +4752,9 @@ public class Operations {
                                                 String reservationStartHour,
                                                 String reservationEndHour,
                                                 String reservationPeopleQty,
-                                                //String reservationChildrenQty, String reservationWheelchairFlag,
-                                                // String reservationChildSeatFlag, String locationTableId,
-                                                //String diningMethodId,
                                                 String reservationName,
-                                                //String reservationPhone,
-                                                //String reservationEmail1, String reservationEmail2, String reservationSpecialRequest,
                                                 String reservationNote,
-                                                //String userAssignedTo,
                                                 String selectedSeatingAreaId,
-                                                //String selectedPromoId,
                                                 String locationId, String smokingFlag
 
     ) {
@@ -4559,31 +4789,6 @@ public class Operations {
                 obj_param.put("116.200", Utils.getElevenDigitId(reservationId));
             if (!reservationNote.isEmpty())
                 obj_param.put("117.16", Utils.convertStringToHex(reservationNote));
-
-//
-//            if (!selectedPromoId.isEmpty())
-//                obj_param.put("114.144", Utils.getElevenDigitId(selectedPromoId));
-//            if (!reservationEmail2.isEmpty())
-//                obj_param.put("114.51", reservationEmail2);
-//            if (!userAssignedTo.isEmpty())
-//                obj_param.put("114.179", Utils.getElevenDigitId(userAssignedTo));
-//            if (!reservationSpecialRequest.isEmpty())
-//                obj_param.put("121.55", Utils.convertStringToHex(reservationSpecialRequest));
-//            if (!reservationChildrenQty.isEmpty())
-//                obj_param.put("116.205", reservationChildrenQty);
-//            if (!reservationEmail1.isEmpty())
-//                obj_param.put("114.7", reservationEmail1);
-//            if (!reservationChildSeatFlag.isEmpty())
-//                obj_param.put("116.207", reservationChildSeatFlag);
-//            if (!reservationWheelchairFlag.isEmpty())
-//                obj_param.put("116.206", reservationWheelchairFlag);
-//            if (!reservationPhone.isEmpty())
-//                obj_param.put("48.28", reservationPhone);
-//            if (!diningMethodId.isEmpty())
-//                obj_param.put("115.71", Utils.getElevenDigitId(diningMethodId));
-//            if (!locationTableId.isEmpty())
-//                obj_param.put("115.21", Utils.getElevenDigitId(locationTableId));
-
 
             obj1.put("PARAM", obj_param);
             arr.put(obj1);

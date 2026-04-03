@@ -28,6 +28,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.apitap.App;
 import com.apitap.R;
 import com.apitap.controller.MerchantFavouriteManager;
 import com.apitap.controller.ModelManager;
@@ -151,7 +152,9 @@ public class FragmentCheckout extends BaseFragment implements View.OnClickListen
             url = Client.BASE_URL_CART + id +
                     "&scId=" + cartId +
                     "&merId=" + merchantId +
-                    "&t=" + token;
+                    "&t=" + token +
+                    "&lat=" + App.latitude +
+                    "&long=" + App.longitude;
         else
             url = Client.BASE_URL_CART + id +
                     "&scId=" + cartId +

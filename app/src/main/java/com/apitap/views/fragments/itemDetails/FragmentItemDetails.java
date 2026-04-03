@@ -1,7 +1,5 @@
 package com.apitap.views.fragments.itemDetails;
 
-import static com.apitap.views.fragments.specials.utils.CommonFunctions.promotionMerchantLocationId;
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -10,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
@@ -18,11 +17,12 @@ import android.os.Handler;
 import android.os.Looper;
 import android.provider.MediaStore;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.apitap.model.bean.MerchantLocationBean;
 import com.apitap.model.bean.items.LocationBean;
 import com.apitap.views.adapters.AdapterQtySpinner;
+import com.apitap.views.customviews.DividerItemDecoration;
 import com.apitap.views.fragments.BaseFragment;
 import com.apitap.views.fragments.FragmentStoreDetails;
 import com.apitap.views.fragments.FragmentZoomImage;
@@ -30,16 +30,19 @@ import com.apitap.views.fragments.SendMessage;
 import com.apitap.views.fragments.adDetails.FragmentAdDetail;
 import com.apitap.views.fragments.shoppingCart.ShoppingCartFragment;
 import com.apitap.views.fragments.storefront.FragmentStoreFront;
-import com.google.android.gms.vision.text.Line;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.tabs.TabLayout;
 
 import androidx.fragment.app.FragmentTransaction;
 import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -55,6 +58,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -87,7 +91,6 @@ import com.apitap.views.HomeActivity;
 import com.apitap.views.LoginActivity;
 import com.apitap.views.adapters.SubImagesAdapter;
 import com.github.rahatarmanahmed.cpv.CircularProgressView;
-import com.google.gson.Gson;
 import com.linearlistview.LinearListView;
 import com.squareup.picasso.Picasso;
 
@@ -131,20 +134,26 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
     String merchantID = "";
     LinearListView listRelatedItems, listCategoryItems;
     LinearListView listSpecialRelatedItems;
-    CardView layAttributes, layRelatedItems, layCategoryItems, layCategoryspecialItems;
+    ArrayList<LocationBean> locationBeans = new ArrayList<>();
+    CardView layAttributes, layRelatedItems, layCategoryItems, layCategoryspecialItems, cardViewOptions;
     List<RelatedDetailsBean.RESULT_> relatedArray;
     List<SpecialItemBean.RESULT> specialArrayRelated;
     List<CategoryDetailsBean.RESULT> catArray;
     Spinner spinnerSize, spinnerColor, spinnerLocations;
-    LinearLayout linearLayoutZoomIn, linearLayoutZoomOut, llListImages, linearSpinnerLocationParent;
+    LinearLayout linearLayoutZoomIn, linearLayoutZoomOut, llListImages;
+    FrameLayout linearSpinnerLocationParent;
     LinearLayout linearLayoutOptionOne, linearLayoutOptionSecond;
-    TextView thumbNa;
+    private String selectedLocationId;
+    TextView thumbNa, tvLocation;
+    TextView tvOptionTwoQty, tvOptionOneQty, tvOptionMainQty;
     ArrayList<String> arrayListChoices = new ArrayList<String>();
     RadioGroup rgAvailability;
     RadioButton rbOnline, rbInStore;
     TextView tvAvailability;
     TextView txtAvailability, txtLocationLabel;
     String actualPrice, priceAfterDiscount;
+    String choiceOne = "";
+    String choiceTwo = "";
     ArrayList<ProductOptionsBean> productOptionsArrayList = new ArrayList<ProductOptionsBean>();
     ArrayList<ProductOptionsBean> productOptionChoices1ArrayList = new ArrayList<ProductOptionsBean>();
     ArrayList<ProductOptionsBean> productOptionChoices2ArrayList = new ArrayList<ProductOptionsBean>();
@@ -153,6 +162,7 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
     Spinner spinnerCartOption1, spinnerCartOption2;
     Spinner spinnerInfoOption1, spinnerInfoOption2;
     Spinner spinnerHomeOptionOne, spinnerHomeOptionSecond;
+    TextView tvOptionOne, tvOptionTwo;
     TextView textViewHomeOptionOne, textViewHomeOptionTwo;
     EditText editTextSpecialInstructions;
     Button detailStore;
@@ -181,6 +191,7 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
     private float fontSize = 14;
     private Dialog moreDetailDialog;
     private Dialog addToCartDialog;
+    private LocationBottomSheetAdapter locationAdapter;
 
     @Nullable
     @Override
@@ -270,12 +281,14 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
             if (checkedId == R.id.rbOnline) {
                 txtLocationLabel.setVisibility(View.GONE);
                 linearSpinnerLocationParent.setVisibility(View.GONE);
-
+                updateOptionQtyLabels();
+                txtAvailability.setText("Online");
                 // Online → validate inventory from ANY location
             } else if (checkedId == R.id.rbInStore) {
                 txtLocationLabel.setVisibility(View.VISIBLE);
                 linearSpinnerLocationParent.setVisibility(View.VISIBLE);
-
+                updateOptionQtyLabels();
+                txtAvailability.setText("In Store");
 
                 // In-Store → validate inventory only from LO locations
             }
@@ -298,10 +311,16 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
         spinnerHomeOptionSecond = v.findViewById(R.id.editoption2);
         textViewHomeOptionOne = v.findViewById(R.id.option);
         textViewHomeOptionTwo = v.findViewById(R.id.option1);
+        tvOptionOne = v.findViewById(R.id.tvOptionOne);
+        tvOptionTwo = v.findViewById(R.id.tvOptionTwo);
 
         llListImages = v.findViewById(R.id.ll_list_images);
         rootLayout = v.findViewById(R.id.rootLayout);
         thumbNa = v.findViewById(R.id.tvthumb);
+        tvOptionTwoQty = v.findViewById(R.id.optionTwoQty);
+        tvOptionOneQty = v.findViewById(R.id.optionOneQty);
+        tvOptionMainQty = v.findViewById(R.id.optionMainQty);
+        tvLocation = v.findViewById(R.id.tvLocation);
         tvAvailability = v.findViewById(R.id.tvAvailability);
         linearSpinnerLocationParent = v.findViewById(R.id.linearSpinnerLocationParent);
         txtAvailability = v.findViewById(R.id.txtAvailability);
@@ -337,6 +356,7 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
         layRelatedItems = v.findViewById(R.id.lay_related_items);
         layCategoryItems = v.findViewById(R.id.lay_cat_items);
         layCategoryspecialItems = v.findViewById(R.id.lay_specialitems);
+        cardViewOptions = v.findViewById(R.id.cardViewOptions);
         llAddToCart = v.findViewById(R.id.ll_add_to_cart);
         //  icProductImage = (ImageView) v.findViewById(R.id.product_image_first);
         list = v.findViewById(R.id.list);
@@ -384,7 +404,6 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
                             + "\n" + "http://itemaiodc.com/" + productType + "/" + productId);
                     shareIntent.putExtra(Intent.EXTRA_STREAM, screenshotUri);
                     shareIntent.setType("image/*");
-                    //shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                     startActivity(Intent.createChooser(shareIntent, "Share Via"));
 
                 }
@@ -409,37 +428,164 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
     public void onEvent(Event event) {
         switch (event.getKey()) {
 
+            case Constants.INVENTORY_CHOICES_EMPTY:
+                cardViewOptions.setVisibility(View.GONE);
+                break;
             case Constants.INVENTORY_UPDATED:
-                ArrayList<LocationBean> locationBeans = ModelManager.getInstance().getDetailsManager().locationBeans;
+                locationBeans = ModelManager.getInstance().getDetailsManager().locationBeans;
                 ArrayList<DetailsBean> productArrayDetails = ModelManager.getInstance().getDetailsManager().arrayDetails;
 
                 if (productArrayDetails.get(0).getAvailability().equals("82002")
                         || productArrayDetails.get(0).getAvailability().equals("82001")) {
-
-                    String choiceOne = "";
-                    String choiceTwo = "";
                     if (!productOptionChoices1ArrayList.isEmpty() &&
                             productOptionChoices1ArrayList.get(0).getChoice_id() != null) {
                         choiceOne = productOptionChoices1ArrayList.get(0).getChoice_id();
+                    } else {
+                        choiceOne = "";
                     }
                     if (!productOptionChoices2ArrayList.isEmpty() &&
                             productOptionChoices2ArrayList.get(0).getChoice_id() != null) {
                         choiceTwo = productOptionChoices2ArrayList.get(0).getChoice_id();
+                    } else {
+                        choiceTwo = "";
                     }
                     LocationSpinnerAdapter adapter = new
                             LocationSpinnerAdapter(requireContext(), locationBeans,
                             choiceOne, choiceTwo
                     );
 
+                    updateLocationBottomSheet(
+                            choiceOne == null ? "" : Utils.removeLeadingZeros(Utils.getElevenDigitId(choiceOne)),
+                            choiceTwo == null ? "" : Utils.removeLeadingZeros(Utils.getElevenDigitId(choiceTwo))
+                    );
+
+                    autoSelectLocationAndChoice(
+                            locationBeans,
+                            choiceOne,
+                            choiceTwo
+                    );
+
+
                     spinnerLocations.setAdapter(adapter);
 
                     applyInitialOptionState();
 
                     hideProgress();
+
+                    autoSelectChoice(
+                            productOptionChoices1ArrayList,
+                            getOptionChoicesOneAdapter.enabledChoiceIds,
+                            tvOptionOne,
+                            "1"
+                    );
+
+                    autoSelectChoice(
+                            productOptionChoices2ArrayList,
+                            getOptionChoicesTwoAdapter.enabledChoiceIds,
+                            tvOptionTwo,
+                            "2"
+                    );
+
+                    tvLocation.setOnClickListener(v -> {
+                        showLocationBottomSheet(
+                                locationBeans,
+                                choiceOne,
+                                choiceTwo
+                        );
+                    });
+                } else {
+                    tvLocation.setText("No Location Available");
+                    tvLocation.setOnClickListener(v -> {
+                        showLocationBottomSheet(
+                                locationBeans,
+                                "",
+                                ""
+                        );
+                    });
+
+                    updateOptionQtyLabels();
+                }
+                break;
+            case Constants.GET_OPTIONS_CHOICES_1_SUCCESS:
+                productOptionChoices1ArrayList = ModelManager.getInstance().getProductOptions().productOptionsBeans1;
+                getOptionChoicesOneAdapter = new GetOption1(mActivity, productOptionChoices1ArrayList);
+
+                spinnerCartOption1.setAdapter(getOptionChoicesOneAdapter);
+                spinnerInfoOption1.setAdapter(getOptionChoicesOneAdapter);
+                spinnerHomeOptionOne.setAdapter(getOptionChoicesOneAdapter);
+
+                boolean hideOption1 = shouldHideOption(productOptionChoices1ArrayList, getOptionChoicesOneAdapter.enabledChoiceIds);
+                linearLayoutOptionOne.setVisibility(hideOption1 ? View.GONE : View.VISIBLE);
+
+
+                tvOptionOne.setOnClickListener(v -> {
+                    showOptionBottomSheet(productOptionChoices1ArrayList,
+                            getOptionChoicesOneAdapter.enabledChoiceIds,
+                            tvOptionOne,
+                            textViewHomeOptionOne.getText().toString(), "1");
+                });
+
+                if (productOptionsArrayList.size() == 1)
+                    hideProgress();
+
+                for (int i = 0; i < productOptionChoices1ArrayList.size(); i++) {
+                    arrayListChoices.add(productOptionChoices1ArrayList.get(i).getChoice_id());
                 }
 
+                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        ArrayList<String> choicesOneList = new ArrayList<>();
+                        ArrayList<String> choicesTwoList = new ArrayList<>();
+                        for (int i = 0; i < productOptionChoices1ArrayList.size(); i++) {
+                            choicesOneList.add(productOptionChoices1ArrayList.get(i).getChoice_id());
+                        }
+                        for (int i = 0; i < productOptionChoices2ArrayList.size(); i++) {
+                            choicesTwoList.add(productOptionChoices2ArrayList.get(i).getChoice_id());
+                        }
+
+                        ModelManager.getInstance().getDetailsManager().getItemInventory(requireActivity(), productId, choicesOneList,
+                                choicesTwoList);
+
+                        if (productOptionChoices2ArrayList.isEmpty() && productOptionChoices1ArrayList.isEmpty()) {
+                            cardViewOptions.setVisibility(View.GONE);
+                        } else {
+                            cardViewOptions.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }, 2000);
+                Log.d("TAGeed01", "option_Id: " + option_Id + "   option_Id2=" + option_Id2 + "    str_option_Id=" + str_option_Id + "   str_option_Id2=" + str_option_Id2);
+
+                showProgress();
+                break;
+
+            case Constants.GET_OPTIONS_CHOICES_2_SUCCESS:
+                productOptionChoices2ArrayList = ModelManager.getInstance().getProductOptions().productOptionsBeans2;
+                getOptionChoicesTwoAdapter = new GetOption2(mActivity, productOptionChoices2ArrayList);
+
+                spinnerCartOption2.setAdapter(getOptionChoicesTwoAdapter);
+                spinnerInfoOption2.setAdapter(getOptionChoicesTwoAdapter);
+                spinnerHomeOptionSecond.setAdapter(getOptionChoicesTwoAdapter);
+
+                boolean hideOption2 = shouldHideOption(productOptionChoices2ArrayList, getOptionChoicesTwoAdapter.enabledChoiceIds);
+                linearLayoutOptionSecond.setVisibility(hideOption2 ? View.GONE : View.VISIBLE);
+
+                hideProgress();
+                Log.d("TAGeed02", "option_Id: " + option_Id + "   option_Id2=" + option_Id2 + "    str_option_Id=" + str_option_Id + "   str_option_Id2=" + str_option_Id2);
+
+                for (int i = 0; i < productOptionChoices2ArrayList.size(); i++) {
+                    arrayListChoices.add(productOptionChoices2ArrayList.get(i).getChoice_id());
+                }
+
+                tvOptionTwo.setOnClickListener(v -> {
+                    showOptionBottomSheet(productOptionChoices2ArrayList,
+                            getOptionChoicesTwoAdapter.enabledChoiceIds,
+                            tvOptionTwo, textViewHomeOptionTwo.getText().toString(), "2");
+                });
 
                 break;
+
             case Constants.PRODUCT_AVAILBLE_MERCHANT:
                 hideProgress();
                 if (event.getResponse().equals("true")) {
@@ -603,6 +749,8 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
 
                             txtLocationLabel.setVisibility(View.VISIBLE);
                             linearSpinnerLocationParent.setVisibility(View.VISIBLE);
+
+                            rbInStore.setChecked(true);
                             break;
 
                         // 82001 – Both Online & In-Store
@@ -638,11 +786,6 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
                     txtRelatedItems.setVisibility(View.VISIBLE);
                     layRelatedItems.setVisibility(View.VISIBLE);
                 } else {
-                    // layRelatedItems.setVisibility(View.GONE);
-                    //  txtRelatedItems.setText("People Also View");
-                    //txtCategorySpecialItems.setText("People Also View");
-                    //  txtCategoryItems.setText("People Also View");
-
                     layRelatedItems.setVisibility(View.GONE);
                 }
 
@@ -651,20 +794,13 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
             case Constants.RELATED_SPECIAL_DETAILS:
 
                 specialArrayRelated = ModelManager.getInstance().getDetailsManager().specialItemBean.getRESULT();
-//                if (specialArrayRelated.size() > 0)
-//                    Log.d("relatedArraySizej", specialArrayRelated.get(0).getRESULT().get(0).getIA().get(0).get_114_9() + "  ");
-
                 if (specialArrayRelated != null && specialArrayRelated.get(0).getRESULT().get(0).getIA().size() > 0) {
                     listSpecialRelatedItems.setAdapter(mAdapterSpecialRealted);
-                    //  txtRelatedItems.setVisibility(View.VISIBLE);
                     txtCategorySpecialItems.setVisibility(View.VISIBLE);
                     layCategoryspecialItems.setVisibility(View.VISIBLE);
 
                     layRelatedItems.setVisibility(View.GONE);
                 } else {
-                    // layRelatedItems.setVisibility(View.GONE);
-                    // layRelatedItems.setVisibility(View.GONE);
-                    // layCategoryspecialItems.setVisibility(View.GONE);
                 }
 
                 break;
@@ -675,13 +811,9 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
                 catArray = ModelManager.getInstance().getDetailsManager().categoryDetailsBean.getRESULT();
                 if (catArray.get(0).get12083() != null && catArray.size() > 0) {
                     listCategoryItems.setAdapter(mPeopleAlsoView);
-                    //txtCategoryItems.setVisibility(View.VISIBLE);
                     txtCategoryItems.setVisibility(View.VISIBLE);
-
                 } else {
-                    //  layCategoryItems.setVisibility(View.GONE);
                     layCategoryItems.setVisibility(View.GONE);
-                    // layRelatedItems.setVisibility(View.GONE);
                 }
                 break;
 
@@ -691,10 +823,7 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
                 mPocketBar.setVisibility(View.GONE);
                 isFavouriteboolean = true;
                 ivFav.setBackgroundResource(R.drawable.ic_icon_fav);
-//                else
-//                    ivFav.setBackgroundResource(R.drawable.ic_icon_fav_gray);
                 break;
-
 
             case Constants.SHOPPING_SUCCESS:
                 clearfocus();
@@ -715,7 +844,6 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
                     thumbNa.setVisibility(View.GONE);
 
                 }
-                //  textViewVideo.setVisibility(View.VISIBLE);
                 break;
             case -1:
                 clearfocus();
@@ -744,65 +872,17 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
                 if (!productOptionsArrayList.isEmpty()) {
                     showProgress();
                     getItemOptionChoices();
+                } else {
+                    showProgress();
+                    cardViewOptions.setVisibility(View.GONE);
+                    ModelManager.getInstance().getDetailsManager().getItemInventory(requireContext(), productId, arrayListChoices,
+                            arrayListChoices);
                 }
 
 
                 Log.d("TAGeed0", "option_Id: " + option_Id + "   option_Id2=" + option_Id2 + "    str_option_Id=" + str_option_Id + "   str_option_Id2=" + str_option_Id2);
 
                 break;
-            case Constants.GET_OPTIONS_CHOICES_1_SUCCESS:
-                productOptionChoices1ArrayList = ModelManager.getInstance().getProductOptions().productOptionsBeans1;
-                getOptionChoicesOneAdapter = new GetOption1(mActivity, productOptionChoices1ArrayList);
-
-                spinnerCartOption1.setAdapter(getOptionChoicesOneAdapter);
-                spinnerInfoOption1.setAdapter(getOptionChoicesOneAdapter);
-                spinnerHomeOptionOne.setAdapter(getOptionChoicesOneAdapter);
-
-                if (productOptionsArrayList.size() == 1)
-                    hideProgress();
-
-                for (int i = 0; i < productOptionChoices1ArrayList.size(); i++) {
-                    arrayListChoices.add(productOptionChoices1ArrayList.get(i).getChoice_id());
-                }
-
-                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        ArrayList<String> choicesOneList = new ArrayList<>();
-                        ArrayList<String> choicesTwoList = new ArrayList<>();
-                        for (int i = 0; i < productOptionChoices1ArrayList.size(); i++) {
-                            choicesOneList.add(productOptionChoices1ArrayList.get(i).getChoice_id());
-                        }
-                        for (int i = 0; i < productOptionChoices2ArrayList.size(); i++) {
-                            choicesTwoList.add(productOptionChoices2ArrayList.get(i).getChoice_id());
-                        }
-
-                        ModelManager.getInstance().getDetailsManager().getItemInventory(requireContext(), productId, choicesOneList,
-                                choicesTwoList);
-                    }
-                }, 2000);
-                Log.d("TAGeed01", "option_Id: " + option_Id + "   option_Id2=" + option_Id2 + "    str_option_Id=" + str_option_Id + "   str_option_Id2=" + str_option_Id2);
-
-                showProgress();
-                break;
-            case Constants.GET_OPTIONS_CHOICES_2_SUCCESS:
-                productOptionChoices2ArrayList = ModelManager.getInstance().getProductOptions().productOptionsBeans2;
-                getOptionChoicesTwoAdapter = new GetOption2(mActivity, productOptionChoices2ArrayList);
-
-                spinnerCartOption2.setAdapter(getOptionChoicesTwoAdapter);
-                spinnerInfoOption2.setAdapter(getOptionChoicesTwoAdapter);
-                spinnerHomeOptionSecond.setAdapter(getOptionChoicesTwoAdapter);
-
-                hideProgress();
-                Log.d("TAGeed02", "option_Id: " + option_Id + "   option_Id2=" + option_Id2 + "    str_option_Id=" + str_option_Id + "   str_option_Id2=" + str_option_Id2);
-
-                for (int i = 0; i < productOptionChoices2ArrayList.size(); i++) {
-                    arrayListChoices.add(productOptionChoices2ArrayList.get(i).getChoice_id());
-                }
-
-                break;
-
             case Constants.REMOVE_FAVOURITE_SUCCESS:
                 ivFav.setBackgroundResource(R.drawable.ic_icon_fav_gray);
                 isFavouriteboolean = false;
@@ -840,6 +920,7 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
         reloadDialog.show();
     }
 
+
     public void reloadFragment() {
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.detach(this).attach(this).commit();
@@ -869,7 +950,6 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
                 String email = editEmail.getText().toString();
                 String password = editPassword.getText().toString();
                 if (Utils.isEmpty(email) || Utils.isEmpty(password)) {
-                    //   Toast.makeText(mActivity, "Please fill all details", Toast.LENGTH_SHORT).show();
                     Utils.baseshowFeedbackMessage(mActivity, rootLayout, "Please fill all details");
                 } else {
                     ModelManager.getInstance().getLoginManager().getLogin(mActivity, Operations.makeJsonUserLogin(mActivity, email, password));
@@ -879,7 +959,6 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
                 if (isGuest) {
                     showGuestDialog();
                 } else {
-//                    displayView(new FragmentMessages(), Constants.TAG_MESSAGEPAGE, new Bundle());
                     Bundle bundle = new Bundle();
                     bundle.putString("productId", productId);
                     bundle.putString("merchantId", merchantID);
@@ -888,9 +967,6 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
                     bundle.putString("storeName", storeName.getText().toString());
                     bundle.putStringArrayList("locationList", ModelManager.getInstance().getDetailsManager().arrayListLocation);
                     bundle.putStringArrayList("locationIdList", ModelManager.getInstance().getDetailsManager().arrayListLocationId);
-//                    ((HomeActivity) getActivity()).displayView(new FragmentMessageDetail(),
-//                            Constants.MessageDetailPage, bundle);
-
                     ((HomeActivity) getActivity()).displayView(new SendMessage(), "Send Message", bundle);
                     break;
 
@@ -972,22 +1048,8 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
                 break;
 
             case R.id.storeName:
-                //   ATPreferences.putBoolean(mActivity, Constants.HEADER_STORE, true);
-                // ATPreferences.putString(mActivity, Constants.MERCHANT_ID, merchantID);
-                //startActivity(new Intent(mActivity, HomeActivity.class));
-//                Bundle bundle = new Bundle();
-//                bundle.putBoolean("header", true);
-//                displayView(new FragmentHome(), "Home", bundle);
-
                 break;
             case R.id.details_stor:
-                //    ATPreferences.putBoolean(mActivity, Constants.HEADER_STORE, true);
-                //  ATPreferences.putString(mActivity, Constants.MERCHANT_ID, merchantID);
-                //startActivity(new Intent(mActivity, HomeActivity.class));
-//                Bundle bundle = new Bundle();
-//                bundle.putBoolean("header", true);
-//                displayView(new FragmentHome(), "Home", bundle);
-
                 Log.d("merchantIddd", merchantID);
                 Bundle b = new Bundle();
                 b.putBoolean(Constants.HEADER_STORE, true);
@@ -1004,9 +1066,6 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
 
 
             case R.id.store_name:
-           /*     Intent intents = new Intent(getActivity(), MerchantStoreDetails.class);
-                intents.putExtra("merchantId", merchantID);
-                startActivity(intents);*/
                 linearLayoutHeaderStoreFront.setVisibility(View.GONE);
                 relativeLayoutSearchBarStoreFront.setVisibility(View.GONE);
                 Bundle bundle1 = new Bundle();
@@ -1016,18 +1075,7 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
                 break;
 
 
-//            case R.id.ic_back:
-//                Log.d("fragmentcount", getFragmentManager().getBackStackEntryCount() + "");
-//                if (getFragmentManager().getBackStackEntryCount() > 0) {
-//                    getFragmentManager().popBackStack();
-//                } else {
-//                    getActivity().onBackPressed();
-//                }
-//
-//                break;
-
             case R.id.ic_back:
-                //((HomeActivity) getActivity()).onBackPressed();
                 Log.d("fragmentcount", getFragmentManager().getBackStackEntryCount() + "");
                 if (getFragmentManager().getBackStackEntryCount() > 0) {
                     getFragmentManager().popBackStack();
@@ -1035,16 +1083,6 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
                 } else {
                     getActivity().onBackPressed();
                 }
-//                if (getFragmentManager().getBackStackEntryCount() == 1) {
-//                    if (flag != null) {
-//                        if (flag.equals("adDetail"))
-//                            AdDetailActivity.viewFrame();
-//                        else if (flag.equals("search"))
-//                            SearchItemActivity.viewFrame();
-//                    } else
-//                        getActivity().onBackPressed();
-//
-//                }
                 break;
 
             case R.id.tv_minus:
@@ -1062,16 +1100,12 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
                 break;
 
             case R.id.ll_add_to_cart:
-//                if (isGuest) {
-//                    showGuestDialog();
-//                } else {
-                if (dateOfBirthValidate())
-                    callValidateMerchantProduct();
-                //showdialog();
-                //}
-                // mPocketBar.setVisibility(View.VISIBLE);
-                //ModelManager.getInstance().getShoppingCartManager().addItemTOCart(mActivity, Operations.makeJsonAddToCartItems(mActivity, productQuantity, productId));
-
+                if (rbInStore.isChecked() && tvOptionMainQty.getText().toString().equals("(Out of Stock)")) {
+                    Utils.baseshowFeedbackMessage(requireActivity(), rootLayout, "Sorry, the selected item with these options is not available.");
+                } else {
+                    if (dateOfBirthValidate())
+                        callValidateMerchantProduct();
+                }
                 break;
         }
     }
@@ -1129,7 +1163,7 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
         lp.copyFrom(addToCartDialog.getWindow().getAttributes());
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-//        lp.dimAmount=0.5f; // Dim level. 0.0 - no dim, 1.0 - completely opaque
+        //        lp.dimAmount=0.5f; // Dim level. 0.0 - no dim, 1.0 - completely opaque
         addToCartDialog.setContentView(R.layout.customdialog_checkout);
         TextView minusd = addToCartDialog.findViewById(R.id.tv_minus);
         TextView plusd = addToCartDialog.findViewById(R.id.tv_plus);
@@ -1147,13 +1181,6 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
         RelativeLayout rlSpinnerQty = addToCartDialog.findViewById(R.id.rlSpinnerQty);
         LinearLayout llQuantity = addToCartDialog.findViewById(R.id.ll_quantity);
         ArrayList<LocationBean> locationBeans = ModelManager.getInstance().getDetailsManager().locationBeans;
-/*
-
-        if (productOptionsArrayList.isEmpty())
-            relativeLayoutChoiceOne.setVisibility(View.GONE);
-        else
-            relativeLayoutChoiceOne.setVisibility(View.VISIBLE);
-*/
 
 
         if (limit.equals("0") || limit.isEmpty()) {
@@ -1170,52 +1197,6 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
             spinnerQty.setAdapter(new AdapterQtySpinner(mActivity, quantityList));
         }
 
-
-     /*   spinnerCartOption1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                String optionId = productOptionChoices1ArrayList.get(i).getChoice_id();
-                str_option_Id = Utils.getElevenDigitId(optionId);
-                Log.d("TAGeed1", "option_Id: " + option_Id + "   option_Id2=" + option_Id2 + "    str_option_Id=" + str_option_Id + "   str_option_Id2=" + str_option_Id2);
-
-                LocationSpinnerAdapter adapter = new LocationSpinnerAdapter(requireContext(), locationBeans,
-                        Utils.removeLeadingZeros(str_option_Id), Utils.removeLeadingZeros(str_option_Id2));
-                spinnerLocations.setAdapter(adapter);
-
-                updateOption2BasedOnOption1(optionId);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-
-
-        spinnerCartOption2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (relativeLayoutChoiceSecond.getVisibility() == View.VISIBLE) {
-                    String optionId = productOptionChoices2ArrayList.get(i).getChoice_id();
-                    str_option_Id2 = Utils.getElevenDigitId(optionId);
-
-                    Log.d("TAGeed2", "option_Id: " + option_Id + "   option_Id2=" + option_Id2 + "    str_option_Id=" + str_option_Id + "   str_option_Id2=" + str_option_Id2);
-
-                    LocationSpinnerAdapter adapter = new LocationSpinnerAdapter(requireContext(), locationBeans,
-                            Utils.removeLeadingZeros(str_option_Id), Utils.removeLeadingZeros(str_option_Id2));
-                    spinnerLocations.setAdapter(adapter);
-
-                    updateOption1BasedOnOption2(optionId);
-                }
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-*/
         spinnerQty.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -1227,23 +1208,6 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
 
             }
         });
-
-/*
-        if (productOptionsArrayList.size() == 1) {
-            tv_option.setText(productOptionsArrayList.get(0).getName_option() + "");
-            option_Id = Utils.getElevenDigitId(productOptionsArrayList.get(0).getOption_id());
-
-        } else if (productOptionsArrayList.size() >= 2) {
-            relativeLayoutChoiceSecond.setVisibility(View.VISIBLE);
-
-            tv_option.setText(productOptionsArrayList.get(0).getName_option() + "");
-            option_Id = Utils.getElevenDigitId(productOptionsArrayList.get(0).getOption_id());
-
-            tv_option1.setText(productOptionsArrayList.get(1).getName_option() + "");
-            option_Id2 = Utils.getElevenDigitId(productOptionsArrayList.get(1).getOption_id());
-        }
-*/
-
 
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1284,48 +1248,67 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
                 addToCartDialog.dismiss();
             }
         });
-
-//        addToCartDialog.show();
-//        //dialog.getWindow().setAttributes(lp);
-//        addToCartDialog.getWindow().setDimAmount(0.5f);
-//        addToCartDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-
     }
 
     private void applyInitialOptionState() {
+        try {
 
-        Set<String> enabledOpt1 = new HashSet<>();
-        Set<String> enabledOpt2 = new HashSet<>();
+            ArrayList<String> choiceIdOne = new ArrayList<>();
+            ArrayList<String> choiceIdTwo = new ArrayList<>();
 
-        boolean hasSecondOption = productOptionsArrayList.size() >= 2;
-
-        for (Map.Entry<String, Integer> entry :
-                ModelManager.getInstance().getDetailsManager().comboQtyMap.entrySet()) {
-
-            // ignore out-of-stock combinations
-            if (entry.getValue() <= 0) continue;
-
-            String key = entry.getKey();
-            if (key == null || key.isEmpty()) continue;
-
-            String[] parts = key.split("_");
-
-            if (hasSecondOption) {
-                // 🔹 TWO OPTIONS (Color + Size)
-                if (parts.length == 2) {
-                    enabledOpt1.add(parts[0]);
-                    enabledOpt2.add(parts[1]);
+            for (ProductOptionsBean item : productOptionChoices1ArrayList) {
+                if (item.getChoice_id() != null) {
+                    choiceIdOne.add(item.getChoice_id());
                 }
-            } else {
-                // 🔹 ONE OPTION (only Color)
-                enabledOpt1.add(parts[0]);
             }
-        }
 
-        getOptionChoicesOneAdapter.setEnabledChoices(enabledOpt1);
+            for (ProductOptionsBean item : productOptionChoices2ArrayList) {
+                if (item.getChoice_id() != null) {
+                    choiceIdTwo.add(item.getChoice_id());
+                }
+            }
 
-        if (hasSecondOption && getOptionChoicesTwoAdapter != null) {
-            getOptionChoicesTwoAdapter.setEnabledChoices(enabledOpt2);
+            Set<String> enabledOpt1 = new HashSet<>();
+            Set<String> enabledOpt2 = new HashSet<>();
+
+            boolean hasSecondOption = productOptionsArrayList.size() >= 2;
+
+            for (Map.Entry<String, Integer> entry :
+                    ModelManager.getInstance().getDetailsManager().comboQtyMap.entrySet()) {
+
+                // ignore out-of-stock combinations
+                if (entry.getValue() <= 0) continue;
+
+                String key = entry.getKey();
+                if (key == null || key.isEmpty()) continue;
+
+                String[] parts = key.split("_");
+
+                if (hasSecondOption) {
+                    // 🔹 TWO OPTIONS (Color + Size)
+                    if (parts.length == 2) {
+                        enabledOpt1.add(parts[0]);
+                        enabledOpt2.add(parts[1]);
+                    } else {
+                        if (choiceIdOne.contains(parts[0]))
+                            enabledOpt1.add(parts[0]);
+                        else
+                            enabledOpt2.add(parts[0]);
+
+                    }
+                } else {
+                    // 🔹 ONE OPTION (only Color)
+                    enabledOpt1.add(parts[0]);
+                }
+            }
+
+            getOptionChoicesOneAdapter.setEnabledChoices(enabledOpt1);
+
+            if (hasSecondOption && getOptionChoicesTwoAdapter != null) {
+                getOptionChoicesTwoAdapter.setEnabledChoices(enabledOpt2);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -1340,232 +1323,183 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
     }
 
     public void initMoreDetailsDialog() {
-        boolean isNoneGreen = true;
-        moreDetailDialog = new Dialog(mActivity, R.style.AppTheme_Dialog_MyDialogTheme);
-        moreDetailDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(moreDetailDialog.getWindow().getAttributes());
-        lp.gravity = Gravity.CENTER;
-        moreDetailDialog.setContentView(R.layout.more_details_dialog);
-        Button done = moreDetailDialog.findViewById(R.id.close);
-        TextView modelNumber = moreDetailDialog.findViewById(R.id.model_number);
-        LinearLayout ll_model = moreDetailDialog.findViewById(R.id.model_ll);
-        LinearLayout ll_brand = moreDetailDialog.findViewById(R.id.brand_ll);
-        LinearLayout linearLayoutChoiceOne = moreDetailDialog.findViewById(R.id.relativeLayoutSelectType);
-        RelativeLayout relativeLayoutChoiceSecond = moreDetailDialog.findViewById(R.id.realativesecond);
-        TextView skuId = moreDetailDialog.findViewById(R.id.pos_sku);
-        LinearLayout ll_sku = moreDetailDialog.findViewById(R.id.sku_ll);
-        TextView barCode = moreDetailDialog.findViewById(R.id.bar_code_number);
-        TextView quantity = moreDetailDialog.findViewById(R.id.quantity);
-        TextView specification = moreDetailDialog.findViewById(R.id.specs);
-        TextView brandName = moreDetailDialog.findViewById(R.id.brand_name);
-        WebView webView = moreDetailDialog.findViewById(R.id.webView);
-        CheckBox checkBox18 = moreDetailDialog.findViewById(R.id.eightyears);
-        CheckBox checkBox21 = moreDetailDialog.findViewById(R.id.twoyears);
-        final TextView textViewOptionOne = moreDetailDialog.findViewById(R.id.option);
-        final TextView textViewOptionTwo = moreDetailDialog.findViewById(R.id.option1);
-        spinnerInfoOption1 = moreDetailDialog.findViewById(R.id.editoption);
-        spinnerInfoOption2 = moreDetailDialog.findViewById(R.id.editoption2);
+        try {
+            boolean isNoneGreen = true;
+            moreDetailDialog = new Dialog(mActivity, R.style.AppTheme_Dialog_MyDialogTheme);
+            moreDetailDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+            lp.copyFrom(moreDetailDialog.getWindow().getAttributes());
+            lp.gravity = Gravity.CENTER;
+            moreDetailDialog.setContentView(R.layout.more_details_dialog);
+            Button done = moreDetailDialog.findViewById(R.id.close);
+            TextView modelNumber = moreDetailDialog.findViewById(R.id.model_number);
+            LinearLayout ll_model = moreDetailDialog.findViewById(R.id.model_ll);
+            LinearLayout ll_brand = moreDetailDialog.findViewById(R.id.brand_ll);
+            LinearLayout linearLayoutChoiceOne = moreDetailDialog.findViewById(R.id.relativeLayoutSelectType);
+            RelativeLayout relativeLayoutChoiceSecond = moreDetailDialog.findViewById(R.id.realativesecond);
+            TextView skuId = moreDetailDialog.findViewById(R.id.pos_sku);
+            LinearLayout ll_sku = moreDetailDialog.findViewById(R.id.sku_ll);
+            TextView barCode = moreDetailDialog.findViewById(R.id.bar_code_number);
+            TextView quantity = moreDetailDialog.findViewById(R.id.quantity);
+            TextView specification = moreDetailDialog.findViewById(R.id.specs);
+            TextView brandName = moreDetailDialog.findViewById(R.id.brand_name);
+            WebView webView = moreDetailDialog.findViewById(R.id.webView);
+            CheckBox checkBox18 = moreDetailDialog.findViewById(R.id.eightyears);
+            CheckBox checkBox21 = moreDetailDialog.findViewById(R.id.twoyears);
+            final TextView textViewOptionOne = moreDetailDialog.findViewById(R.id.option);
+            final TextView textViewOptionTwo = moreDetailDialog.findViewById(R.id.option1);
+            spinnerInfoOption1 = moreDetailDialog.findViewById(R.id.editoption);
+            spinnerInfoOption2 = moreDetailDialog.findViewById(R.id.editoption2);
 
-        if (productOptionsArrayList.isEmpty()) {
-            linearLayoutChoiceOne.setVisibility(View.GONE);
-            linearLayoutOptionOne.setVisibility(View.GONE);
-        } else {
-            linearLayoutChoiceOne.setVisibility(View.VISIBLE);
-            linearLayoutOptionOne.setVisibility(View.VISIBLE);
-        }
-
-        ArrayList<LocationBean> locationBeans = ModelManager.getInstance().getDetailsManager().locationBeans;
-        LinearLayout linear_layoutQty = moreDetailDialog.findViewById(R.id.limited_qty_ll);
-        LinearLayout linear_layout18 = moreDetailDialog.findViewById(R.id.eighteenplus_ll);
-        LinearLayout linear_layout21 = moreDetailDialog.findViewById(R.id.twentyOneplus_ll);
-        LinearLayout linear_layoutnone = moreDetailDialog.findViewById(R.id.none_ll);
-
-        if (productOptionsArrayList.size() == 1) {
-            textViewOptionOne.setText(productOptionsArrayList.get(0).getName_option() + "");
-            textViewHomeOptionOne.setText(productOptionsArrayList.get(0).getName_option() + "");
-            option_Id = Utils.getElevenDigitId(productOptionsArrayList.get(0).getOption_id());
-        } else if (productOptionsArrayList.size() >= 2) {
-            linearLayoutOptionSecond.setVisibility(View.VISIBLE);
-            relativeLayoutChoiceSecond.setVisibility(View.VISIBLE);
-
-            textViewOptionOne.setText(productOptionsArrayList.get(0).getName_option() + "");
-            textViewHomeOptionOne.setText(productOptionsArrayList.get(0).getName_option() + "");
-            option_Id = Utils.getElevenDigitId(productOptionsArrayList.get(0).getOption_id());
-
-            textViewOptionTwo.setText(productOptionsArrayList.get(1).getName_option() + "");
-            textViewHomeOptionTwo.setText(productOptionsArrayList.get(1).getName_option() + "");
-            option_Id2 = Utils.getElevenDigitId(productOptionsArrayList.get(1).getOption_id());
-        }
-
-        spinnerHomeOptionOne.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                String optionId = productOptionChoices1ArrayList.get(i).getChoice_id();
-                str_option_Id = Utils.getElevenDigitId(optionId);
-
-
-                LocationSpinnerAdapter adapter = new LocationSpinnerAdapter(requireContext(), locationBeans,
-                        Utils.removeLeadingZeros(str_option_Id), Utils.removeLeadingZeros(str_option_Id2));
-                spinnerLocations.setAdapter(adapter);
-
-                Log.d("TAGeed3", "option_Id: " + option_Id + "   option_Id2=" + option_Id2 + "    str_option_Id=" + str_option_Id + "   str_option_Id2=" + str_option_Id2);
-
+            if (productOptionsArrayList.isEmpty()) {
+                linearLayoutChoiceOne.setVisibility(View.GONE);
+                linearLayoutOptionOne.setVisibility(View.GONE);
+            } else {
+                linearLayoutChoiceOne.setVisibility(View.VISIBLE);
+                linearLayoutOptionOne.setVisibility(View.VISIBLE);
             }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
+            ArrayList<LocationBean> locationBeans = ModelManager.getInstance().getDetailsManager().locationBeans;
+            LinearLayout linear_layoutQty = moreDetailDialog.findViewById(R.id.limited_qty_ll);
+            LinearLayout linear_layout18 = moreDetailDialog.findViewById(R.id.eighteenplus_ll);
+            LinearLayout linear_layout21 = moreDetailDialog.findViewById(R.id.twentyOneplus_ll);
+            LinearLayout linear_layoutnone = moreDetailDialog.findViewById(R.id.none_ll);
 
+            if (productOptionsArrayList.size() == 1) {
+                textViewOptionOne.setText(productOptionsArrayList.get(0).getName_option() + "");
+                textViewHomeOptionOne.setText(productOptionsArrayList.get(0).getName_option() + "");
+                option_Id = Utils.getElevenDigitId(productOptionsArrayList.get(0).getOption_id());
+            } else if (productOptionsArrayList.size() >= 2) {
+                linearLayoutOptionSecond.setVisibility(View.VISIBLE);
+                relativeLayoutChoiceSecond.setVisibility(View.VISIBLE);
+
+                textViewOptionOne.setText(productOptionsArrayList.get(0).getName_option() + "");
+                textViewHomeOptionOne.setText(productOptionsArrayList.get(0).getName_option() + "");
+                option_Id = Utils.getElevenDigitId(productOptionsArrayList.get(0).getOption_id());
+
+                textViewOptionTwo.setText(productOptionsArrayList.get(1).getName_option() + "");
+                textViewHomeOptionTwo.setText(productOptionsArrayList.get(1).getName_option() + "");
+                option_Id2 = Utils.getElevenDigitId(productOptionsArrayList.get(1).getOption_id());
             }
-        });
 
-/*
-        spinnerInfoOption1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                String optionId = productOptionChoices1ArrayList.get(i).getChoice_id();
-                str_option_Id = Utils.getElevenDigitId(optionId);
+            spinnerHomeOptionOne.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    String optionId = productOptionChoices1ArrayList.get(i).getChoice_id();
+                    str_option_Id = Utils.getElevenDigitId(optionId);
 
-
-                LocationSpinnerAdapter adapter = new LocationSpinnerAdapter(requireContext(), locationBeans,
-                        Utils.removeLeadingZeros(str_option_Id), Utils.removeLeadingZeros(str_option_Id2));
-                spinnerLocations.setAdapter(adapter);
-
-                Log.d("TAGeed3", "option_Id: " + option_Id + "   option_Id2=" + option_Id2 + "    str_option_Id=" + str_option_Id + "   str_option_Id2=" + str_option_Id2);
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-*/
-
-
-        spinnerHomeOptionSecond.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (relativeLayoutChoiceSecond.getVisibility() == View.VISIBLE) {
-                    String optionId = productOptionChoices2ArrayList.get(i).getChoice_id();
-                    str_option_Id2 = Utils.getElevenDigitId(optionId);
 
                     LocationSpinnerAdapter adapter = new LocationSpinnerAdapter(requireContext(), locationBeans,
                             Utils.removeLeadingZeros(str_option_Id), Utils.removeLeadingZeros(str_option_Id2));
                     spinnerLocations.setAdapter(adapter);
 
-                    Log.d("TAGeed4", "option_Id: " + option_Id + "   option_Id2=" + option_Id2 + "    str_option_Id=" + str_option_Id + "   str_option_Id2=" + str_option_Id2);
+                    Log.d("TAGeed3", "option_Id: " + option_Id + "   option_Id2=" + option_Id2 + "    str_option_Id=" + str_option_Id + "   str_option_Id2=" + str_option_Id2);
+
                 }
 
-            }
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
+                }
+            });
+            spinnerHomeOptionSecond.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    if (relativeLayoutChoiceSecond.getVisibility() == View.VISIBLE) {
+                        String optionId = productOptionChoices2ArrayList.get(i).getChoice_id();
+                        str_option_Id2 = Utils.getElevenDigitId(optionId);
 
-            }
-        });
-/*
-        spinnerInfoOption2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (relativeLayoutChoiceSecond.getVisibility() == View.VISIBLE) {
-                    String optionId = productOptionChoices2ArrayList.get(i).getChoice_id();
-                    str_option_Id2 = Utils.getElevenDigitId(optionId);
+                        LocationSpinnerAdapter adapter = new LocationSpinnerAdapter(requireContext(), locationBeans,
+                                Utils.removeLeadingZeros(str_option_Id), Utils.removeLeadingZeros(str_option_Id2));
+                        spinnerLocations.setAdapter(adapter);
 
-                    LocationSpinnerAdapter adapter = new LocationSpinnerAdapter(requireContext(), locationBeans,
-                            Utils.removeLeadingZeros(str_option_Id), Utils.removeLeadingZeros(str_option_Id2));
-                    spinnerLocations.setAdapter(adapter);
+                        Log.d("TAGeed4", "option_Id: " + option_Id + "   option_Id2=" + option_Id2 + "    str_option_Id=" + str_option_Id + "   str_option_Id2=" + str_option_Id2);
+                    }
 
-                    Log.d("TAGeed4", "option_Id: " + option_Id + "   option_Id2=" + option_Id2 + "    str_option_Id=" + str_option_Id + "   str_option_Id2=" + str_option_Id2);
                 }
 
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+
+                }
+            });
+
+            checkBox21.setClickable(false);
+            checkBox18.setClickable(false);
+
+            if (limit_quantity == null || limit_quantity.equals("0"))
+                quantity.setText("No");
+            else {
+                quantity.setText(limit_quantity);
+                isNoneGreen = false;
+                linear_layoutQty.setBackground(getResources().getDrawable(R.drawable.bg_red_radius_low));
             }
+            if (sku == null || sku.isEmpty())
+                ll_sku.setVisibility(View.GONE);
+                //skuId.setText("N/A");
+            else
+                skuId.setText(sku);
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
+            if (brandNames == null || brandNames.isEmpty())
+                ll_brand.setVisibility(View.GONE);
+                //skuId.setText("N/A");
+            else
+                brandName.setText(brandNames);
+
+            if (barcode == null && barcode.isEmpty())
+                barCode.setText("N/A");
+            else
+                barCode.setText(barcode);
+
+            if (specs == null || specs.isEmpty())
+                //  specification.setText("N/A");
+                Log.d("dsd", "dsd");
+            else {
+                webView.getSettings().setJavaScriptEnabled(false);
+                webView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+                webView.loadDataWithBaseURL(null, specs, "text/html", "utf-8", null);
 
             }
-        });
-*/
+            if (model == null || model.isEmpty())
+                //modelNumber.setText("N/A");
+                ll_model.setVisibility(View.GONE);
+            else
+                modelNumber.setText(model);
 
+            if (age18 != null && age18.equals("true")) {
+                checkBox18.setChecked(true);
+                isNoneGreen = false;
+                linear_layout18.setBackground(getResources().getDrawable(R.drawable.bg_red_radius_low));
+            } else
+                checkBox18.setVisibility(View.GONE);
 
-        //specification.setMovementMethod(new ScrollingMovementMethod());
-        checkBox21.setClickable(false);
-        checkBox18.setClickable(false);
+            if (age21 != null && age21.equals("true")) {
+                isNoneGreen = false;
+                checkBox21.setChecked(true);
+                linear_layout21.setBackground(getResources().getDrawable(R.drawable.bg_red_radius_low));
+            } else
+                checkBox21.setVisibility(View.GONE);
+            //  checkBox21.setText("The product is not available to people over 21 years of age");
 
-        if (limit_quantity == null || limit_quantity.equals("0"))
-            quantity.setText("No");
-        else {
-            quantity.setText(limit_quantity);
-            isNoneGreen = false;
-            linear_layoutQty.setBackground(getResources().getDrawable(R.drawable.bg_red_radius_low));
+            if (isNoneGreen)
+                linear_layoutnone.setBackground(getResources().getDrawable(R.drawable.back_blue_border_green_));
+
+            done.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    moreDetailDialog.dismiss();
+                }
+            });
+
+            //  moreDetailDialog.show();
+            //dialog.getWindow().setAttributes(lp);
+            moreDetailDialog.getWindow().setDimAmount(0.5f);
+            moreDetailDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        if (sku == null || sku.isEmpty())
-            ll_sku.setVisibility(View.GONE);
-            //skuId.setText("N/A");
-        else
-            skuId.setText(sku);
-
-        if (brandNames == null || brandNames.isEmpty())
-            ll_brand.setVisibility(View.GONE);
-            //skuId.setText("N/A");
-        else
-            brandName.setText(brandNames);
-
-        if (barcode == null && barcode.isEmpty())
-            barCode.setText("N/A");
-        else
-            barCode.setText(barcode);
-
-        if (specs == null || specs.isEmpty())
-            //  specification.setText("N/A");
-            Log.d("dsd", "dsd");
-        else {
-            String sepcifications = String.valueOf(Html.fromHtml(specs));
-            //specification.setText(sepcifications);
-//            sepcifications  = specification.getText().toString().replace("Â","");
-            // specification.setText(Html.fromHtml(specs,Html.FROM_HTML_MODE_COMPACT).toString());
-            //  webView.loadDataWithBaseURL(null, specs, "text/html", "utf-8", null);
-            webView.loadData(specs, "text/html", null);
-
-        }
-        if (model == null || model.isEmpty())
-            //modelNumber.setText("N/A");
-            ll_model.setVisibility(View.GONE);
-        else
-            modelNumber.setText(model);
-
-        if (age18 != null && age18.equals("true")) {
-            checkBox18.setChecked(true);
-            isNoneGreen = false;
-            linear_layout18.setBackground(getResources().getDrawable(R.drawable.bg_red_radius_low));
-        } else
-            checkBox18.setVisibility(View.GONE);
-
-        if (age21 != null && age21.equals("true")) {
-            isNoneGreen = false;
-            checkBox21.setChecked(true);
-            linear_layout21.setBackground(getResources().getDrawable(R.drawable.bg_red_radius_low));
-        } else
-            checkBox21.setVisibility(View.GONE);
-        //  checkBox21.setText("The product is not available to people over 21 years of age");
-
-        if (isNoneGreen)
-            linear_layoutnone.setBackground(getResources().getDrawable(R.drawable.back_blue_border_green_));
-
-        done.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                moreDetailDialog.dismiss();
-            }
-        });
-
-        //  moreDetailDialog.show();
-        //dialog.getWindow().setAttributes(lp);
-        moreDetailDialog.getWindow().setDimAmount(0.5f);
-        moreDetailDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-
     }
 
     private void getItemOptionChoices() {
@@ -1593,8 +1527,8 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         dialog.setContentView(R.layout.customdialogcart);
-        Button btncontinue = dialog.findViewById(R.id.continueshoping);
-        Button btncheckout = dialog.findViewById(R.id.checkout);
+        Button btncontinue = dialog.<Button>findViewById(R.id.continueshoping);
+        Button btncheckout = dialog.<Button>findViewById(R.id.checkout);
 
         btncontinue.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1635,10 +1569,7 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
         }
 
         imageUrl = ATPreferences.readString(getActivity(), Constants.KEY_IMAGE_URL) + arrayDetails.get(i).getProductImage();
-        //String id = arrayDetails.get(i).getProductId();
         related_pos = i;
-        // ModelManager.getInstance().getProductOptions().getOption1(getActivity(), Operations.makeJsonGetOptions(getActivity(), id));
-
         Log.d("TAG", "onItemClick: " + imageUrl);
         Picasso.get().load(imageUrl).into(icImage);
 
@@ -1665,8 +1596,8 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
         lp.gravity = Gravity.CENTER;
         dialog.setContentView(R.layout.guest_login);
 
-        Button login = dialog.findViewById(R.id.continueshoping);
-        Button cancel = dialog.findViewById(R.id.cancel);
+        Button login = dialog.<Button>findViewById(R.id.continueshoping);
+        Button cancel = dialog.<Button>findViewById(R.id.cancel);
 
 
         login.setOnClickListener(new View.OnClickListener() {
@@ -1688,27 +1619,437 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
         dialog.getWindow().setDimAmount(0.5f);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
-        //getDialogView(dialog);
-        //viewsVisibility(dialog);
-
     }
 
     public void DisplayFragment(String flag, Bundle bundle) {
         if (flag == null) {
             flag = "home";
         }
-//        switch (flag) {
-//            case "search":
-//                ((SearchItemActivity) getActivity()).displayView(new FragmentItemDetails(), Constants.TAG_DETAILSPAGE, bundle);
-//                break;
-//            case "adDetail":
-//                ((AdDetailActivity) getActivity()).displayView(new FragmentItemDetails(), Constants.TAG_DETAILSPAGE, bundle);
-//                break;
-//            default:
-//                ((HomeActivity) getActivity()).displayView(new FragmentItemDetails(), Constants.TAG_DETAILSPAGE, bundle);
-//                break;
-//        }
         ((HomeActivity) getActivity()).displayView(new FragmentItemDetails(), Constants.TAG_DETAILSPAGE, bundle);
+    }
+
+    private void showLocationBottomSheet(ArrayList<LocationBean> locations,
+                                         String choiceOne,
+                                         String choiceTwo) {
+
+        String choiceKey = buildKey(str_option_Id, str_option_Id2);
+
+        Log.d("INV_DEBUG", "Requested Key = " + choiceKey);
+
+        BottomSheetDialog dialog = new BottomSheetDialog(requireContext());
+        View view = getLayoutInflater()
+                .inflate(R.layout.bottomsheet_options, null);
+
+        RecyclerView recyclerView = view.<RecyclerView>findViewById(R.id.recyclerOptions);
+        ImageView imageViewClose = view.<ImageView>findViewById(R.id.imageViewClose);
+        TextView tvTitle = view.<TextView>findViewById(R.id.tvTitle);
+        View viewDivider = view.<View>findViewById(R.id.viewDivider);
+        tvTitle.setText("Choose Location");
+
+        if (locations.size() == 1)
+            viewDivider.setVisibility(View.VISIBLE);
+        else
+            viewDivider.setVisibility(View.GONE);
+
+        imageViewClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        recyclerView.setLayoutManager(
+                new LinearLayoutManager(requireContext()));
+
+        locationAdapter =
+                new LocationBottomSheetAdapter(
+                        locations,
+                        choiceKey,
+                        selectedLocationId,
+                        location -> {
+                            selectedLocationId = location.getLocationId();
+//                            int qty = location.getQuantityForChoices(choiceKey);
+                            String key = buildKey(str_option_Id, str_option_Id2);
+                            int qty = location.getQuantityForChoices(key);
+                            Log.d("INV_DEBUG", "Returned Qty = " + qty);
+
+                            String baseText = location.getLocationName()
+                                    + " " + location.getAddress();
+//                                    + "\nQty: " + qty;
+
+                  /*          SpannableString spannable = new SpannableString(baseText);
+
+                            // Find "Qty: X"
+                            String qtyText = "Qty: " + qty;
+                            int start = baseText.indexOf(qtyText);
+                            int end = start + qtyText.length();
+
+                            // Apply bold style
+                            spannable.setSpan(
+                                    new StyleSpan(Typeface.BOLD),
+                                    start,
+                                    end,
+                                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                            );
+*/
+
+                            tvLocation.setText(baseText);
+                            updateOptionQtyLabels();
+                            dialog.dismiss();
+                        });
+
+        recyclerView.setAdapter(locationAdapter);
+
+        dialog.setContentView(view);
+        dialog.show();
+    }
+
+    private void showOptionBottomSheet(List<ProductOptionsBean> list,
+                                       Set<String> enabledIds,
+                                       TextView targetTextView, String title, String optionSelected) {
+
+        BottomSheetDialog dialog = new BottomSheetDialog(requireContext());
+        View view = getLayoutInflater().inflate(R.layout.bottomsheet_options, null);
+
+        View viewDivider = view.<View>findViewById(R.id.viewDivider);
+        RecyclerView recyclerView = view.<RecyclerView>findViewById(R.id.recyclerOptions);
+        ImageView imageViewClose = view.<ImageView>findViewById(R.id.imageViewClose);
+        TextView tvTitle = view.<TextView>findViewById(R.id.tvTitle);
+        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        recyclerView.addItemDecoration(new DividerItemDecoration(requireContext(), R.drawable.divider_grey));
+
+        if (list.size() == 1)
+            viewDivider.setVisibility(View.VISIBLE);
+        else
+            viewDivider.setVisibility(View.GONE);
+
+
+        imageViewClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        tvTitle.setText("Choose " + title);
+
+        String selectedId = optionSelected.equals("1")
+                ? str_option_Id
+                : str_option_Id2;
+
+        BottomSheetOptionsAdapter adapter =
+                new BottomSheetOptionsAdapter(
+                        list,
+                        enabledIds,
+                        selectedId,
+                        item -> {
+
+                            String name = Utils.hexToASCII(item.getChoice_name());
+                            double price = Double.parseDouble(item.getChoice_price());
+                            String priceFormat = "$" + String.format("%.2f", price);
+
+                            targetTextView.setText(name + " + " + priceFormat);
+
+                            // 🔥 STEP 1 — Save Selected ID
+                            String optionId = item.getChoice_id();
+                            String cleanId = Utils.removeLeadingZeros(
+                                    Utils.getElevenDigitId(optionId)
+                            );
+
+                       /*     if (optionSelected.equals("1")) {
+                                str_option_Id = cleanId;
+                            } else {
+                                str_option_Id2 = cleanId;
+                            }*/
+
+                            if (optionSelected.equals("1") && enabledIds.contains(item.getChoice_id())) {
+                                str_option_Id = cleanId;
+                            } else if (optionSelected.equals("2") && enabledIds.contains(item.getChoice_id())) {
+                                str_option_Id2 = cleanId;
+                            }
+
+                            // 🔥 STEP 2 — Refresh Locations (LIKE SPINNER DID)
+                            if (locationBeans != null && !locationBeans.isEmpty()) {
+
+                                String key1 = str_option_Id == null ? "" : str_option_Id;
+                                String key2 = str_option_Id2 == null ? "" : str_option_Id2;
+
+                                updateLocationBottomSheet(key1, key2);
+
+                                updateOptionQtyLabels();
+                            }
+
+                            dialog.dismiss();
+                        });
+
+        recyclerView.setAdapter(adapter);
+
+        dialog.setContentView(view);
+        dialog.show();
+    }
+
+    private void updateLocationBottomSheet(String choiceOne, String choiceTwo) {
+
+        String newKey = buildKey(choiceOne, choiceTwo);
+
+        if (locationAdapter != null) {
+            locationAdapter.updateChoiceKey(newKey);
+        } else if (locationBeans != null) {
+
+            // Adapter not created yet → create with new key
+            locationAdapter = new LocationBottomSheetAdapter(
+                    locationBeans,
+                    newKey,
+                    selectedLocationId,
+                    location -> {
+
+                        selectedLocationId = location.getLocationId();
+
+                        int qty = location.getQuantityForChoices(newKey);
+
+                        String baseText = location.getLocationName()
+                                + " " + location.getAddress();
+                        /*+ "\nQty: " + qty;*/
+
+               /*         SpannableString spannable = new SpannableString(baseText);
+
+                        String qtyText = "Qty: " + qty;
+                        int start = baseText.indexOf(qtyText);
+                        int end = start + qtyText.length();
+
+                        spannable.setSpan(
+                                new StyleSpan(Typeface.BOLD),
+                                start,
+                                end,
+                                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                        );*/
+
+                        tvLocation.setText(baseText);
+                        updateOptionQtyLabels();
+
+                    }
+            );
+        }
+
+        if (selectedLocationId != null) {
+
+            for (LocationBean loc : locationBeans) {
+
+                if (loc.getLocationId().equals(selectedLocationId)) {
+
+                    int qty = loc.getQuantityForChoices(newKey);
+
+                    String baseText = loc.getLocationName()
+                            + " " + loc.getAddress();
+//                            + "\nQty: " + qty;
+
+              /*      SpannableString spannable = new SpannableString(baseText);
+
+                    String qtyText = "Qty: " + qty;
+                    int start = baseText.indexOf(qtyText);
+                    int end = start + qtyText.length();
+
+                    spannable.setSpan(
+                            new StyleSpan(Typeface.BOLD),
+                            start,
+                            end,
+                            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                    );*/
+
+                    tvLocation.setText(baseText);
+
+                    break;
+                }
+            }
+        }
+
+        updateOptionQtyLabels();
+    }
+
+    private void autoSelectLocationAndChoice(ArrayList<LocationBean> locations,
+                                             String choiceOne,
+                                             String choiceTwo) {
+
+        String key = buildKey(choiceOne, choiceTwo);
+
+        for (LocationBean location : locations) {
+
+            int qty = location.getQuantityForChoices(key);
+
+            if (qty > 0) {
+
+                // ⭐ select location
+                selectedLocationId = location.getLocationId();
+
+                String baseText = location.getLocationName()
+                        + " " + location.getAddress();
+//                        + "\nQty: " + qty;
+
+/*
+                SpannableString spannable = new SpannableString(baseText);
+
+                String qtyText = "Qty: " + qty;
+                int start = baseText.indexOf(qtyText);
+                int end = start + qtyText.length();
+
+                spannable.setSpan(
+                        new StyleSpan(Typeface.BOLD),
+                        start,
+                        end,
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                );
+*/
+
+                tvLocation.setText(baseText);
+
+                updateOptionQtyLabels();
+                break;
+            }
+        }
+
+        tvLocation.setOnClickListener(v -> {
+            showLocationBottomSheet(
+                    locationBeans,
+                    choiceOne,
+                    choiceTwo
+            );
+        });
+        updateOptionQtyLabels();
+    }
+
+    private void autoSelectChoice(List<ProductOptionsBean> list,
+                                  Set<String> enabledIds,
+                                  TextView targetTextView,
+                                  String optionNumber) {
+
+        if (list == null || list.isEmpty()) return;
+
+        for (ProductOptionsBean item : list) {
+
+            if (enabledIds.contains(item.getChoice_id())) {
+
+                String name = Utils.hexToASCII(item.getChoice_name());
+                double price = Double.parseDouble(item.getChoice_price());
+                String priceFormat = "$" + String.format("%.2f", price);
+
+                targetTextView.setText(name + " + " + priceFormat);
+
+                String cleanId = Utils.removeLeadingZeros(
+                        Utils.getElevenDigitId(item.getChoice_id())
+                );
+
+                if (optionNumber.equals("1") && enabledIds.contains(item.getChoice_id())) {
+                    str_option_Id = cleanId;
+                } else if (optionNumber.equals("2") && enabledIds.contains(item.getChoice_id())) {
+                    str_option_Id2 = cleanId;
+                }
+
+                break;
+            }
+        }
+        updateOptionQtyLabels();
+    }
+
+    private void updateOptionQtyLabels() {
+        if (locationBeans == null || locationBeans.isEmpty()) return;
+
+        LocationBean loc = null;
+
+        if (selectedLocationId != null) {
+            for (LocationBean l : locationBeans) {
+                if (l.getLocationId().equals(selectedLocationId)) {
+                    loc = l;
+                    break;
+                }
+            }
+        }
+        int qty = getChoiceStock(str_option_Id, str_option_Id2, loc);
+
+        // Option 1
+        if (productOptionChoices1ArrayList != null && !productOptionChoices1ArrayList.isEmpty()) {
+            tvOptionOneQty.setText("In Stock (" + qty + ")");
+//            tvOptionOneQty.setVisibility(View.VISIBLE);
+            tvOptionMainQty.setText("In Stock (" + qty + ")");
+        }
+
+        // Option 2
+        if (productOptionChoices2ArrayList != null && !productOptionChoices2ArrayList.isEmpty()) {
+            tvOptionTwoQty.setText("In Stock (" + qty + ")");
+//            tvOptionTwoQty.setVisibility(View.VISIBLE);
+            tvOptionMainQty.setText("In Stock (" + qty + ")");
+
+        }
+        if (qty == 0) {
+            tvOptionMainQty.setTextColor(getActivity().getColor(R.color.colorOrangeRed));
+            tvOptionMainQty.setText("(Out of Stock)");
+        } else {
+            tvOptionMainQty.setTextColor(getActivity().getColor(R.color.colorGreen));
+        }
+
+
+        if (rbInStore.isChecked())
+            tvOptionMainQty.setVisibility(View.VISIBLE);
+        else
+            tvOptionMainQty.setVisibility(View.GONE);
+
+    }
+
+    private String buildKey(String c1, String c2) {
+
+        boolean hasC1 = c1 != null && !c1.trim().isEmpty();
+        boolean hasC2 = c2 != null && !c2.trim().isEmpty();
+
+        // both selected
+        if (hasC1 && hasC2) {
+
+            String comboKey = c1 + "_" + c2;
+
+            // if combo exists in inventory
+            if (ModelManager.getInstance().getDetailsManager().comboQtyMap.containsKey(comboKey)) {
+                return comboKey;
+            }
+
+            // if second option exists
+            if (ModelManager.getInstance().getDetailsManager().comboQtyMap.containsKey(c2)) {
+                return c2;
+            }
+
+            // if first option exists
+            if (ModelManager.getInstance().getDetailsManager().comboQtyMap.containsKey(c1)) {
+                return c1;
+            }
+        }
+
+        // only option1
+        if (hasC1 && ModelManager.getInstance().getDetailsManager().comboQtyMap.containsKey(c1)) {
+            return c1;
+        }
+
+        // only option2
+        if (hasC2 && ModelManager.getInstance().getDetailsManager().comboQtyMap.containsKey(c2)) {
+            return c2;
+        }
+
+        return "DEFAULT";
+    }
+
+    private boolean shouldHideOption(List<ProductOptionsBean> optionsList, Set<String> enabledIds) {
+        if (optionsList == null || optionsList.isEmpty()) return true; // no choices → hide
+        if (optionsList.size() == 1) {
+            ProductOptionsBean singleChoice = optionsList.get(0);
+            return !enabledIds.contains(singleChoice.getChoice_id()); // disabled → hide
+        }
+        return false; // more than 1 choice → show
+    }
+
+    private int getChoiceStock(String choiceId, String choiceId2, LocationBean selectedLocation) {
+        if (selectedLocation == null) return 0;
+
+        String key = choiceId != null && !choiceId.isEmpty() ? choiceId : "";
+        String key2 = choiceId2 != null && !choiceId2.isEmpty() ? choiceId2 : "";
+
+        String comboKey = buildKey(key, key2); // same as your existing function
+        return selectedLocation.getQuantityForChoices(comboKey);
     }
 
     public class GetOption1 extends BaseAdapter {
@@ -1743,7 +2084,7 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
         public View getView(int position, View view, ViewGroup viewGroup) {
             View vi = view;
             vi = inflater.inflate(R.layout.spinner_row, null);
-            TextView txt_type = vi.findViewById(R.id.txt_type);
+            TextView txt_type = vi.<TextView>findViewById(R.id.txt_type);
 
             String name = Utils.hexToASCII(response.get(position).getChoice_name());
             double price = Double.parseDouble(response.get(position).getChoice_price());
@@ -1805,8 +2146,8 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
         public View getView(int position, View view, ViewGroup viewGroup) {
             View vi = view;
             vi = inflater.inflate(R.layout.spinner_row_options, null);
-            TextView txt_type = vi.findViewById(R.id.txt_type);
-            TextView txt_price = vi.findViewById(R.id.txt_price);
+            TextView txt_type = vi.<TextView>findViewById(R.id.txt_type);
+            TextView txt_price = vi.<TextView>findViewById(R.id.txt_price);
 
             txt_price.setVisibility(View.GONE);
 
@@ -1822,8 +2163,6 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
             txt_price.setAlpha(enabled ? 1f : 0.4f);
 
             txt_type.setText(Utils.hexToASCII(response.get(position).getChoice_name()) + " + " + getDisplayText(priceFormat, enabled));
-//            txt_price.setText(getDisplayText(priceFormat, enabled));
-
             return vi;
         }
 
@@ -1866,25 +2205,6 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
     }
 
 
-    private void updateOption2BasedOnOption1(String selectedChoice1) {
-
-        Set<String> valid = ModelManager.getInstance().getDetailsManager().choiceAdjacencyMap
-                .getOrDefault(selectedChoice1, new HashSet<>());
-
-        if (getOptionChoicesTwoAdapter != null)
-            getOptionChoicesTwoAdapter.setEnabledChoices(valid);
-    }
-
-    private void updateOption1BasedOnOption2(String selectedChoice2) {
-
-        Set<String> valid = ModelManager.getInstance().getDetailsManager().choiceAdjacencyMap
-                .getOrDefault(selectedChoice2, new HashSet<>());
-
-        if (getOptionChoicesOneAdapter != null)
-            getOptionChoicesOneAdapter.setEnabledChoices(valid);
-    }
-
-
     private BaseAdapter mPeopleAlsoView = new BaseAdapter() {
 
         @Override
@@ -1893,15 +2213,15 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
                 convertView = getActivity().getLayoutInflater().inflate(R.layout.row_horizontal_test, parent, false);
             }
 
-            ImageView imageView = convertView.findViewById(R.id.image);
-            TextView description = convertView.findViewById(R.id.description);
-            ImageView eye = convertView.findViewById(R.id.eye);
+            ImageView imageView = convertView.<ImageView>findViewById(R.id.image);
+            TextView description = convertView.<TextView>findViewById(R.id.description);
+            ImageView eye = convertView.<ImageView>findViewById(R.id.eye);
             String isSeen = catArray.get(position).get1149();
-            LinearLayout rlSinglePrice = convertView.findViewById(R.id.rel_single_price);
-            LinearLayout rlTwoPrice = convertView.findViewById(R.id.rl_two_price);
-            TextView price = convertView.findViewById(R.id.price);
-            TextView actualPrice = convertView.findViewById(R.id.actual_price);
-            TextView priceAfterDiscount = convertView.findViewById(R.id.price_after_discount);
+            LinearLayout rlSinglePrice = convertView.<LinearLayout>findViewById(R.id.rel_single_price);
+            LinearLayout rlTwoPrice = convertView.<LinearLayout>findViewById(R.id.rl_two_price);
+            TextView price = convertView.<TextView>findViewById(R.id.price);
+            TextView actualPrice = convertView.<TextView>findViewById(R.id.actual_price);
+            TextView priceAfterDiscount = convertView.<TextView>findViewById(R.id.price_after_discount);
 
             if (isSeen != null && isSeen.equalsIgnoreCase("false")) {
                 eye.setBackgroundResource(R.drawable.green_seen);
@@ -1953,12 +2273,6 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
                 }
             });
 
-            // Picasso.get().load(ATPreferences.readString(getActivity(), Constants.KEY_IMAGE_URL) + catArray.get(position).get121170()).into(imageView);
-//            Glide.with(getActivity()).load(ATPreferences.readString(getActivity(), Constants.KEY_IMAGE_URL) + catArray.get(position).get121170())
-//                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-//                    .placeholder(R.drawable.splash_screen_new)
-//                    .into(imageView);
-
             Picasso.get()
                     .load(ATPreferences.readString(mActivity, Constants.KEY_IMAGE_URL) + "_t_" + catArray.get(position)
                             .get121170())
@@ -1991,15 +2305,15 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
                 convertView = getActivity().getLayoutInflater().inflate(R.layout.row_horizontal_test, parent, false);
             }
 
-            ImageView imageView = convertView.findViewById(R.id.image);
-            TextView description = convertView.findViewById(R.id.description);
-            ImageView eye = convertView.findViewById(R.id.eye);
+            ImageView imageView = convertView.<ImageView>findViewById(R.id.image);
+            TextView description = convertView.<TextView>findViewById(R.id.description);
+            ImageView eye = convertView.<ImageView>findViewById(R.id.eye);
             String isSeen = relatedArray.get(position).get_1149();
-            LinearLayout rlSinglePrice = convertView.findViewById(R.id.rel_single_price);
-            LinearLayout rlTwoPrice = convertView.findViewById(R.id.rl_two_price);
-            TextView price = convertView.findViewById(R.id.price);
-            TextView actualPrice = convertView.findViewById(R.id.actual_price);
-            TextView priceAfterDiscount = convertView.findViewById(R.id.price_after_discount);
+            LinearLayout rlSinglePrice = convertView.<LinearLayout>findViewById(R.id.rel_single_price);
+            LinearLayout rlTwoPrice = convertView.<LinearLayout>findViewById(R.id.rl_two_price);
+            TextView price = convertView.<TextView>findViewById(R.id.price);
+            TextView actualPrice = convertView.<TextView>findViewById(R.id.actual_price);
+            TextView priceAfterDiscount = convertView.<TextView>findViewById(R.id.price_after_discount);
 
             if (isSeen.equalsIgnoreCase("false")) {
                 eye.setBackgroundResource(R.drawable.green_seen);
@@ -2054,10 +2368,6 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
                 }
             });
 
-//            Glide.with(getActivity()).load(ATPreferences.readString(getActivity(), Constants.KEY_IMAGE_URL) + relatedArray.get(position).get121170())
-//                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-//                    .placeholder(R.drawable.splash_screen_new)
-//                    .into(imageView);
             Picasso.get().load(ATPreferences.readString(mActivity, Constants.KEY_IMAGE_URL)
                             + "_t_" + relatedArray.get(position).get121170()).
                     into(imageView);
@@ -2089,15 +2399,15 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
                 convertView = getActivity().getLayoutInflater().inflate(R.layout.row_horizontal_test, parent, false);
             }
 
-            ImageView imageView = convertView.findViewById(R.id.image);
-            TextView description = convertView.findViewById(R.id.description);
-            ImageView eye = convertView.findViewById(R.id.eye);
+            ImageView imageView = convertView.<ImageView>findViewById(R.id.image);
+            TextView description = convertView.<TextView>findViewById(R.id.description);
+            ImageView eye = convertView.<ImageView>findViewById(R.id.eye);
             String isSeen = specialArrayRelated.get(0).getRESULT().get(0).getIA().get(position).get_114_9();
-            LinearLayout rlSinglePrice = convertView.findViewById(R.id.rel_single_price);
-            LinearLayout rlTwoPrice = convertView.findViewById(R.id.rl_two_price);
-            TextView price = convertView.findViewById(R.id.price);
-            TextView actualPrice = convertView.findViewById(R.id.actual_price);
-            TextView priceAfterDiscount = convertView.findViewById(R.id.price_after_discount);
+            LinearLayout rlSinglePrice = convertView.<LinearLayout>findViewById(R.id.rel_single_price);
+            LinearLayout rlTwoPrice = convertView.<LinearLayout>findViewById(R.id.rl_two_price);
+            TextView price = convertView.<TextView>findViewById(R.id.price);
+            TextView actualPrice = convertView.<TextView>findViewById(R.id.actual_price);
+            TextView priceAfterDiscount = convertView.<TextView>findViewById(R.id.price_after_discount);
 
             if (isSeen.equalsIgnoreCase("false")) {
                 eye.setBackgroundResource(R.drawable.green_seen);
@@ -2148,13 +2458,6 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
 
                 }
             });
-
-//            Glide.with(getActivity()).load(ATPreferences.readString(getActivity(), Constants.KEY_IMAGE_URL) + specialArrayRelated.get(0).getRESULT().get(0).getIA().
-//                    get(position).getIM().get(0).get4742())
-//                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-//                    .placeholder(R.drawable.splash_screen_new)
-//                    .into(imageView);
-
             Picasso.get().load(ATPreferences.readString(mActivity, Constants.KEY_IMAGE_URL) + "_t_" +
                             specialArrayRelated.get(0).getRESULT().get(0).getIA().
                                     get(position).getIM().get(0).get4742())
@@ -2180,12 +2483,6 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
         }
     };
 
-
-    int getDistance(MotionEvent event) {
-        int dx = (int) (event.getX(0) - event.getX(1));
-        int dy = (int) (event.getY(0) - event.getY(1));
-        return (int) (Math.sqrt(dx * dx + dy * dy));
-    }
 
     public boolean onTouch(View v, MotionEvent event) {
         return false;

@@ -48,8 +48,32 @@ public class LocationBean {
 
     // 🔹 Get quantity
     public int getQuantityForChoices(String key) {
+
+        if (key == null || key.trim().isEmpty()) {
+            Integer q = choiceQuantityMap.get("DEFAULT");
+            return q == null ? 0 : q;
+        }
+
+        // 1️⃣ exact match
         Integer q = choiceQuantityMap.get(key);
-        return q == null ? 0 : q;
+        if (q != null) return q;
+
+        if (key.contains("_")) {
+
+            String[] parts = key.split("_");
+
+            // 2️⃣ try second choice (this is your real inventory key)
+            q = choiceQuantityMap.get(parts[1]);
+            if (q != null) return q;
+
+            // 3️⃣ try first choice
+            q = choiceQuantityMap.get(parts[0]);
+            if (q != null) return q;
+        }
+
+        // 4️⃣ default fallback
+        Integer defaultQty = choiceQuantityMap.get("DEFAULT");
+        return defaultQty == null ? 0 : defaultQty;
     }
 
     public boolean isInStockForChoices(String key) {

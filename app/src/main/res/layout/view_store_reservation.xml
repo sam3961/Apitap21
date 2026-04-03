@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/view_checkin"
+    android:id="@+id/view_store_reservation"
     android:background="@android:color/white">
 
     <View

@@ -3,11 +3,13 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorBlue</item>
+        <item name="colorPrimary">@color/colorGreenLight</item>
+        <item name="colorPrimaryDark">@color/colorGreenDarkLogo</item>
+        <item name="colorAccent">@color/colorGreenLogo</item>
         <item name="android:windowDisablePreview">true</item>
         <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:statusBarColor">@color/colorGreenDarkLogo</item>
+        <item name="android:windowLightStatusBar">true</item>
 
     </style>
 

@@ -29,6 +29,38 @@ public class SignUpManager {
             new ExecuteSignupApi(context).execute(params);
     }
 
+    public void saveAddress(Context context, String params) {
+        new ExecuteSaveAddressApi(context).execute(params);
+    }
+
+
+    private class ExecuteSaveAddressApi extends AsyncTask<String, String, String> {
+        Context mContext;
+
+        ExecuteSaveAddressApi(Context context) {
+            mContext = context;
+        }
+
+        @Override
+        protected String doInBackground(String... param) {
+            String response = Client.Caller(param[0]);
+            Log.d(TAG, "save_address_api---" + response);
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            try {
+                Log.d("responsezip", s);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+
     private class ExecuteApi extends AsyncTask<String, String, String> {
         Context mContext;
 
@@ -54,9 +86,9 @@ public class SignUpManager {
                 JSONObject innerResultObj = innerResultArr.getJSONObject(0);
                 String status = innerResultObj.getString("_122_73");
                 if (status.equals("1")) {
-                    EventBus.getDefault().post(new Event(Constants.ACCOUNT_ALREADY_REGISTERED,"EmailId Already Registered"));
+                    EventBus.getDefault().post(new Event(Constants.ACCOUNT_ALREADY_REGISTERED, "EmailId Already Registered"));
                 } else {
-                    EventBus.getDefault().post(new Event(Constants.ACCOUNT_NOT_REGISTERED,""));
+                    EventBus.getDefault().post(new Event(Constants.ACCOUNT_NOT_REGISTERED, ""));
                 }
 
             } catch (JSONException e) {
@@ -86,12 +118,19 @@ public class SignUpManager {
             try {
                 JSONObject jsonObject = new JSONObject(s);
                 JSONArray resultArray = jsonObject.getJSONArray("RESULT");
+
                 JSONObject resultObj = resultArray.getJSONObject(0);
+
+                JSONArray resultArray1 = resultObj.getJSONArray("RESULT");
+                JSONObject resultObj1 = resultArray1.getJSONObject(0);
+
                 String transaction = resultObj.getString("_44");
-                if (transaction.equals("Transaction Approved")){
-                    EventBus.getDefault().post(new Event(Constants.ACCOUNT_CREATED,""));
-                }else
-                    EventBus.getDefault().post(new Event(Constants.GET_SERVER_ERROR,transaction));
+                String id = resultObj1.getString("_53");
+
+                if (transaction.equals("Transaction Approved")) {
+                    EventBus.getDefault().post(new Event(Constants.ACCOUNT_CREATED, id));
+                } else
+                    EventBus.getDefault().post(new Event(Constants.GET_SERVER_ERROR, transaction));
                 JSONArray innerResultArr = resultObj.getJSONArray("RESULT");
                 JSONObject innerResultObj = innerResultArr.getJSONObject(0);
 //                String status = innerResultObj.getString("122.73");
@@ -106,5 +145,6 @@ public class SignUpManager {
 
         }
     }
+
 
 }

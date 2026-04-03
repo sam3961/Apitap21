@@ -33,7 +33,6 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -87,7 +86,7 @@ public class DetailsManager {
     }
 
     public void getItemInventory(Context mContext, String productId, ArrayList<String> choiceListOne,
-                                 ArrayList<String> choiceListTwo){
+                                 ArrayList<String> choiceListTwo) {
         new FetchItemInventoryTask(
                 mContext,
                 productId,
@@ -153,11 +152,11 @@ public class DetailsManager {
                                             JSONObject jsonObjectAd = jsonObjectLo.getJSONObject("AD");
                                             String locationFullName = Utils.hexToASCII(jsonObjectAd.getString("_114_12"));
                                             JSONObject jsonObjectCI = jsonObjectAd.getJSONObject("CI");
-                                            String locationName = jsonObjectCI.getString("_47_15");
+                                            String locationName = jsonObjectCI.optString("_47_15");
                                             JSONObject jsonObjectST = jsonObjectAd.getJSONObject("ST");
-                                            String locationSate = jsonObjectST.getString("_47_16");
+                                            String locationSate = jsonObjectST.optString("_47_16");
                                             JSONObject jsonObjectCO = jsonObjectAd.getJSONObject("CO");
-                                            String locationCountry = jsonObjectCO.getString("_47_18");
+                                            String locationCountry = jsonObjectCO.optString("_47_18");
                                             arrayListLocation.add(locationFullName + " " + locationName + " " + locationSate + " " + locationCountry);
                                         }
                                     } catch (Exception e) {
@@ -385,10 +384,15 @@ public class DetailsManager {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            relatedDetailsBean = new Gson().fromJson(s, RelatedDetailsBean.class);
-            if (relatedDetailsBean.getRESULT().get(0).get44().equals("Transaction Approved")) {
-                EventBus.getDefault().post(new Event(Constants.RELATED_DETAILS, ""));
-            } else {
+            try {
+                relatedDetailsBean = new Gson().fromJson(s, RelatedDetailsBean.class);
+                if (relatedDetailsBean.getRESULT().get(0).get44().equals("Transaction Approved")) {
+                    EventBus.getDefault().post(new Event(Constants.RELATED_DETAILS, ""));
+                } else {
+                    EventBus.getDefault().post(new Event(-1, ""));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
                 EventBus.getDefault().post(new Event(-1, ""));
             }
         }
@@ -433,7 +437,7 @@ public class DetailsManager {
                                       String productId,
                                       ArrayList<String> selectedChoiceOne,
                                       ArrayList<String> selectedChoiceSecond
-                                      ) {
+        ) {
             this.context = context;
             this.productId = productId;
             this.selectedChoiceOne = selectedChoiceOne;
@@ -484,14 +488,19 @@ public class DetailsManager {
                             obj.optString("tblProductinventoryChoices", "");
                     int qty = obj.getInt("tblProductinventoryQuantity");
 
-                    if (!isChoiceMatched(
-                            inventoryChoices,
-                            selectedChoiceOne,
-                            selectedChoiceSecond)) {
-                        continue;
+                    if (inventoryChoices.isEmpty()){
+                        EventBus.getDefault().post(
+                                new Event(Constants.INVENTORY_CHOICES_EMPTY, "")
+                        );
                     }
 
-                    String key = inventoryChoices.replace(",", "_");
+                    String key;
+
+                    if (inventoryChoices == null || inventoryChoices.isEmpty()) {
+                        key = "DEFAULT";   // 🔥 important
+                    } else {
+                        key = inventoryChoices.replace(",", "_");
+                    }
 
                     for (LocationBean loc : locationBeans) {
                         if (loc.getLocationId().equals(locationId)) {
@@ -513,6 +522,51 @@ public class DetailsManager {
         }
 
     }
+
+    private void buildInventoryMaps(JSONArray inventoryArray) throws Exception {
+
+        comboQtyMap.clear();
+        choiceAdjacencyMap.clear();
+
+        for (int i = 0; i < inventoryArray.length(); i++) {
+
+            JSONObject obj = inventoryArray.getJSONObject(i);
+
+            int qty = obj.optInt("tblProductinventoryQuantity", 0);
+            if (qty <= 0) continue;
+
+            String choices = obj.optString("tblProductinventoryChoices", "").trim();
+
+            String key;
+
+            if (choices.isEmpty()) {
+                key = "DEFAULT";
+            } else {
+                key = choices.replace(",", "_");
+            }
+
+            // ✅ Sum quantities instead of overwrite
+            comboQtyMap.merge(key, qty, Integer::sum);
+
+            // Build adjacency only if there are 2 choices
+            String[] parts = choices.split(",");
+            if (parts.length < 2) continue;
+
+            String c1 = parts[0];
+            String c2 = parts[1];
+
+            choiceAdjacencyMap
+                    .computeIfAbsent(c1, k -> new HashSet<>())
+                    .add(c2);
+
+            choiceAdjacencyMap
+                    .computeIfAbsent(c2, k -> new HashSet<>())
+                    .add(c1);
+            Log.d("INV_DEBUG", "Inserted Key = " + key + " Qty = " + qty);
+        }
+        Log.d("INV_DEBUG", "Final Map = " + comboQtyMap.toString());
+    }
+
 
     public class FetchPromoItemInventoryTask
             extends AsyncTask<Void, Void, List<InventoryResponse>> {
@@ -544,7 +598,8 @@ public class DetailsManager {
 
                 if (response != null && !response.isEmpty()) {
                     Gson gson = new Gson();
-                    Type type = new TypeToken<List<InventoryResponse>>() {}.getType();
+                    Type type = new TypeToken<List<InventoryResponse>>() {
+                    }.getType();
                     return gson.fromJson(response, type);
                 }
 
@@ -570,74 +625,10 @@ public class DetailsManager {
 
     public interface PromoInventoryCallback {
         void onInventoryLoaded(String productId, List<InventoryResponse> inventoryList);
+
         void onError();
     }
 
-
-    private boolean isChoiceMatched(String inventoryChoices,
-                                    ArrayList<String> choiceListOne,
-                                    ArrayList<String> choiceListTwo) {
-
-        if (inventoryChoices == null || inventoryChoices.isEmpty()) {
-            return false;
-        }
-
-        String[] inventoryArray = inventoryChoices.split(",");
-
-        boolean matchOne = false;
-        boolean matchTwo = false;
-
-        for (String invChoice : inventoryArray) {
-
-            if (choiceListOne != null && choiceListOne.contains(invChoice)) {
-                matchOne = true;
-            }
-
-            if (choiceListTwo != null && choiceListTwo.contains(invChoice)) {
-                matchTwo = true;
-            }
-        }
-
-        // If only ONE option exists
-        if (choiceListTwo == null || choiceListTwo.isEmpty()) {
-            return matchOne;
-        }
-
-        return matchOne && matchTwo;
-    }
-
-    private void buildInventoryMaps(JSONArray inventoryArray) throws Exception {
-
-        comboQtyMap.clear();
-        choiceAdjacencyMap.clear();
-
-        for (int i = 0; i < inventoryArray.length(); i++) {
-
-            JSONObject obj = inventoryArray.getJSONObject(i);
-
-            int qty = obj.getInt("tblProductinventoryQuantity");
-            if (qty <= 0) continue;
-
-            String choices = obj.getString("tblProductinventoryChoices");
-            String key = choices.replace(",", "_");
-
-            comboQtyMap.put(key, qty);
-
-            String[] parts = choices.split(",");
-            if (parts.length < 2) continue;
-
-            String c1 = parts[0];
-            String c2 = parts[1];
-
-            choiceAdjacencyMap
-                    .computeIfAbsent(c1, k -> new HashSet<>())
-                    .add(c2);
-
-            choiceAdjacencyMap
-                    .computeIfAbsent(c2, k -> new HashSet<>())
-                    .add(c1);
-        }
-    }
 
 
 }

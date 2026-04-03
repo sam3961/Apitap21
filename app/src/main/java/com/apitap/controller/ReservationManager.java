@@ -6,6 +6,8 @@ import android.util.Log;
 
 import com.apitap.model.Client;
 import com.apitap.model.Constants;
+import com.apitap.model.address.GetAddressResponse;
+import com.apitap.model.reservation.MerchantByCatResponse;
 import com.apitap.model.addReservation.AddReservationResponse;
 import com.apitap.model.assignedToUser.AssignUserLocationResponse;
 import com.apitap.model.customclasses.Event;
@@ -28,11 +30,45 @@ public class ReservationManager {
     public GetReservationResponse getReservationResponse;
     public TablesBySeatingAreaResponse tablesBySeatingAreaResponse;
     public PromoByLocationResponse promoByLocationResponse;
+    public MerchantByCatResponse merchantByCatResponse;
     public AssignUserLocationResponse assignUserLocationResponse;
+    public GetAddressResponse getAddressResponse;
 
     public void addReservationDetails(Context context, String params, String tag) {
         apiConstant = tag;
         new ExecuteApi(context).execute(params);
+    }
+
+    public void getAddress(Context context, String params) {
+        new ExecuteGetAddressApi(context).execute(params);
+    }
+
+    private class ExecuteGetAddressApi extends AsyncTask<String, String, String> {
+        Context mContext;
+
+        ExecuteGetAddressApi(Context context) {
+            mContext = context;
+        }
+
+        @Override
+        protected String doInBackground(String... param) {
+            String response = Client.Caller(param[0]);
+            Log.d(TAG, "get_address_api---" + response);
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            try {
+                Log.d("responsezip", s);
+                getAddressResponse = new Gson().fromJson(s, GetAddressResponse.class);
+                EventBus.getDefault().post(new Event(Constants.GET_ADDRESS_SUCCESS, true));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 
 
@@ -55,44 +91,53 @@ public class ReservationManager {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            try {
+                switch (apiConstant) {
+                    case Constants.TAG_ADD_RESERVATION:
+                        AddReservationResponse addReservationResponse = new Gson().fromJson(s, AddReservationResponse.class);
+                        EventBus.getDefault().post(new Event(Constants.ADD_RESERVATION_SUCCESS, true));
+                        break;
+                    case Constants.TAG_GET_RESERVATION:
+                        getReservationResponse = new Gson().fromJson(s, GetReservationResponse.class);
+                        EventBus.getDefault().post(new Event(Constants.GET_RESERVATION_SUCCESS, true));
+                        break;
+                    case Constants.TAG_DELETE_RESERVATION:
+                        EventBus.getDefault().post(Constants.DELETE_RESERVATION_SUCCESS);
+                        EventBus.getDefault().post(Constants.DELETE_RESERVATION_FAILURE);
+                        break;
+                    case Constants.TAG_EDIT_RESERVATION:
+                        EventBus.getDefault().post(Constants.EDIT_RESERVATION_SUCCESS);
+                        EventBus.getDefault().post(Constants.EDIT_RESERVATION_FAILURE);
+                        break;
+                    case Constants.TAG_SEATING_AREA_BY_LOCATION:
+                        seatingAreaLocationResponse = new Gson().fromJson(s, SeatingAreaLocationResponse.class);
+                        EventBus.getDefault().post(new Event(Constants.GET_SEATING_AREA_LOCATION_SUCCESS, true));
+                        break;
+                    case Constants.TAG_TABLES_BY_SEATING_AREA:
+                        tablesBySeatingAreaResponse = new Gson().fromJson(s, TablesBySeatingAreaResponse.class);
+                        EventBus.getDefault().post(new Event(Constants.GET_TABLES_BY_SEATING_AREA_SUCCESS, true));
+                        break;
+                    case Constants.TAG_ASSIGN_USER_BY_LOCATION:
+                        assignUserLocationResponse = new Gson().fromJson(s, AssignUserLocationResponse.class);
+                        EventBus.getDefault().post(new Event(Constants.GET_ASSIGNED_TO_USER_SUCCESS, true));
+                        break;
+                    case Constants.TAG_PROMO_BY_LOCATION:
+                        promoByLocationResponse = new Gson().fromJson(s, PromoByLocationResponse.class);
+                        EventBus.getDefault().post(new Event(Constants.GET_PROMO_BY_LOCATION_SUCCESS, true));
+                        break;
 
-            switch (apiConstant) {
-                case Constants.TAG_ADD_RESERVATION:
-                    AddReservationResponse addReservationResponse = new Gson().fromJson(s, AddReservationResponse.class);
-                    EventBus.getDefault().post(new Event(Constants.ADD_RESERVATION_SUCCESS, true));
-                    break;
-                case Constants.TAG_GET_RESERVATION:
-                    getReservationResponse = new Gson().fromJson(s, GetReservationResponse.class);
-                    EventBus.getDefault().post(new Event(Constants.GET_RESERVATION_SUCCESS, true));
-                    break;
-                case Constants.TAG_DELETE_RESERVATION:
-                    EventBus.getDefault().post(Constants.DELETE_RESERVATION_SUCCESS);
-                    EventBus.getDefault().post(Constants.DELETE_RESERVATION_FAILURE);
-                    break;
-                case Constants.TAG_EDIT_RESERVATION:
-                    EventBus.getDefault().post(Constants.EDIT_RESERVATION_SUCCESS);
-                    EventBus.getDefault().post(Constants.EDIT_RESERVATION_FAILURE);
-                    break;
-                case Constants.TAG_SEATING_AREA_BY_LOCATION:
-                    seatingAreaLocationResponse = new Gson().fromJson(s, SeatingAreaLocationResponse.class);
-                    EventBus.getDefault().post(new Event(Constants.GET_SEATING_AREA_LOCATION_SUCCESS, true));
-                    break;
-                case Constants.TAG_TABLES_BY_SEATING_AREA:
-                    tablesBySeatingAreaResponse = new Gson().fromJson(s, TablesBySeatingAreaResponse.class);
-                    EventBus.getDefault().post(new Event(Constants.GET_TABLES_BY_SEATING_AREA_SUCCESS, true));
-                    break;
-                case Constants.TAG_ASSIGN_USER_BY_LOCATION:
-                    assignUserLocationResponse = new Gson().fromJson(s, AssignUserLocationResponse.class);
-                    EventBus.getDefault().post(new Event(Constants.GET_ASSIGNED_TO_USER_SUCCESS, true));
-                    break;
-                case Constants.TAG_PROMO_BY_LOCATION:
-                    promoByLocationResponse = new Gson().fromJson(s, PromoByLocationResponse.class);
-                    EventBus.getDefault().post(new Event(Constants.GET_PROMO_BY_LOCATION_SUCCESS, true));
-                    break;
+                    case Constants.TAG_MERCHANT_BY_CATEGORY:
+                        merchantByCatResponse = new Gson().fromJson(s, MerchantByCatResponse.class);
+                        EventBus.getDefault().post(new Event(Constants.GET_MERCHANT_BY_CATEGORY_SUCCESS, true));
+                        break;
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                EventBus.getDefault().post(new Event(-1, ""));
             }
-
         }
+
+
     }
-
-
 }

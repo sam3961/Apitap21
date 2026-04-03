@@ -10,13 +10,12 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/_1sdp"
-        android:background="@android:color/darker_gray"/>
+        android:background="@android:color/darker_gray" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardElevation="@dimen/_2sdp"
-        >
+        app:cardElevation="@dimen/_2sdp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -42,6 +41,20 @@
                 android:textColor="@color/colorBlack"
                 android:textSize="@dimen/_14ssp" />
 
+            <TextView
+                android:id="@+id/textViewAddReservation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add Reservation"
+                android:background="@drawable/button_rounded_green_2"
+                android:fontFamily="@font/poppins_medium"
+                android:textColor="@color/colorWhite"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:textSize="@dimen/_10ssp"
+                android:layout_marginEnd="@dimen/_4sdp"
+                android:padding="@dimen/_4sdp"/>
+
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
@@ -65,18 +78,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_8"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:orientation="vertical"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
     <com.applandeo.materialcalendarview.CalendarView
-            android:id="@+id/calendarView"
+        android:id="@+id/calendarView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="visible"
         app:eventsEnabled="true"
-        app:headerColor="@color/colorPrimaryDark"
+        app:headerColor="@color/colorGreen"
         app:selectionColor="@android:color/holo_red_dark"
-        app:todayLabelColor="@color/colorPrimary" />
+        app:todayLabelColor="@color/colorGreen" />
 
 </LinearLayout>
