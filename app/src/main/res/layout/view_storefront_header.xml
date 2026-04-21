@@ -37,7 +37,7 @@
             android:gravity="center"
             android:padding="5dp">
 
-            <com.apitap.model.customclasses.ScaleImageView
+            <com.apitap.app.model.customclasses.ScaleImageView
                 android:id="@+id/adstoreImg"
                 android:layout_width="match_parent"
                 android:adjustViewBounds="true"

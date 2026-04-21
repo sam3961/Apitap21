@@ -127,8 +127,8 @@
 
                 <ImageView
                     android:id="@+id/iv_message"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
                     android:padding="@dimen/_2sdp"
                     local:srcCompat="@drawable/ic_chat_icon"
                     local:tint="@color/colorBlack" />
@@ -150,8 +150,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="1"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:includeFontPadding="false"
                         android:textAlignment="center"
-                        android:textColor="@color/colorBlue"
+                        android:textColor="@color/colorPrimaryDark"
                         android:textSize="10dp" />
                 </LinearLayout>
             </FrameLayout>

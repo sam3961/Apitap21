@@ -115,7 +115,7 @@
                             android:id="@+id/imageView1Sender"
                             android:layout_width="match_parent"
                             android:layout_height="150dp"
-                            android:scaleType="centerCrop"
+                            android:scaleType="fitXY"
                             android:src="@drawable/gallery_placeholder" />
                     </androidx.cardview.widget.CardView>
 
@@ -132,7 +132,7 @@
                             android:id="@+id/imageView2Sender"
                             android:layout_width="match_parent"
                             android:layout_height="150dp"
-                            android:scaleType="centerCrop"
+                            android:scaleType="fitXY"
                             android:src="@drawable/gallery_placeholder" />
                     </androidx.cardview.widget.CardView>
 
@@ -149,7 +149,7 @@
                             android:id="@+id/imageView3Sender"
                             android:layout_width="match_parent"
                             android:layout_height="150dp"
-                            android:scaleType="centerCrop"
+                            android:scaleType="fitXY"
                             android:src="@drawable/gallery_placeholder" />
                     </androidx.cardview.widget.CardView>
 
@@ -330,7 +330,7 @@
                             android:id="@+id/imageView1Receiver"
                             android:layout_width="match_parent"
                             android:layout_height="150dp"
-                            android:scaleType="centerCrop"
+                            android:scaleType="fitXY"
                             android:src="@drawable/gallery_placeholder" />
                     </androidx.cardview.widget.CardView>
 
@@ -347,7 +347,7 @@
                             android:id="@+id/imageView2Receiver"
                             android:layout_width="match_parent"
                             android:layout_height="150dp"
-                            android:scaleType="centerCrop"
+                            android:scaleType="fitXY"
                             android:src="@drawable/gallery_placeholder" />
                     </androidx.cardview.widget.CardView>
 
@@ -364,7 +364,7 @@
                             android:id="@+id/imageView3Receiver"
                             android:layout_width="match_parent"
                             android:layout_height="150dp"
-                            android:scaleType="centerCrop"
+                            android:scaleType="fitXY"
                             android:src="@drawable/gallery_placeholder" />
                     </androidx.cardview.widget.CardView>
 

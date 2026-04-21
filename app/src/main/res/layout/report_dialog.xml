@@ -100,7 +100,7 @@
                     android:background="@drawable/rounded_bg_dblue"
                     android:gravity="center"
                     android:padding="8dp"
-                    android:text="@string/Submit"
+                    android:text="@string/submit"
                     android:textAlignment="center"
                     android:textColor="@color/colorWhite" />
 

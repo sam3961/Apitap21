@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:background="@android:color/white"
     android:orientation="vertical"
-    tools:context="com.apitap.views.fragments.FragmentGotQuestions">
+    tools:context="com.apitap.app.views.fragments.FragmentGotQuestions">
 
     <LinearLayout
         android:layout_width="match_parent"

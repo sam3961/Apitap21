@@ -52,7 +52,7 @@
 
                 <fragment
                     android:id="@+id/frag_address"
-                    android:name="com.apitap.views.fragments.FragmentAddress"
+                    android:name="com.apitap.app.views.fragments.FragmentAddress"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     tools:layout="@layout/fragment_address" />

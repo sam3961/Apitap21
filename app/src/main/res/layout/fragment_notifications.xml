@@ -4,7 +4,7 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/colorGrey"
-    tools:context="com.apitap.views.fragments.messages.FragmentMessages"
+    tools:context="com.apitap.app.views.fragments.messages.FragmentMessages"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
 

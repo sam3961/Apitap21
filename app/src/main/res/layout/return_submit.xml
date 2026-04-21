@@ -234,7 +234,7 @@
             <Button
                 android:layout_width="0dp"
                 android:layout_height="40dp"
-                android:text="@string/Submit"
+                android:text="@string/submit"
                 android:textColor="@color/colorWhite"
                 android:background="@drawable/rounded_bg_dblue"
                 android:layout_weight=".3"/>

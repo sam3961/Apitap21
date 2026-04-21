@@ -6,15 +6,15 @@
     android:layout_height="match_parent"
     android:background="@color/colorGrey"
     android:visibility="visible"
-    tools:context="com.apitap.views.fragments.messages.FragmentMessages">
+    tools:context="com.apitap.app.views.fragments.messages.FragmentMessages">
 
     <RelativeLayout
+        android:id="@+id/rootLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:visibility="gone"
-        android:id="@+id/rootLayout"
-        android:background="@color/colorWhite">
+        android:background="@color/colorWhite"
+        android:visibility="visible">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/ll_shopping"
@@ -51,18 +51,23 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="@string/messages"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:includeFontPadding="false"
                     android:textColor="@color/colorBlue"
                     android:textSize="18sp"
-                    android:textStyle="bold" />
+                    />
 
                 <Button
                     android:id="@+id/new_msg"
                     android:layout_width="80dp"
                     android:layout_height="30dp"
-                    android:gravity="center"
                     android:layout_gravity="end|center_vertical"
                     android:background="@drawable/rounded_bg_dblue"
+                    android:gravity="center"
                     android:text="New"
+                    android:textSize="@dimen/_10ssp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:includeFontPadding="false"
                     android:textAllCaps="false"
                     android:textColor="@color/colorWhite"
                     android:visibility="visible" />
@@ -84,26 +89,31 @@
             android:id="@+id/newmsg_ll"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:gravity="center"
-            android:padding="5dp"
             android:layout_below="@+id/ll_shopping"
             android:background="@color/colorGreenDark"
-            android:orientation="vertical">
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="5dp">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="14dp"
                 android:id="@+id/currentDate"
-                android:layout_gravity="center"
-                android:textColor="@color/colorWhite"/>
-            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14dp"
                 android:layout_gravity="center"
+                android:includeFontPadding="false"
+                android:fontFamily="@font/poppins_regular"
+                android:textColor="@color/colorWhite"
+                android:textSize="14dp" />
+
+            <TextView
                 android:id="@+id/new_msgs"
-                android:textColor="@color/colorWhite"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:includeFontPadding="false"
+                android:fontFamily="@font/poppins_regular"
+                android:textColor="@color/colorWhite"
+                android:textSize="14dp" />
 
         </LinearLayout>
 
@@ -121,25 +131,53 @@
                 android:layout_height="wrap_content"
                 android:padding="5dp"
                 android:text="Search For:"
+                android:fontFamily="@font/poppins_semibold"
                 android:textColor="@color/colorBlue"
-                android:textStyle="bold" />
+                android:includeFontPadding="false" />
 
-            <EditText
-                android:id="@+id/searchmsg"
-                android:layout_width="match_parent"
+            <FrameLayout
+                android:layout_width="0dp"
                 android:layout_height="35dp"
+                android:orientation="horizontal"
                 android:layout_below="@+id/back_ll"
-                android:layout_weight="1"
                 android:background="@drawable/rectangular_black_transparent_"
-                android:paddingStart="5dp" />
+                android:layout_weight="1">
+
+                <EditText
+                    android:id="@+id/searchmsg"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:background="@null"
+                    android:fontFamily="@font/poppins_regular"
+                    android:includeFontPadding="false"
+                    android:textSize="@dimen/_11ssp"
+                    android:paddingStart="5dp" />
+
+                <ImageView
+                    android:id="@+id/clear_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|center"
+                    android:textAllCaps="false"
+                    android:layout_marginEnd="@dimen/_4sdp"
+                    android:src="@drawable/ic_close"
+                    android:textColor="@android:color/black"
+                    android:visibility="gone" />
+
+
+            </FrameLayout>
+
 
             <Button
                 android:id="@+id/find"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
-                android:layout_alignParentRight="true"
                 android:layout_below="@+id/txtview"
+                android:layout_alignParentRight="true"
                 android:layout_marginLeft="5dp"
+                android:textSize="@dimen/_10ssp"
+                android:fontFamily="@font/poppins_medium"
+                android:includeFontPadding="false"
                 android:background="@drawable/rounded_bg_dblue"
                 android:text="Go"
                 android:textColor="@android:color/white" />
@@ -149,8 +187,9 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_below="@+id/linear"
-            android:padding="5dp"
-            android:background="@color/colorGrey1"></LinearLayout>
+            android:background="@color/colorGrey1"
+            android:padding="5dp"></LinearLayout>
+
         <LinearLayout
             android:id="@+id/linearitem"
             android:layout_width="match_parent"
@@ -227,8 +266,6 @@
                 android:layout_height="match_parent" />
 
 
-
-
         </FrameLayout>
 
         <TextView
@@ -245,8 +282,8 @@
             android:id="@+id/view_msg"
             android:layout_width="100dp"
             android:layout_height="40dp"
-            android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
             android:background="@color/colorBlue"
             android:text="View"
             android:textColor="@color/colorWhite"

@@ -3,7 +3,7 @@
     "project_number": "58180548808",
     "firebase_url": "https://apitapmobileapp.firebaseio.com",
     "project_id": "apitapmobileapp",
-    "storage_bucket": "apitapmobileapp.appspot.com"
+    "storage_bucket": "apitapmobileapp.firebasestorage.app"
   },
   "client": [
     {
@@ -22,6 +22,42 @@
             "certificate_hash": "b58e9ef52f58c2d43d32e020d0bd9ba1e46f39d1"
           }
         },
+        {
+          "client_id": "58180548808-94j627p38rnm8rsb0p1dkcmti3m8gffv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGzlrkWnHuGPe00UPuX9Y-LiTUMWCOnkk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "58180548808-94j627p38rnm8rsb0p1dkcmti3m8gffv.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "58180548808-4lrt31h8k12r5cb8fem13h81n9ubh422.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.consumer.ApiTap"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:58180548808:android:f297ecd46bd4577dfd4dfd",
+        "android_client_info": {
+          "package_name": "com.apitap.app"
+        }
+      },
+      "oauth_client": [
         {
           "client_id": "58180548808-94j627p38rnm8rsb0p1dkcmti3m8gffv.apps.googleusercontent.com",
           "client_type": 3

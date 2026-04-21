@@ -66,7 +66,7 @@
                             android:background="@color/colorGrey"
                             android:visibility="visible" />
 
-                        <com.apitap.model.ViewPagerCustomDuration
+                        <com.apitap.app.model.ViewPagerCustomDuration
                             android:id="@+id/viewpager"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"

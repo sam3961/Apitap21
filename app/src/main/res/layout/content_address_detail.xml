@@ -10,7 +10,7 @@
     android:elevation="5dp"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.apitap.views.AddressDetailActivity">
+    tools:context="com.apitap.app.views.AddressDetailActivity">
 
     <ScrollView
         android:layout_width="match_parent"

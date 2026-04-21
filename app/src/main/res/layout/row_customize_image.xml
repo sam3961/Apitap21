@@ -197,7 +197,7 @@
                 android:layout_height="match_parent">
 
 
-                <com.apitap.model.customclasses.CustomImageView
+                <com.apitap.app.model.customclasses.CustomImageView
                     android:id="@+id/image"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

@@ -271,7 +271,7 @@
                                     android:textColor="@color/colorWhite"
                                     android:visibility="gone" />
 
-                                <com.apitap.model.customclasses.CustomImageView
+                                <com.apitap.app.model.customclasses.CustomImageView
                                     android:id="@+id/iv_ad"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
@@ -548,7 +548,7 @@
 
     <fragment
         android:id="@+id/fragment_navigation_drawer"
-        android:name="com.apitap.views.NavigationMenu.FragmentDrawer"
+        android:name="com.apitap.app.views.NavigationMenu.FragmentDrawer"
         android:layout_width="@dimen/nav_drawer_width"
         android:layout_height="match_parent"
         android:layout_gravity="start"

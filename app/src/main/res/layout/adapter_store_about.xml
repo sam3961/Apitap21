@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:visibility="visible">
 
-        <com.apitap.model.ProportionalImageView
+        <com.apitap.app.model.ProportionalImageView
             android:id="@+id/logo"
             android:layout_width="@dimen/_100sdp"
             android:layout_height="@dimen/_140sdp"

@@ -48,7 +48,17 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="30dp"
                 android:layout_marginRight="10dp"
-                android:hint="@string/enter_email"
+                android:hint="@string/enter_your_email"
+                android:inputType="textEmailAddress" />
+
+            <EditText
+                android:id="@+id/confirm_email"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="10dp"
+                android:hint="@string/enter_your_confirm_email"
                 android:inputType="textEmailAddress" />
 
             <EditText
@@ -63,6 +73,158 @@
                 android:hint="@string/enter_dob"
                 android:inputType="textEmailAddress" />
 
+
+
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="10dp"
+                android:visibility="gone"></Spinner>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="10dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/forgot_pass"
+                    android:textColor="#505050" />
+
+            </RelativeLayout>
+
+            <!-- 🔹 ADDRESS SECTION -->
+
+            <!-- Address 1 -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/address1"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginRight="10dp"
+                    android:hint="@string/address_1"
+                    android:imeOptions="actionDone"
+                    android:maxLines="1"
+                    android:singleLine="true" />
+
+
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/imageViewMap"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="end|center"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/ic_map_square" />
+
+            </FrameLayout>
+
+
+            <TextView
+                android:id="@+id/textViewErrorAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_9ssp"
+                android:fontFamily="@font/poppins_regular"
+                android:includeFontPadding="false"
+                android:visibility="gone"
+                android:textColor="@color/colorRed"
+                android:layout_marginHorizontal="12dp"
+                android:text="We couldn’t verify this address." />
+
+
+            <EditText
+                android:id="@+id/address2"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="10dp"
+                android:hint="@string/address_2"
+                android:imeOptions="actionDone"
+                android:maxLines="1"
+                android:singleLine="true" />
+
+            <!-- ZIP Code -->
+            <EditText
+                android:id="@+id/addressNickname"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="10dp"
+                android:hint="@string/address_nickname"
+                android:imeOptions="actionDone"
+                android:inputType="textPersonName"
+                android:maxLines="1"
+                android:singleLine="true" />
+
+            <!-- ZIP Code -->
+            <EditText
+                android:id="@+id/zipcode"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="10dp"
+                android:digits="0123456789"
+                android:hint="@string/zip_code"
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                android:maxLines="1"
+                android:singleLine="true" />
+
+            <TextView
+                android:id="@+id/textViewErrorZip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_9ssp"
+                android:visibility="gone"
+                android:fontFamily="@font/poppins_regular"
+                android:includeFontPadding="false"
+                android:textColor="@color/colorRed"
+                android:layout_marginHorizontal="12dp"
+                android:text="We couldn’t verify this ZIP." />
+
+
+            <!-- City (READ ONLY) -->
+            <EditText
+                android:id="@+id/city"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="10dp"
+                android:clickable="false"
+                android:editable="false"
+                android:focusable="false"
+                android:hint="@string/signup_city" />
+
+            <!-- State (READ ONLY) -->
+            <EditText
+                android:id="@+id/state"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="10dp"
+                android:clickable="false"
+                android:editable="false"
+                android:focusable="false"
+                android:hint="@string/signup_state" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -119,143 +281,6 @@
                     app:tint="@android:color/darker_gray" />
 
             </RelativeLayout>
-
-            <Spinner
-                android:id="@+id/spinner"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="30dp"
-                android:layout_marginRight="10dp"
-                android:visibility="gone"></Spinner>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginRight="10dp"
-                android:visibility="gone">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/forgot_pass"
-                    android:textColor="#505050" />
-
-            </RelativeLayout>
-
-            <!-- 🔹 ADDRESS SECTION -->
-
-            <!-- Address 1 -->
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/address1"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginRight="10dp"
-                    android:hint="Address 1"
-                    android:imeOptions="actionDone"
-                    android:maxLines="1"
-                    android:singleLine="true" />
-
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/imageViewMap"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="end|center"
-                    android:layout_marginTop="@dimen/_8sdp"
-                    android:layout_marginEnd="10dp"
-                    android:src="@drawable/ic_map_square" />
-
-            </FrameLayout>
-
-            <TextView
-                android:id="@+id/textViewErrorAddress"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/_9ssp"
-                android:fontFamily="@font/poppins_regular"
-                android:includeFontPadding="false"
-                android:visibility="gone"
-                android:textColor="@color/colorRed"
-                android:layout_marginHorizontal="12dp"
-                android:text="We couldn’t verify this address." />
-
-
-            <!-- ZIP Code -->
-            <EditText
-                android:id="@+id/addressNickname"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="30dp"
-                android:layout_marginRight="10dp"
-                android:hint="Address Nickname"
-                android:imeOptions="actionDone"
-                android:inputType="textPersonName"
-                android:maxLines="1"
-                android:singleLine="true" />
-
-            <!-- ZIP Code -->
-            <EditText
-                android:id="@+id/zipcode"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="30dp"
-                android:layout_marginRight="10dp"
-                android:digits="0123456789"
-                android:hint="ZIP Code"
-                android:imeOptions="actionDone"
-                android:inputType="number"
-                android:maxLines="1"
-                android:singleLine="true" />
-
-            <TextView
-                android:id="@+id/textViewErrorZip"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/_9ssp"
-                android:visibility="gone"
-                android:fontFamily="@font/poppins_regular"
-                android:includeFontPadding="false"
-                android:textColor="@color/colorRed"
-                android:layout_marginHorizontal="12dp"
-                android:text="We couldn’t verify this ZIP." />
-
-
-            <!-- City (READ ONLY) -->
-            <EditText
-                android:id="@+id/city"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="30dp"
-                android:layout_marginRight="10dp"
-                android:clickable="false"
-                android:editable="false"
-                android:focusable="false"
-                android:hint="City" />
-
-            <!-- State (READ ONLY) -->
-            <EditText
-                android:id="@+id/state"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="30dp"
-                android:layout_marginRight="10dp"
-                android:clickable="false"
-                android:editable="false"
-                android:focusable="false"
-                android:hint="State" />
 
             <RelativeLayout
                 android:id="@+id/create_account"

@@ -3,10 +3,7 @@
     <string name="logo">LOGO</string>
 
     <string name="enter_email">Enter your Email</string>
-    <string name="enter_dob">Select your DOB</string>
     <string name="password">Enter your Password</string>
-    <string name="enter_password">Enter Password</string>
-    <string name="confirm_password">Confirm Password</string>
     <string name="forgot_pass">Forgot Password?\u0020</string>
     <string name="forgot_password">Forgot Password</string>
     <string name="create_pass">Create a new password</string>
@@ -16,15 +13,24 @@
     <string name="add_to_cart">Add to cart</string>
     <string name="item_not_available">Item not available</string>
     <string name="the_options_are_required">The options are required</string>
+    <string name="shopping_assistant">Shopping Assistant</string>
 
 
     <!--sign up-->
-    <string name="first_name">First Name</string>
-    <string name="second_name">Last Name</string>
-    <string name="shopping_assistant">Shopping Assistant</string>
+    <string name="first_name">First Name *</string>
+    <string name="second_name">Last Name *</string>
+    <string name="enter_your_email">Email *</string>
+    <string name="enter_your_confirm_email">Confirm Email *</string>
+    <string name="enter_dob">Date of Birth *</string>
+    <string name="enter_password">Password *</string>
+    <string name="confirm_password">Confirm Password *</string>
+    <string name="address_1">Address Line 1 *</string>
+    <string name="address_2">Address Line 2</string>
+    <string name="address_nickname">Address Nickname *</string>
+    <string name="zip_code">ZIP Code *</string>
+    <string name="signup_city">City *</string>
+    <string name="signup_state">State *</string>
     <string name="create_acc">Create Your Apitap Account</string>
-    <string name="Submit">Submit</string>
-
 
     <string name="home">Home</string>
     <string name="store">Stores</string>
@@ -284,5 +290,8 @@
     <string name="specifications">Specifications</string>
     <string name="note">Note</string>
     <string name="place_selection">Place Selection</string>
+    <string name="submit">Submit</string>
+    <string name="default_notification_channel_id">default_channel_id</string>
+    <string name="default_notification_channel_name">General Notifications</string>
 
 </resources>

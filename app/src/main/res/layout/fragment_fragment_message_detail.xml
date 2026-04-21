@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@android:color/white"
-    tools:context="com.apitap.views.MessageDetailActivity">
+    tools:context="com.apitap.app.views.MessageDetailActivity">
 
     <include
         android:id="@+id/toolbar"

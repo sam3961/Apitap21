@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:orientation="vertical"
-    tools:context="com.apitap.views.fragments.messages.FragmentMessages">
+    tools:context="com.apitap.app.views.fragments.messages.FragmentMessages">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler"

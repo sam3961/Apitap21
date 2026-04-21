@@ -369,7 +369,7 @@
                                 android:textSize="12sp"
                                 android:visibility="gone" />
 
-                            <com.apitap.model.customclasses.NestedListView
+                            <com.apitap.app.model.customclasses.NestedListView
                                 android:id="@+id/list_subimages"
                                 android:layout_width="90dp"
                                 android:layout_height="0dp"
@@ -383,7 +383,7 @@
                                 android:scrollbarSize="3dp"
                                 android:scrollbarThumbVertical="@drawable/ring_bg_dblue"
                                 android:smoothScrollbar="true"
-                                android:visibility="visible"></com.apitap.model.customclasses.NestedListView>
+                                android:visibility="visible"></com.apitap.app.model.customclasses.NestedListView>
 
                             <TextView
                                 android:id="@+id/textViewVideo"

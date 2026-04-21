@@ -127,7 +127,7 @@
                 android:background="@drawable/rounded_bg_dblue"
                 android:id="@+id/submit"
                 android:textColor="@color/colorWhite"
-                android:text="@string/Submit"/>
+                android:text="@string/submit"/>
         </LinearLayout>
 
 

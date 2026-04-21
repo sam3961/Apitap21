@@ -87,7 +87,7 @@
         android:fontFamily="@font/rubik_medium"
         android:includeFontPadding="false"
         android:layout_marginVertical="@dimen/_8sdp"
-        android:text="@string/Submit"
+        android:text="@string/submit"
         android:textAllCaps="false"
         android:textColor="@android:color/white" />
 

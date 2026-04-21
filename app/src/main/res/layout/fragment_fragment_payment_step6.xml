@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#E1E5E8"
-    tools:context="com.apitap.views.fragments.FragmentPaymentStep6">
+    tools:context="com.apitap.app.views.fragments.FragmentPaymentStep6">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -221,7 +221,7 @@
             android:layout_marginBottom="15dp"
             android:layout_marginTop="15dp"
             android:background="@drawable/bg_blue"
-            android:text="@string/Submit"
+            android:text="@string/submit"
             android:textAllCaps="false"
             android:textColor="@android:color/white"
             android:textSize="16dp" />

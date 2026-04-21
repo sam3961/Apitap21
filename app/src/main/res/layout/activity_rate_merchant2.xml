@@ -650,7 +650,7 @@
                             android:layout_weight=".5"
                             android:background="@drawable/rounded_bg_dblue"
                             android:gravity="center"
-                            android:text="@string/Submit"
+                            android:text="@string/submit"
                             android:textColor="@color/colorWhite" />
                     </LinearLayout>
                 </LinearLayout>
@@ -660,7 +660,7 @@
 
     <fragment
         android:id="@+id/fragment_navigation_drawer"
-        android:name="com.apitap.views.NavigationMenu.FragmentDrawer"
+        android:name="com.apitap.app.views.NavigationMenu.FragmentDrawer"
         android:layout_width="@dimen/nav_drawer_width"
         android:layout_height="match_parent"
         android:layout_gravity="start"

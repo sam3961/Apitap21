@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/activitylayout"
-    tools:context="com.apitap.views.fragments.FragmentSettings">
+    tools:context="com.apitap.app.views.fragments.FragmentSettings">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/ll_shopping"
@@ -96,7 +96,7 @@
             android:padding="5dp">
 
 
-            <com.apitap.model.customclasses.ScaleImageView
+            <com.apitap.app.model.customclasses.ScaleImageView
                 android:id="@+id/adstoreImg"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

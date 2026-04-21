@@ -619,7 +619,7 @@
                     </androidx.core.widget.NestedScrollView>
                 </FrameLayout>
 
-                <com.apitap.model.ViewPagerCustomDuration
+                <com.apitap.app.model.ViewPagerCustomDuration
                     android:id="@+id/viewpager"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

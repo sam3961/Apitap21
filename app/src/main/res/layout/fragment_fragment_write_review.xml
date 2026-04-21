@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/transparent"
-    tools:context="com.apitap.views.fragments.FragmentWriteReview">
+    tools:context="com.apitap.app.views.fragments.FragmentWriteReview">
 
 
     <LinearLayout
@@ -64,7 +64,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#057DD5"
-            android:text="@string/Submit"
+            android:text="@string/submit"
             android:textColor="@android:color/white"
             android:textSize="18dp" />
 

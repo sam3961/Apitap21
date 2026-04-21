@@ -257,7 +257,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorWhite"
                     style="@style/Base.TextAppearance.AppCompat.Medium"
-                    android:text="@string/Submit"/>
+                    android:text="@string/submit"/>
             </LinearLayout>
 
 
