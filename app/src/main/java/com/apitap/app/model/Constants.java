@@ -137,6 +137,7 @@ public class Constants {
     public static final int INVOICE_DETAIL_SUCCESS = 20039;
     public static final int ALL_MESSAGES_SUCCESS = 20040;
     public static final int UNREAD_MESSAGES_SUCCESS = 200401;
+    public static final int UNREAD_MESSAGES_MERCHANT_SUCCESS = 2004012;
     public static final int MESSAGE_DETAIL_SUCCESS = 20041;
     public static final int MESSAGE_SEND_SUCCESS = 90041;
     public static final int ADS_LISTING_SUCCESS = 20042;

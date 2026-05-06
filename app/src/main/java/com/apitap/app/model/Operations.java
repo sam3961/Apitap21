@@ -4093,6 +4093,35 @@ public class Operations {
 
         return parametersToCall;
     }
+    public static String makeJsonUnreadMessagesMerchant(Activity context) {
+        String parametersToCall = "";
+        try {
+            JSONObject obj = new JSONObject();
+            obj.put("192", Constants.KEY_DEFAULT);
+            obj.put("11", Client.getTimeStamp());
+            obj.put("122.45", "en");
+            obj.put("57", Utils.getDeviceId(context));
+            obj.put("120.38", "0.0");
+            obj.put("120.39", "0.0");
+            JSONArray arr = new JSONArray();
+            JSONObject obj1 = new JSONObject();
+            obj1.put("101", "010101071");
+            JSONObject obj_param = new JSONObject();
+            obj_param.put("53", ATPreferences.readString(context, Constants.KEY_USERID));
+            obj1.put("PARAM", obj_param);
+            arr.put(obj1);
+            obj.put("OPTLST", arr);
+            parametersToCall = obj.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (BuildConfig.DEBUG)
+                Log.d(TAG, "makeJsonUnreadMessagesMerchant---" + parametersToCall);
+
+        return parametersToCall;
+    }
+
     public static String makeJsonUnreadMessages(Activity context) {
         String parametersToCall = "";
         try {

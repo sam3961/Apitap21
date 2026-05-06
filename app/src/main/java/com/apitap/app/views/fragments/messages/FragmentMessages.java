@@ -1,6 +1,8 @@
 package com.apitap.app.views.fragments.messages;
 
 
+import static android.view.View.VISIBLE;
+
 import android.app.Dialog;
 import android.app.Activity;
 import android.os.Bundle;
@@ -32,6 +34,8 @@ import com.apitap.app.model.Utils;
 import com.apitap.app.model.bean.MessageListBean;
 import com.apitap.app.model.customclasses.Event;
 import com.apitap.app.model.preferences.ATPreferences;
+import com.apitap.app.model.unreadMessageMerchant.RESULTItem;
+import com.apitap.app.model.unreadMessageMerchant.UnreadMerchantMessages;
 import com.apitap.app.views.HistoryDetailActivity;
 import com.apitap.app.views.HomeActivity;
 import com.apitap.app.views.MessageDetailActivity;
@@ -46,8 +50,14 @@ import com.apitap.app.views.fragments.SendMessage;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -66,6 +76,7 @@ public class FragmentMessages extends BaseFragment implements View.OnClickListen
     public static Button view_msg, btn_newMsg;
     private Dialog reloadDialog;
     private String merchantId = "", storeName = "", className = "";
+    private LinearLayout linearLayoutStoreFrontHeader;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -82,7 +93,9 @@ public class FragmentMessages extends BaseFragment implements View.OnClickListen
         rootLayout = view.findViewById(R.id.rootLayout);
         backll = view.findViewById(R.id.back_ll);
         ll_msgCount = getActivity().findViewById(R.id.new_msgsll);
+        ll_msgCount = getActivity().findViewById(R.id.new_msgsll);
         btn_newMsg = getActivity().findViewById(R.id.new_msg);
+        linearLayoutStoreFrontHeader = getActivity().findViewById(R.id.header);
 
         reloadDialog = Utils.showReloadDialog(getActivity());
 
@@ -122,9 +135,6 @@ public class FragmentMessages extends BaseFragment implements View.OnClickListen
         });
 
         holder.search_msg.addTextChangedListener(txwatcher);
-
-        ModelManager.getInstance().getMessageManager().getUnreadMessages(requireContext(),
-                Operations.makeJsonUnreadMessages(requireActivity()), Constants.UNREAD_MESSAGES_SUCCESS);
     }
 
 
@@ -132,18 +142,45 @@ public class FragmentMessages extends BaseFragment implements View.OnClickListen
     public void onResume() {
         super.onResume();
         Bundle bundle = getArguments();
-        if (bundle != null && bundle.containsKey("merchantId")) {
-            merchantId = bundle.getString("merchantId");
-            storeName = bundle.getString("storeName");
-            className = bundle.getString("className");
+        if ((bundle != null && bundle.containsKey("merchantId")) || linearLayoutStoreFrontHeader.getVisibility() == VISIBLE) {
+
+            if (bundle != null && bundle.containsKey("merchantId"))
+                merchantId = bundle.getString("merchantId");
+
+            if (bundle != null && bundle.containsKey("storeName"))
+                storeName = bundle.getString("storeName");
+
+            if (bundle != null && bundle.containsKey("className"))
+                className = bundle.getString("className");
+
+            btn_newMsg.setVisibility(VISIBLE);
+
             ModelManager.getInstance().getMessageManager().getAllMessages(getActivity(),
                     Operations.makeJsonAllMerchantMessages(getActivity(), ATPreferences.readString(
                             getActivity(), Constants.MERCHANT_ID)), Constants.ALL_MESSAGES_SUCCESS);
-            btn_newMsg.setVisibility(View.VISIBLE);
 
-        } else
+            ModelManager.getInstance().getMessageManager().getUnreadMessagesMerchant(requireContext(),
+                    Operations.makeJsonUnreadMessagesMerchant(requireActivity()), Constants.UNREAD_MESSAGES_MERCHANT_SUCCESS);
+
+            String storeName = ATPreferences.readString(
+                    getActivity(),
+                    Constants.STORE_NAME
+            );
+
+            if (storeName != null && storeName.contains(",")) {
+                storeName = storeName.split(",")[0].trim();
+            }
+
+            holder.titleName.setText("Messages with " + storeName);
+            holder.titleName.setTextSize(13);
+        } else {
             ModelManager.getInstance().getMessageManager().getAllMessages(getActivity(),
                     Operations.makeJsonAllMessages(getActivity()), Constants.ALL_MESSAGES_SUCCESS);
+
+            ModelManager.getInstance().getMessageManager().getUnreadMessages(requireContext(),
+                    Operations.makeJsonUnreadMessages(requireActivity()), Constants.UNREAD_MESSAGES_SUCCESS);
+
+        }
 
     }
 
@@ -164,6 +201,8 @@ public class FragmentMessages extends BaseFragment implements View.OnClickListen
     }
 
     private void checkForClassName(Bundle bundle) {
+        if (className == null)
+            className = "";
         switch (className) {
             case "StoreDetails":
                 ((MerchantStoreDetails) getActivity()).displayView(new SendMessage(), Constants.TAG_MESSAGEPAGE, bundle);
@@ -184,6 +223,7 @@ public class FragmentMessages extends BaseFragment implements View.OnClickListen
     private class ViewHolder {
 
         private final RecyclerView recycler;
+        private final TextView titleName;
         private final TextView no_messages;
         private final EditText search_msg;
         private final Button find;
@@ -194,6 +234,7 @@ public class FragmentMessages extends BaseFragment implements View.OnClickListen
 
 
         public ViewHolder(View view) {
+            titleName = view.findViewById(R.id.titleName);
             recycler = view.findViewById(R.id.recycler);
             no_messages = view.findViewById(R.id.nomsgs);
             search_msg = view.findViewById(R.id.searchmsg);
@@ -223,6 +264,10 @@ public class FragmentMessages extends BaseFragment implements View.OnClickListen
         String query = text == null ? "" : text.trim().toLowerCase();
 
         for (MessageListBean.MessageData d : list) {
+            if (!isRenderableMessage(d)) {
+                continue;
+            }
+
             String subject = d.getSubject() != null ? d.getSubject().toLowerCase() : "";
             String message = d.getContextData() != null
                     ? Utils.hexToASCII(d.getContextData()).toLowerCase()
@@ -242,11 +287,11 @@ public class FragmentMessages extends BaseFragment implements View.OnClickListen
         bindAdapterClicks();
 
         if (temp.isEmpty()) {
-            holder.no_messages.setVisibility(View.VISIBLE);
+            holder.no_messages.setVisibility(VISIBLE);
             holder.recycler.setVisibility(View.GONE);
         } else {
             holder.no_messages.setVisibility(View.GONE);
-            holder.recycler.setVisibility(View.VISIBLE);
+            holder.recycler.setVisibility(VISIBLE);
         }
     }
 
@@ -273,7 +318,7 @@ public class FragmentMessages extends BaseFragment implements View.OnClickListen
                 showFullMessageList();
             }
 
-            holder.clearSearch.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
+            holder.clearSearch.setVisibility(s.length() > 0 ? VISIBLE : View.GONE);
         }
 
         public void afterTextChanged(Editable s) {
@@ -302,15 +347,15 @@ public class FragmentMessages extends BaseFragment implements View.OnClickListen
                     return;
                 }
 
-                list = wrapper.getRESULT();   // ✅ CORRECT DATA HERE
+                list = sanitizeMessageList(wrapper.getRESULT());
 
                 if (list == null || list.isEmpty()) {
-                    holder.no_messages.setVisibility(View.VISIBLE);
+                    holder.no_messages.setVisibility(VISIBLE);
                     holder.recycler.setVisibility(View.GONE);
                     return;
                 }
 
-                rootLayout.setVisibility(View.VISIBLE);
+                rootLayout.setVisibility(VISIBLE);
                 holder.currentTime.setText(Utils.getCurrentTimeUsingDate());
 
                 showFullMessageList();
@@ -330,6 +375,16 @@ public class FragmentMessages extends BaseFragment implements View.OnClickListen
                 Utils.baseshowFeedbackMessage(getActivity(), rootLayout, "Something Went Wrong...");
                 break;
 
+            case Constants.UNREAD_MESSAGES_MERCHANT_SUCCESS:
+                UnreadMerchantMessages unreadMerchantMessages = event.getUnreadMerchantMessages();
+                unreadCount = getMerchantUnreadCount(unreadMerchantMessages, getCurrentMerchantId());
+                if (unreadCount > 0) {
+                    holder.tv_unreadCount.setText("You Have " + unreadCount + " New Or Unread Messages");
+                } else {
+                    holder.tv_unreadCount.setText("You Have No New Or Unread Messages");
+                }
+
+                break;
             case Constants.UNREAD_MESSAGES_SUCCESS:
                 unreadCount = Integer.parseInt(event.getResponse());
                 if (unreadCount > 0)
@@ -411,12 +466,166 @@ public class FragmentMessages extends BaseFragment implements View.OnClickListen
 
     private void updateEmptyState(int resultCount) {
         if (resultCount == 0) {
-            holder.no_messages.setVisibility(View.VISIBLE);
+            holder.no_messages.setVisibility(VISIBLE);
             holder.recycler.setVisibility(View.GONE);
         } else {
             holder.no_messages.setVisibility(View.GONE);
-            holder.recycler.setVisibility(View.VISIBLE);
+            holder.recycler.setVisibility(VISIBLE);
         }
+    }
+
+    private List<MessageListBean.MessageData> sanitizeMessageList(List<MessageListBean.MessageData> source) {
+        List<MessageListBean.MessageData> sanitized = new ArrayList<>();
+        if (source == null) {
+            return sanitized;
+        }
+
+        for (MessageListBean.MessageData item : source) {
+            if (isRenderableMessage(item)) {
+                sanitized.add(item);
+            }
+        }
+
+        sortMessagesNewestFirst(sanitized);
+        return sanitized;
+    }
+
+    private void sortMessagesNewestFirst(List<MessageListBean.MessageData> messages) {
+        Collections.sort(messages, new Comparator<MessageListBean.MessageData>() {
+            @Override
+            public int compare(MessageListBean.MessageData first, MessageListBean.MessageData second) {
+                Date firstDate = getMessageSortDate(first);
+                Date secondDate = getMessageSortDate(second);
+
+                if (firstDate == null && secondDate == null) {
+                    return 0;
+                }
+                if (firstDate == null) {
+                    return 1;
+                }
+                if (secondDate == null) {
+                    return -1;
+                }
+
+                return secondDate.compareTo(firstDate);
+            }
+        });
+    }
+
+    private Date getMessageSortDate(MessageListBean.MessageData item) {
+        if (item == null) {
+            return null;
+        }
+
+        Date updatedDate = parseMessageDate(item.getUpdatedDate());
+        if (updatedDate != null) {
+            return updatedDate;
+        }
+
+        return parseMessageDate(item.getCreatedDate());
+    }
+
+    private Date parseMessageDate(String value) {
+        if (isBlank(value)) {
+            return null;
+        }
+
+        try {
+            return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH).parse(value);
+        } catch (ParseException e) {
+            return null;
+        }
+    }
+
+    private boolean isRenderableMessage(MessageListBean.MessageData item) {
+        if (item == null) {
+            return false;
+        }
+
+        return !isBlankSafe(item.getSeventy())
+                || !isBlankSafe(item.getSubject())
+                || !isBlankSafe(item.getContextData())
+                || !isBlankSafe(item.getId())
+                || !isBlankSafe(item.getParentId())
+                || !isBlankSafe(item.getCreatedDate());
+    }
+
+    private boolean isBlankSafe(String value) {
+        if (value == null || value.trim().isEmpty()) {
+            return true;
+        }
+
+        try {
+            // if this field is hex, try converting safely
+            String decoded = Utils.hexToASCII(value);
+            return decoded.trim().isEmpty();
+        } catch (Exception e) {
+            // if conversion fails, treat original value
+            return value.trim().isEmpty();
+        }
+    }
+
+    private boolean isBlank(String value) {
+        return value == null || value.trim().isEmpty() || "null".equalsIgnoreCase(value.trim());
+    }
+
+    private String getCurrentMerchantId() {
+        if (!isBlank(merchantId)) {
+            return merchantId;
+        }
+
+        Activity activity = getActivity();
+        if (activity == null) {
+            return "";
+        }
+
+        return ATPreferences.readString(activity, Constants.MERCHANT_ID);
+    }
+
+    private int getMerchantUnreadCount(UnreadMerchantMessages unreadMerchantMessages, String currentMerchantId) {
+        if (unreadMerchantMessages == null || isBlank(currentMerchantId)) {
+            return 0;
+        }
+
+        List<RESULTItem> outerResults = unreadMerchantMessages.getRESULT();
+        if (outerResults == null || outerResults.isEmpty()) {
+            return 0;
+        }
+
+        for (RESULTItem outerItem : outerResults) {
+            if (outerItem == null || outerItem.getRESULT() == null) {
+                continue;
+            }
+
+            for (RESULTItem merchantItem : outerItem.getRESULT()) {
+                if (merchantItem == null) {
+                    continue;
+                }
+
+                if (isMatchingMerchantId(currentMerchantId, merchantItem.getJsonMember114179())) {
+                    try {
+                        return Integer.parseInt(merchantItem.getJsonMember114121());
+                    } catch (NumberFormatException e) {
+                        return 0;
+                    }
+                }
+            }
+        }
+
+        return 0;
+    }
+
+    private boolean isMatchingMerchantId(String currentMerchantId, String responseMerchantId) {
+        if (isBlank(currentMerchantId) || isBlank(responseMerchantId)) {
+            return false;
+        }
+
+        String localMerchantId = currentMerchantId.trim();
+        String apiMerchantId = responseMerchantId.trim();
+
+        return localMerchantId.equals(apiMerchantId)
+                || localMerchantId.endsWith(apiMerchantId)
+                || apiMerchantId.endsWith(localMerchantId);
     }
 
     private void relaodDialogShow() {

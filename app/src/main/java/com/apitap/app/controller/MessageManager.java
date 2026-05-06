@@ -9,6 +9,7 @@ import com.apitap.app.model.Constants;
 import com.apitap.app.model.Logger;
 import com.apitap.app.model.bean.MessageListBean;
 import com.apitap.app.model.customclasses.Event;
+import com.apitap.app.model.unreadMessageMerchant.UnreadMerchantMessages;
 import com.apitap.app.model.unreadMessages.UnreadMessagesResponse;
 import com.google.gson.Gson;
 
@@ -34,6 +35,10 @@ public class MessageManager {
 
     public void getUnreadMessages(Context context, String params, int key) {
         new ExecuteUnreadMessagesApi(context, key).execute(params);
+    }
+
+    public void getUnreadMessagesMerchant(Context context, String params, int key) {
+        new ExecuteUnreadMessagesMerchantApi(context, key).execute(params);
     }
 
     public void getMessageDetail(Context context, String params, int key) {
@@ -199,6 +204,38 @@ public class MessageManager {
 
             } catch (Exception e) {
 
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private class ExecuteUnreadMessagesMerchantApi extends AsyncTask<String, String, String> {
+        private int key;
+        Context mContext;
+
+        ExecuteUnreadMessagesMerchantApi(Context context, int key) {
+            mContext = context;
+            this.key = key;
+        }
+
+        @Override
+        protected String doInBackground(String... param) {
+            String response = Client.Caller(param[0]);
+            Log.d(TAG, "response_unread_Message_merchant---" + response);
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            try {
+                Log.d(TAG, s);
+
+                UnreadMerchantMessages unreadMessagesResponse = new Gson().fromJson(s, UnreadMerchantMessages.class);
+                EventBus.getDefault().post(new Event(Constants.UNREAD_MESSAGES_MERCHANT_SUCCESS, unreadMessagesResponse));
+
+            } catch (Exception e) {
+                EventBus.getDefault().post(new Event(-1, ""));
                 e.printStackTrace();
             }
         }

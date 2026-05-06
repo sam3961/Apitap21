@@ -53,6 +53,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.TimeZone;
 
 public class FragmentSignup extends BaseFragment implements View.OnClickListener,
@@ -73,6 +74,7 @@ public class FragmentSignup extends BaseFragment implements View.OnClickListener
     String latitude = "";
     String longitude = "";
     String originalStreetForLatLng = "";
+    String countryCode = "";
 
     LinearLayout rootLayout;
     EditText editTextDOB;
@@ -309,6 +311,7 @@ public class FragmentSignup extends BaseFragment implements View.OnClickListener
                     etCity.setText(address.getLocality() != null ? address.getLocality() : "");
                     etState.setText(address.getAdminArea() != null ? address.getAdminArea() : "");
                     etZip.setText(address.getPostalCode() != null ? address.getPostalCode() : "");
+                    countryCode = normalizeCountryCode(address.getCountryCode());
                     originalStreetForLatLng = getStreetOnly(etAddress1.getText().toString().trim());
 
                     callAddressApi(
@@ -400,6 +403,7 @@ public class FragmentSignup extends BaseFragment implements View.OnClickListener
     private void resetValidationState() {
         isZipValid = false;
         isAddressValid = false;
+        countryCode = "";
         resetLatLng();
     }
 
@@ -458,12 +462,12 @@ public class FragmentSignup extends BaseFragment implements View.OnClickListener
 
     private void callLatLongApi(String userStreet, String city, String state, String zip) {
         try {
-            String fullAddress = userStreet.trim() + ", " + city.trim() + ", " + state.trim() + " " + zip.trim() + ", USA";
+            String locationQuery = getStreetOnly(userStreet) + ", " + zip.trim() + ", " + getLocationCountryCode();
 
             String url = Client.BASE_URL_ONLY + "api/external/sugestLocation?format=json&q="
-                    + URLEncoder.encode(fullAddress, "UTF-8");
+                    + URLEncoder.encode(locationQuery, "UTF-8");
 
-            Log.d("LATLNG_QUERY", "Full query = " + fullAddress);
+            Log.d("LATLNG_QUERY", "Query = " + locationQuery);
             Log.d("LATLNG_QUERY", "URL = " + url);
 
             new GetAddressApiTask("LATLNG").execute(url);
@@ -640,6 +644,8 @@ public class FragmentSignup extends BaseFragment implements View.OnClickListener
         private void handleZipResponse(String result) throws Exception {
             JSONObject json = new JSONObject(result);
 
+            updateCountryCode(json);
+
             String city = json.optString("city", "").trim();
             String state = json.optString("state", "").trim();
 
@@ -668,6 +674,9 @@ public class FragmentSignup extends BaseFragment implements View.OnClickListener
         private void handleAddressResponse(String result) throws Exception {
             JSONObject json = new JSONObject(result);
             JSONObject address = json.getJSONObject("address");
+
+            updateCountryCode(json);
+            updateCountryCode(address);
 
             String validatedStreet = address.optString("streetAddress", "").trim();
             String validatedCity = address.optString("city", "").trim();
@@ -751,5 +760,42 @@ public class FragmentSignup extends BaseFragment implements View.OnClickListener
         }
 
         return fullAddress;
+    }
+
+    private void updateCountryCode(JSONObject json) {
+        if (json == null) return;
+
+        String code = json.optString("countryCode", "").trim();
+        if (code.isEmpty()) code = json.optString("country_code", "").trim();
+        if (code.isEmpty()) code = json.optString("country", "").trim();
+
+        code = normalizeCountryCode(code);
+        if (!code.isEmpty()) {
+            countryCode = code;
+        }
+    }
+
+    private String getLocationCountryCode() {
+        String code = normalizeCountryCode(countryCode);
+        return code.isEmpty() ? "US" : code;
+    }
+
+    private String normalizeCountryCode(String code) {
+        if (code == null) return "";
+
+        code = code.trim();
+        if (code.isEmpty()) return "";
+
+        if ("USA".equalsIgnoreCase(code)
+                || "United States".equalsIgnoreCase(code)
+                || "EE. UU.".equalsIgnoreCase(code)) {
+            return "US";
+        }
+
+        if (code.length() == 2) {
+            return code.toUpperCase(Locale.US);
+        }
+
+        return "";
     }
 }

@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -25,6 +26,7 @@ import com.apitap.app.model.Constants;
 import com.apitap.app.model.Operations;
 import com.apitap.app.model.Utils;
 import com.apitap.app.model.customclasses.Event;
+import com.apitap.app.model.preferences.ATPreferences;
 import com.apitap.app.views.HistoryDetailActivity;
 import com.apitap.app.views.HomeActivity;
 import com.apitap.app.views.MerchantStoreDetails;
@@ -59,8 +61,10 @@ public class SendMessage extends Fragment implements View.OnClickListener {
     String merchantNamestr;
     private ArrayList<String> locationList = new ArrayList<>();
     private ArrayList<String> locationIdList = new ArrayList<>();
-    String productId = "12", className = "", adName = "";
-    private LinearLayout backll, rootLayout, llLocation,llTo;
+    String productId = "", className = "", adName = "";
+    private LinearLayout backll, rootLayout, llLocation, llTo;
+    private RelativeLayout relativeLayoutSearchBarStoreFront;
+    private LinearLayout linearLayoutHeaderCategory;
     String type = "92";
     Button sendMessage;
     private SmoothProgressBar mPocketBar;
@@ -148,6 +152,13 @@ public class SendMessage extends Fragment implements View.OnClickListener {
         llLocation = view.findViewById(R.id.llLocation);
         llTo = view.findViewById(R.id.llTo);
         rootLayout = view.findViewById(R.id.rootLayout);
+        relativeLayoutSearchBarStoreFront = getActivity().findViewById(R.id.search_storefront);
+        linearLayoutHeaderCategory = getActivity().findViewById(R.id.header_browse_category);
+
+        if (!merchantId.isEmpty()){
+            relativeLayoutSearchBarStoreFront.setVisibility(View.GONE);
+            linearLayoutHeaderCategory.setVisibility(View.GONE);
+        }
 
         if (locationList.size() > 0)
             llLocation.setVisibility(View.VISIBLE);
@@ -158,12 +169,19 @@ public class SendMessage extends Fragment implements View.OnClickListener {
         backll.setOnClickListener(view1 -> {
             EventBus.getDefault().post(new Event(Constants.BACK_PRESSED, ""));
             if (getFragmentManager().getBackStackEntryCount() > 0) {
+                ATPreferences.putString(requireContext(), Constants.MERCHANT_ID, "");
+                ATPreferences.putString(requireContext(), Constants.MERCHANT_CATEGORY, "");
+                ATPreferences.putString(requireContext(), Constants.MERCHANT_CATEGORY_ID, "");
+                ATPreferences.putBoolean(requireContext(), Constants.HEADER_STORE, false);
+
                 getFragmentManager().popBackStack();
-                if (!isMessageSent)
+                if (!isMessageSent) {
                     getFragmentManager().popBackStack();
+                }
             } else {
                 getActivity().onBackPressed();
             }
+
         });
 
         mPocketBar.setSmoothProgressDrawableBackgroundDrawable(
@@ -228,6 +246,12 @@ public class SendMessage extends Fragment implements View.OnClickListener {
             bundle.putString("merchantId", merchantId);
             bundle.putString("storeName", merchantNamestr);
             checkForClassName(bundle);
+
+            if (!merchantId.isEmpty()){
+                relativeLayoutSearchBarStoreFront.setVisibility(View.VISIBLE);
+                linearLayoutHeaderCategory.setVisibility(View.VISIBLE);
+            }
+
         } else if (event.getKey() == Constants.GET_SERVER_ERROR) {
             hideProgress();
             Utils.baseshowFeedbackMessage(getActivity(), rootLayout, "Something went wrong.");
@@ -252,7 +276,6 @@ public class SendMessage extends Fragment implements View.OnClickListener {
         switch (view.getId()) {
 
             case R.id.buttonSend:
-
                 String subject_str = subject.getText().toString();
                 String message_str = message.getText().toString();
                 if (subject_str.isEmpty())
@@ -261,31 +284,28 @@ public class SendMessage extends Fragment implements View.OnClickListener {
                     Utils.baseshowFeedbackMessage(getActivity(), rootLayout, "Please enter message.");
                 else {
                     showProgress();
-                    if (adName.isEmpty())
+                    String hexProductId = "";
 
-
-//                        ModelManager.getInstance().getMessageManager().sendMessage(mActivity,
-//                                Operations.sendMessageReply(mActivity, list.get(0).getParentId(),
-//                                        "2", merchantId,
-//                                        Utils.getElevenDigitId(list.get(0).getType()), list.get(0).getSubject(),
-//                                        hexmsg, "", list.get(0).getId(), productId,
-//                                        id, jsonArrayImages,locationId), Constants.MESSAGE_SEND_SUCCESS);
-
-
-                    ModelManager.getInstance().getMessageManager().sendMessage(getActivity(),
+                    if (productId.isEmpty()) {
+                        hexProductId = "";
+                    } else {
+                        hexProductId = Utils.getElevenDigitId(productId);
+                    }
+                    if (adName.isEmpty()) {
+                        ModelManager.getInstance().getMessageManager().sendMessage(getActivity(),
                                 Operations.sendMessage(getActivity(),
                                         merchantId, Utils.getElevenDigitId(type),
                                         subject_str, message_str,
-                                        Utils.getElevenDigitId(productId), locationId),
+                                        hexProductId, locationId),
                                 Constants.MESSAGE_SEND_SUCCESS);
-                    else
+                    } else {
                         ModelManager.getInstance().getMessageManager().sendMessage(getActivity(),
                                 Operations.sendMessageForAd(getActivity(),
                                         merchantId, Utils.getElevenDigitId(type),
                                         adName, message_str,
-                                        Utils.getElevenDigitId(productId)
+                                        hexProductId
                                         , new JSONArray(), locationId), Constants.MESSAGE_SEND_SUCCESS);
-
+                    }
                 }
                 break;
 
@@ -338,5 +358,11 @@ public class SendMessage extends Fragment implements View.OnClickListener {
             mDialog.dismiss();
             mDialog = null;
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
     }
 }

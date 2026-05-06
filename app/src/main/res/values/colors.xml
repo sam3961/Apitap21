@@ -9,6 +9,7 @@
     <color name="colorText2">#3a3a3a</color>
     <color name="colorOutline">#9e9e9e</color>
     <color name="colorOrangeRed">#D00000</color>
+    <color name="colorCheckIn">#F2F6E6</color>
     <color name="colorCancelledReservation">#F5E3DA</color>
     <color name="colorGrey">#DBDBDB</color>
     <color name="colorGreylight">#f4f4f4</color>

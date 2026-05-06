@@ -297,12 +297,6 @@ public class MessageDetailActivity extends BaseActivity implements FragmentDrawe
             title.setText("Re. " + productName);
             title.setPaintFlags(invoice.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         } else {
-/*
-            if (data == null) {
-                displayView(new FragmentMessages(), Constants.TAG_MESSAGEPAGE, new Bundle());
-                return;
-            }
-*/
             title.setText("Re. General Question");
             title.setPaintFlags(invoice.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
             ModelManager.getInstance().getMessageManager().getMessageDetail(this,

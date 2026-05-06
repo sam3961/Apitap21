@@ -63,7 +63,7 @@ public class ReservationListAdapter extends RecyclerView.Adapter<ReservationList
             e.printStackTrace();
         }
 
-        if (item.getStatusId() == 5 || isPastDateTime) {
+        if (item.getStatusId() == 2 || item.getStatusId() == 5 || isPastDateTime) {
 
             holder.tvCancelReservation.setVisibility(View.GONE);
 
@@ -73,6 +73,14 @@ public class ReservationListAdapter extends RecyclerView.Adapter<ReservationList
                 holder.linearLayoutTop.setBackgroundColor(
                         context.getColor(R.color.colorCancelledReservation)
                 );
+                holder.tvCancelled.setBackgroundColor(context.getColor(R.color.colorCancelledReservation));
+            } else if (item.getStatusId() == 2) {
+                holder.tvCancelled.setText("Check-in");
+                holder.tvCancelled.setVisibility(View.VISIBLE);
+                holder.tvCancelled.setTextColor(context.getColor(R.color.colorPrimary));
+                holder.tvCancelled.setBackgroundColor(context.getColor(R.color.colorCheckIn));
+                holder.linearLayoutTop.setBackgroundColor(
+                        context.getColor(R.color.colorCheckIn));
             } else {
                 // Past but not cancelled
                 holder.tvCancelled.setText("");
@@ -128,7 +136,7 @@ public class ReservationListAdapter extends RecyclerView.Adapter<ReservationList
 
         // Card click
         holder.itemView.setOnClickListener(v -> {
-            if (adapterClick != null) {
+            if (adapterClick != null && item.getStatusId() != 2) {
                 adapterClick.onItemClick(item);
             }
         });
@@ -144,7 +152,7 @@ public class ReservationListAdapter extends RecyclerView.Adapter<ReservationList
 
         TextView tvDate, tvTime, tvStore, tvPeople,
                 tvLocation, tvAddress, tvPhone, tvNotes,
-                tvCancelReservation,tvCancelled;
+                tvCancelReservation, tvCancelled;
         LinearLayout linearLayoutTop;
 
         public ViewHolder(View itemView) {

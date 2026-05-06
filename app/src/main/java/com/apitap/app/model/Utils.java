@@ -99,7 +99,7 @@ public class Utils {
     public final static String TAG_NAME_FRAGMENT = "ACTIVITY_FRAGMENT";
     public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 456;
-    public static final String APK_VERSION = "26.0421.502"; // yy - mm-dd-version
+    public static final String APK_VERSION = "26.0507.063"; // yy - mm-dd-version
     public static String seacrh_key = "";
     public static String locationSearch = "";
     public static ArrayList<String> placeIdList;
@@ -502,21 +502,34 @@ public class Utils {
 
 
     public static String hexToASCII(String hex) {
-      /*  StringBuilder output = new StringBuilder("");
-        for (int i = 0; i < hexValue.length(); i += 2) {
-            String str = hexValue.substring(i, i + 2);
-            output.append((char) Integer.parseInt(str, 16));
+        if (hex == null || hex.trim().isEmpty()) {
+            return "";
         }
-        return output.toString();*/
+
+        hex = hex.trim().toUpperCase();
+
+        // avoid crash if odd length
+        if (hex.length() % 2 != 0) {
+            return "";
+        }
+
         String digital = "0123456789ABCDEF";
         char[] hex2char = hex.toCharArray();
         byte[] bytes = new byte[hex.length() / 2];
-        int temp;
+
         for (int i = 0; i < bytes.length; i++) {
-            temp = digital.indexOf(hex2char[2 * i]) * 16;
-            temp += digital.indexOf(hex2char[2 * i + 1]);
+            int first = digital.indexOf(hex2char[2 * i]);
+            int second = digital.indexOf(hex2char[2 * i + 1]);
+
+            // invalid hex character
+            if (first == -1 || second == -1) {
+                return "";
+            }
+
+            int temp = first * 16 + second;
             bytes[i] = (byte) (temp & 0xff);
         }
+
         return new String(bytes);
     }
 

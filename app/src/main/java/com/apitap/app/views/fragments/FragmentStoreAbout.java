@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,7 @@ import com.apitap.app.model.storeFrontItems.details.RESULTItem;
 import com.apitap.app.views.HomeActivity;
 import com.apitap.app.views.adapters.StoreAboutImagesAdapter;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -79,18 +81,12 @@ public class FragmentStoreAbout extends BaseFragment implements StoreAboutImages
     }
 
     private void setData() {
-        String terms = "";
-        String policy = "";
         if (ModelManager.getInstance().getMerchantStoresManager().storeDetailsModel.getRESULT().size() > 0) {
             data = ModelManager.getInstance().getMerchantStoresManager().storeDetailsModel.getRESULT().get(0);
             try {
                 String subjectString = Utils.getStringHexaDecimal(data.getJsonMember120157());
                 if (!data.getJsonMember120157().isEmpty()) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        storeAbout.setText(Html.fromHtml(subjectString, Html.FROM_HTML_MODE_COMPACT));
-                    } else {
-                        storeAbout.setText(Html.fromHtml(subjectString));
-                    }
+                    storeAbout.setText(getPlainTextFromHtml(subjectString));
                 } else {
                     storeAbout.setText("No description available.");
                 }
@@ -98,6 +94,22 @@ public class FragmentStoreAbout extends BaseFragment implements StoreAboutImages
                 e.printStackTrace();
             }
         }
+    }
+
+    private String getPlainTextFromHtml(String htmlText) {
+        if (htmlText == null || htmlText.trim().isEmpty()) {
+            return "";
+        }
+
+        String unescapedHtml = StringEscapeUtils.unescapeHtml(htmlText);
+        Spanned parsedText;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            parsedText = Html.fromHtml(unescapedHtml, Html.FROM_HTML_MODE_LEGACY);
+        } else {
+            parsedText = Html.fromHtml(unescapedHtml);
+        }
+
+        return parsedText.toString().replace('\u00A0', ' ').trim();
     }
 
 

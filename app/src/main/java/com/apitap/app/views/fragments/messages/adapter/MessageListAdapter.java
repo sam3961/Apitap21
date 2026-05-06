@@ -17,12 +17,8 @@ import com.apitap.app.model.Utils;
 import com.apitap.app.model.bean.MessageListBean;
 import com.apitap.app.views.fragments.messages.FragmentMessages;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by appzorro on 1/9/16.
@@ -39,12 +35,12 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.
 
     public MessageListAdapter(Activity activity, List<MessageListBean.MessageData> list, int unreadCount) {
         this.activity = activity;
-        this.list = list;
+        this.list = list == null ? new ArrayList<>() : list;
         this.unreadCount = unreadCount;
     }
 
     public void updateList(List<MessageListBean.MessageData> itemlist) {
-        list = itemlist;
+        list = itemlist == null ? new ArrayList<>() : itemlist;
         notifyDataSetChanged();
     }
 
@@ -63,25 +59,33 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
+        MessageListBean.MessageData item = getItem(position);
+        if (item == null) {
+            holder.txt_store.setText("");
+            holder.txt_date.setText("");
+            holder.txt_subject.setText("");
+            holder.txt_msg.setText("");
+            holder.textUnreadCount.setVisibility(View.GONE);
+            holder.img_Replied.setImageResource(R.drawable.ring_bg_white);
+            return;
+        }
 
-        //  holder.txt_title.setText(list.get(position).getName());
-        holder.txt_store.setText(Utils.hexToASCII(list.get(position).getSeventy()));
-        SimpleDateFormat sdf_old = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.ENGLISH);
-        holder.txt_date.setText(Utils.getDateFromMsg(list.get(position).getCreatedDate()));
-        holder.txt_subject.setText(list.get(position).getSubject());
-        if (list.get(position).getUnreadReplies().equals("0")){
+        holder.txt_store.setText(decodeHex(item.getSeventy()));
+        holder.txt_date.setText(safeDate(item.getCreatedDate()));
+        holder.txt_subject.setText(safeText(item.getSubject()));
+        if ("0".equals(safeText(item.getUnreadReplies())) || safeText(item.getUnreadReplies()).isEmpty()){
             holder.textUnreadCount.setVisibility(View.GONE);
         }else{
             holder.textUnreadCount.setVisibility(View.VISIBLE);
-            holder.textUnreadCount.setText(list.get(position).getUnreadReplies());
+            holder.textUnreadCount.setText(safeText(item.getUnreadReplies()));
 
         }
 
-        holder.txt_msg.setText(Utils.hexToASCII(list.get(position).getContextData()));
+        holder.txt_msg.setText(decodeHex(item.getContextData()));
 
-        if (list.get(position).getIsSeen().equals("false")) {
+        if ("false".equalsIgnoreCase(safeText(item.getIsSeen()))) {
             holder.img_Replied.setImageResource(R.drawable.ring_bg_green);
-        } else if (list.get(position).getReplied().equals("true")) {
+        } else if ("true".equalsIgnoreCase(safeText(item.getReplied()))) {
             holder.img_Replied.setImageResource(R.drawable.ring_bg_white);
         } else {
             holder.img_Replied.setImageResource(R.drawable.ring_bg_white);
@@ -137,7 +141,35 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return list == null ? 0 : list.size();
+    }
+
+    private String safeText(String value) {
+        return value == null ? "" : value;
+    }
+
+    private String decodeHex(String value) {
+        if (value == null || value.trim().isEmpty()) {
+            return "";
+        }
+
+        try {
+            return Utils.hexToASCII(value);
+        } catch (Exception e) {
+            return value;
+        }
+    }
+
+    private String safeDate(String value) {
+        if (value == null || value.trim().isEmpty()) {
+            return "";
+        }
+
+        try {
+            return Utils.getDateFromMsg(value);
+        } catch (Exception e) {
+            return value;
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

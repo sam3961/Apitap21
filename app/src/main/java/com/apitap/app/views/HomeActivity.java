@@ -89,6 +89,7 @@ import com.apitap.app.views.fragments.FragmentStoreDetails;
 import com.apitap.app.views.fragments.FragmentStoreMap;
 import com.apitap.app.views.fragments.FragmentStoreRate;
 import com.apitap.app.views.fragments.FragmentTour;
+import com.apitap.app.views.fragments.SendMessage;
 import com.apitap.app.views.fragments.ads.FragmentAds;
 import com.apitap.app.views.fragments.ads.storeFront.FragmentAdsStoreFront;
 import com.apitap.app.views.fragments.checkinTv.FragmentCheckIn;
@@ -1480,11 +1481,16 @@ public class HomeActivity extends BaseActivity implements FragmentDrawer.Fragmen
                 leftPanel.setVisibility(View.GONE);
                 break;
             case R.id.message_store:
-                Bundle bundle2 = new Bundle();
+               /* Bundle bundle2 = new Bundle();
                 bundle2.putString("merchantId", ATPreferences.readString(this, Constants.MERCHANT_ID));
                 bundle2.putString("className", "Home");
                 bundle2.putString("storeName", ATPreferences.readString(context, Constants.STORE_NAME));
-                displayView(new FragmentMessages(), Constants.TAG_MESSAGEPAGE, bundle2);
+                displayView(new FragmentMessages(), Constants.TAG_MESSAGEPAGE, bundle2);*/
+
+                Bundle bundle2 = new Bundle();
+                bundle2.putString("merchantId", ATPreferences.readString(this, Constants.MERCHANT_ID));
+                bundle2.putString("storeName", ATPreferences.readString(context, Constants.STORE_NAME));
+                displayView(new SendMessage(), Constants.TAG_MESSAGEPAGE, bundle2);
                 break;
             case R.id.textViewCategory:
                 if (rvMerchantCategory.getVisibility() == View.VISIBLE) {

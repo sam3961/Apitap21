@@ -32,45 +32,57 @@
                 card_view:cardElevation="7dp"
                 card_view:contentPadding="5dp">
 
-                <LinearLayout
-                    android:id="@+id/back_ll"
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                    <ImageView
+
+                    <LinearLayout
+                        android:id="@+id/back_ll"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginStart="5dp"
-                        android:src="@drawable/back_arrow_text" />
+                        android:layout_alignParentStart="true">
 
-                </LinearLayout>
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="5dp"
+                            android:src="@drawable/back_arrow_text" />
 
-                <TextView
-                    android:id="@+id/titleName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/messages"
-                    android:fontFamily="@font/poppins_semibold"
-                    android:includeFontPadding="false"
-                    android:textColor="@color/colorBlue"
-                    android:textSize="18sp"
-                    />
+                    </LinearLayout>
 
-                <Button
-                    android:id="@+id/new_msg"
-                    android:layout_width="80dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="end|center_vertical"
-                    android:background="@drawable/rounded_bg_dblue"
-                    android:gravity="center"
-                    android:text="New"
-                    android:textSize="@dimen/_10ssp"
-                    android:fontFamily="@font/poppins_medium"
-                    android:includeFontPadding="false"
-                    android:textAllCaps="false"
-                    android:textColor="@color/colorWhite"
-                    android:visibility="visible" />
+                    <TextView
+                        android:id="@+id/titleName"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_toStartOf="@+id/new_msg"
+                        android:layout_toEndOf="@+id/back_ll"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:gravity="center"
+                        android:includeFontPadding="false"
+                        android:text="@string/messages"
+                        android:textColor="@color/colorBlue"
+                        android:textSize="18sp" />
+
+                    <Button
+                        android:id="@+id/new_msg"
+                        android:layout_width="80dp"
+                        android:layout_height="30dp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_gravity="end|center_vertical"
+                        android:background="@drawable/rounded_bg_dblue"
+                        android:fontFamily="@font/poppins_medium"
+                        android:gravity="center"
+                        android:includeFontPadding="false"
+                        android:text="New"
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/_10ssp"
+                        android:visibility="visible" />
+                </RelativeLayout>
+
             </androidx.cardview.widget.CardView>
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -100,8 +112,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:includeFontPadding="false"
                 android:fontFamily="@font/poppins_regular"
+                android:includeFontPadding="false"
                 android:textColor="@color/colorWhite"
                 android:textSize="14dp" />
 
@@ -110,8 +122,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:includeFontPadding="false"
                 android:fontFamily="@font/poppins_regular"
+                android:includeFontPadding="false"
                 android:textColor="@color/colorWhite"
                 android:textSize="14dp" />
 
@@ -129,19 +141,19 @@
                 android:id="@+id/txtview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_semibold"
+                android:includeFontPadding="false"
                 android:padding="5dp"
                 android:text="Search For:"
-                android:fontFamily="@font/poppins_semibold"
-                android:textColor="@color/colorBlue"
-                android:includeFontPadding="false" />
+                android:textColor="@color/colorBlue" />
 
             <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="35dp"
-                android:orientation="horizontal"
                 android:layout_below="@+id/back_ll"
+                android:layout_weight="1"
                 android:background="@drawable/rectangular_black_transparent_"
-                android:layout_weight="1">
+                android:orientation="horizontal">
 
                 <EditText
                     android:id="@+id/searchmsg"
@@ -150,17 +162,17 @@
                     android:background="@null"
                     android:fontFamily="@font/poppins_regular"
                     android:includeFontPadding="false"
-                    android:textSize="@dimen/_11ssp"
-                    android:paddingStart="5dp" />
+                    android:paddingStart="5dp"
+                    android:textSize="@dimen/_11ssp" />
 
                 <ImageView
                     android:id="@+id/clear_search"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end|center"
-                    android:textAllCaps="false"
                     android:layout_marginEnd="@dimen/_4sdp"
                     android:src="@drawable/ic_close"
+                    android:textAllCaps="false"
                     android:textColor="@android:color/black"
                     android:visibility="gone" />
 
@@ -175,12 +187,12 @@
                 android:layout_below="@+id/txtview"
                 android:layout_alignParentRight="true"
                 android:layout_marginLeft="5dp"
-                android:textSize="@dimen/_10ssp"
+                android:background="@drawable/rounded_bg_dblue"
                 android:fontFamily="@font/poppins_medium"
                 android:includeFontPadding="false"
-                android:background="@drawable/rounded_bg_dblue"
                 android:text="Go"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/_10ssp" />
         </LinearLayout>
 
         <LinearLayout
