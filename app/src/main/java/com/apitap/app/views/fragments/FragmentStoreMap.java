@@ -45,6 +45,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.apitap.app.App;
 import com.apitap.app.R;
 import com.apitap.app.controller.MerchantFavouriteManager;
 import com.apitap.app.controller.ModelManager;
@@ -72,6 +73,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
@@ -105,6 +107,7 @@ public class FragmentStoreMap extends BaseFragment implements View.OnClickListen
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
         LocationListener, LocationListAdpater.AdapterClick {
 
+    private boolean isMerchantDistanceCalled = false;
     public static boolean mMapIsTouched = false;
     private TextView storeName, ratingNo;
     private ImageView share, img_main;
@@ -131,7 +134,7 @@ public class FragmentStoreMap extends BaseFragment implements View.OnClickListen
     Uri uri;
     ArrayList<String> latlist = new ArrayList<String>();
     ArrayList<String> longlist = new ArrayList<String>();
-    private GoogleApiClient mGoogleApiClient;
+    //    private GoogleApiClient mGoogleApiClient;
     LinearLayout selectMap, selectSatelite;
     private GoogleMap mMap;
     int state = 0;
@@ -143,7 +146,7 @@ public class FragmentStoreMap extends BaseFragment implements View.OnClickListen
     private LocationListAdpater.AdapterClick adapterClick;
     Button storeBrowse;
     CardView nolocationTxt;
-    ImageView naviagte_to,imageViewCurrentLocation;
+    ImageView naviagte_to, imageViewCurrentLocation;
     int position = 99;
     int clicked_pos = 99;
     public static TabLayout tabLayout;
@@ -152,7 +155,7 @@ public class FragmentStoreMap extends BaseFragment implements View.OnClickListen
     LinearLayout tabConatiner;
     boolean isFavorite = false;
     Spinner sotre_categorySpinner;
-    private LinearLayout ll_storeMessages, linearLayoutRating, nolocationLinear, view_store_detail_header,view_store_tabs;
+    private LinearLayout ll_storeMessages, linearLayoutRating, nolocationLinear, view_store_detail_header, view_store_tabs;
     private RESULTItem data;
     private View rootView;
 
@@ -189,19 +192,18 @@ public class FragmentStoreMap extends BaseFragment implements View.OnClickListen
         locationRequest.setInterval(10000);
         locationRequest.setFastestInterval(5000);
         fusedLocationProviderApi = LocationServices.FusedLocationApi;
-        if (mGoogleApiClient == null) {
+/*        if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
                     .addConnectionCallbacks(this)
                     .addOnConnectionFailedListener(this)
                     .addApi(LocationServices.API)
                     .build();
-        }
+        }*/
     }
 
-    private void initViews(Bundle savedInstance) {
+    private void initViews(Bundle savedInstanceState) {
         mapView = rootView.findViewById(R.id.map);
-        mapView.onCreate(savedInstance);
-        mapView.onResume();
+        mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
 
         frameLayout = rootView.findViewById(R.id.container_body);
@@ -272,18 +274,18 @@ public class FragmentStoreMap extends BaseFragment implements View.OnClickListen
 //        ModelManager.getInstance().getMerchantFavouriteManager().getFavourites(mActivity,
 //                Operations.makeJsonGetMerchantFavourite(mActivity));
 
-        showProgress();
+     /*   showProgress();
         ModelManager.getInstance().getMerchantManager().getMerchantDistance(getActivity(),
                 Operations.makeJsonGetMerchantDistance(getActivity(),
                         ATPreferences.readString(getActivity(), Constants.MERCHANT_ID),
                         current_lat, current_long), Constants.GET_MERCHANT_DISTANCE_SUCCESS);
-
+*/
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        setData();
+//        setData();
     }
 
     private void setData() {
@@ -329,14 +331,14 @@ public class FragmentStoreMap extends BaseFragment implements View.OnClickListen
     @Override
     public void onStart() {
         super.onStart();
-        mGoogleApiClient.connect();
+//        mGoogleApiClient.connect();
         EventBus.getDefault().register(this);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        mGoogleApiClient.disconnect();
+//        mGoogleApiClient.disconnect();
         EventBus.getDefault().unregister(this);
     }
 
@@ -355,8 +357,8 @@ public class FragmentStoreMap extends BaseFragment implements View.OnClickListen
                     mMap.addMarker(new MarkerOptions().position(markerLoc1).title(
                             arrayList.get(clicked_pos).get11470()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
                     //   mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-                 //   CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(markerLoc1, 14);
-                  //  mMap.animateCamera(cameraUpdate);
+                    //   CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(markerLoc1, 14);
+                    //  mMap.animateCamera(cameraUpdate);
                 }// else
                 //   getLatLongGeoCode();
                 break;
@@ -404,10 +406,10 @@ public class FragmentStoreMap extends BaseFragment implements View.OnClickListen
                 recyclerView.setAdapter(locationListAdpater);
                 updateLocation();
                 currentLocation();
-                double latus = 36.2423876;
+                /*double latus = 36.2423876;
                 double lngus = -113.7481853;
 
-                LatLng markerLoc = new LatLng(latus, lngus);
+                LatLng markerLoc = new LatLng(latus, lngus);*/
 
 //                final CameraPosition cameraPosition = new CameraPosition.Builder()
 //                        .target(markerLoc)      // Sets the center of the map to Mountain View
@@ -417,7 +419,7 @@ public class FragmentStoreMap extends BaseFragment implements View.OnClickListen
                 //   CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(markerLoc, 16);
                 //     mMap.animateCamera(cameraUpdate);
                 for (int i = 0; i < arrayList.size(); i++) {
-                    if (arrayList.get(i).getAD()!=null&&!arrayList.get(i).getAD().get12038().isEmpty()) {
+                    if (arrayList.get(i).getAD() != null && !arrayList.get(i).getAD().get12038().isEmpty()) {
                         double lat = Double.parseDouble(arrayList.get(i).getAD().get12038());
                         double lng = Double.parseDouble(arrayList.get(i).getAD().get12039());
 
@@ -428,7 +430,7 @@ public class FragmentStoreMap extends BaseFragment implements View.OnClickListen
                 }
 
 
-                if (arrayList.size() == 0) {
+                if (arrayList.size() == 0 || (arrayList.size() > 0 && arrayList.get(0).getAD() == null)) {
                     nolocationTxt.setVisibility(View.VISIBLE);
                     nolocationLinear.setVisibility(View.GONE);
                 }
@@ -460,29 +462,33 @@ public class FragmentStoreMap extends BaseFragment implements View.OnClickListen
 //                    context.startActivity(intent);
                         // Uri gmmIntentUri = Uri.parse("google.navigation:q=" + arrayList.get(selctPos).getAD().getZP().get12038() + "," + arrayList.get(selctPos).getAD().getZP().get12039());
 
-                        String address_one = Utils.hexToASCII(arrayList.get(selctPos).getAD().get11412().trim());
-                        String addressTwo = "";
-                        if (!arrayList.get(selctPos).getAD().get11413().isEmpty())
-                            addressTwo = Utils.hexToASCII(arrayList.get(selctPos).getAD().get11413().trim()) + " " + arrayList.get(selctPos).getAD().getZP().get4717();
-                        else
-                            addressTwo = arrayList.get(selctPos).getAD().getCI().get4715().trim() + " " +
-                                    arrayList.get(selctPos).getAD().getCO().get11417() + " "
-                                    + arrayList.get(selctPos).getAD().getZP().get4717() + " "
-                                    + arrayList.get(selctPos).getAD().getST().get_1234();
+                        try {
+                            String address_one = Utils.hexToASCII(arrayList.get(selctPos).getAD().get11412().trim());
+                            String addressTwo = "";
+                            if (!arrayList.get(selctPos).getAD().get11413().isEmpty())
+                                addressTwo = Utils.hexToASCII(arrayList.get(selctPos).getAD().get11413().trim()) + " " + arrayList.get(selctPos).getAD().getZP().get4717();
+                            else
+                                addressTwo = arrayList.get(selctPos).getAD().getCI().get4715().trim() + " " +
+                                        arrayList.get(selctPos).getAD().getCO().get11417() + " "
+                                        + arrayList.get(selctPos).getAD().getZP().get4717() + " "
+                                        + arrayList.get(selctPos).getAD().getST().get_1234();
 
-                        Log.d("addressTwos", arrayList.get(selctPos).getAD().getCI().get4715() + "  "
-                                + arrayList.get(selctPos).getAD().getCO().get11417() + "   " +
-                                arrayList.get(selctPos).getAD().getZP().get4717() + "   " +
-                                arrayList.get(selctPos).getAD().getST().get_1234());
+                            Log.d("addressTwos", arrayList.get(selctPos).getAD().getCI().get4715() + "  "
+                                    + arrayList.get(selctPos).getAD().getCO().get11417() + "   " +
+                                    arrayList.get(selctPos).getAD().getZP().get4717() + "   " +
+                                    arrayList.get(selctPos).getAD().getST().get_1234());
 
-                        //Uri gmmIntentUri = Uri.parse("google.navigation:q="/*+current_lat+","+current_long+"?q=" */+ address_one + " " + addressTwo);
+                            //Uri gmmIntentUri = Uri.parse("google.navigation:q="/*+current_lat+","+current_long+"?q=" */+ address_one + " " + addressTwo);
                        /* Uri gmmIntentUri = Uri.parse("geo:" + current_lat + "," + current_long + "?q=" + address_one + " " + addressTwo);
                         Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
                         mapIntent.setPackage("com.google.android.apps.maps");
                         startActivity(mapIntent);*/
-                        Intent intent = new Intent(Intent.ACTION_VIEW,
-                                Uri.parse("http://maps.google.com/maps?saddr=" + current_lat + "," + current_long + "&daddr=" + address_one + " " + addressTwo));
-                        startActivity(intent);
+                            Intent intent = new Intent(Intent.ACTION_VIEW,
+                                    Uri.parse("http://maps.google.com/maps?saddr=" + current_lat + "," + current_long + "&daddr=" + address_one + " " + addressTwo));
+                            startActivity(intent);
+                        } catch (Exception e) {
+                            Utils.baseshowFeedbackMessage(requireActivity(), rootView, "No address found");
+                        }
                     }
 
                 });
@@ -517,16 +523,16 @@ public class FragmentStoreMap extends BaseFragment implements View.OnClickListen
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.imageViewCurrentLocation:
-                Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-                if (location != null) {
-                    //Getting longitude and latitude
-                    double latitude = location.getLatitude();
-                    double longitude = location.getLongitude();
+//                Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+//                if (location != null) {
+                //Getting longitude and latitude
+                double latitude = App.latitude;
+                double longitude = App.longitude;
 
-                    //moving the map to location
-                    mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(latitude,longitude)));
-                    mMap.animateCamera(CameraUpdateFactory.zoomTo(17));
-                }
+                //moving the map to location
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(latitude, longitude)));
+                mMap.animateCamera(CameraUpdateFactory.zoomTo(17));
+//                }
                 break;
 
             case R.id.linearLayoutRating:
@@ -645,8 +651,10 @@ public class FragmentStoreMap extends BaseFragment implements View.OnClickListen
     }
 
 
+/*
     private void getCurrentLocation() {
-        mMap.clear();
+        if (mMap != null)
+            mMap.clear();
         if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(),
                 android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -666,10 +674,11 @@ public class FragmentStoreMap extends BaseFragment implements View.OnClickListen
             double longitude = location.getLongitude();
 
             //moving the map to location
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(latitude,longitude)));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(latitude, longitude)));
             mMap.animateCamera(CameraUpdateFactory.zoomTo(2));
         }
     }
+*/
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
@@ -680,8 +689,8 @@ public class FragmentStoreMap extends BaseFragment implements View.OnClickListen
                         != PackageManager.PERMISSION_GRANTED) {
             return;
         }
-        getCurrentLocation();
-        fusedLocationProviderApi.requestLocationUpdates(mGoogleApiClient, locationRequest, this);
+//        getCurrentLocation();
+//        fusedLocationProviderApi.requestLocationUpdates(mGoogleApiClient, locationRequest, this);
     }
 
 
@@ -703,16 +712,42 @@ public class FragmentStoreMap extends BaseFragment implements View.OnClickListen
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+
+        mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
+            @Override
+            public void onMapLoaded() {
+                if (!isMerchantDistanceCalled) {
+                    isMerchantDistanceCalled = true;
+                    callMerchantDistanceApi();
+                    setData();
+                }
+            }
+        });
+    }
+
+    private void callMerchantDistanceApi() {
+        showProgress();
+
+        ModelManager.getInstance().getMerchantManager().getMerchantDistance(
+                getActivity(),
+                Operations.makeJsonGetMerchantDistance(
+                        getActivity(),
+                        ATPreferences.readString(getActivity(), Constants.MERCHANT_ID),
+                        current_lat,
+                        current_long
+                ),
+                Constants.GET_MERCHANT_DISTANCE_SUCCESS
+        );
     }
 
     private void updateLocation() {
-        if (ActivityCompat.checkSelfPermission(mActivity, Manifest.permission.ACCESS_FINE_LOCATION) !=
+      /*  if (ActivityCompat.checkSelfPermission(mActivity, Manifest.permission.ACCESS_FINE_LOCATION) !=
                 PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mActivity,
                 Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
-                mGoogleApiClient);
+                mGoogleApiClient);*/
     }
 
     public void currentLocation() {
@@ -799,10 +834,10 @@ public class FragmentStoreMap extends BaseFragment implements View.OnClickListen
 
     public void navigateToMap(int i) {
 
-        if (!arrayList.get(i).getAD().get12038().isEmpty()) {
+        if (!arrayList.get(i).getAD().getZP().get12038().isEmpty()) {
             naviagte_to.setVisibility(View.VISIBLE);
-            double lat = Double.parseDouble(arrayList.get(i).getAD().get12038());
-            double lng = Double.parseDouble(arrayList.get(i).getAD().get12039());
+            double lat = Double.parseDouble(arrayList.get(i).getAD().getZP().get12038());
+            double lng = Double.parseDouble(arrayList.get(i).getAD().getZP().get12039());
             Log.e("LATLocation=" + lat, "LONG  " + lng + "");
             LatLng markerLoc = new LatLng(lat, lng);
             final CameraPosition cameraPosition = new CameraPosition.Builder()
@@ -911,8 +946,8 @@ public class FragmentStoreMap extends BaseFragment implements View.OnClickListen
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-      //  view_store_detail_header.setVisibility(View.GONE);
-      //  view_store_tabs.setVisibility(View.GONE);
+        //  view_store_detail_header.setVisibility(View.GONE);
+        //  view_store_tabs.setVisibility(View.GONE);
     }
 }
 

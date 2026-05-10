@@ -59,6 +59,30 @@
       },
       "oauth_client": [
         {
+          "client_id": "58180548808-0nfubn4iq3iric9q3rc7o60aakoclgs5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.apitap.app",
+            "certificate_hash": "d9716b7cc2c0ebdb19c6a92e0fcd3f62c8d8a2e4"
+          }
+        },
+        {
+          "client_id": "58180548808-1rr8i18i2gubnjb6r5lnk6oilsfkdbmk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.apitap.app",
+            "certificate_hash": "54e49678c36fb3ee0405e7655cba7dc4fa396512"
+          }
+        },
+        {
+          "client_id": "58180548808-mfnnfcnkj4qtpi4et39edtu2o72rfnge.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.apitap.app",
+            "certificate_hash": "faa702531ce5ac2f65ae5d85aca637b0a142183a"
+          }
+        },
+        {
           "client_id": "58180548808-94j627p38rnm8rsb0p1dkcmti3m8gffv.apps.googleusercontent.com",
           "client_type": 3
         }

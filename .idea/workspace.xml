@@ -159,6 +159,11 @@
           <theme>@style/AppTheme</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_test_map.xml">
+        <config>
+          <theme>@style/AppTheme</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/adapter_bottomsheet_locations.xml">
         <config>
           <theme>@style/AppTheme</theme>
@@ -491,30 +496,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="82c2b959-eb25-4623-b703-66dfb07c533e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/model/unreadMessageMerchant/RESULTItem.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/model/unreadMessageMerchant/UnreadMerchantMessages.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/TestMapActivity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_test_map.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/release/app-release.aab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/release/app-release.apk" beforeDir="false" afterPath="$PROJECT_DIR$/app/release/app-release.apk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/release/baselineProfiles/0/app-release.dm" beforeDir="false" afterPath="$PROJECT_DIR$/app/release/baselineProfiles/0/app-release.dm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/release/baselineProfiles/1/app-release.dm" beforeDir="false" afterPath="$PROJECT_DIR$/app/release/baselineProfiles/1/app-release.dm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/release/output-metadata.json" beforeDir="false" afterPath="$PROJECT_DIR$/app/release/output-metadata.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/controller/MessageManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/controller/MessageManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/model/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/model/Constants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/model/Operations.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/model/Operations.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/model/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/model/Utils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/model/customclasses/Event.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/model/customclasses/Event.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/HomeActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/HomeActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/MessageDetailActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/MessageDetailActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/FragmentSignup.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/FragmentSignup.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/FragmentStoreAbout.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/FragmentStoreAbout.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/SendMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/SendMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/messages/FragmentMessages.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/messages/FragmentMessages.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/messages/adapter/MessageListAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/messages/adapter/MessageListAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/reservations/adapter/ReservationListAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/reservations/adapter/ReservationListAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_apitap_message.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_apitap_message.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/google-services.json" beforeDir="false" afterPath="$PROJECT_DIR$/app/google-services.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/FragmentStoreMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/FragmentStoreMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_store_map.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_store_map.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/reports/problems/problems-report.html" beforeDir="false" afterPath="$PROJECT_DIR$/build/reports/problems/problems-report.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -534,6 +523,9 @@
   <component name="ExternalProjectsManager">
     <system id="GRADLE">
       <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
         <projects_view>
           <tree_state>
             <expand>
@@ -586,11 +578,12 @@
     &quot;Android App.app.executor&quot;: &quot;Run&quot;,
     &quot;ApkExportedModule&quot;: &quot;APITAP-Android.app&quot;,
     &quot;BundleExportedModule&quot;: &quot;APITAP-Android.app&quot;,
-    &quot;DEBUGGABLE_DEVICE&quot;: &quot;Pixel [emulator-5554]&quot;,
+    &quot;DEBUGGABLE_DEVICE&quot;: &quot;motorola-moto_g45_5g-ZA222P8K7T&quot;,
     &quot;DEBUGGABLE_PROCESS&quot;: &quot;com.apitap.app&quot;,
     &quot;DEBUGGER_ID&quot;: &quot;Auto&quot;,
     &quot;ExportApk.ApkPathForAPITAP-Android.app&quot;: &quot;/media/shami/Projects1/Android/APITAP-Android/APITAP-Android/app&quot;,
     &quot;ExportBundle.BundlePathForAPITAP-Android.app&quot;: &quot;/media/shami/Projects1/Android/APITAP-Android/APITAP-Android/app&quot;,
+    &quot;Gradle.APITAP-Android [signingReport].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.Download Sources.executor&quot;: &quot;Run&quot;,
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
     &quot;OverrideImplement.combined&quot;: &quot;false&quot;,
@@ -636,7 +629,12 @@
       <recent name="com.apitap.model.reservation" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="gradle signingReport" />
+    </option>
+  </component>
+  <component name="RunManager" selected="Android App.app">
     <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
       <module name="APITAP-Android.app" />
       <option name="ANDROID_RUN_CONFIGURATION_SCHEMA_VERSION" value="1" />
@@ -709,6 +707,33 @@
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
       </method>
     </configuration>
+    <configuration name="APITAP-Android [signingReport]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="signingReport" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gradle.APITAP-Android [signingReport]" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -1600,14 +1625,39 @@
           <option name="timeStamp" value="848" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/FragmentStoreAbout.java</url>
-          <line>89</line>
-          <option name="timeStamp" value="850" />
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/FragmentStoreMap.java</url>
+          <line>880</line>
+          <option name="timeStamp" value="869" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/FragmentStoreAbout.java</url>
-          <line>86</line>
-          <option name="timeStamp" value="853" />
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/FragmentStoreMap.java</url>
+          <line>836</line>
+          <option name="timeStamp" value="870" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/FragmentStoreMap.java</url>
+          <line>838</line>
+          <option name="timeStamp" value="871" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/FragmentStoreMap.java</url>
+          <line>420</line>
+          <option name="timeStamp" value="875" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/FragmentStoreMap.java</url>
+          <line>421</line>
+          <option name="timeStamp" value="876" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/FragmentStoreMap.java</url>
+          <line>432</line>
+          <option name="timeStamp" value="877" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/FragmentStoreMap.java</url>
+          <line>433</line>
+          <option name="timeStamp" value="878" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-field">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/shoppingCart/ShoppingCartFragment.java</url>
@@ -1634,12 +1684,12 @@
         </entry>
         <entry key="com.apitap.app">
           <value>
-            <CheckInfo lastCheckTimestamp="1778084044463" />
+            <CheckInfo lastCheckTimestamp="1778170446422" />
           </value>
         </entry>
         <entry key="com.apitap.app.test">
           <value>
-            <CheckInfo lastCheckTimestamp="1778084044464" />
+            <CheckInfo lastCheckTimestamp="1778170446412" />
           </value>
         </entry>
         <entry key="com.apitap.test">
