@@ -246,7 +246,14 @@ public class AdsManager {
             if (s != null) {
                 AdDetailResponse adDetail = new Gson().fromJson(s, AdDetailResponse.class);
                 if (adDetail.getRESULT().get(0).getJsonMember44().equals("Transaction Approved")) {
-                    if (adDetail.getRESULT().get(0).getRESULT().get(0).getLO().size() > 0) {
+                    if (adDetail != null
+                            && adDetail.getRESULT() != null
+                            && !adDetail.getRESULT().isEmpty()
+                            && adDetail.getRESULT().get(0).getRESULT() != null
+                            && !adDetail.getRESULT().get(0).getRESULT().isEmpty()
+                            && adDetail.getRESULT().get(0).getRESULT().get(0).getLO() != null
+                            && !adDetail.getRESULT().get(0).getRESULT().get(0).getLO().isEmpty()) {
+
                         arrayListLocation = new ArrayList<>();
                         arrayListLocationId = new ArrayList<>();
                         try {
@@ -254,7 +261,7 @@ public class AdsManager {
                                 arrayListLocationId.add(adDetail.getRESULT().get(0).getRESULT().get(0).getLO().get(lo).getJsonMember11447());
                                 String locationFullName = Utils.hexToASCII(adDetail.getRESULT().get(0).getRESULT().get(0).getLO().get(lo).getAD().getJsonMember11412());
                                 String locationName = adDetail.getRESULT().get(0).getRESULT().get(0).getLO().get(lo).getAD().getCI().getJsonMember4715();
-                                String locationSate =adDetail.getRESULT().get(0).getRESULT().get(0).getLO().get(lo).getAD().getST().getJsonMember4716();
+                                String locationSate = adDetail.getRESULT().get(0).getRESULT().get(0).getLO().get(lo).getAD().getST().getJsonMember4716();
                                 String locationCountry = adDetail.getRESULT().get(0).getRESULT().get(0).getLO().get(lo).getAD().getCO().getJsonMember4718();
                                 arrayListLocation.add(locationFullName + " " + locationName + " " + locationSate + " " + locationCountry);
                             }

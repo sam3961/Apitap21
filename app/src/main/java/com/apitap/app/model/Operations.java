@@ -576,86 +576,214 @@ public class Operations {
 
     public static String makeJsonSearchProduct(Activity context, String key, String sort, String merchantId, String zipCode,
                                                String brandName, String rating) {
-        String dataPlana = "";
-        String dataPlana1 = "";
-        String dataPlana2 = "";
-        String lat = String.valueOf(App.latitude);
-        String lon = String.valueOf(App.longitude);
-        if (lat == null) {
-            lat = "0.0";
-            lon = "0.0";
+        String parametersToCall = "";
+        try {
+            String userId = ATPreferences.readString(context, Constants.KEY_USERID);
+            String safeMerchantId = Utils.safe(merchantId);
+            String encodedKey = Utils.safe(key).isEmpty() ? "" : Utils.convertStringToHex(Utils.safe(key));
+            String timeStamp = Client.getDateTimeStamp();
+            String weekDay = Client.getWeekDay();
+
+            JSONObject request = new JSONObject();
+            request.put("11", Client.getTimeStamp());
+            request.put("192", ATPreferences.readString(context, Constants.KEY_USER_DEFAULT));
+            request.put("122.45", "en");
+
+            JSONArray optList = new JSONArray();
+
+            JSONObject items = new JSONObject();
+            items.put("101", "010400807");
+            items.put("EXPECTED", "127.86,114.144,123.20,114.112,120.83,114.98,122.158,120.45,114.70,121.150,121.170,114.9,122.19,53,114.179,114.143,122.75,121.80,122.162,CA,121.39,LO");
+            JSONObject itemsParam = new JSONObject();
+            itemsParam.put("53", userId);
+            itemsParam.put("121.141", timeStamp);
+            itemsParam.put("127.89", weekDay);
+            itemsParam.put("120.38", "0.0");
+            itemsParam.put("120.39", "0.0");
+            itemsParam.put("127.60", Utils.safe(sort));
+            itemsParam.put("120.3", "1000");
+            itemsParam.put("114.127", encodedKey);
+            if (!safeMerchantId.isEmpty()) {
+                itemsParam.put("114.179", safeMerchantId);
+            }
+            if (!Utils.safe(zipCode).isEmpty()) {
+                itemsParam.put("120.156", Utils.safe(zipCode));
+            }
+            if (!Utils.safe(brandName).isEmpty()) {
+                itemsParam.put("114.149", Utils.safe(brandName));
+            }
+            if (!Utils.safe(rating).isEmpty()) {
+                itemsParam.put("121.80", Utils.safe(rating));
+            }
+            items.put("PARAM", itemsParam);
+            optList.put(items);
+
+            JSONObject businesses = new JSONObject();
+            businesses.put("101", "010400868");
+            JSONObject businessesParam = new JSONObject();
+            businessesParam.put("53", safeMerchantId.isEmpty() ? userId : safeMerchantId);
+            businessesParam.put("114.127", encodedKey);
+            businesses.put("PARAM", businessesParam);
+            optList.put(businesses);
+
+            JSONObject specials = new JSONObject();
+            specials.put("101", "010400787");
+            JSONObject specialsParam = new JSONObject();
+            specialsParam.put("53", userId);
+            specialsParam.put("121.141", timeStamp);
+            specialsParam.put("127.89", weekDay);
+            specialsParam.put("114.127", encodedKey);
+            if (!safeMerchantId.isEmpty()) {
+                specialsParam.put("114.179", safeMerchantId);
+            }
+            specials.put("PARAM", specialsParam);
+            specials.put("FILTER", new JSONArray());
+            optList.put(specials);
+
+            JSONObject ads = new JSONObject();
+            ads.put("101", "010400677");
+            JSONObject adsParam = new JSONObject();
+            adsParam.put("53", userId);
+            adsParam.put("121.141", timeStamp);
+            adsParam.put("127.89", weekDay);
+            adsParam.put("120.148", "true");
+            adsParam.put("114.127", encodedKey);
+            if (!safeMerchantId.isEmpty()) {
+                adsParam.put("114.179", safeMerchantId);
+            }
+            ads.put("PARAM", adsParam);
+            ads.put("FILTER", new JSONArray());
+            optList.put(ads);
+
+            JSONObject categories = new JSONObject();
+            categories.put("101", "010400908");
+            JSONObject categoriesParam = new JSONObject();
+            categoriesParam.put("53", userId);
+            categoriesParam.put("121.141", timeStamp);
+            categoriesParam.put("127.89", weekDay);
+            categoriesParam.put("120.38", "0.0");
+            categoriesParam.put("120.39", "0.0");
+            if (!safeMerchantId.isEmpty()) {
+                categoriesParam.put("114.179", safeMerchantId);
+            }
+            categories.put("PARAM", categoriesParam);
+            optList.put(categories);
+
+            JSONObject brands = new JSONObject();
+            brands.put("101", "010400808");
+            JSONObject brandsParam = new JSONObject();
+            brandsParam.put("114.127", encodedKey);
+            if (!safeMerchantId.isEmpty()) {
+                brandsParam.put("114.179", safeMerchantId);
+            }
+            brands.put("PARAM", brandsParam);
+            optList.put(brands);
+
+            JSONObject deliveryServices = new JSONObject();
+            deliveryServices.put("101", "010400873");
+            JSONObject deliveryParam = new JSONObject();
+            deliveryParam.put("53", userId);
+            deliveryParam.put("121.141", timeStamp);
+            deliveryParam.put("127.89", weekDay);
+            deliveryParam.put("120.38", "0.0");
+            deliveryParam.put("120.39", "0.0");
+            deliveryParam.put("114.127", encodedKey);
+            if (!safeMerchantId.isEmpty()) {
+                deliveryParam.put("114.179", safeMerchantId);
+            }
+            deliveryServices.put("PARAM", deliveryParam);
+            optList.put(deliveryServices);
+
+            JSONObject ratings = new JSONObject();
+            ratings.put("101", "010400890");
+            JSONObject ratingsParam = new JSONObject();
+            ratingsParam.put("114.127", encodedKey);
+            if (!safeMerchantId.isEmpty()) {
+                ratingsParam.put("114.179", safeMerchantId);
+            }
+            ratings.put("PARAM", ratingsParam);
+            optList.put(ratings);
+
+            JSONObject portal = new JSONObject();
+            portal.put("101", "010100027");
+            JSONObject portalParam = new JSONObject();
+            portalParam.put("127.14", "PORTAL");
+            portal.put("PARAM", portalParam);
+            optList.put(portal);
+
+            JSONObject sidebarCategories = new JSONObject();
+            sidebarCategories.put("101", "010400874");
+            JSONObject sidebarCategoriesParam = new JSONObject();
+            sidebarCategoriesParam.put("120.38", "0.0");
+            sidebarCategoriesParam.put("120.39", "0.0");
+            sidebarCategoriesParam.put("120.148", "true");
+            sidebarCategoriesParam.put("121.141", timeStamp);
+            sidebarCategoriesParam.put("127.89", weekDay);
+            sidebarCategories.put("PARAM", sidebarCategoriesParam);
+            optList.put(sidebarCategories);
+
+            if (!safeMerchantId.isEmpty()) {
+                JSONObject businessDetails = new JSONObject();
+                businessDetails.put("101", "010100020");
+                JSONObject businessDetailsParam = new JSONObject();
+                businessDetailsParam.put("53", safeMerchantId);
+                businessDetailsParam.put("114.179", safeMerchantId);
+                businessDetails.put("PARAM", businessDetailsParam);
+                businessDetails.put("EXPECTED", "ALL");
+                optList.put(businessDetails);
+
+                JSONObject businessStats = new JSONObject();
+                businessStats.put("101", "010100918");
+                JSONObject businessStatsParam = new JSONObject();
+                businessStatsParam.put("53", userId);
+                businessStatsParam.put("114.179", safeMerchantId);
+                businessStats.put("PARAM", businessStatsParam);
+                optList.put(businessStats);
+
+                JSONObject messages = new JSONObject();
+                messages.put("101", "010100209");
+                JSONObject messagesParam = new JSONObject();
+                messagesParam.put("53", userId);
+                messagesParam.put("114.9", "true");
+                messages.put("PARAM", messagesParam);
+                JSONArray messagesFilter = new JSONArray();
+                JSONObject currentUserFilter = new JSONObject();
+                currentUserFilter.put("114.179", userId);
+                currentUserFilter.put("operator", "eq");
+                messagesFilter.put(currentUserFilter);
+                JSONObject merchantFilter = new JSONObject();
+                merchantFilter.put("114.179", safeMerchantId);
+                merchantFilter.put("operator", "eq");
+                messagesFilter.put(merchantFilter);
+                messages.put("FILTER", messagesFilter);
+                messages.put("COUNT", true);
+                messages.put("EXPECTED", "ALL");
+                messages.put("ORDER", "120.138-DESC,114.138-DESC");
+                JSONObject limits = new JSONObject();
+                limits.put("120.2", "0");
+                limits.put("120.3", "10");
+                messages.put("LIMITS", limits);
+                optList.put(messages);
+
+                JSONObject favorites = new JSONObject();
+                favorites.put("101", "010100832");
+                JSONObject favoritesParam = new JSONObject();
+                favoritesParam.put("53", userId);
+                favorites.put("PARAM", favoritesParam);
+                JSONArray favoritesFilter = new JSONArray();
+                JSONObject favoriteMerchantFilter = new JSONObject();
+                favoriteMerchantFilter.put("114.179", safeMerchantId);
+                favoriteMerchantFilter.put("operator", "eq");
+                favoritesFilter.put(favoriteMerchantFilter);
+                favorites.put("FILTER", favoritesFilter);
+                optList.put(favorites);
+            }
+
+            request.put("OPTLST", optList);
+            parametersToCall = request.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        if (merchantId.isEmpty())
-            dataPlana = "{\"101\":\"010400478\",\"PARAM\":{\"53\":\""
-                    + ATPreferences.readString(context, Constants.KEY_USERID)
-                    + "\" ,\"127.60\":\"" + sort
-                    + "\" ,\"120.38\":\"" + lat
-                    + "\" ,\"120.39\":\"" + lon
-                    + "\" ,\"114.127\":\"" + key
-                    + "\" ,\"120.156\":\"" + zipCode
-                    + "\" ,\"114.149\":\"" + brandName
-                    + "\" ,\"121.80\":\"" + rating
-                    + "\" ,\"121.141\":\"" + Client.getDateTimeStamp()
-                    + "\",\"127.89\":\"" + Client.getWeekDay() + "\"}}";
-        else
-            dataPlana = "{\"101\":\"010400478\",\"PARAM\":{\"53\":\""
-                    + ATPreferences.readString(context, Constants.KEY_USERID)
-                    + "\" ,\"127.60\":\"" + sort
-                    + "\" ,\"120.38\":\"" + lat
-                    + "\" ,\"120.39\":\"" + lon
-                    + "\" ,\"114.127\":\"" + key
-                    + "\" ,\"120.156\":\"" + zipCode
-                    + "\" ,\"114.179\":\"" + merchantId
-                    + "\" ,\"114.149\":\"" + brandName
-                    + "\" ,\"121.80\":\"" + rating
-                    + "\" ,\"121.141\":\"" + Client.getDateTimeStamp()
-                    + "\",\"127.89\":\"" + Client.getWeekDay() + "\"}}";
-
-
-        if (merchantId.isEmpty())
-            dataPlana1 = "{\"101\":\"010400479\",\"PARAM\":{\"53\":\""
-                    + ATPreferences.readString(context, Constants.KEY_USERID)
-                    + "\" ,\"127.60\":\"" + sort
-                    + "\" ,\"120.38\":\"" + lat
-                    + "\" ,\"120.39\":\"" + lon
-                    + "\" ,\"120.156\":\"" + zipCode
-                    + "\" ,\"114.127\":\"" + key
-                    + "\" ,\"121.141\":\"" + Client.getDateTimeStamp()
-                    + "\",\"127.89\":\"" + Client.getWeekDay() + "\"}}";
-        else
-            dataPlana1 = "{\"101\":\"010400479\",\"PARAM\":{\"53\":\""
-                    + ATPreferences.readString(context, Constants.KEY_USERID)
-                    + "\" ,\"127.60\":\"" + sort
-                    + "\" ,\"120.38\":\"" + lat
-                    + "\" ,\"120.39\":\"" + lon
-                    + "\" ,\"120.156\":\"" + zipCode
-                    + "\" ,\"114.127\":\"" + key
-                    + "\" ,\"114.179\":\"" + merchantId
-                    + "\" ,\"121.141\":\"" + Client.getDateTimeStamp()
-                    + "\",\"127.89\":\"" + Client.getWeekDay() + "\"}}";
-
-        if (merchantId.isEmpty())
-            dataPlana2 = "{\"101\":\"010400676\","
-                    + "\"EXPECTED\":\"ALL\","
-                    + "\"PARAM\":{\"53\":\"" + ATPreferences.readString(context, Constants.KEY_USERID)
-                    + "\" ,\"120.156\":\"" + zipCode
-                    + "\" ,\"114.127\":\"" + key + "\"}}";
-        else
-            dataPlana2 = "{\"101\":\"010400676\"," + "\"EXPECTED\":\"ALL\","
-                    + "\"PARAM\":{\"53\":\"" + ATPreferences.readString(context, Constants.KEY_USERID)
-                    + "\" ,\"114.179\":\"" + merchantId
-                    + "\" ,\"120.156\":\"" + zipCode
-                    + "\" ,\"114.127\":\"" + key + "\"}}";
-
-
-        String parametersToCall = "{\"192\":\"" + ATPreferences.readString(context, Constants.KEY_USER_DEFAULT)
-                + "\",\"11\":\"" + Client.getTimeStamp() + "\",\"122.45\":\""
-                + "en" + "\",\"57\":\""
-                + /*Util.GetDeviceId()*/Utils.getDeviceId(context) + "\",\"120.38\":\""
-                + "0.0" + "\",\"120.39\":\""
-                + "0.0" + "\",\"OPTLST\":["
-                + dataPlana + "," + dataPlana1 + "," + dataPlana2 + "]}";
 
         Log.d("makeJsonSearchProduct", parametersToCall);
 

@@ -69,7 +69,7 @@ public class FragmentSearch extends BaseFragment {
     private ScrollView scrollView;
     private ArrayList<String> removeDuplicacy = new ArrayList<>();
     private SamplePagerAdapter SamplePagerAdapter;
-    private String searchKey = "", merchantId = "", zip = "", brandName = "", rating = "", sort_by = Constants.Alphabetical, isFav = "false";
+    private String searchKey = "", merchantId = "", zip = "", brandName = "", rating = "", sort_by = Constants.NEAR_ME, isFav = "false";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -98,7 +98,7 @@ public class FragmentSearch extends BaseFragment {
 
         } else {
             searchKey = getArguments().getString("key");
-            sort_by = getArguments().getString("sortby");
+//            sort_by = getArguments().getString("sortby");
             zip = getArguments().getString("zip");
             brandName = getArguments().getString("brandName");
             rating = getArguments().getString("rating");
@@ -110,7 +110,7 @@ public class FragmentSearch extends BaseFragment {
             showProgress();
             ModelManager.getInstance().getSearchItemsManager().getAllSearchProduct(getActivity(),
                     Operations.makeJsonSearchProduct(getActivity(),
-                            Utils.convertStringToHex(searchKey), sort_by,
+                            searchKey, sort_by,
                             merchantId, zip
                             , brandName, rating));
 
@@ -353,7 +353,8 @@ public class FragmentSearch extends BaseFragment {
                         eye.setVisibility(View.GONE);
                     }
 
-                    description.setText(Utils.hexToASCII(allImagesItems.get(0).getPC().get(position).get120157()));
+                    description.setText(Utils.hexToASCII(allImagesItems.get(0).getPC().get(position).get12083()));
+//                    description.setTextColor(requireContext().getResources().getColor(R.color.colorGreen));
                     rlSinglePrice.setVisibility(View.VISIBLE);
                     rlTwoPrice.setVisibility(View.GONE);
                     actualPrice.setText(allImagesItems.get(0).getPC().get(position).get122162());

@@ -348,11 +348,11 @@ public class SamplePagerAdapter extends PagerAdapter implements PlaybackPreparer
                     AdName = Utils.hexToASCII(ads.get(position).getAdName());
                     Merchantid = ads.get(position).getMerchantId();
                 } else if (isFav.equals("fav") || isFav.equals("search")) {
-                    merchantName = adsDetailWithMerchants.get(position).getMerchantname();
-                    description = adsDetailWithMerchants.get(position).getDesc();
+                    merchantName = Utils.hexToASCII(adsDetailWithMerchants.get(position).getMerchantname());
+                    description = Utils.hexToASCII(adsDetailWithMerchants.get(position).getDesc());
                     id = adsDetailWithMerchants.get(position).getId();
                     Adid = adsDetailWithMerchants.get(position).getAdId();
-                    AdName = adsDetailWithMerchants.get(position).getName();
+                    AdName = Utils.hexToASCII(adsDetailWithMerchants.get(position).getName());
                     Merchantid = adsDetailWithMerchants.get(position).getMerchantId();
                 } else {
                     merchantName = Utils.hexToASCII(adsDetailWithMerchants.get(position).getMerchantname());

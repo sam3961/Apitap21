@@ -37,13 +37,13 @@ public class SearchItemAdapter extends RecyclerView.Adapter<SearchItemAdapter.Vi
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_horizontal_test, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_horizontal_test_search, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
-        holder.description.setText(Utils.hexToASCII( map.get(position).get(0).getProductName()));
+        holder.description.setText(Utils.hexToASCII(map.get(position).get(0).getProductName()));
         String isSeen = map.get(position).get(0).getIsSeen();
         if (isSeen.equalsIgnoreCase("false")) {
             holder.eye.setBackgroundResource(R.drawable.green_seen);

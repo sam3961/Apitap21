@@ -63,16 +63,14 @@
                 <TextView
                     android:id="@+id/description"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#ffffff"
+                    android:layout_height="@dimen/_30sdp"
                     android:gravity="center"
-                    android:maxLength="25"
                     android:maxLines="2"
+                    android:ellipsize="end"
                     android:paddingHorizontal="@dimen/_2sdp"
                     android:textAlignment="center"
                     android:textColor="@android:color/darker_gray"
                     android:textSize="10sp" />
-
 
 
             </LinearLayout>
