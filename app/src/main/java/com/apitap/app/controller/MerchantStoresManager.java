@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.apitap.app.App;
 import com.apitap.app.model.Client;
 import com.apitap.app.model.Constants;
 
@@ -125,9 +126,18 @@ public class MerchantStoresManager {
         new ExecuteApiMerchantStoreItems(context).execute(params);
     }
 
+    public void getMerchantSeenByUser(Context context, String params) {
+        new ExecuteApiMerchantSeenByUser(context).execute(params);
+    }
+
+    public void getMerchantListSeenByUser(Context context, String params) {
+        new ExecuteApiListMerchantSeenByUser(context).execute(params);
+    }
+
     public void getMerchantStoreDetails(Context context, String params) {
         new ExecuteApiStoreDetails(context).execute(params);
     }
+
     public void getActivePlayersInfo(Context context, String params) {
         new ExecuteApiActivePlayers(context).execute(params);
     }
@@ -587,6 +597,99 @@ public class MerchantStoresManager {
         }
     }
 
+    private class ExecuteApiMerchantSeenByUser extends AsyncTask<String, String, String> {
+        Context mContext;
+
+        ExecuteApiMerchantSeenByUser(Context context) {
+            mContext = context;
+        }
+
+        @Override
+        protected String doInBackground(String... param) {
+            String response = Client.Caller(param[0]);
+            Log.d(TAG, "response_merchant_seen---" + response);
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            Log.d(TAG, "" + s);
+
+            try {
+                if (s != null && !s.isEmpty()) {
+
+                } else
+                    EventBus.getDefault().post(new Event(-1, ""));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private class ExecuteApiListMerchantSeenByUser extends AsyncTask<String, String, String> {
+        Context mContext;
+
+        ExecuteApiListMerchantSeenByUser(Context context) {
+            mContext = context;
+        }
+
+        @Override
+        protected String doInBackground(String... param) {
+            String response = Client.Caller(param[0]);
+            Log.d(TAG, "response_merchant_list_seen---" + response);
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            Log.d(TAG, "" + s);
+
+            try {
+                if (s != null && !s.isEmpty()) {
+                    JSONObject rootObj = new JSONObject(s);
+
+                    JSONArray outerResultArray = rootObj.optJSONArray("RESULT");
+
+                    if (outerResultArray != null && outerResultArray.length() > 0) {
+
+                        JSONObject firstResultObj = outerResultArray.optJSONObject(0);
+
+                        if (firstResultObj != null) {
+
+                            JSONArray innerResultArray = firstResultObj.optJSONArray("RESULT");
+
+                            if (innerResultArray != null) {
+
+                                for (int i = 0; i < innerResultArray.length(); i++) {
+
+                                    JSONObject itemObj = innerResultArray.optJSONObject(i);
+
+                                    if (itemObj != null) {
+                                        String value = itemObj.optString("_114_179", "");
+
+                                        if (!value.isEmpty()) {
+                                            App.getInstance().listOfSeenMerchants.add(value);
+                                        }
+                                    }
+                                }
+                                EventBus.getDefault().post(new Event(Constants.MERCHANT_LIST_SEEN_BY_USER_SUCCESS, ""));
+                            }else{
+                                EventBus.getDefault().post(new Event(Constants.MERCHANT_LIST_SEEN_BY_USER_FAILURE, ""));
+                            }
+                        }else{
+                            EventBus.getDefault().post(new Event(Constants.MERCHANT_LIST_SEEN_BY_USER_FAILURE, ""));
+                        }
+                    }
+                } else
+                    EventBus.getDefault().post(new Event(Constants.MERCHANT_LIST_SEEN_BY_USER_FAILURE, ""));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     private class ExecuteApiMerchantStoreItems extends AsyncTask<String, String, String> {
         Context mContext;
 
@@ -792,6 +895,7 @@ public class MerchantStoresManager {
             }
         }
     }
+
     private class ExecuteApiActivePlayers extends AsyncTask<String, String, String> {
         Context mContext;
 

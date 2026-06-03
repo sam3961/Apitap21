@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.apitap.app.App;
 import com.apitap.app.R;
 import com.apitap.app.model.Constants;
 import com.apitap.app.model.Utils;
@@ -27,7 +28,7 @@ import java.util.List;
 
 public class AdapterStores extends RecyclerView.Adapter<AdapterStores.ViewHolder> {
     private Context context;
-    private String  categoryId;
+    private String categoryId;
     private List<MEItem> arrayListStores;
     private AdapterStoreCategories.StoreItemClick storeItemClick;
 
@@ -48,7 +49,13 @@ public class AdapterStores extends RecyclerView.Adapter<AdapterStores.ViewHolder
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        holder.imageViewSeen.setVisibility(View.GONE);
+//        holder.imageViewSeen.setVisibility(View.GONE);
+
+        if (App.getInstance().listOfSeenMerchants.contains(arrayListStores.get(position).getJsonMember53()))
+            holder.imageViewSeen.setImageDrawable(context.getResources().getDrawable(R.drawable.grey_seen));
+        else
+            holder.imageViewSeen.setImageDrawable(context.getResources().getDrawable(R.drawable.green_seen));
+
 
         if (arrayListStores.size() > 9 && holder.getAdapterPosition() == 9) {
             holder.linearLayoutViewAll.setVisibility(View.VISIBLE);
@@ -60,7 +67,7 @@ public class AdapterStores extends RecyclerView.Adapter<AdapterStores.ViewHolder
         holder.textViewStoreName.setText(Utils.hexToASCII(arrayListStores.get(holder.getAdapterPosition()).getJsonMember11470()));
 
         Glide.with(context).load(ATPreferences.readString(context, Constants.KEY_IMAGE_URL)
-                + "_t_" + arrayListStores.get(holder.getAdapterPosition()).getJsonMember121170())
+                        + "_t_" + arrayListStores.get(holder.getAdapterPosition()).getJsonMember121170())
                 .placeholder(R.drawable.ic_gallery_placeholder)
                 .error(R.drawable.no_photo_placeholder)
                 .fitCenter().centerInside()
@@ -70,6 +77,7 @@ public class AdapterStores extends RecyclerView.Adapter<AdapterStores.ViewHolder
             @Override
             public void onClick(View view) {
                 String merchantID = arrayListStores.get(holder.getAdapterPosition()).getJsonMember53();
+                App.getInstance().listOfSeenMerchants.add(merchantID);
                 String merchantName = arrayListStores.get(holder.getAdapterPosition()).getJsonMember11470();
                 Bundle b = new Bundle();
                 b.putBoolean(Constants.HEADER_STORE, true);
@@ -82,6 +90,7 @@ public class AdapterStores extends RecyclerView.Adapter<AdapterStores.ViewHolder
                 ATPreferences.putString(context, Constants.MERCHANT_CATEGORY, "");
 
                 storeItemClick.onCategoryStoreClick(b);
+                notifyDataSetChanged();
             }
         });
 
@@ -89,7 +98,7 @@ public class AdapterStores extends RecyclerView.Adapter<AdapterStores.ViewHolder
             @Override
             public void onClick(View view) {
                 Bundle bundle = new Bundle();
-                bundle.putString("categoryId",categoryId);
+                bundle.putString("categoryId", categoryId);
                 storeItemClick.onViewMoreStoreClick(bundle);
             }
         });

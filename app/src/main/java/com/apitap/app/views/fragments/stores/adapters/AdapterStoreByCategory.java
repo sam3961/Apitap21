@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.apitap.app.App;
 import com.apitap.app.R;
 import com.apitap.app.model.Constants;
 import com.apitap.app.model.Utils;
@@ -44,7 +45,7 @@ public class AdapterStoreByCategory extends RecyclerView.Adapter<AdapterStoreByC
 
         holder.textViewStoreName.setText(Utils.hexToASCII(arrayListStores.get(position).getJsonMember11470()));
 
-        if (arrayListStores.get(position).getJsonMember1149().equals("true"))
+        if (App.getInstance().listOfSeenMerchants.contains(arrayListStores.get(position).getJsonMember53()))
             holder.imageViewSeen.setImageDrawable(context.getResources().getDrawable(R.drawable.grey_seen));
         else
             holder.imageViewSeen.setImageDrawable(context.getResources().getDrawable(R.drawable.green_seen));

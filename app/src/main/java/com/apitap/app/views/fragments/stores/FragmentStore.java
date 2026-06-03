@@ -171,6 +171,9 @@ public class FragmentStore extends BaseFragment implements View.OnClickListener,
         fetchCategoryLvlOne();
         if (isGuest) {
             ModelManager.getInstance().getLoginManager().guestLastActivity(getActivity(), Operations.makeJsonLastActivityByGuest(getActivity()));
+        }else{
+            ModelManager.getInstance().getMerchantStoresManager().getMerchantListSeenByUser(getActivity(),
+                    Operations.makeJsonMerchantListSeenByUser(getActivity()));
         }
 
         if (getArguments() != null && getArguments().containsKey("key")) {

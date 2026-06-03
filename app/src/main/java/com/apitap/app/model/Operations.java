@@ -1418,6 +1418,65 @@ public class Operations {
         return parametersToCall;
     }
 
+    public static String makeJsonMerchantSeenByUser(Activity context,String merchantId) {
+        String parametersToCall = "";
+        try {
+            JSONObject obj = new JSONObject();
+            obj.put("192", Constants.KEY_DEFAULT);
+            obj.put("11", Client.getTimeStamp());
+            obj.put("122.45", "en");
+            obj.put("57", Utils.getDeviceId(context));
+            obj.put("120.38", "0.0");
+            obj.put("120.39", "0.0");
+            JSONArray arr = new JSONArray();
+            JSONObject obj1 = new JSONObject();
+            obj1.put("101", "030401072");
+            JSONObject obj_param = new JSONObject();
+            obj_param.put("53", ATPreferences.readString(context, Constants.KEY_USERID));
+            obj_param.put("114.179", merchantId);
+            obj1.put("PARAM", obj_param);
+            arr.put(obj1);
+            obj.put("OPTLST", arr);
+            parametersToCall = obj.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (BuildConfig.DEBUG)
+            Log.d(TAG, "makeJsonMerchantSeenByUser---" + parametersToCall);
+
+        return parametersToCall;
+    }
+
+    public static String makeJsonMerchantListSeenByUser(Activity context) {
+        String parametersToCall = "";
+        try {
+            JSONObject obj = new JSONObject();
+            obj.put("192", Constants.KEY_DEFAULT);
+            obj.put("11", Client.getTimeStamp());
+            obj.put("122.45", "en");
+            obj.put("57", Utils.getDeviceId(context));
+            obj.put("120.38", "0.0");
+            obj.put("120.39", "0.0");
+            JSONArray arr = new JSONArray();
+            JSONObject obj1 = new JSONObject();
+            obj1.put("101", "010101073");
+            JSONObject obj_param = new JSONObject();
+            obj_param.put("53", ATPreferences.readString(context, Constants.KEY_USERID));
+            obj1.put("PARAM", obj_param);
+            arr.put(obj1);
+            obj.put("OPTLST", arr);
+            parametersToCall = obj.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (BuildConfig.DEBUG)
+            Log.d(TAG, "makeJsonMerchantListSeenByUser---" + parametersToCall);
+
+        return parametersToCall;
+    }
+
     public static String makeJsonRemoveMerchantFavourite(Activity context, String merchantID) {
         String parametersToCall = "";
         try {
@@ -1853,7 +1912,6 @@ public class Operations {
             JSONArray arr = new JSONArray();
             JSONObject obj1 = new JSONObject();
             JSONObject obj_param = new JSONObject();
-
             obj1.put("101", "010400478");
             obj_param.put("53", ATPreferences.readString(context, Constants.KEY_USERID));
             obj_param.put("120.38", String.valueOf(App.latitude));
@@ -1863,7 +1921,6 @@ public class Operations {
             obj_param.put("127.60", orderBy);
             if (!categoryId.isEmpty())
                 obj_param.put("114.93", Utils.lengtT(11, categoryId));
-
             if (!brandName.isEmpty())
                 obj_param.put("122.39", brandName);
             if (!ratingId.isEmpty())

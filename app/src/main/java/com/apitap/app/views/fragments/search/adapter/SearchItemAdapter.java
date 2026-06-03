@@ -44,6 +44,7 @@ public class SearchItemAdapter extends RecyclerView.Adapter<SearchItemAdapter.Vi
     @Override
     public void onBindViewHolder(ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         holder.description.setText(Utils.hexToASCII(map.get(position).get(0).getProductName()));
+        holder.description.setTextColor(context.getResources().getColor(R.color.colorBlack));
         String isSeen = map.get(position).get(0).getIsSeen();
         if (isSeen.equalsIgnoreCase("false")) {
             holder.eye.setBackgroundResource(R.drawable.green_seen);

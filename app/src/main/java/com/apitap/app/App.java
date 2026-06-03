@@ -40,6 +40,7 @@ public class App extends Application {
     public HashMap<String, ArrayList<String>> mHashMap;
     public  ArrayList<String> categoryArray = new ArrayList<>();
     public  ArrayList<String> subCategoryArray = new ArrayList<>();
+    public  ArrayList<String> listOfSeenMerchants = new ArrayList<>();
     public String userAgent;
     public static Double latitude=0.0,longitude=0.0;
     public static boolean isGuest = false;

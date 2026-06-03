@@ -270,6 +270,8 @@ public class Constants {
     public static final int STORE_ABOUT_IMAGES = 1054;
     public static final int MERCHANT_CATEGORY_LIST_HOME_ONLY = 1055;
     public static final int MERCHANT_HEADER_CATEGORY = 1056;
+    public static final int MERCHANT_LIST_SEEN_BY_USER_SUCCESS = 10561;
+    public static final int MERCHANT_LIST_SEEN_BY_USER_FAILURE = 10562;
     public static final int AD_DETAIL_SUCCESS = 1057;
     public static final int FORGOT_PASSWORD_SUCCESS = 1058;
     public static final int UPDATE_PASSWORD_SUCCESS = 1059;

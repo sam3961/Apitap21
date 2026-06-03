@@ -45,11 +45,13 @@ import com.apitap.app.model.Utils;
 import com.apitap.app.model.ViewPagerCustomDuration;
 import com.apitap.app.model.bean.AdsDetailWithMerchant;
 import com.apitap.app.model.bean.SearchBean;
+import com.apitap.app.model.bean.SearchBusinessBean;
 import com.apitap.app.model.bean.SearchSpecialBean;
 import com.apitap.app.model.customclasses.Event;
 import com.apitap.app.model.preferences.ATPreferences;
 import com.apitap.app.views.NavigationMenu.FragmentDrawer;
 import com.apitap.app.views.adapters.SamplePagerAdapter;
+import com.apitap.app.views.fragments.search.adapter.SearchBusinessAdapter;
 import com.apitap.app.views.fragments.search.adapter.SearchItemAdapter;
 import com.apitap.app.views.customviews.HorizontalSpaceItemDecoration;
 import com.apitap.app.views.fragments.itemDetails.FragmentItemDetails;
@@ -57,6 +59,7 @@ import com.apitap.app.views.fragments.items.FragmentItems;
 import com.apitap.app.views.fragments.messages.FragmentMessages;
 import com.apitap.app.views.fragments.FragmentScanner;
 import com.apitap.app.views.fragments.ads.FragmentAds;
+import com.apitap.app.views.fragments.storefront.FragmentStoreFront;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.linearlistview.LinearListView;
@@ -77,13 +80,15 @@ import static com.apitap.app.App.isGuest;
  */
 
 public class SearchItemActivity extends BaseActivity implements View.OnClickListener, FragmentDrawer.FragmentDrawerListener {
+    private static final long NO_DATA_DELAY_MS = 500L;
     RecyclerView listView;
+    RecyclerView listView3;
     LinearListView listView2;
     private static int toolint = 0;
     ArrayList<String> mernchantfavlist = new ArrayList<>();
     ViewPagerCustomDuration viewPager;
     CircleIndicator circleIndicator;
-    LinearLayout listlayout1, listlayout2, noItemFound, noSpecialFound, adLayout, noadLayout;
+    LinearLayout listlayout1, listlayout2, listlayout3, noItemFound, noSpecialFound, noBusinessFound, adLayout, noadLayout;
     public static LinearLayout viewMain;
     public static FrameLayout frameLayout;
     List<SearchSpecialBean.RESULT> allImagesItems;
@@ -106,10 +111,13 @@ public class SearchItemActivity extends BaseActivity implements View.OnClickList
     FrameLayout ff_back;
     ScrollView scrollView;
     LinearLayout buttons_ll;
+    LinearLayout linearLayoutNoData;
     TextView tv_back;
     ArrayList<String> removeDuplicacy = new ArrayList<>();
     SamplePagerAdapter SamplePagerAdapter;
     String searchKey = "", sort_by = Constants.Alphabetical, isFav = "false";
+    private final Handler noDataHandler = new Handler();
+    private boolean hasReceivedSearchResponse = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,8 +139,10 @@ public class SearchItemActivity extends BaseActivity implements View.OnClickList
         listlayout1 = findViewById(R.id.lin1);
        // homeTab2 = findViewById(R.id.homeTab2);
         listlayout2 = findViewById(R.id.lin2);
+        listlayout3 = findViewById(R.id.lin3);
         noItemFound = findViewById(R.id.noItemll);
         noSpecialFound = findViewById(R.id.noSpecial_ll);
+        noBusinessFound = findViewById(R.id.noStore_ll);
         adLayout = findViewById(R.id.ad_ll);
         noadLayout = findViewById(R.id.no_Ads);
         tv_back = findViewById(R.id.ic_back);
@@ -149,6 +159,7 @@ public class SearchItemActivity extends BaseActivity implements View.OnClickList
         ff_back = findViewById(R.id.backff);
         scrollView = findViewById(R.id.scroll_view);
         buttons_ll = findViewById(R.id.button_ll);
+        linearLayoutNoData = findViewById(R.id.linearLayoutNoData);
 
         searchAgain = findViewById(R.id.searchAgain);
         cancel_search = findViewById(R.id.cancelbtn);
@@ -186,9 +197,12 @@ public class SearchItemActivity extends BaseActivity implements View.OnClickList
 
 
         listView = findViewById(R.id.list);
+        listView3 = findViewById(R.id.list3);
         listView2 = findViewById(R.id.list2);
         listView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         listView.addItemDecoration(new HorizontalSpaceItemDecoration(20));
+        listView3.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        listView3.addItemDecoration(new HorizontalSpaceItemDecoration(20));
 
         AddTabBar.getmInstance().setupViewPager(tabLayout);
         AddTabBar.getmInstance().setupTabIcons(tabLayout, mActivity, tabOne, tabTwo,
@@ -227,6 +241,7 @@ public class SearchItemActivity extends BaseActivity implements View.OnClickList
                 boolean setAdap = false;
                 //   final List<SearchItemBean.Result.ResultData> arrayList = ModelManager.getInstance().getSearchItemsManager().searchItemBean.getResult().get(0).getResult();
                 final HashMap<Integer, ArrayList<SearchBean>> map = ModelManager.getInstance().getSearchItemsManager().itemsData;
+                setBusinessData();
 
                 if (isFav.equals("true"))
                     for (int i = 0; i < map.size(); i++) {
@@ -261,6 +276,7 @@ public class SearchItemActivity extends BaseActivity implements View.OnClickList
 
 
                 //circularProgressView.setVisibility(View.GONE);
+                scheduleNoDataCheck();
 
                 break;
             case Constants.ADDRESS_NEARBY_SUCCESS:
@@ -271,16 +287,20 @@ public class SearchItemActivity extends BaseActivity implements View.OnClickList
                 hideProgress();
                 noItemFound.setVisibility(View.VISIBLE);
                 listlayout1.setVisibility(View.GONE);
+                setBusinessData();
+                scheduleNoDataCheck();
                 break;
 
             case Constants.SEARCH_ITEM_SUCCESS_List2:
                 //   circularProgressView.setVisibility(View.GONE);
                 setDataSpecial();
+                scheduleNoDataCheck();
                 break;
             case Constants.SEARCH_ITEM_SUCCESS_List2_Empty:
                 //   circularProgressView.setVisibility(View.GONE);
                 listlayout2.setVisibility(View.GONE);
                 noSpecialFound.setVisibility(View.VISIBLE);
+                scheduleNoDataCheck();
                 break;
 
             case Constants.GET_MERCHANT_FAVORITES:
@@ -297,6 +317,7 @@ public class SearchItemActivity extends BaseActivity implements View.OnClickList
                 scrollView.setVisibility(View.VISIBLE);
                 buttons_ll.setVisibility(View.VISIBLE);
                 showAdsWithAnimation();
+                scheduleNoDataCheck();
                 break;
             case Constants.ADS_LISTING_EMPTY:
                 hideProgress();
@@ -304,6 +325,7 @@ public class SearchItemActivity extends BaseActivity implements View.OnClickList
                 buttons_ll.setVisibility(View.VISIBLE);
                 adLayout.setVisibility(View.GONE);
                 noadLayout.setVisibility(View.VISIBLE);
+                scheduleNoDataCheck();
                 break;
             case -1:
                 hideProgress();
@@ -390,6 +412,59 @@ public class SearchItemActivity extends BaseActivity implements View.OnClickList
             noSpecialFound.setVisibility(View.GONE);
         }
 
+    }
+
+    private void setBusinessData() {
+        final ArrayList<SearchBusinessBean> businessList = ModelManager.getInstance().getSearchItemsManager().businessData;
+        if (businessList != null && businessList.size() > 0) {
+            listlayout3.setVisibility(View.VISIBLE);
+            noBusinessFound.setVisibility(View.GONE);
+            SearchBusinessAdapter businessAdapter = new SearchBusinessAdapter(this, businessList);
+            listView3.setAdapter(businessAdapter);
+            businessAdapter.setOnItemClickListner((v, position) -> openStoreFront(businessList.get(position).getBusinessId()));
+        } else {
+            listlayout3.setVisibility(View.GONE);
+            noBusinessFound.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void openStoreFront(String merchantId) {
+        ATPreferences.putString(this, Constants.MERCHANT_ID, merchantId);
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.MERCHANT_ID, merchantId);
+        displayView(new FragmentStoreFront(), Constants.TAG_STORESFRONTPAGE, bundle);
+    }
+
+    private void scheduleNoDataCheck() {
+        hasReceivedSearchResponse = true;
+        noDataHandler.removeCallbacksAndMessages(null);
+        noDataHandler.postDelayed(this::updateNoDataState, NO_DATA_DELAY_MS);
+    }
+
+    private void updateNoDataState() {
+        if (!hasReceivedSearchResponse) {
+            return;
+        }
+
+        boolean hasItems = ModelManager.getInstance().getSearchItemsManager().itemsData != null
+                && ModelManager.getInstance().getSearchItemsManager().itemsData.size() > 0;
+        boolean hasBusinesses = ModelManager.getInstance().getSearchItemsManager().businessData != null
+                && ModelManager.getInstance().getSearchItemsManager().businessData.size() > 0;
+        boolean hasSpecials = ModelManager.getInstance().getSearchItemsManager().searchSpecialBean != null
+                && ModelManager.getInstance().getSearchItemsManager().searchSpecialBean.getRESULT() != null
+                && ModelManager.getInstance().getSearchItemsManager().searchSpecialBean.getRESULT().size() > 0
+                && ModelManager.getInstance().getSearchItemsManager().searchSpecialBean.getRESULT().get(0) != null
+                && ModelManager.getInstance().getSearchItemsManager().searchSpecialBean.getRESULT().get(0).get11493() != null;
+        boolean hasAds = ModelManager.getInstance().getSearchItemsManager().ads != null
+                && ModelManager.getInstance().getSearchItemsManager().ads.size() > 0;
+
+        if (!hasItems && !hasBusinesses && !hasSpecials && !hasAds) {
+            linearLayoutNoData.setVisibility(View.VISIBLE);
+            scrollView.setVisibility(View.GONE);
+        } else {
+            linearLayoutNoData.setVisibility(View.GONE);
+            scrollView.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

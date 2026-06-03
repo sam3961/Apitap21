@@ -18,6 +18,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
@@ -41,6 +42,7 @@ import com.apitap.app.views.adapters.AdapterCategorySpinner;
 import com.apitap.app.views.adapters.AdapterInitalCategories;
 import com.apitap.app.views.fragments.BaseFragment;
 import com.apitap.app.views.fragments.itemDetails.FragmentItemDetails;
+import com.apitap.app.views.fragments.items.FragmentItems;
 import com.apitap.app.views.fragments.messages.FragmentMessages;
 import com.apitap.app.views.fragments.items.adapter.AdapterCategoryListSpinner;
 import com.apitap.app.views.fragments.items.adapter.AdapterMerchantCategoryItem;
@@ -92,6 +94,8 @@ public class FragmentSpecial extends BaseFragment implements View.OnClickListene
 
     private RelativeLayout viewLeftPanel;
     private RelativeLayout parentLayout;
+    private LinearLayout linearLayoutNoData;
+    private AppCompatButton buttonBrowse;
 
     private Spinner spinnerSortBy;
     private Spinner spinnerCategory;
@@ -315,6 +319,8 @@ public class FragmentSpecial extends BaseFragment implements View.OnClickListene
         editTextSearchWord = rootView.findViewById(R.id.editTextSearchWord);
         viewLeftPanel = rootView.findViewById(R.id.scrollViewLeftPanel);
         parentLayout = rootView.findViewById(R.id.parentLayout);
+        linearLayoutNoData = rootView.findViewById(R.id.linearLayoutNoData);
+        buttonBrowse = rootView.findViewById(R.id.buttonBrowse);
         rvMerchantCategory = rootView.findViewById(R.id.recyclerViewMerchantCategory);
         spinnerCategory = rootView.findViewById(R.id.spinnerCategory);
         spinnerSortBy = rootView.findViewById(R.id.spinnerSortBy);
@@ -404,6 +410,7 @@ public class FragmentSpecial extends BaseFragment implements View.OnClickListene
         textViewCategorySelect.setOnClickListener(this);
         linearLayoutGoBack.setOnClickListener(this);
         buttonStoreDetails.setOnClickListener(this);
+        buttonBrowse.setOnClickListener(this);
 
     }
 
@@ -453,7 +460,9 @@ public class FragmentSpecial extends BaseFragment implements View.OnClickListene
                         selectStoreSelected();
 
                 } else {
-                    Utils.baseshowFeedbackMessage(getActivity(), parentLayout, "No Level One Category Found");
+//                    Utils.baseshowFeedbackMessage(getActivity(), parentLayout, "No Level One Category Found");
+                    parentLayout.setVisibility(View.GONE);
+                    linearLayoutNoData.setVisibility(View.VISIBLE);
                 }
                 break;
             case Constants.LEVEL_ONE_CATEGORY:
@@ -468,7 +477,9 @@ public class FragmentSpecial extends BaseFragment implements View.OnClickListene
                         selectStoreSelected();
 
                 } else {
-                    Utils.baseshowFeedbackMessage(getActivity(), parentLayout, "No Level One Category Found");
+//                    Utils.baseshowFeedbackMessage(getActivity(), parentLayout, "No Level One Category Found");
+                    parentLayout.setVisibility(View.GONE);
+                    linearLayoutNoData.setVisibility(View.VISIBLE);
                 }
 
                 break;
@@ -505,7 +516,8 @@ public class FragmentSpecial extends BaseFragment implements View.OnClickListene
                 if (event.hasData()) {
                     setSpecialAdapter();
                 } else {
-                    Utils.baseshowFeedbackMessage(getActivity(), parentLayout, "No Item Found");
+//                    Utils.baseshowFeedbackMessage(getActivity(), parentLayout, "No Item Found");
+
                 }
 
                 break;
@@ -543,6 +555,9 @@ public class FragmentSpecial extends BaseFragment implements View.OnClickListene
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.buttonBrowse:
+                ((HomeActivity) getActivity()).displayView(new FragmentItems(), Constants.TAG_ITEMS, new Bundle());
+                break;
             case R.id.textViewFilter:
             case R.id.imageViewFilter:
                 if (viewLeftPanel.getVisibility() == View.VISIBLE)

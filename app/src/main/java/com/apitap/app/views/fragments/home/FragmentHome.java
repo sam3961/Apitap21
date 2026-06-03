@@ -120,12 +120,14 @@ public class FragmentHome extends BaseFragment implements View.OnClickListener, 
 
         clickListeners();
 
-        fetchHomeScreenData();
+        fetchListOfMerchantSeenByUser();
 
         // setStoreCategoryAdapter();
 
         //fetchMerchantsByLocation();
     }
+
+
 
 
     private void initViews() {
@@ -279,8 +281,20 @@ public class FragmentHome extends BaseFragment implements View.OnClickListener, 
                 saveAddresses();
                 break;
 
+            case Constants.MERCHANT_LIST_SEEN_BY_USER_SUCCESS:
+            case Constants.MERCHANT_LIST_SEEN_BY_USER_FAILURE:
+                fetchHomeScreenData();
+                break;
+
 
         }
+
+    }
+
+    private void fetchListOfMerchantSeenByUser() {
+        showProgress();
+        ModelManager.getInstance().getMerchantStoresManager().getMerchantListSeenByUser(getActivity(),
+                Operations.makeJsonMerchantListSeenByUser(getActivity()));
 
     }
 

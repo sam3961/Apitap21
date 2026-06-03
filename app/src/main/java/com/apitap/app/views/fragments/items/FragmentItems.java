@@ -22,6 +22,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -54,6 +55,7 @@ import com.apitap.app.views.fragments.items.storeFront.AdapterChildItems;
 import com.apitap.app.views.fragments.items.storeFront.AdapterParentItem;
 import com.apitap.app.views.fragments.items.storeFront.FragmentItemsStoreFront;
 import com.apitap.app.views.fragments.messages.FragmentMessages;
+import com.apitap.app.views.fragments.specials.FragmentSpecial;
 import com.google.android.material.tabs.TabLayout;
 import com.squareup.picasso.Picasso;
 
@@ -93,6 +95,8 @@ public class FragmentItems extends BaseFragment implements View.OnClickListener,
     private LinearLayout linearLayoutGoBack;
     private LinearLayout linearLayoutStoreHeader;
     private LinearLayout linearLayoutStoreMessages;
+    private LinearLayout linearLayoutNoData;
+    private AppCompatButton buttonBrowse;
     private ScrollView scrollView;
 
     private TextView textViewFilter;
@@ -155,7 +159,7 @@ public class FragmentItems extends BaseFragment implements View.OnClickListener,
     private String selectedConditionId = "";
     private String selectedRatingId = "";
     private String selectedBrandName = "";
-    private boolean isFromStoreFront =false;
+    private boolean isFromStoreFront = false;
 
     private int categorySelectedPosition;
     private BrowseCategoryResponse browseCategoryResponse;
@@ -220,6 +224,7 @@ public class FragmentItems extends BaseFragment implements View.OnClickListener,
         linearLayoutGoBack = rootView.findViewById(R.id.linearLayoutBack);
         linearLayoutStoreHeader = rootView.findViewById(R.id.storeHeader);
         linearLayoutStoreMessages = rootView.findViewById(R.id.linearLayoutStoreMessages);
+        linearLayoutNoData = rootView.findViewById(R.id.linearLayoutNoData);
         buttonStoreDetails = rootView.findViewById(R.id.details_store);
         textViewFilter = rootView.findViewById(R.id.textViewFilter);
         scrollView = rootView.findViewById(R.id.scrollView);
@@ -252,13 +257,14 @@ public class FragmentItems extends BaseFragment implements View.OnClickListener,
         textViewExpand = rootView.findViewById(R.id.tvExpand);
         relativeLayoutHomeToolbar = getActivity().findViewById(R.id.view_search);
         relativeLayoutStoreToolbar = getActivity().findViewById(R.id.search_storefront);
+        buttonBrowse = rootView.findViewById(R.id.buttonBrowse);
 
         editTextSearchWord.setText(ATPreferences.readString(getActivity(), Constants.SEARCH_KEY));
 
         //  relativeLayoutHomeToolbar.setVisibility(View.GONE);
 
         //if (!searchKey.isEmpty())
-            //tabLayout.setVisibility(View.VISIBLE);
+        //tabLayout.setVisibility(View.VISIBLE);
 
     }
 
@@ -268,10 +274,10 @@ public class FragmentItems extends BaseFragment implements View.OnClickListener,
     }
 
     private void checkFromStoreFront() {
-        storeFrontCategory = ATPreferences.readString(getActivity(),Constants.MERCHANT_CATEGORY);
+        storeFrontCategory = ATPreferences.readString(getActivity(), Constants.MERCHANT_CATEGORY);
         if (isFromStoreFront) {
             Picasso.get().load(ATPreferences.readString(getActivity(), Constants.KEY_IMAGE_URL) +
-                    ATPreferences.readString(getActivity(), Constants.HEADER_IMG))
+                            ATPreferences.readString(getActivity(), Constants.HEADER_IMG))
                     .placeholder(R.drawable.loading).into(imageViewStoreImage);
 
             storeFrontTabsView();
@@ -368,7 +374,7 @@ public class FragmentItems extends BaseFragment implements View.OnClickListener,
             // selectedCategoryId = ATPreferences.readString(getActivity(), Constants.MERCHANT_CATEGORY_ID);//browseCategoryResponse.getRESULT().get(position).getJsonMember11493();
             //selectedCategoryId = browseCategoryResponse.getRESULT().get(position).getJsonMember11493();
             linearLayoutSearchHeader.setVisibility(View.VISIBLE);
-         //   relativeLayoutStoreToolbar.setVisibility(View.GONE);
+            //   relativeLayoutStoreToolbar.setVisibility(View.GONE);
             Log.d("selectedCategoryId", selectedCategoryId);
 
         } else {
@@ -531,7 +537,7 @@ public class FragmentItems extends BaseFragment implements View.OnClickListener,
         adapterItems = new AdapterParentItem(getActivity(), itemListResponse.getRESULT().get(0).getRESULT(), this);
         expandableListViewItems.setAdapter(adapterItems);
 
-        for ( int i = 0; i < adapterItems.getGroupCount(); i++ ) {
+        for (int i = 0; i < adapterItems.getGroupCount(); i++) {
             expandableListViewItems.expandGroup(i);
         }
 
@@ -563,6 +569,7 @@ public class FragmentItems extends BaseFragment implements View.OnClickListener,
         buttonStoreDetails.setOnClickListener(this);
         linearLayoutExpandCollapse.setOnClickListener(this);
         linearLayoutStoreMessages.setOnClickListener(this);
+        buttonBrowse.setOnClickListener(this);
 
     }
 
@@ -620,7 +627,9 @@ public class FragmentItems extends BaseFragment implements View.OnClickListener,
                         selectStoreSelected();
 
                 } else {
-                    Utils.baseshowFeedbackMessage(getActivity(), parentLayout, "No Level One Category Found");
+//                    Utils.baseshowFeedbackMessage(getActivity(), parentLayout, "No Level One Category Found");
+                    parentLayout.setVisibility(View.GONE);
+                    linearLayoutNoData.setVisibility(View.VISIBLE);
                 }
                 break;
 
@@ -649,7 +658,7 @@ public class FragmentItems extends BaseFragment implements View.OnClickListener,
                     setDeliveryMethodSpinnerAdapter();
                     fetchBrandNames();
                 } else {
-                   // Utils.baseshowFeedbackMessage(getActivity(), parentLayout, "No Delivery Data Found");
+                    // Utils.baseshowFeedbackMessage(getActivity(), parentLayout, "No Delivery Data Found");
                 }
 
                 break;
@@ -824,6 +833,9 @@ public class FragmentItems extends BaseFragment implements View.OnClickListener,
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.buttonBrowse:
+                ((HomeActivity) getActivity()).displayView(new FragmentSpecial(), Constants.TAG_SPECIAL, new Bundle());
+                break;
             case R.id.expand_ll:
                 if (textViewExpand.getText().toString().equalsIgnoreCase(getResources().getString(R.string.expand_all))) {
                     for (int i = 0; i < adapterItems.getGroupCount(); i++) {
@@ -897,11 +909,11 @@ public class FragmentItems extends BaseFragment implements View.OnClickListener,
 
     @Override
     public void onInitialCategoryClick(int position) {
-       // intialListCategoryClick(position);
+        // intialListCategoryClick(position);
         selectedCategoryId = levelOneCategoryResponse.getRESULT().get(0).getRESULT().get(position).get_11493();
-        Bundle bundle =new Bundle();
-        bundle.putString(Constants.MERCHANT_CATEGORY_ID,selectedCategoryId);
-            ((HomeActivity) getActivity()).displayView(new FragmentItemsStoreFront(), Constants.TAG_ITEMS_STOREFRONT, bundle);
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.MERCHANT_CATEGORY_ID, selectedCategoryId);
+        ((HomeActivity) getActivity()).displayView(new FragmentItemsStoreFront(), Constants.TAG_ITEMS_STOREFRONT, bundle);
     }
 
     private void intialListCategoryClick(int position) {

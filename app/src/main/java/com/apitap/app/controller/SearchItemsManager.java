@@ -49,6 +49,13 @@ public class SearchItemsManager {
 
 
     public void getAllSearchProduct(Context context, String params) {
+        itemsData = new HashMap<>();
+        businessData = new ArrayList<>();
+        ads = new HashMap<>();
+        url_maps = new HashMap<>();
+        url_maps1 = new ArrayList<>();
+        arrayAds = new ArrayList<>();
+        searchSpecialBean = null;
         new ExecuteApiProducts(context).execute(params);
     }
 
@@ -138,6 +145,11 @@ public class SearchItemsManager {
                                     businessBean.setIsSeen(businessObject.optString("_114_9"));
                                     businessData.add(businessBean);
                                 }
+                            }
+                            if (itemsData != null && itemsData.size() > 0) {
+                                EventBus.getDefault().post(new Event(Constants.SEARCH_ITEM_SUCCESS, ""));
+                            } else {
+                                EventBus.getDefault().post(new Event(Constants.SEARCH_ITEM_SUCCESS_Empty, ""));
                             }
                         } else if (jobj.getString("_101").equals("010400479") || jobj.getString("_101").equals("010400787")) {
                             JSONArray imgeArray = jobj.getJSONArray("RESULT");

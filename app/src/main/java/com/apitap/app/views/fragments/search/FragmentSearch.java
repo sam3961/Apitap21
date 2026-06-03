@@ -28,12 +28,15 @@ import com.apitap.app.model.Utils;
 import com.apitap.app.model.ViewPagerCustomDuration;
 import com.apitap.app.model.bean.AdsDetailWithMerchant;
 import com.apitap.app.model.bean.SearchBean;
+import com.apitap.app.model.bean.SearchBusinessBean;
 import com.apitap.app.model.bean.SearchSpecialBean;
 import com.apitap.app.model.customclasses.Event;
 import com.apitap.app.model.preferences.ATPreferences;
 import com.apitap.app.views.HomeActivity;
 import com.apitap.app.views.adapters.SamplePagerAdapter;
 import com.apitap.app.views.fragments.itemDetails.FragmentItemDetails;
+import com.apitap.app.views.fragments.storefront.FragmentStoreFront;
+import com.apitap.app.views.fragments.search.adapter.SearchBusinessAdapter;
 import com.apitap.app.views.fragments.search.adapter.SearchItemAdapter;
 import com.apitap.app.views.customviews.HorizontalSpaceItemDecoration;
 import com.apitap.app.views.fragments.BaseFragment;
@@ -55,21 +58,26 @@ import me.relex.circleindicator.CircleIndicator;
  */
 
 public class FragmentSearch extends BaseFragment {
+    private static final long NO_DATA_DELAY_MS = 500L;
     private RecyclerView listView;
+    private RecyclerView listView3;
     private LinearListView listView2;
     private ArrayList<String> mernchantfavlist = new ArrayList<>();
     private ViewPagerCustomDuration viewPager;
     private CircleIndicator circleIndicator;
-    private CardView listlayout1, listlayout2, noItemFound, noSpecialFound, adLayout, noadLayout;
+    private CardView listlayout1, listlayout2, listlayout3, noItemFound, noSpecialFound, noBusinessFound, adLayout, noadLayout;
     private LinearLayout viewMain;
     private RelativeLayout relativeLayoutSearchBarStoreFront;
     private List<SearchSpecialBean.RESULT> allImagesItems;
     private static final int MY_CAMERA_REQUEST_CODE = 100;
     private Activity mActivity;
     private ScrollView scrollView;
+    private LinearLayout linearLayoutNoData;
     private ArrayList<String> removeDuplicacy = new ArrayList<>();
     private SamplePagerAdapter SamplePagerAdapter;
     private String searchKey = "", merchantId = "", zip = "", brandName = "", rating = "", sort_by = Constants.NEAR_ME, isFav = "false";
+    private final Handler noDataHandler = new Handler();
+    private boolean hasReceivedSearchResponse = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -77,11 +85,14 @@ public class FragmentSearch extends BaseFragment {
 
         mActivity = getActivity();
         viewPager = v.findViewById(R.id.viewpager);
+        linearLayoutNoData = v.findViewById(R.id.linearLayoutNoData);
         circleIndicator = v.findViewById(R.id.indicator_default);
         listlayout1 = v.findViewById(R.id.lin1);
         listlayout2 = v.findViewById(R.id.lin2);
+        listlayout3 = v.findViewById(R.id.lin3);
         noItemFound = v.findViewById(R.id.noItemll);
         noSpecialFound = v.findViewById(R.id.noSpecial_ll);
+        noBusinessFound = v.findViewById(R.id.noStore_ll);
         adLayout = v.findViewById(R.id.ad_ll);
         noadLayout = v.findViewById(R.id.no_Ads);
         viewMain = v.findViewById(R.id.mainview);
@@ -116,9 +127,12 @@ public class FragmentSearch extends BaseFragment {
 
         }
         listView = v.findViewById(R.id.list);
+        listView3 = v.findViewById(R.id.list3);
         listView2 = v.findViewById(R.id.list2);
         listView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         listView.addItemDecoration(new HorizontalSpaceItemDecoration(20));
+        listView3.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        listView3.addItemDecoration(new HorizontalSpaceItemDecoration(20));
 
 
         return v;
@@ -152,6 +166,7 @@ public class FragmentSearch extends BaseFragment {
                 boolean setAdap = false;
                 //   final List<SearchItemBean.Result.ResultData> arrayList = ModelManager.getInstance().getSearchItemsManager().searchItemBean.getResult().get(0).getResult();
                 final HashMap<Integer, ArrayList<SearchBean>> map = ModelManager.getInstance().getSearchItemsManager().itemsData;
+                setBusinessData();
 
                 if (isFav.equals("true")) {
                     for (int i = 0; i < map.size(); i++) {
@@ -187,6 +202,7 @@ public class FragmentSearch extends BaseFragment {
 
 
                 //circularProgressView.setVisibility(View.GONE);
+                scheduleNoDataCheck();
 
                 break;
             case Constants.ADDRESS_NEARBY_SUCCESS:
@@ -197,26 +213,32 @@ public class FragmentSearch extends BaseFragment {
                 hideProgress();
                 noItemFound.setVisibility(View.GONE);
                 listlayout1.setVisibility(View.GONE);
+                setBusinessData();
 
                 if (getArguments()!=null&&getArguments().containsKey(Constants.IMAGE_BASE_64)){
                     adLayout.setVisibility(View.GONE);
                     noadLayout.setVisibility(View.GONE);
                     listlayout2.setVisibility(View.GONE);
+                    listlayout3.setVisibility(View.GONE);
                     noSpecialFound.setVisibility(View.GONE);
-                    noItemFound.setVisibility(View.VISIBLE);
+                    noBusinessFound.setVisibility(View.GONE);
+//                    noItemFound.setVisibility(View.VISIBLE);
                     listlayout1.setVisibility(View.GONE);
 
                 }
+                scheduleNoDataCheck();
                 break;
 
             case Constants.SEARCH_ITEM_SUCCESS_List2:
                 //   circularProgressView.setVisibility(View.GONE);
                 setDataSpecial();
+                scheduleNoDataCheck();
                 break;
             case Constants.SEARCH_ITEM_SUCCESS_List2_Empty:
                 //   circularProgressView.setVisibility(View.GONE);
                 listlayout2.setVisibility(View.GONE);
-                noSpecialFound.setVisibility(View.VISIBLE);
+//                noSpecialFound.setVisibility(View.VISIBLE);
+                scheduleNoDataCheck();
                 break;
 
             case Constants.GET_MERCHANT_FAVORITES:
@@ -228,12 +250,14 @@ public class FragmentSearch extends BaseFragment {
                 hideProgress();
                 scrollView.setVisibility(View.VISIBLE);
                 showAdsWithAnimation();
+                scheduleNoDataCheck();
                 break;
             case Constants.ADS_LISTING_EMPTY:
                 hideProgress();
                 scrollView.setVisibility(View.VISIBLE);
                 adLayout.setVisibility(View.GONE);
                 noadLayout.setVisibility(View.GONE);
+                scheduleNoDataCheck();
                 break;
             case -1:
                 hideProgress();
@@ -316,6 +340,59 @@ public class FragmentSearch extends BaseFragment {
 
     }
 
+    private void setBusinessData() {
+        final ArrayList<SearchBusinessBean> businessList = ModelManager.getInstance().getSearchItemsManager().businessData;
+        if (businessList != null && businessList.size() > 0) {
+            listlayout3.setVisibility(View.VISIBLE);
+            noBusinessFound.setVisibility(View.GONE);
+            SearchBusinessAdapter businessAdapter = new SearchBusinessAdapter(getActivity(), businessList);
+            listView3.setAdapter(businessAdapter);
+            businessAdapter.setOnItemClickListner((v, position) -> openStoreFront(businessList.get(position).getBusinessId()));
+        } else {
+            listlayout3.setVisibility(View.GONE);
+//            noBusinessFound.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void scheduleNoDataCheck() {
+        hasReceivedSearchResponse = true;
+        noDataHandler.removeCallbacksAndMessages(null);
+        noDataHandler.postDelayed(this::updateNoDataState, NO_DATA_DELAY_MS);
+    }
+
+    private void updateNoDataState() {
+        if (!isAdded() || !hasReceivedSearchResponse) {
+            return;
+        }
+
+        boolean hasItems = ModelManager.getInstance().getSearchItemsManager().itemsData != null
+                && ModelManager.getInstance().getSearchItemsManager().itemsData.size() > 0;
+        boolean hasBusinesses = ModelManager.getInstance().getSearchItemsManager().businessData != null
+                && ModelManager.getInstance().getSearchItemsManager().businessData.size() > 0;
+        boolean hasSpecials = ModelManager.getInstance().getSearchItemsManager().searchSpecialBean != null
+                && ModelManager.getInstance().getSearchItemsManager().searchSpecialBean.getRESULT() != null
+                && ModelManager.getInstance().getSearchItemsManager().searchSpecialBean.getRESULT().size() > 0
+                && ModelManager.getInstance().getSearchItemsManager().searchSpecialBean.getRESULT().get(0) != null
+                && ModelManager.getInstance().getSearchItemsManager().searchSpecialBean.getRESULT().get(0).get11493() != null;
+        boolean hasAds = ModelManager.getInstance().getSearchItemsManager().ads != null
+                && ModelManager.getInstance().getSearchItemsManager().ads.size() > 0;
+
+        if (!hasItems && !hasBusinesses && !hasSpecials && !hasAds) {
+            linearLayoutNoData.setVisibility(View.VISIBLE);
+            scrollView.setVisibility(View.GONE);
+        } else {
+            linearLayoutNoData.setVisibility(View.GONE);
+            scrollView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void openStoreFront(String merchantId) {
+        ATPreferences.putString(getActivity(), Constants.MERCHANT_ID, merchantId);
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.MERCHANT_ID, merchantId);
+        ((HomeActivity) getActivity()).displayView(new FragmentStoreFront(), Constants.TAG_STORESFRONTPAGE, bundle);
+    }
+
     @Override
     public void onPause() {
         if (SamplePagerAdapter != null) {
@@ -354,7 +431,7 @@ public class FragmentSearch extends BaseFragment {
                     }
 
                     description.setText(Utils.hexToASCII(allImagesItems.get(0).getPC().get(position).get12083()));
-//                    description.setTextColor(requireContext().getResources().getColor(R.color.colorGreen));
+                    description.setTextColor(requireContext().getResources().getColor(R.color.colorBlack));
                     rlSinglePrice.setVisibility(View.VISIBLE);
                     rlTwoPrice.setVisibility(View.GONE);
                     actualPrice.setText(allImagesItems.get(0).getPC().get(position).get122162());

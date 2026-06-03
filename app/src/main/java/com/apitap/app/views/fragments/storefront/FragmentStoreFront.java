@@ -224,8 +224,8 @@ public class FragmentStoreFront extends BaseFragment implements View.OnClickList
 
         linearLayoutStoreFavourite.setVisibility(View.GONE);
         linearLayoutHeaderStoreFront.setVisibility(View.VISIBLE);
-       // linearLayoutHeaderCheckin.setVisibility(View.VISIBLE);
-       // linearLayoutStoreReservation.setVisibility(View.VISIBLE);
+        // linearLayoutHeaderCheckin.setVisibility(View.VISIBLE);
+        // linearLayoutStoreReservation.setVisibility(View.VISIBLE);
         linearLayoutHeaderCategory.setVisibility(View.VISIBLE);
         relativeLayoutSearchBarStoreFront.setVisibility(View.VISIBLE);
 
@@ -652,6 +652,9 @@ public class FragmentStoreFront extends BaseFragment implements View.OnClickList
         showProgress();
         ModelManager.getInstance().getMerchantStoresManager().getMerchantStoreItems(getActivity(),
                 Operations.makeJsonForStoreFrontItems(getActivity(), merchantId, Constants.NewToOld));
+
+        ModelManager.getInstance().getMerchantStoresManager().getMerchantSeenByUser(getActivity(),
+                Operations.makeJsonMerchantSeenByUser(getActivity(), merchantId));
     }
 
 
