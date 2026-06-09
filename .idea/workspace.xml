@@ -174,6 +174,21 @@
           <theme>@style/AppTheme</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/adapter_categories.xml">
+        <config>
+          <theme>@style/AppTheme</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/adapter_category_spinner.xml">
+        <config>
+          <theme>@style/AppTheme</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/adapter_child_category_item.xml">
+        <config>
+          <theme>@style/AppTheme</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/adapter_child_items.xml">
         <config>
           <theme>@style/AppTheme</theme>
@@ -556,42 +571,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="82c2b959-eb25-4623-b703-66dfb07c533e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_bag_empty.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_no_data_found.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/adapter_search_item_promotion.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/model/itemModel/items/ItemsWithCategoryResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/model/itemModel/items/LOItem.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/model/itemModel/items/PCItem.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/model/itemModel/items/RESULTItem.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/model/itemModel/items/SLItem.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/model/itemModel/items/SP.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/release/app-release.apk" beforeDir="false" afterPath="$PROJECT_DIR$/app/release/app-release.apk" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/release/baselineProfiles/0/app-release.dm" beforeDir="false" afterPath="$PROJECT_DIR$/app/release/baselineProfiles/0/app-release.dm" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/release/baselineProfiles/1/app-release.dm" beforeDir="false" afterPath="$PROJECT_DIR$/app/release/baselineProfiles/1/app-release.dm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/release/output-metadata.json" beforeDir="false" afterPath="$PROJECT_DIR$/app/release/output-metadata.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/App.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/controller/ItemManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/controller/ItemManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/controller/MerchantStoresManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/controller/MerchantStoresManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/controller/SearchItemsManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/controller/SearchItemsManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/model/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/model/Constants.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/model/Operations.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/model/Operations.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/model/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/model/Utils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/SearchItemActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/SearchItemActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/home/FragmentHome.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/home/FragmentHome.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/home/adapter/AdapterStores.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/home/adapter/AdapterStores.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/items/FragmentItems.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/items/FragmentItems.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/items/FragmentItemsNoCategory.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/search/FragmentSearch.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/search/FragmentSearch.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/search/adapter/SearchItemAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/search/adapter/SearchItemAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/items/FragmentItemsHomeStoreFront.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/items/FragmentItemsHomeStoreFront.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/items/storeFront/AdapterChildItems.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/items/storeFront/AdapterChildItems.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/items/storeFront/AdapterParentItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/items/storeFront/AdapterParentItem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/specials/FragmentSpecial.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/specials/FragmentSpecial.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/storefront/FragmentStoreFront.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/storefront/FragmentStoreFront.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/stores/FragmentStore.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/stores/FragmentStore.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/stores/adapters/AdapterStoreByCategory.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/stores/adapters/AdapterStoreByCategory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/confirmed.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/confirmed.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_search_item.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_search_item.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_item.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_item.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_search.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_search.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_specials.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_specials.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_stores.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_stores.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/row_horizontal_test.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/row_horizontal_test.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/reports/problems/problems-report.html" beforeDir="false" afterPath="$PROJECT_DIR$/build/reports/problems/problems-report.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -675,6 +674,7 @@
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
     &quot;OverrideImplement.combined&quot;: &quot;false&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
@@ -1460,26 +1460,6 @@
           <option name="timeStamp" value="764" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/items/storeFront/FragmentItemsStoreFront.java</url>
-          <line>185</line>
-          <option name="timeStamp" value="766" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/items/storeFront/FragmentItemsStoreFront.java</url>
-          <line>1029</line>
-          <option name="timeStamp" value="768" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/items/storeFront/FragmentItemsStoreFront.java</url>
-          <line>1072</line>
-          <option name="timeStamp" value="769" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/items/storeFront/FragmentItemsStoreFront.java</url>
-          <line>1092</line>
-          <option name="timeStamp" value="770" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/itemDetails/FragmentItemDetails.java</url>
           <line>527</line>
           <option name="timeStamp" value="771" />
@@ -1581,22 +1561,22 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/app/model/Operations.java</url>
-          <line>4180</line>
+          <line>4234</line>
           <option name="timeStamp" value="804" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/app/model/Operations.java</url>
-          <line>2381</line>
+          <line>2435</line>
           <option name="timeStamp" value="806" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/app/model/Operations.java</url>
-          <line>2492</line>
+          <line>2546</line>
           <option name="timeStamp" value="807" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/app/model/Operations.java</url>
-          <line>2690</line>
+          <line>2744</line>
           <option name="timeStamp" value="808" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -1776,36 +1756,6 @@
           <option name="timeStamp" value="885" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/home/FragmentHome.java</url>
-          <line>170</line>
-          <option name="timeStamp" value="886" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/app/model/Client.java</url>
-          <line>91</line>
-          <option name="timeStamp" value="887" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/app/model/Client.java</url>
-          <line>95</line>
-          <option name="timeStamp" value="888" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/app/model/Client.java</url>
-          <line>108</line>
-          <option name="timeStamp" value="889" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/app/model/Client.java</url>
-          <line>112</line>
-          <option name="timeStamp" value="890" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/app/model/Client.java</url>
-          <line>133</line>
-          <option name="timeStamp" value="891" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/app/model/Client.java</url>
           <line>134</line>
           <option name="timeStamp" value="899" />
@@ -1821,11 +1771,6 @@
           <option name="timeStamp" value="902" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/app/model/Client.java</url>
-          <line>140</line>
-          <option name="timeStamp" value="903" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/app/controller/SearchItemsManager.java</url>
           <line>78</line>
           <option name="timeStamp" value="905" />
@@ -1834,6 +1779,91 @@
           <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/app/controller/SearchItemsManager.java</url>
           <line>79</line>
           <option name="timeStamp" value="906" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/items/FragmentItemsHomeStoreFront.java</url>
+          <line>1076</line>
+          <option name="timeStamp" value="910" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/app/controller/ItemManager.java</url>
+          <line>81</line>
+          <option name="timeStamp" value="911" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/app/controller/ItemManager.java</url>
+          <line>92</line>
+          <option name="timeStamp" value="916" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/app/controller/ItemManager.java</url>
+          <line>93</line>
+          <option name="timeStamp" value="917" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/app/controller/ItemManager.java</url>
+          <line>90</line>
+          <option name="timeStamp" value="919" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/app/controller/ItemManager.java</url>
+          <line>89</line>
+          <option name="timeStamp" value="920" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/app/controller/ItemManager.java</url>
+          <line>118</line>
+          <option name="timeStamp" value="921" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/app/controller/ItemManager.java</url>
+          <line>120</line>
+          <option name="timeStamp" value="922" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/app/controller/ItemManager.java</url>
+          <line>122</line>
+          <option name="timeStamp" value="924" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/app/controller/ItemManager.java</url>
+          <line>113</line>
+          <option name="timeStamp" value="925" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/app/controller/ItemManager.java</url>
+          <line>91</line>
+          <option name="timeStamp" value="926" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/items/storeFront/FragmentItemsStoreFront.java</url>
+          <line>1021</line>
+          <option name="timeStamp" value="934" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/items/storeFront/FragmentItemsStoreFront.java</url>
+          <line>812</line>
+          <option name="timeStamp" value="944" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/items/storeFront/FragmentItemsStoreFront.java</url>
+          <line>814</line>
+          <option name="timeStamp" value="945" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/items/storeFront/FragmentItemsStoreFront.java</url>
+          <line>988</line>
+          <option name="timeStamp" value="946" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/items/storeFront/FragmentItemsStoreFront.java</url>
+          <line>987</line>
+          <option name="timeStamp" value="949" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/items/storeFront/FragmentItemsStoreFront.java</url>
+          <line>1106</line>
+          <option name="timeStamp" value="950" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-field">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/shoppingCart/ShoppingCartFragment.java</url>
@@ -1860,12 +1890,12 @@
         </entry>
         <entry key="com.apitap.app">
           <value>
-            <CheckInfo lastCheckTimestamp="1780335386073" />
+            <CheckInfo lastCheckTimestamp="1780937779543" />
           </value>
         </entry>
         <entry key="com.apitap.app.test">
           <value>
-            <CheckInfo lastCheckTimestamp="1780335386073" />
+            <CheckInfo lastCheckTimestamp="1780937779542" />
           </value>
         </entry>
         <entry key="com.apitap.test">

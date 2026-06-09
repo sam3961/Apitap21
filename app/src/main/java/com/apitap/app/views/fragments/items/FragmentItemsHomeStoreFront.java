@@ -268,8 +268,8 @@ public class FragmentItemsHomeStoreFront extends BaseFragment implements View.On
         }
         //  relativeLayoutHomeToolbar.setVisibility(View.GONE);
 
-     //   if (!searchKey.isEmpty())
-            //tabLayout.setVisibility(View.VISIBLE);
+        //   if (!searchKey.isEmpty())
+        //tabLayout.setVisibility(View.VISIBLE);
 
     }
 
@@ -282,7 +282,7 @@ public class FragmentItemsHomeStoreFront extends BaseFragment implements View.On
         storeFrontCategory = ATPreferences.readString(getActivity(), Constants.MERCHANT_CATEGORY);
         if (isFromStoreFront) {
             Picasso.get().load(ATPreferences.readString(getActivity(), Constants.KEY_IMAGE_URL) +
-                    ATPreferences.readString(getActivity(), Constants.HEADER_IMG))
+                            ATPreferences.readString(getActivity(), Constants.HEADER_IMG))
                     .placeholder(R.drawable.loading).into(imageViewStoreImage);
 
             storeFrontTabsView();
@@ -701,7 +701,7 @@ public class FragmentItemsHomeStoreFront extends BaseFragment implements View.On
                         arrayListHeaderCategory.add(itemListResponse.getRESULT().get(0).getRESULT().get(i).getJsonMember11453());
                         //}
                     }*/
-                 //   new Handler().postDelayed(this::setStoreHeaderCategoryListAdapter, 1000);
+                    //   new Handler().postDelayed(this::setStoreHeaderCategoryListAdapter, 1000);
                 } else {
                     Utils.baseshowFeedbackMessage(getActivity(), parentLayout, "No Item Found");
                 }
@@ -1064,11 +1064,11 @@ public class FragmentItemsHomeStoreFront extends BaseFragment implements View.On
 
 
     private void fetchItemsList() {
-     //   if (!ATPreferences.readString(getActivity(), Constants.MERCHANT_CATEGORY).isEmpty())
-            if (getArguments() != null && getArguments().containsKey(Constants.MERCHANT_CATEGORY_ID))
-                selectedCategoryId = getArguments().getString(Constants.MERCHANT_CATEGORY_ID);
-            else
-                selectedCategoryId ="";
+        //   if (!ATPreferences.readString(getActivity(), Constants.MERCHANT_CATEGORY).isEmpty())
+        if (getArguments() != null && getArguments().containsKey(Constants.MERCHANT_CATEGORY_ID))
+            selectedCategoryId = getArguments().getString(Constants.MERCHANT_CATEGORY_ID);
+        else
+            selectedCategoryId ="";
 
         if (merchantId.isEmpty())
             merchantId = ATPreferences.readString(getActivity(), Constants.MERCHANT_ID);
@@ -1096,7 +1096,7 @@ public class FragmentItemsHomeStoreFront extends BaseFragment implements View.On
         if (adapterHeaderCategory != null)
             adapterHeaderCategory.customNotify(arrayListHeaderCategory);
         else {
-           adapterHeaderCategory = new AdapterHeaderCategory(arrayListHeaderCategory, this);
+            adapterHeaderCategory = new AdapterHeaderCategory(arrayListHeaderCategory, this);
             recyclerViewCategoryHeader.setAdapter(adapterHeaderCategory);
         }
 
@@ -1108,7 +1108,7 @@ public class FragmentItemsHomeStoreFront extends BaseFragment implements View.On
     }
 
     public static void customNotify(int rowPosition) {
-      //  adapterHeaderCategory.customNotifyRowClick(rowPosition);
+        //  adapterHeaderCategory.customNotifyRowClick(rowPosition);
     }
 
 
@@ -1122,7 +1122,7 @@ public class FragmentItemsHomeStoreFront extends BaseFragment implements View.On
 
     @Override
     public void onCategoryHeaderClick(int position) {
-      //  ((HomeActivity) getActivity()).headerClick(position, headerCategoryResponse, true);
+        //  ((HomeActivity) getActivity()).headerClick(position, headerCategoryResponse, true);
         Bundle bundle = new Bundle();
         bundle.putString(Constants.MERCHANT_CATEGORY_ID, headerCategoryResponse.getRESULT().get(0).getRESULT().get(position).getJsonMember11493());
 

@@ -84,7 +84,7 @@ public class AdapterParentItem extends BaseExpandableListAdapter {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.adapter_parent_items_group, viewGroup, false);
             expandableListView = (ExpandableListView) viewGroup;
-           // expandableListView.expandGroup(position);
+            // expandableListView.expandGroup(position);
       /*      convertView.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT,
                     RecyclerView.LayoutParams.MATCH_PARENT));*/
 

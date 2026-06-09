@@ -43,6 +43,7 @@ import com.apitap.app.views.adapters.AdapterInitalCategories;
 import com.apitap.app.views.fragments.BaseFragment;
 import com.apitap.app.views.fragments.itemDetails.FragmentItemDetails;
 import com.apitap.app.views.fragments.items.FragmentItems;
+import com.apitap.app.views.fragments.items.storeFront.FragmentItemsStoreFront;
 import com.apitap.app.views.fragments.messages.FragmentMessages;
 import com.apitap.app.views.fragments.items.adapter.AdapterCategoryListSpinner;
 import com.apitap.app.views.fragments.items.adapter.AdapterMerchantCategoryItem;
@@ -556,7 +557,7 @@ public class FragmentSpecial extends BaseFragment implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.buttonBrowse:
-                ((HomeActivity) getActivity()).displayView(new FragmentItems(), Constants.TAG_ITEMS, new Bundle());
+                ((HomeActivity) getActivity()).displayView(new FragmentItemsStoreFront(), Constants.TAG_ITEMS, new Bundle());
                 break;
             case R.id.textViewFilter:
             case R.id.imageViewFilter:

@@ -108,7 +108,7 @@ public class AdapterChildItems extends RecyclerView.Adapter<AdapterChildItems.Vi
 //        Log.d("ItemImageUrl", ATPreferences.readString(context, Constants.KEY_IMAGE_URL)
 //                + "_t_" + arrayListItems.get(position).getJsonMember121170());
         Picasso.get().load(ATPreferences.readString(context, Constants.KEY_IMAGE_URL)
-                + "_t_" + arrayListItems.get(position).getJsonMember121170())
+                        + "_t_" + arrayListItems.get(position).getJsonMember121170())
                 .placeholder(R.drawable.ic_gallery_placeholder)
                 .error(R.drawable.no_photo_placeholder)
                 .fit().centerInside().into(holder.imageViewItem);

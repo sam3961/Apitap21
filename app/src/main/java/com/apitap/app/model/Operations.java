@@ -1948,6 +1948,56 @@ public class Operations {
         return parametersToCall;
     }
 
+    public static String getItemsWithCategoryList(Activity context, String categoryId, String searchKey, String orderBy,
+                                                String parentId
+            , String deliveryServiceName, String merchantId, String zipCode, String brandName, String ratingId) {
+        String parametersToCall = "";
+        try {
+            JSONObject obj = new JSONObject();
+            obj.put("192", Constants.KEY_DEFAULT);
+            obj.put("11", Client.getTimeStamp());
+            obj.put("122.45", "en");
+            obj.put("57", Utils.getDeviceId(context));
+            JSONArray arr = new JSONArray();
+            JSONObject obj1 = new JSONObject();
+            JSONObject obj_param = new JSONObject();
+            obj1.put("101", "010400807");
+            obj_param.put("53", ATPreferences.readString(context, Constants.KEY_USERID));
+            obj_param.put("120.38", String.valueOf(App.latitude));
+            obj_param.put("120.39", String.valueOf(App.longitude));
+            obj_param.put("121.141", Utils.GetToday());
+            obj_param.put("127.89", Client.getWeekDay());
+            obj_param.put("127.60", orderBy);
+            obj_param.put("120.3", "1000");
+            if (!categoryId.isEmpty())
+                obj_param.put("114.93", Utils.lengtT(11, categoryId));
+            if (!brandName.isEmpty())
+                obj_param.put("122.39", brandName);
+            if (!ratingId.isEmpty())
+                obj_param.put("122.39", ratingId);
+            if (!deliveryServiceName.isEmpty())
+                obj_param.put("122.39", deliveryServiceName);
+            if (!zipCode.isEmpty())
+                obj_param.put("47.17", zipCode);
+            if (!merchantId.isEmpty())
+                obj_param.put("114.179", merchantId);
+            if (!searchKey.isEmpty())
+                obj_param.put("114.127", Utils.convertStringToHex(searchKey));
+            if (!parentId.isEmpty())
+                obj_param.put("122.21", Utils.lengtT(11, parentId));
+            obj1.put("PARAM", obj_param);
+            arr.put(obj1);
+            obj.put("OPTLST", arr);
+            parametersToCall = obj.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (BuildConfig.DEBUG)
+            Log.d(TAG, "getItemsWithCategoriesList---" + parametersToCall);
+
+        return parametersToCall;
+    }
+
     public static String getCategoriesSpecialsList(Activity context, String categoryId, String searchKey, String orderBy, String parentId
             , String deliveryServiceName, String merchantId, String zipCode) {
         String parametersToCall = "";
@@ -1980,6 +2030,10 @@ public class Operations {
                 obj_param.put("114.127", Utils.convertStringToHex(searchKey));
             if (!parentId.isEmpty())
                 obj_param.put("122.21", Utils.lengtT(11, parentId));
+
+            obj1.put("EXPECTED",
+                    "127.86,114.144,123.20,114.112,120.83,114.98,122.158,120.45,114.70,121.150,121.170,114.9,122.19,53,114.179,114.143,122.75,121.80,122.162,CA,121.39,LO");
+
             obj1.put("PARAM", obj_param);
             arr.put(obj1);
             obj.put("OPTLST", arr);
