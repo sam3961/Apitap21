@@ -469,19 +469,23 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
 
                     hideProgress();
 
-                    autoSelectChoice(
-                            productOptionChoices1ArrayList,
-                            getOptionChoicesOneAdapter.enabledChoiceIds,
-                            tvOptionOne,
-                            "1"
-                    );
+                    if (getOptionChoicesOneAdapter != null) {
+                        autoSelectChoice(
+                                productOptionChoices1ArrayList,
+                                getOptionChoicesOneAdapter.enabledChoiceIds,
+                                tvOptionOne,
+                                "1"
+                        );
+                    }
 
-                    autoSelectChoice(
-                            productOptionChoices2ArrayList,
-                            getOptionChoicesTwoAdapter.enabledChoiceIds,
-                            tvOptionTwo,
-                            "2"
-                    );
+                    if (getOptionChoicesTwoAdapter != null) {
+                        autoSelectChoice(
+                                productOptionChoices2ArrayList,
+                                getOptionChoicesTwoAdapter.enabledChoiceIds,
+                                tvOptionTwo,
+                                "2"
+                        );
+                    }
 
                     tvLocation.setOnClickListener(v -> {
                         showLocationBottomSheet(
@@ -628,7 +632,10 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
                 storeName.setText(arrayDetails.get(0).getSellerName());
                 merchantID = arrayDetails.get(0).getMerchantID();
                 txtTitle.setText(/*"By " +*/ arrayDetails.get(0).getName());
-                tvAvailability.setText(Utils.checkAvailability(arrayDetails.get(0).getAvailability()));
+                if (!Utils.checkAvailability(arrayDetails.get(0).getAvailability()).isEmpty()) {
+                    tvAvailability.setVisibility(View.VISIBLE);
+                    tvAvailability.setText(Utils.checkAvailability(arrayDetails.get(0).getAvailability()));
+                }
 
                 priceAfterDiscount = (String.format("%.2f", Double.parseDouble(arrayDetails.get(0).getPrice_AfterDiscount())));
                 actualPrice = String.format("%.2f", Double.parseDouble(arrayDetails.get(0).getPrice()));
@@ -1300,7 +1307,9 @@ public class FragmentItemDetails extends BaseFragment implements View.OnClickLis
                 }
             }
 
-            getOptionChoicesOneAdapter.setEnabledChoices(enabledOpt1);
+            if (getOptionChoicesOneAdapter != null) {
+                getOptionChoicesOneAdapter.setEnabledChoices(enabledOpt1);
+            }
 
             if (hasSecondOption && getOptionChoicesTwoAdapter != null) {
                 getOptionChoicesTwoAdapter.setEnabledChoices(enabledOpt2);

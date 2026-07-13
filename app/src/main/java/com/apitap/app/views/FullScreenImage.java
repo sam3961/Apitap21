@@ -204,7 +204,7 @@ public class FullScreenImage extends AppCompatActivity implements PlaybackPrepar
                 Picasso.get().load(ATPreferences.readString(this, Constants.KEY_IMAGE_URL) +
                         detailsArray.get(img_selcted_postion).getProductImage()).fit().centerInside().into(imgDisplay);
 
-                try {
+/*                try {
                     StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
                     StrictMode.setThreadPolicy(policy);
 
@@ -219,7 +219,7 @@ public class FullScreenImage extends AppCompatActivity implements PlaybackPrepar
 //                    }
                 } catch (IOException e) {
                     e.printStackTrace();
-                }
+                }*/
             }
         }
 

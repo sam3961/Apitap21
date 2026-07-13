@@ -11,6 +11,7 @@ import com.apitap.app.model.AddTabBar;
 import com.apitap.app.model.Constants;
 import com.apitap.app.model.ProgressDialogLoading;
 
+import com.apitap.app.model.UnsafeOkHttp;
 import com.apitap.app.model.preferences.ATPreferences;
 
 import com.google.android.exoplayer2.upstream.DataSource;
@@ -21,6 +22,8 @@ import com.google.android.exoplayer2.upstream.TransferListener;
 import com.google.android.exoplayer2.util.Util;
 import com.google.android.libraries.places.api.Places;
 import com.google.firebase.FirebaseApp;
+import com.squareup.picasso.OkHttp3Downloader;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -31,6 +34,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import okhttp3.OkHttpClient;
 
 /**
  * Created by sourcefuse on 16/12/16.
@@ -68,6 +73,16 @@ public class App extends Application {
         if (!Places.isInitialized()) {
             Places.initialize(getApplicationContext(), getString(R.string.google_maps_key));
         }
+
+
+        //initalize picasso for ssl bypass
+        OkHttpClient client = UnsafeOkHttp.getUnsafeOkHttpClient();
+
+        Picasso picasso = new Picasso.Builder(this)
+                .downloader(new OkHttp3Downloader(client))
+                .build();
+
+        Picasso.setSingletonInstance(picasso);
     }
 
     private void createNotificationChannel() {

@@ -1,10 +1,13 @@
 package com.apitap.app.views.fragments;
 
+import static com.apitap.app.model.Client.BASE_URL_CART;
+
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
+import android.net.http.SslError;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -16,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -41,6 +45,8 @@ import com.squareup.picasso.Picasso;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class FragmentCheckout extends BaseFragment implements View.OnClickListener, KeyboardHeightObserver {
@@ -140,14 +146,14 @@ public class FragmentCheckout extends BaseFragment implements View.OnClickListen
                 bundle.getString("merchantId");
 */
         if (deliveryId.isEmpty())
-            url = Client.BASE_URL_CART + id +
+            url = BASE_URL_CART + id +
                     "&scId=" + cartId +
                     "&merId=" + merchantId +
                     "&t=" + token +
                     "&lat=" + App.latitude +
                     "&long=" + App.longitude;
         else
-            url = Client.BASE_URL_CART + id +
+            url = BASE_URL_CART + id +
                     "&scId=" + cartId +
                     "&merId=" + merchantId +
                     "&delId=" + deliveryId +
@@ -163,6 +169,18 @@ public class FragmentCheckout extends BaseFragment implements View.OnClickListen
         textViewStoreName.setOnClickListener(this);
 
         webView.setWebViewClient(new WebViewClient() {
+
+
+            /**
+             * SSL Bypass (Development Only)
+             */
+            @Override
+            public void onReceivedSslError(WebView view,
+                                           SslErrorHandler handler,
+                                           SslError error) {
+                Log.d(TAG, "SSL Error: " + error);
+                handler.proceed(); // Ignore SSL certificate errors
+            }
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -200,7 +218,19 @@ public class FragmentCheckout extends BaseFragment implements View.OnClickListen
         });
 
         try {
-            webView.loadUrl(url);
+//            webView.loadUrl(url);
+            String postData =
+                    "nmcId=" + URLEncoder.encode(id, "UTF-8") +
+                            "&scId=" + URLEncoder.encode(cartId, "UTF-8") +
+                            "&merId=" + URLEncoder.encode(merchantId, "UTF-8") +
+                            "&t=" + URLEncoder.encode(token, "UTF-8") +
+                            "&lat=" + URLEncoder.encode(String.valueOf(App.latitude), "UTF-8") +
+                            "&long=" + URLEncoder.encode(String.valueOf(App.longitude), "UTF-8");
+
+            webView.postUrl(
+                    BASE_URL_CART,
+                    postData.getBytes(StandardCharsets.UTF_8)
+            );
             webView.setVerticalScrollBarEnabled(true);
             webView.setHorizontalScrollBarEnabled(true);
             Log.d("LoadUrls", url);

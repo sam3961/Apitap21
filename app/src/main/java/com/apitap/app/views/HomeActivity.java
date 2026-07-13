@@ -351,23 +351,55 @@ public class HomeActivity extends BaseActivity implements FragmentDrawer.Fragmen
             displayView(new FragmentStoreFront(), Constants.TAG_STORESFRONTPAGE, bundle);
         }
 
-        if (getIntent() != null && (getIntent().hasExtra("productId") ||
-                getIntent().hasExtra("adID") || getIntent().hasExtra("invoice") ||
-                getIntent().hasExtra("generalId"))) {
+        if (getIntent() != null) {
+
             Bundle bundle = new Bundle();
-            if (!getIntent().hasExtra("productId")) {
-                bundle.putString("productId", productId);
-                bundle.putString("productName", productName);
-            } else if (!getIntent().hasExtra("adID")) {
-                bundle.putString("adID", adId);
-                bundle.putString("adName", "");
-            } else if (!getIntent().hasExtra("invoice")) {
-                bundle.putString("invoice", invoiceId);
-            } else if (!getIntent().hasExtra("generalId")) {
-                bundle.putString("generalId", generalMessageId);
+
+            if (getIntent().hasExtra("productId")) {
+
+                bundle.putString("productId",
+                        getIntent().getStringExtra("productId"));
+
+                bundle.putString("productName",
+                        getIntent().getStringExtra("productName"));
+
+                bundle.putString("productType", "21");
+                bundle.putString("flag", "home");
+
+                displayView(
+                        new FragmentItemDetails(),
+                        Constants.TAG_DETAILSPAGE,
+                        bundle
+                );
+
+            } else if (getIntent().hasExtra("adID")) {
+
+                bundle.putString("adID",
+                        getIntent().getStringExtra("adID"));
+
+                // open ad screen
+
+            } else if (getIntent().hasExtra("invoice")) {
+
+                bundle.putString("invoice",
+                        getIntent().getStringExtra("invoice"));
+
+                // open invoice screen
+
+            } else if (getIntent().hasExtra("generalId")) {
+
+                bundle.putString("generalId",
+                        getIntent().getStringExtra("generalId"));
+
                 bundle.putString("merchantId", "");
-                bundle.putString("merchantName", storeName);
-                displayView(new FragmentMessageDetail(), Constants.MessageDetailPage, bundle);
+                bundle.putString("merchantName",
+                        getIntent().getStringExtra("merchantName"));
+
+                displayView(
+                        new FragmentMessageDetail(),
+                        Constants.MessageDetailPage,
+                        bundle
+                );
             }
         }
         addTabListener();

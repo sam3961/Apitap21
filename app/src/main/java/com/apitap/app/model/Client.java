@@ -30,10 +30,31 @@ import java.io.Writer;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.security.cert.X509Certificate;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+
+import javax.net.ssl.*;
+import java.io.*;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.security.cert.X509Certificate;
+import java.util.Scanner;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+import java.security.SecureRandom;
+import java.security.cert.X509Certificate;
 
 @SuppressLint("NewApi")
 public class Client {
@@ -65,16 +86,20 @@ public class Client {
     //************************************QA**************************************//
 
     public static final String BASE_URL_PART =
-            "https://aiodctesting.org:8095/api/";
-
+//            "https://aiodctesting.org:8095/api/";
+            "https://aiotesting.ddns.net:8095/api/";
     public static final String BASE_URL_ONLY =
-            "https://aiodctesting.org:8095/";//
+    //        "https://aiodctesting.org:8095/";
+            "https://aiotesting.ddns.net:8095/";
 
     public static final String BASE_URL =
-            "https://aiodctesting.org:8095/api/server/post";
+//            "https://aiodctesting.org:8095/api/server/post";
+            "https://aiotesting.ddns.net:8095/api/server/post";
 
     public static final String BASE_URL_CART =
-            "https://aiodctesting.org:8090/Apitap_ShoppingCart/?nmcId=";// cart qa //new
+//            "https://aiodctesting.org:8090/Apitap_ShoppingCart/?nmcId=";// cart qa //new
+//            "https://aiodctesting.org:8090/Apitap_ShoppingCart/";// cart qa //new
+            "https://aiotesting.ddns.net/Apitap_ShoppingCart/";// cart qa //new
 
 
     public static final String URL_CREATE_PASSWORD =
@@ -82,7 +107,8 @@ public class Client {
 
 
     public static final String URL_SETTINGS =
-            "https://aiodctesting.org:8090/MobileClient/?t=";  //QA
+//            "https://aiodctesting.org:8090/MobileClient/?t=";  //QA
+            "https://aiotesting.ddns.net/MobileClient/?t=";  //QA
 
     public static String Caller(String parametersToCall) {
         String result = "";
@@ -101,7 +127,7 @@ public class Client {
         return (result);
     }
 
-    public static String CallerHttp(String parametersToCall) {
+/*    public static String CallerHttp(String parametersToCall) {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         String json = "";
@@ -139,9 +165,100 @@ public class Client {
         }
 
         return json;
+    }*/
+
+    //bypass ssl by sumit
+    public static String CallerHttp(String parametersToCall) {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        String json = "";
+        try {
+            String encodedText = Base64.encodeToString(
+                    parametersToCall.getBytes(StandardCharsets.UTF_8), Base64.DEFAULT);
+
+            URL urlObj = new URL(BASE_URL);
+            HttpsURLConnection conn = (HttpsURLConnection) urlObj.openConnection();
+
+            // ⚠️ BYPASS hostname check — only for dev/testing!
+            conn.setHostnameVerifier((hostname, session) -> true);
+
+            // Optional: also bypass cert validation if self-signed
+            // (remove this block if cert is from a real CA)
+            TrustManager[] trustAll = new TrustManager[]{new X509TrustManager() {
+                public X509Certificate[] getAcceptedIssuers() { return new X509Certificate[0]; }
+                public void checkClientTrusted(X509Certificate[] certs, String authType) {}
+                public void checkServerTrusted(X509Certificate[] certs, String authType) {}
+            }};
+            SSLContext sc = SSLContext.getInstance("TLS");
+            sc.init(null, trustAll, new java.security.SecureRandom());
+            conn.setSSLSocketFactory(sc.getSocketFactory());
+
+            conn.setRequestMethod("POST");
+            conn.setDoOutput(true);
+            conn.setConnectTimeout(300000);
+            conn.setReadTimeout(300000);
+            conn.setRequestProperty("Accept", "text/plain");
+            conn.setRequestProperty("Content-Type", "text/plain");
+
+            try (OutputStream os = conn.getOutputStream()) {
+                os.write(encodedText.getBytes(StandardCharsets.UTF_8));
+            }
+
+            try (InputStream is = conn.getInputStream();
+                 Scanner scanner = new Scanner(is, StandardCharsets.UTF_8.name())) {
+                json = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
+            }
+
+        } catch (Exception e) {
+            StringWriter writer = new StringWriter();
+            e.printStackTrace(new PrintWriter(writer));
+            json = "Error: " + writer.toString();
+        }
+        return json;
+    }
+
+
+    private static void disableSSLCertificateChecking() {
+        try {
+            TrustManager[] trustAllCerts = new TrustManager[]{
+                    new X509TrustManager() {
+                        @Override
+                        public void checkClientTrusted(X509Certificate[] chain, String authType) {
+                        }
+
+                        @Override
+                        public void checkServerTrusted(X509Certificate[] chain, String authType) {
+                        }
+
+                        @Override
+                        public X509Certificate[] getAcceptedIssuers() {
+                            return new X509Certificate[]{};
+                        }
+                    }
+            };
+
+            SSLContext sc = SSLContext.getInstance("TLS");
+            sc.init(null, trustAllCerts, new SecureRandom());
+
+            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+
+            HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
+                @Override
+                public boolean verify(String hostname, SSLSession session) {
+                    return true;
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static String simplePost(String urlString, String bodyJson) {
+
+        //bypass ssl by sumit
+
+        disableSSLCertificateChecking();
 
         HttpURLConnection connection = null;
         BufferedWriter writer = null;
@@ -242,6 +359,7 @@ public class Client {
 
         return json;
     }
+
 
     @SuppressWarnings({"rawtypes", "unchecked"})
     public static Map<String, Object> ProcessResult(String json) {

@@ -351,7 +351,7 @@ public class FragmentHome extends BaseFragment implements View.OnClickListener, 
             adsData.setAdId(homeAdsResponse.getRESULT().get(i).getJsonMember12321());
             adsData.setImageId(homeAdsResponse.getRESULT().get(i).getJsonMember12086());
             adsData.setVideoUrl(homeAdsResponse.getRESULT().get(i).getJsonMember12115());
-            Log.d("imagessurl", ATPreferences.readString(getActivity(), Constants.KEY_IMAGE_URL) + "" + homeAdsResponse.getRESULT().get(i).getJsonMember121170());
+//            Log.d("imagessurl", ATPreferences.readString(getActivity(), Constants.KEY_IMAGE_URL) + "" + homeAdsResponse.getRESULT().get(i).getJsonMember121170());
             adsData.setAdDescription(Utils.hexToASCII(homeAdsResponse.getRESULT().get(i).getJsonMember120157()));
             adsDataArrayList.add(adsData);
         }

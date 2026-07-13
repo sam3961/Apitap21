@@ -3056,7 +3056,7 @@ public class Operations {
         return parametersToCall;
     }
 
-    public static String makeJsonGetFCM(Activity context, String token) {
+    public static String makeJsonGetFCM(Context context, String token) {
         String parametersToCall = "";
         try {
             JSONObject obj = new JSONObject();
@@ -3074,7 +3074,7 @@ public class Operations {
             obj_param.put("57", Utils.getDeviceId(context));
             obj_param.put("122.12", token);
             obj_param.put("48.6", Utils.getDeviceName());
-            obj_param.put("127.30", "84001");
+            obj_param.put("123.70", "84001");
 
             obj1.put("PARAM", obj_param);
             arr.put(obj1);

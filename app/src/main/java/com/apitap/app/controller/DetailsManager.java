@@ -631,4 +631,6 @@ public class DetailsManager {
 
 
 
+
 }
+
