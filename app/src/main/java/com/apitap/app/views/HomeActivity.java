@@ -26,6 +26,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
@@ -112,6 +113,7 @@ import com.apitap.app.views.fragments.specials.storefront.FragmentSpecialStoreFr
 import com.apitap.app.views.fragments.storefront.FragmentStoreFront;
 import com.apitap.app.views.fragments.stores.FragmentStore;
 import com.google.android.material.tabs.TabLayout;
+import com.makeramen.roundedimageview.RoundedImageView;
 import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
@@ -175,6 +177,7 @@ public class HomeActivity extends BaseActivity implements FragmentDrawer.Fragmen
     private ImageView imageViewBusiness, imageViewAds, imageViewPromotions;
     private static int toolint = 0;
     private ImageView mlogo;
+    private RoundedImageView fabAi;
     private ImageView imageViewSearch;
     private ImageView imageViewMessageStore;
     private ImageView imageViewSearchBarHome;
@@ -414,7 +417,8 @@ public class HomeActivity extends BaseActivity implements FragmentDrawer.Fragmen
         tabLayout2 = findViewById(R.id.tabs2);
         tabContainer2 = findViewById(R.id.tab_container2);
         tabContainer1 = findViewById(R.id.tab_container);
-
+        fabAi = findViewById(R.id.fabAi);
+        makeAiButtonMovable(fabAi);
 
         llScan = mToolbar.findViewById(R.id.ll_scan);
         llMessage = mToolbar.findViewById(R.id.ll_message);
@@ -536,6 +540,7 @@ public class HomeActivity extends BaseActivity implements FragmentDrawer.Fragmen
         imageViewFilterStoreFront.setOnClickListener(this);
         textViewSearch.setOnClickListener(this);
         imageViewScan.setOnClickListener(this);
+        fabAi.setOnClickListener(this);
         llScan.setOnClickListener(this);
         llMessage.setOnClickListener(this);
         llFavourites.setOnClickListener(this);
@@ -1572,6 +1577,10 @@ public class HomeActivity extends BaseActivity implements FragmentDrawer.Fragmen
                     // tabLayout.setVisibility(View.GONE);
                     displayView(new FragmentMessages(), Constants.TAG_MESSAGEPAGE, null);
                 }
+                break;
+            case R.id.fabAi:
+                Intent intent = new Intent(HomeActivity.this, AiWebViewActivity.class);
+                startActivity(intent);
                 break;
             case R.id.imageViewScan:
             case R.id.ll_scan:
@@ -2860,4 +2869,86 @@ public class HomeActivity extends BaseActivity implements FragmentDrawer.Fragmen
         }
     }
 
+    private void makeAiButtonMovable(RoundedImageView fabAi) {
+
+        fabAi.setOnTouchListener(new View.OnTouchListener() {
+
+            float dX;
+            float dY;
+            float downX;
+            float downY;
+            boolean isDragging;
+
+            final int CLICK_THRESHOLD = 10;
+
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+
+                View parent = (View) view.getParent();
+
+                switch (event.getActionMasked()) {
+
+                    case MotionEvent.ACTION_DOWN:
+
+                        dX = view.getX() - event.getRawX();
+                        dY = view.getY() - event.getRawY();
+
+                        downX = event.getRawX();
+                        downY = event.getRawY();
+
+                        isDragging = false;
+
+                        return true;
+
+                    case MotionEvent.ACTION_MOVE:
+
+                        float moveX = event.getRawX();
+                        float moveY = event.getRawY();
+
+                        if (Math.abs(moveX - downX) > CLICK_THRESHOLD
+                                || Math.abs(moveY - downY) > CLICK_THRESHOLD) {
+
+                            isDragging = true;
+                        }
+
+                        if (isDragging) {
+
+                            float newX = moveX + dX;
+                            float newY = moveY + dY;
+
+                            newX = Math.max(
+                                    0,
+                                    Math.min(
+                                            newX,
+                                            parent.getWidth() - view.getWidth()
+                                    )
+                            );
+
+                            newY = Math.max(
+                                    0,
+                                    Math.min(
+                                            newY,
+                                            parent.getHeight() - view.getHeight()
+                                    )
+                            );
+
+                            view.setX(newX);
+                            view.setY(newY);
+                        }
+
+                        return true;
+
+                    case MotionEvent.ACTION_UP:
+
+                        if (!isDragging) {
+                            view.performClick();
+                        }
+
+                        return true;
+                }
+
+                return false;
+            }
+        });
+    }
 }

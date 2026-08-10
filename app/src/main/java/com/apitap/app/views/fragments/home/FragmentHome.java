@@ -42,6 +42,7 @@ import com.apitap.app.views.fragments.storefront.FragmentStoreFront;
 import com.apitap.app.views.fragments.stores.FragmentStore;
 import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
 import com.google.android.material.tabs.TabLayout;
+import com.makeramen.roundedimageview.RoundedImageView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

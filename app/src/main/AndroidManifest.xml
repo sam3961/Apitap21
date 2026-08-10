@@ -162,6 +162,12 @@
             android:screenOrientation="portrait"
             android:resizeableActivity="false"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".views.AiWebViewActivity"
+            android:screenOrientation="portrait"
+            android:resizeableActivity="false"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
 
 <!--
         <meta-data
