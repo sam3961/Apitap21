@@ -33,6 +33,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.json.JSONObject;
 
 import java.util.Date;
+import java.util.Map;
 
 /*
  * Created by rishav on 6/3/17.
@@ -70,7 +71,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         badgeCount++;
 
-        String msgString = remoteMessage.getData().get("msg");
+//        String msgString = remoteMessage.getData().get("msg");
+        Map<String, String> data = remoteMessage.getData();
+
+        String msgString = data.get("msg");
+        String title = data.get("title");
+        String body = data.get("body");
+        String type = data.get("type");
 
         if (msgString == null || msgString.isEmpty()) {
             Log.e(TAG, "msg field missing in FCM payload");
@@ -123,7 +130,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     }
 
                     if (msgJson.has("122.114")) {
-                        generalMessageId = msgJson.getString("122.114");
+                            generalMessageId = msgJson.getString("122.114");
                         productId = "";
                         adId = "";
                         invoiceId = "";
@@ -142,6 +149,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     sendNotify(
                             getApplicationContext(),
                             "New Message from " + storeName,
+                            title,
+                            body,
+                            type,
                             HomeActivity.class
                     );
 
@@ -193,6 +203,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     sendNotify(
                             getApplicationContext(),
                             msg + productName,
+                            title,
+                            body,
+                            type,
                             HomeActivity.class
                     );
 
@@ -250,6 +263,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     sendNotify(
                             getApplicationContext(),
                             "New Message from " + storeName,
+                            title,
+                            body,
+                            type,
                             HomeActivity.class
                     );
 
@@ -297,6 +313,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     sendNotify(
                             getApplicationContext(),
                             msg + productName,
+                            title,
+                            body,
+                            type,
                             HomeActivity.class
                     );
                 }
@@ -336,7 +355,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         });
     }
 
-    public static void sendNotify(Context context, String messageBody, Class appCompatActivity) {
+    public static void sendNotify(Context context, String messageBody,
+                                  String title,
+                                  String body,
+                                  String type,
+                                  Class appCompatActivity) {
         String channelId = context.getString(R.string.default_notification_channel_id);
 
         if (ATPreferences.readString(context, Constants.StaySignedIn).equals("false"))
@@ -347,7 +370,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         mBuilder = new NotificationCompat.Builder(context, channelId)
-                .setContentTitle("Apitap")
+                .setContentTitle(title)
                 .setAutoCancel(true)
                 .setSmallIcon(R.drawable.ic_notification_logo)
                 .setColor(context.getResources().getColor(R.color.colorPrimary))
@@ -355,15 +378,16 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setBadgeIconType(NotificationCompat.BADGE_ICON_LARGE)
                 .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_notification_logo))
                 .setSound(soundUri)
-                .setContentText("A merchant you are following as a favorite has something new to show you. Check it out " +
-                        messageBody)
+//                .setContentText("A merchant you are following as a favorite has something new to show you. Check it out " + messageBody)
+                .setContentText(body)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(body))
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(messageBody))
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             mBuilder.setChannelId(channelId); // Channel ID
         }
+        mBuilder.setGroup(type);
         int m = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
 
         Intent intent = new Intent(context, appCompatActivity);
@@ -380,6 +404,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             intent.putExtra("generalId", generalMessageId);
         intent.putExtra("merchantId", merchantId);
         intent.putExtra("merchantName", storeName);
+        intent.putExtra("type", type);
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
