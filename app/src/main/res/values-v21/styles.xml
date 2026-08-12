@@ -11,4 +11,11 @@
         <item name="windowNoTitle">true</item>
 
     </style>
+
+    <style name="Theme.Apitap.AI" parent="android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:colorAccent">@android:color/transparent</item>
+    </style>
 </resources>

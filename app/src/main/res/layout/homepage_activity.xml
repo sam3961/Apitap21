@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:fitsSystemWindows="true"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
 
     <LinearLayout
@@ -71,10 +71,10 @@
                     android:id="@+id/imageViewScan"
                     android:layout_width="22dp"
                     android:layout_height="22dp"
+                    android:layout_gravity="center"
                     android:src="@drawable/ic_icon_menu"
                     android:visibility="gone"
-                    android:layout_gravity="center"
-                    app:tint="@color/colorBlack"/>
+                    app:tint="@color/colorBlack" />
 
                 <ImageView
                     android:id="@+id/imageViewCollapseSearch"
@@ -400,7 +400,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-
+            <!-- Existing Apitap content -->
             <FrameLayout
                 android:id="@+id/container_body"
                 android:layout_width="match_parent"
@@ -411,6 +411,7 @@
                 layout="@layout/view_filter"
                 android:visibility="gone" />
 
+            <!-- AI floating button -->
             <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/fabAi"
                 android:layout_width="80dp"
@@ -418,12 +419,79 @@
                 android:layout_gravity="bottom|end"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="24dp"
-                android:src="@drawable/ic_ai_icon"
-                />
+                android:src="@drawable/ic_ai_icon" />
 
+            <!-- FULL SCREEN AI OVERLAY -->
+            <FrameLayout
+                android:id="@+id/aiOverlay"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom"
+                android:visibility="gone"
+                android:background="@android:color/transparent"
+                android:elevation="20dp">
+
+                <LinearLayout
+                    android:id="@+id/aiPanel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/bg_ai_panel"
+                    android:orientation="vertical">
+
+                    <!-- AI Header -->
+                    <FrameLayout
+                        android:id="@+id/aiPanelHeader"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <!-- Drag handle -->
+                        <View
+                            android:layout_width="40dp"
+                            android:layout_height="4dp"
+                            android:layout_gravity="top|center_horizontal"
+                            android:layout_marginTop="8dp"
+                            android:background="@drawable/bg_ai_drag_handle" />
+
+                        <ImageButton
+                            android:id="@+id/btnCloseAi"
+                            android:layout_width="48dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="end|center_vertical"
+                            android:layout_marginEnd="8dp"
+                            android:background="@android:color/transparent"
+                            android:contentDescription="Close AI"
+                            android:padding="12dp"
+                            android:src="@drawable/ic_close" />
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1">
+
+                        <WebView
+                            android:id="@+id/aiWebView"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@android:color/white" />
+
+                        <com.github.rahatarmanahmed.cpv.CircularProgressView
+                            android:id="@+id/circularProgressView"
+                            android:layout_width="@dimen/_30sdp"
+                            android:layout_gravity="center"
+                            app:cpv_color="@color/colorGreenLogo"
+                            app:cpv_animAutostart="true"
+                            app:cpv_indeterminate="true"
+                            android:layout_height="@dimen/_30sdp"/>
+                    </FrameLayout>
+
+                </LinearLayout>
+
+
+            </FrameLayout>
         </FrameLayout>
-
-
         <!--
                 </ScrollView>
         -->

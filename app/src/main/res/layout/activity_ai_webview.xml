@@ -1,25 +1,47 @@
-<?xml version="1.0" encoding="utf-8"?>
-
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/aiRoot"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent">
 
-    <WebView
-        android:id="@+id/aiWebView"
+    <LinearLayout
+        android:id="@+id/aiPanel"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"
+        android:orientation="vertical"
+        android:background="@android:color/white">
 
-    <ImageButton
-        android:id="@+id/btnCloseAi"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_gravity="top|end"
-        android:layout_marginEnd="4dp"
-        android:layout_marginTop="40dp"
-        android:background="@android:color/transparent"
-        android:contentDescription="Close AI"
-        android:padding="12dp"
-        android:src="@drawable/gs_close_vd_24" />
+        <!-- drag handle -->
+
+        <View
+            android:layout_width="40dp"
+            android:layout_height="4dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/divider_grey" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp">
+
+            <ImageButton
+                android:id="@+id/btnCloseAi"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="end"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_close" />
+
+        </FrameLayout>
+
+        <WebView
+            android:id="@+id/aiWebView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+    </LinearLayout>
 
 </FrameLayout>

@@ -12,11 +12,13 @@ import static com.apitap.app.model.Utils.MY_PERMISSIONS_REQUEST_LOCATION;
 import static com.apitap.app.model.Utils.showToast;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -28,11 +30,22 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.webkit.GeolocationPermissions;
+import android.webkit.PermissionRequest;
+import android.webkit.ValueCallback;
+import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -62,7 +75,6 @@ import com.apitap.app.model.GlobalData;
 import com.apitap.app.model.MyFirebaseMessagingService;
 import com.apitap.app.model.Operations;
 import com.apitap.app.model.Utils;
-import com.apitap.app.model.bean.MessageListBean;
 import com.apitap.app.model.bean.SelectedParentModel;
 import com.apitap.app.model.bean.itemStoreFront.ItemStoreFrontResponse;
 import com.apitap.app.model.bean.levelOneCategories.LevelOneCategory;
@@ -112,6 +124,7 @@ import com.apitap.app.views.fragments.specials.FragmentSpecial;
 import com.apitap.app.views.fragments.specials.storefront.FragmentSpecialStoreFront;
 import com.apitap.app.views.fragments.storefront.FragmentStoreFront;
 import com.apitap.app.views.fragments.stores.FragmentStore;
+import com.github.rahatarmanahmed.cpv.CircularProgressView;
 import com.google.android.material.tabs.TabLayout;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.squareup.picasso.Picasso;
@@ -255,6 +268,28 @@ public class HomeActivity extends BaseActivity implements FragmentDrawer.Fragmen
     private static SearchStoreClickListener searchStoreClickListener;
     public ItemStoreFrontResponse itemListResponse;
     private static final int REQ_CODE_POST_NOTIFICATIONS = 1001;
+
+
+    private FrameLayout aiOverlay;
+    private WebView aiWebView;
+    private ImageButton btnCloseAi;
+
+    private ValueCallback<Uri[]> filePathCallback;
+    private boolean aiInitialized = false;
+    private static final int REQUEST_AI_PERMISSIONS = 1001;
+    private static final int FILE_CHOOSER_REQUEST = 1002;
+
+    private static final String AI_URL =
+            "https://ai.atapai.com/embed";
+    private LinearLayout aiPanel;
+    private FrameLayout aiPanelHeader;
+    private CircularProgressView aiLoader;
+    private float aiPanelStartY;
+    private float aiTouchStartY;
+
+    private boolean aiPanelExpanded = false;
+
+    private static final float AI_COLLAPSED_RATIO = 0.65f;
 
 
     public static void setActiveFragment(SearchStoreClickListener searchClickListener) {
@@ -418,6 +453,19 @@ public class HomeActivity extends BaseActivity implements FragmentDrawer.Fragmen
         tabContainer2 = findViewById(R.id.tab_container2);
         tabContainer1 = findViewById(R.id.tab_container);
         fabAi = findViewById(R.id.fabAi);
+
+        aiOverlay = findViewById(R.id.aiOverlay);
+        aiPanel = findViewById(R.id.aiPanel);
+        aiPanelHeader = findViewById(R.id.aiPanelHeader);
+        aiLoader = findViewById(R.id.circularProgressView);
+        aiWebView = findViewById(R.id.aiWebView);
+        btnCloseAi = findViewById(R.id.btnCloseAi);
+
+        fabAi.setOnClickListener(v -> openAi());
+
+        btnCloseAi.setOnClickListener(v -> closeAi());
+
+        setupAiWebView();
         makeAiButtonMovable(fabAi);
 
         llScan = mToolbar.findViewById(R.id.ll_scan);
@@ -540,7 +588,7 @@ public class HomeActivity extends BaseActivity implements FragmentDrawer.Fragmen
         imageViewFilterStoreFront.setOnClickListener(this);
         textViewSearch.setOnClickListener(this);
         imageViewScan.setOnClickListener(this);
-        fabAi.setOnClickListener(this);
+//        fabAi.setOnClickListener(this);
         llScan.setOnClickListener(this);
         llMessage.setOnClickListener(this);
         llFavourites.setOnClickListener(this);
@@ -1388,6 +1436,341 @@ public class HomeActivity extends BaseActivity implements FragmentDrawer.Fragmen
         leftPanel.setVisibility(View.GONE);
     }
 
+    private void handleAiSwipe(float distance) {
+
+        final int SWIPE_THRESHOLD = 120;
+
+        // Swipe UP
+        if (distance < -SWIPE_THRESHOLD) {
+
+            expandAi();
+
+            return;
+        }
+
+        // Swipe DOWN
+        if (distance > SWIPE_THRESHOLD) {
+
+            if (aiPanelExpanded) {
+
+                collapseAi();
+
+            } else {
+
+                closeAi();
+            }
+
+            return;
+        }
+
+        // Small movement → return to current state
+        if (aiPanelExpanded) {
+
+            expandAi();
+
+        } else {
+
+            collapseAi();
+        }
+    }
+
+    private void setupAiPanelSwipe() {
+
+        aiPanelHeader.setOnTouchListener((view, event) -> {
+
+            switch (event.getActionMasked()) {
+
+                case MotionEvent.ACTION_DOWN:
+
+                    aiTouchStartY = event.getRawY();
+                    aiPanelStartY = aiPanel.getTranslationY();
+
+                    return true;
+
+
+                case MotionEvent.ACTION_MOVE:
+
+                    float currentY = event.getRawY();
+
+                    float deltaY =
+                            currentY - aiTouchStartY;
+
+                    float newTranslation =
+                            aiPanelStartY + deltaY;
+
+                    // Don't allow dragging below the starting position
+                    if (newTranslation < 0) {
+                        newTranslation = 0;
+                    }
+
+                    aiPanel.setTranslationY(newTranslation);
+
+                    return true;
+
+
+                case MotionEvent.ACTION_UP:
+
+                case MotionEvent.ACTION_CANCEL:
+
+                    float endY = event.getRawY();
+
+                    float distance =
+                            endY - aiTouchStartY;
+
+                    handleAiSwipe(distance);
+
+                    return true;
+            }
+
+            return true;
+        });
+    }
+
+    private void expandAi() {
+
+        aiPanelExpanded = true;
+
+        aiPanel.animate()
+                .translationY(0)
+                .setDuration(250)
+                .start();
+
+        ViewGroup.LayoutParams params =
+                aiPanel.getLayoutParams();
+
+        params.height = aiOverlay.getHeight();
+
+        aiPanel.setLayoutParams(params);
+    }
+
+
+    private void collapseAi() {
+
+        aiPanelExpanded = false;
+
+        int collapsedHeight =
+                (int) (aiOverlay.getHeight()
+                        * AI_COLLAPSED_RATIO);
+
+        ViewGroup.LayoutParams params =
+                aiPanel.getLayoutParams();
+
+        params.height = collapsedHeight;
+
+        aiPanel.setLayoutParams(params);
+
+        aiPanel.animate()
+                .translationY(0)
+                .setDuration(250)
+                .start();
+    }
+
+    private void openAi() {
+
+        aiOverlay.setVisibility(View.VISIBLE);
+        fabAi.setVisibility(View.GONE);
+
+        aiOverlay.post(() -> {
+
+            collapseAi();
+
+            setupAiPanelSwipe();
+        });
+
+        if (!aiInitialized) {
+
+            requestAiPermissions();
+
+            aiInitialized = true;
+        }
+    }
+
+
+
+    private void closeAi() {
+
+        aiOverlay.setVisibility(View.GONE);
+
+        fabAi.setVisibility(View.VISIBLE);
+
+        aiPanelExpanded = false;
+    }
+
+
+    @SuppressLint("SetJavaScriptEnabled")
+    private void setupAiWebView() {
+
+        WebSettings settings = aiWebView.getSettings();
+
+        settings.setJavaScriptEnabled(true);
+        settings.setDomStorageEnabled(true);
+        settings.setDatabaseEnabled(true);
+        settings.setAllowFileAccess(true);
+        settings.setAllowContentAccess(true);
+        settings.setMediaPlaybackRequiresUserGesture(false);
+
+        WebView.setWebContentsDebuggingEnabled(true);
+
+        aiWebView.setBackgroundColor(Color.WHITE);
+
+        aiWebView.setWebViewClient(
+                new WebViewClient() {
+
+                    @Override
+                    public void onPageStarted(
+                            WebView view,
+                            String url,
+                            Bitmap favicon) {
+
+                        super.onPageStarted(view, url, favicon);
+
+                        aiLoader.setVisibility(View.VISIBLE);
+                        aiWebView.setVisibility(View.INVISIBLE);
+                    }
+
+                    @Override
+                    public void onPageFinished(
+                            WebView view,
+                            String url) {
+
+                        super.onPageFinished(view, url);
+
+                        aiLoader.setVisibility(View.GONE);
+                        aiWebView.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public boolean shouldOverrideUrlLoading(
+                            WebView view,
+                            WebResourceRequest request) {
+
+                        Uri uri = request.getUrl();
+
+                        if ("https".equals(uri.getScheme())
+                                && "ai.atapai.com"
+                                .equals(uri.getHost())) {
+
+                            return false;
+                        }
+
+                        return true;
+                    }
+                }
+        );
+
+        aiWebView.setWebChromeClient(
+                new WebChromeClient() {
+
+                    @Override
+                    public void onPermissionRequest(
+                            final PermissionRequest request) {
+
+                        runOnUiThread(() -> {
+
+                            if (ContextCompat.checkSelfPermission(
+                                    HomeActivity.this,
+                                    Manifest.permission.RECORD_AUDIO
+                            ) != PackageManager.PERMISSION_GRANTED) {
+
+                                request.deny();
+                                return;
+                            }
+
+                            if (ContextCompat.checkSelfPermission(
+                                    HomeActivity.this,
+                                    Manifest.permission.CAMERA
+                            ) != PackageManager.PERMISSION_GRANTED) {
+
+                                request.deny();
+                                return;
+                            }
+
+                            request.grant(
+                                    request.getResources()
+                            );
+                        });
+                    }
+
+                    @Override
+                    public void onGeolocationPermissionsShowPrompt(
+                            String origin,
+                            GeolocationPermissions.Callback callback) {
+
+                        callback.invoke(
+                                origin,
+                                true,
+                                false
+                        );
+                    }
+
+                    @Override
+                    public boolean onShowFileChooser(
+                            WebView webView,
+                            ValueCallback<Uri[]> callback,
+                            FileChooserParams params) {
+
+                        filePathCallback = callback;
+
+                        try {
+
+                            Intent intent =
+                                    params.createIntent();
+
+                            startActivityForResult(
+                                    intent,
+                                    FILE_CHOOSER_REQUEST
+                            );
+
+                        } catch (Exception e) {
+
+                            filePathCallback = null;
+                            return false;
+                        }
+
+                        return true;
+                    }
+                }
+        );
+    }
+
+    private void requestAiPermissions() {
+
+        String[] permissions = {
+                Manifest.permission.CAMERA,
+                Manifest.permission.RECORD_AUDIO,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+        };
+
+        boolean needsPermission = false;
+
+        for (String permission : permissions) {
+
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    permission
+            ) != PackageManager.PERMISSION_GRANTED) {
+
+                needsPermission = true;
+                break;
+            }
+        }
+
+        if (needsPermission) {
+
+            ActivityCompat.requestPermissions(
+                    this,
+                    permissions,
+                    REQUEST_AI_PERMISSIONS
+            );
+
+        } else {
+
+            aiWebView.loadUrl(AI_URL);
+        }
+    }
+
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -1578,10 +1961,10 @@ public class HomeActivity extends BaseActivity implements FragmentDrawer.Fragmen
                     displayView(new FragmentMessages(), Constants.TAG_MESSAGEPAGE, null);
                 }
                 break;
-            case R.id.fabAi:
+         /*   case R.id.fabAi:
                 Intent intent = new Intent(HomeActivity.this, AiWebViewActivity.class);
                 startActivity(intent);
-                break;
+                break;*/
             case R.id.imageViewScan:
             case R.id.ll_scan:
                 toolint = 1;
@@ -2356,6 +2739,10 @@ public class HomeActivity extends BaseActivity implements FragmentDrawer.Fragmen
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                 openCamera();
             }
+        } else if (requestCode ==
+                REQUEST_AI_PERMISSIONS) {
+
+            aiWebView.loadUrl(AI_URL);
         } else if (requestCode == REQ_CODE_POST_NOTIFICATIONS) {
 
         } else {
@@ -2681,6 +3068,26 @@ public class HomeActivity extends BaseActivity implements FragmentDrawer.Fragmen
 
             fetchImageSearchResult(base64String);
             // You can display or save the bitmap image
+        } else if (requestCode == FILE_CHOOSER_REQUEST) {
+
+            if (filePathCallback == null) {
+                return;
+            }
+
+            Uri[] results = null;
+
+            if (resultCode == RESULT_OK
+                    && data != null
+                    && data.getData() != null) {
+
+                results = new Uri[]{
+                        data.getData()
+                };
+            }
+
+            filePathCallback.onReceiveValue(results);
+
+            filePathCallback = null;
         } else {
             Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.container_body);
             fragment.onActivityResult(requestCode, resultCode, data);
