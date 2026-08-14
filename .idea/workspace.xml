@@ -586,18 +586,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="82c2b959-eb25-4623-b703-66dfb07c533e" name="Changes" comment="fixes and updates">
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/bg_ai_drag_handle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/bg_ai_panel.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_collapse.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_minimize.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_arrow_up.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/AiWebViewActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/AiWebViewActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/release/app-release.apk" beforeDir="false" afterPath="$PROJECT_DIR$/app/release/app-release.apk" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/release/baselineProfiles/0/app-release.dm" beforeDir="false" afterPath="$PROJECT_DIR$/app/release/baselineProfiles/0/app-release.dm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/release/baselineProfiles/1/app-release.dm" beforeDir="false" afterPath="$PROJECT_DIR$/app/release/baselineProfiles/1/app-release.dm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/model/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/model/Utils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/HomeActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/HomeActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_ai_webview.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_ai_webview.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/bg_ai_panel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/bg_ai_panel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/homepage_activity.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/homepage_activity.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-v21/styles.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-v21/styles.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/reports/problems/problems-report.html" beforeDir="false" afterPath="$PROJECT_DIR$/build/reports/problems/problems-report.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -667,47 +666,47 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Android App.app.executor&quot;: &quot;Run&quot;,
-    &quot;Android App.unitTest.executor&quot;: &quot;Run&quot;,
-    &quot;ApkExportedModule&quot;: &quot;APITAP-Android.app&quot;,
-    &quot;BundleExportedModule&quot;: &quot;APITAP-Android.app&quot;,
-    &quot;DEBUGGABLE_DEVICE&quot;: &quot;samsung-sm_f741b-adb-RZCX62929ST-hY3KOP._adb-tls-connect._tcp&quot;,
-    &quot;DEBUGGABLE_PROCESS&quot;: &quot;com.apitap.app&quot;,
-    &quot;DEBUGGER_ID&quot;: &quot;Auto&quot;,
-    &quot;ExportApk.ApkPathForAPITAP-Android.app&quot;: &quot;/media/shami/Projects1/Android/APITAP-Android/APITAP-Android/app&quot;,
-    &quot;ExportBundle.BundlePathForAPITAP-Android.app&quot;: &quot;/media/shami/Projects1/Android/APITAP-Android/APITAP-Android/app&quot;,
-    &quot;Gradle.APITAP-Android [signingReport].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Download Sources.executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;OverrideImplement.combined&quot;: &quot;false&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;SHOW_ALL_PROCESSES&quot;: &quot;false&quot;,
-    &quot;ScreenRecorder.SavePath&quot;: &quot;/home/shami/Videos&quot;,
-    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;com.google.services.firebase.aqiPopupShown&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_directory_selection&quot;: &quot;/media/shami/Projects1/Android/APITAP-Android/APITAP-Android/app/src/main/res/drawable&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/media/shami/Projects1/Android/APITAP-Android/APITAP-Android/app/src/main/res/drawable&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.17&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.gradle&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Android App.app.executor": "Run",
+    "Android App.unitTest.executor": "Run",
+    "ApkExportedModule": "APITAP-Android.app",
+    "BundleExportedModule": "APITAP-Android.app",
+    "DEBUGGABLE_DEVICE": "Pixel [emulator-5554]",
+    "DEBUGGABLE_PROCESS": "com.apitap.app",
+    "DEBUGGER_ID": "Auto",
+    "ExportApk.ApkPathForAPITAP-Android.app": "/media/shami/Projects1/Android/APITAP-Android/APITAP-Android/app",
+    "ExportBundle.BundlePathForAPITAP-Android.app": "/media/shami/Projects1/Android/APITAP-Android/APITAP-Android/app",
+    "Gradle.APITAP-Android [signingReport].executor": "Run",
+    "Gradle.Download Sources.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "OverrideImplement.combined": "false",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "SHOW_ALL_PROCESSES": "false",
+    "ScreenRecorder.SavePath": "/home/shami/Videos",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "com.google.services.firebase.aqiPopupShown": "true",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "last_directory_selection": "/media/shami/Projects1/Android/APITAP-Android/APITAP-Android/app/src/main/res/drawable",
+    "last_opened_file_path": "/media/shami/Projects1/Android/APITAP-Android/APITAP-Android/app/src/main/res/drawable",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.17",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;ExportApk.BuildVariants&quot;: [
-      &quot;release&quot;
+  "keyToStringList": {
+    "ExportApk.BuildVariants": [
+      "release"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/app/src/main/res/drawable" />
@@ -2229,6 +2228,21 @@
           <line>202</line>
           <option name="timeStamp" value="1094" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/HomeActivity.java</url>
+          <line>469</line>
+          <option name="timeStamp" value="1095" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/HomeActivity.java</url>
+          <line>470</line>
+          <option name="timeStamp" value="1096" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/HomeActivity.java</url>
+          <line>473</line>
+          <option name="timeStamp" value="1098" />
+        </line-breakpoint>
         <line-breakpoint enabled="true" type="java-field">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/shoppingCart/ShoppingCartFragment.java</url>
           <line>41</line>
@@ -2254,12 +2268,12 @@
         </entry>
         <entry key="com.apitap.app">
           <value>
-            <CheckInfo lastCheckTimestamp="1786558152991" />
+            <CheckInfo lastCheckTimestamp="1786728719005" />
           </value>
         </entry>
         <entry key="com.apitap.app.test">
           <value>
-            <CheckInfo lastCheckTimestamp="1786558152991" />
+            <CheckInfo lastCheckTimestamp="1786728719004" />
           </value>
         </entry>
         <entry key="com.apitap.test">

@@ -284,13 +284,15 @@ public class HomeActivity extends BaseActivity implements FragmentDrawer.Fragmen
     private LinearLayout aiPanel;
     private FrameLayout aiPanelHeader;
     private CircularProgressView aiLoader;
+    private ImageView btnCollapseAi;
+    private View aiDimBackground;
     private float aiPanelStartY;
     private float aiTouchStartY;
 
     private boolean aiPanelExpanded = false;
-
+    private boolean buttonArrowClicked = false;
     private static final float AI_COLLAPSED_RATIO = 0.65f;
-
+    private static final int AI_EXPANDED_TOP_MARGIN_DP = 24;
 
     public static void setActiveFragment(SearchStoreClickListener searchClickListener) {
         searchStoreClickListener = searchClickListener;
@@ -460,6 +462,19 @@ public class HomeActivity extends BaseActivity implements FragmentDrawer.Fragmen
         aiLoader = findViewById(R.id.circularProgressView);
         aiWebView = findViewById(R.id.aiWebView);
         btnCloseAi = findViewById(R.id.btnCloseAi);
+        btnCollapseAi = findViewById(R.id.btnCollapseAi);
+        aiDimBackground = findViewById(R.id.aiDimBackground);
+
+        btnCollapseAi.setOnClickListener(v -> {
+
+            if (!buttonArrowClicked) {
+                collapseAiToStrip();
+                buttonArrowClicked = true;
+            } else {
+                expandAiToCollapsed();
+                buttonArrowClicked = false;
+            }
+        });
 
         fabAi.setOnClickListener(v -> openAi());
 
@@ -1443,7 +1458,7 @@ public class HomeActivity extends BaseActivity implements FragmentDrawer.Fragmen
         // Swipe UP
         if (distance < -SWIPE_THRESHOLD) {
 
-            expandAi();
+            expandAiOnSwipeUp();
 
             return;
         }
@@ -1466,7 +1481,7 @@ public class HomeActivity extends BaseActivity implements FragmentDrawer.Fragmen
         // Small movement → return to current state
         if (aiPanelExpanded) {
 
-            expandAi();
+            expandAiOnSwipeUp();
 
         } else {
 
@@ -1526,27 +1541,43 @@ public class HomeActivity extends BaseActivity implements FragmentDrawer.Fragmen
         });
     }
 
-    private void expandAi() {
+    private void expandAiOnSwipeUp() {
 
+        aiDimBackground.setVisibility(View.VISIBLE);
         aiPanelExpanded = true;
+
+        float density =
+                getResources().getDisplayMetrics().density;
+
+        int topMargin =
+                (int) (AI_EXPANDED_TOP_MARGIN_DP * density);
+
+        int expandedHeight =
+                aiOverlay.getHeight() - topMargin;
+
+        ViewGroup.LayoutParams params =
+                aiPanel.getLayoutParams();
+
+        params.height = expandedHeight;
+
+        aiPanel.setLayoutParams(params);
 
         aiPanel.animate()
                 .translationY(0)
                 .setDuration(250)
                 .start();
 
-        ViewGroup.LayoutParams params =
-                aiPanel.getLayoutParams();
-
-        params.height = aiOverlay.getHeight();
-
-        aiPanel.setLayoutParams(params);
+        btnCollapseAi.setImageResource(
+                R.drawable.ic_down_arrow_bold
+        );
     }
 
 
     private void collapseAi() {
 
         aiPanelExpanded = false;
+        aiDimBackground.setVisibility(View.GONE);
+
 
         int collapsedHeight =
                 (int) (aiOverlay.getHeight()
@@ -1574,7 +1605,12 @@ public class HomeActivity extends BaseActivity implements FragmentDrawer.Fragmen
 
             collapseAi();
 
+            btnCollapseAi.setImageResource(
+                    R.drawable.ic_down_arrow_bold
+            );
+
             setupAiPanelSwipe();
+            aiDimBackground.setVisibility(View.VISIBLE);
         });
 
         if (!aiInitialized) {
@@ -1586,9 +1622,9 @@ public class HomeActivity extends BaseActivity implements FragmentDrawer.Fragmen
     }
 
 
-
     private void closeAi() {
 
+        aiDimBackground.setVisibility(View.GONE);
         aiOverlay.setVisibility(View.GONE);
 
         fabAi.setVisibility(View.VISIBLE);
@@ -1596,6 +1632,54 @@ public class HomeActivity extends BaseActivity implements FragmentDrawer.Fragmen
         aiPanelExpanded = false;
     }
 
+    private void collapseAiToStrip() {
+
+        aiPanelExpanded = false;
+        aiDimBackground.setVisibility(View.GONE);
+
+        int stripHeight =
+                (int) (48 * getResources().getDisplayMetrics().density);
+
+        ViewGroup.LayoutParams params =
+                aiPanel.getLayoutParams();
+
+        params.height = stripHeight;
+
+        aiPanel.setLayoutParams(params);
+
+        aiPanel.animate()
+                .translationY(0)
+                .setDuration(250)
+                .start();
+
+        // Arrow points UP because tapping it will reopen
+        btnCollapseAi.setImageResource(R.drawable.ic_arrow_up);
+    }
+
+    private void expandAiToCollapsed() {
+
+        aiPanelExpanded = false;
+        aiDimBackground.setVisibility(View.VISIBLE);
+
+        int height =
+                (int) (aiOverlay.getHeight()
+                        * AI_COLLAPSED_RATIO);
+
+        ViewGroup.LayoutParams params =
+                aiPanel.getLayoutParams();
+
+        params.height = height;
+
+        aiPanel.setLayoutParams(params);
+
+        aiPanel.animate()
+                .translationY(0)
+                .setDuration(250)
+                .start();
+
+        // Arrow points DOWN because tapping it will collapse
+        btnCollapseAi.setImageResource(R.drawable.ic_down_arrow_bold);
+    }
 
     @SuppressLint("SetJavaScriptEnabled")
     private void setupAiWebView() {
