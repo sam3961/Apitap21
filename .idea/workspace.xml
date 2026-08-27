@@ -601,19 +601,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="82c2b959-eb25-4623-b703-66dfb07c533e" name="Changes" comment="fixes and updates">
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/bg_ai_chat_bubble.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/bg_ai_fab_gold.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/bg_ai_fab_outer.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_chat_ai.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/release/app-release.aab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/release/app-release.apk" beforeDir="false" afterPath="$PROJECT_DIR$/app/release/app-release.apk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/release/baselineProfiles/0/app-release.dm" beforeDir="false" afterPath="$PROJECT_DIR$/app/release/baselineProfiles/0/app-release.dm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/release/baselineProfiles/1/app-release.dm" beforeDir="false" afterPath="$PROJECT_DIR$/app/release/baselineProfiles/1/app-release.dm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/release/output-metadata.json" beforeDir="false" afterPath="$PROJECT_DIR$/app/release/output-metadata.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/MyAppGlideModule.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/model/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/model/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/model/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/model/Utils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/homepage_activity.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/homepage_activity.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/model/UnsafeOkHttp.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/FragmentCheckout.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/FragmentCheckout.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/FragmentSettings.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/FragmentSettings.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/specials/network/RetrofitClient.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/apitap/app/views/fragments/specials/network/RetrofitClient.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/reports/problems/problems-report.html" beforeDir="false" afterPath="$PROJECT_DIR$/build/reports/problems/problems-report.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -624,7 +621,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[LocalEmulator::path=/home/shami/.android/avd/Pixel.avd]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[PhysicalDevice::serial=ZA222P8K7T]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -663,7 +660,6 @@
     <option name="KEY_STORE_PATH" value="$PROJECT_DIR$/release/apitap_app.jks" />
     <option name="KEY_ALIAS" value="apitap app" />
     <option name="REMEMBER_PASSWORDS" value="true" />
-    <option name="BUILD_TARGET_KEY" value="apk" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -1883,17 +1879,17 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/app/model/Client.java</url>
-          <line>183</line>
+          <line>162</line>
           <option name="timeStamp" value="899" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/app/model/Client.java</url>
-          <line>186</line>
+          <line>165</line>
           <option name="timeStamp" value="901" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/app/model/Client.java</url>
-          <line>185</line>
+          <line>164</line>
           <option name="timeStamp" value="902" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -2168,12 +2164,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/app/model/Client.java</url>
-          <line>189</line>
+          <line>168</line>
           <option name="timeStamp" value="1034" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/app/model/Client.java</url>
-          <line>157</line>
+          <line>136</line>
           <option name="timeStamp" value="1038" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -2261,6 +2257,12 @@
           <line>473</line>
           <option name="timeStamp" value="1098" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/code-scanner-master/build.gradle</url>
+          <line>48</line>
+          <option name="temporary" value="true" />
+          <option name="timeStamp" value="1101" />
+        </line-breakpoint>
         <line-breakpoint enabled="true" type="java-field">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/apitap/views/fragments/shoppingCart/ShoppingCartFragment.java</url>
           <line>41</line>
@@ -2286,12 +2288,12 @@
         </entry>
         <entry key="com.apitap.app">
           <value>
-            <CheckInfo lastCheckTimestamp="1787163135628" />
+            <CheckInfo lastCheckTimestamp="1787844766278" />
           </value>
         </entry>
         <entry key="com.apitap.app.test">
           <value>
-            <CheckInfo lastCheckTimestamp="1787163135622" />
+            <CheckInfo lastCheckTimestamp="1787844766277" />
           </value>
         </entry>
         <entry key="com.apitap.test">

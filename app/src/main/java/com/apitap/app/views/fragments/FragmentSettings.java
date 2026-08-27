@@ -3,7 +3,6 @@ package com.apitap.app.views.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.http.SslError;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -13,7 +12,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.SslErrorHandler;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -95,18 +93,6 @@ public class FragmentSettings extends BaseFragment implements View.OnClickListen
                 hideProgress();
 
             }
-
-            /**
-             * SSL Bypass (Development Only)
-             */
-            @Override
-            public void onReceivedSslError(WebView view,
-                                           SslErrorHandler handler,
-                                           SslError error) {
-                Log.d("TAG", "SSL Error: " + error);
-                handler.proceed(); // Ignore SSL certificate errors
-            }
-
 
         });
 

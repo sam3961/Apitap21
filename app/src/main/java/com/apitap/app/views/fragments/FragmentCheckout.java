@@ -7,7 +7,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
-import android.net.http.SslError;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -19,7 +18,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.webkit.SslErrorHandler;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -170,17 +168,6 @@ public class FragmentCheckout extends BaseFragment implements View.OnClickListen
 
         webView.setWebViewClient(new WebViewClient() {
 
-
-            /**
-             * SSL Bypass (Development Only)
-             */
-            @Override
-            public void onReceivedSslError(WebView view,
-                                           SslErrorHandler handler,
-                                           SslError error) {
-                Log.d(TAG, "SSL Error: " + error);
-                handler.proceed(); // Ignore SSL certificate errors
-            }
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {

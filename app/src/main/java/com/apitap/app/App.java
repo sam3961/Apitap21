@@ -11,7 +11,6 @@ import com.apitap.app.model.AddTabBar;
 import com.apitap.app.model.Constants;
 import com.apitap.app.model.ProgressDialogLoading;
 
-import com.apitap.app.model.UnsafeOkHttp;
 import com.apitap.app.model.preferences.ATPreferences;
 
 import com.google.android.exoplayer2.upstream.DataSource;
@@ -73,16 +72,6 @@ public class App extends Application {
         if (!Places.isInitialized()) {
             Places.initialize(getApplicationContext(), getString(R.string.google_maps_key));
         }
-
-
-        //initalize picasso for ssl bypass
-        OkHttpClient client = UnsafeOkHttp.getUnsafeOkHttpClient();
-
-        Picasso picasso = new Picasso.Builder(this)
-                .downloader(new OkHttp3Downloader(client))
-                .build();
-
-        Picasso.setSingletonInstance(picasso);
     }
 
     private void createNotificationChannel() {
