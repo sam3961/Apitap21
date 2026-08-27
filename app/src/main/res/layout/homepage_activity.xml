@@ -414,12 +414,12 @@
             <!-- AI floating button -->
             <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/fabAi"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="@dimen/_70sdp"
+                android:layout_height="@dimen/_70sdp"
                 android:layout_gravity="bottom|end"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="24dp"
-                android:src="@drawable/ic_ai_icon" />
+                android:src="@drawable/ic_chat_ai" />
 
             <!-- FULL SCREEN AI OVERLAY -->
             <FrameLayout
